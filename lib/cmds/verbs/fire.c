@@ -7,7 +7,7 @@ void do_fire_obj(object ob)
   ob->do_fire();
 }
 
-void do_fire_obs( object array obs)
+void do_fire_obs( object *obs)
 {
   handle_obs(obs, (: do_fire_obj :));
 }

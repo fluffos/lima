@@ -8,7 +8,7 @@ varargs mixed call_hooks(string, mixed, mixed, array...);
 
 private mapping weapons = ([ ]);
 
-string array query_wielding_limbs();
+string *query_wielding_limbs();
 
 string find_an_open_limb()
 {
@@ -27,7 +27,7 @@ varargs void wield(object ob, string limb)
       limb = find_an_open_limb();
    if(!limb)
    {
-      array limbs = filter(query_wielding_limbs(), (: query_health($1) > 0 :));
+      *limbs = filter(query_wielding_limbs(), (: query_health($1) > 0 :));
 
       if(!sizeof(limbs))         /* Houston, we have a problem. */
       {
@@ -66,7 +66,7 @@ varargs object query_weapon(string limb)
 {
    if(!limb)
    {
-      array limbs = filter(query_wielding_limbs(), (: weapons[$1] :));
+      *limbs = filter(query_wielding_limbs(), (: weapons[$1] :));
       if(!sizeof(limbs))
          return this_object();  // return 0?
 
@@ -91,7 +91,7 @@ int do_unwield(mixed limb)
 {
    if(objectp(limb))
    {
-      array limbs = filter(query_wielding_limbs(),
+      *limbs = filter(query_wielding_limbs(),
                     (: weapons[$1] == $(limb) :));
       if(!sizeof(limbs))
          return 0;
@@ -114,7 +114,7 @@ int do_unwield(mixed limb)
 string get_wield_attributes()
 {
    string ret = " (wielded with ";
-   string array wielding_limbs = previous_object()->query_wielding();
+   string *wielding_limbs = previous_object()->query_wielding();
 
    if(sizeof(wielding_limbs) == 1)
       return sprintf(" (wielded in %s)", wielding_limbs[0]);

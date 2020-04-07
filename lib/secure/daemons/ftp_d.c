@@ -86,15 +86,15 @@ private object sock;
 private mixed outfile=([]);
 
 #ifdef ALLOW_ANON_FTP
-private nosave string array anon_logins = ({"anonymous", "ftp"});
+private nosave string *anon_logins = ({"anonymous", "ftp"});
 #endif
 
 int query_lastport() { return lastport; }
 
 varargs private string find_flags(string incoming)
 {
-  string array parts;
-  string array flags=({});
+  string *parts;
+  string *flags=({});
   if(!incoming)
     return 0;
   parts=explode(incoming,
@@ -109,7 +109,7 @@ varargs private string find_flags(string incoming)
 
 varargs private string strip_flags(string incoming)
 {
-  string array parts;
+  string *parts;
   if(!incoming)
     return 0;
   parts=explode(incoming," ");
@@ -118,7 +118,7 @@ varargs private string strip_flags(string incoming)
   return implode(parts," ");
 }
 
-private void FTPLOGF(string format, string array args...)
+private void FTPLOGF(string format, string *args...)
 {
   FTPLOG(sprintf(format, args...));
 }
@@ -371,7 +371,7 @@ private void FTP_CMD_user(class ftp_session info, string arg)
 private void FTP_CMD_pass(class ftp_session info, string arg)
 {
   string	password;
-  mixed	array userinfo;
+  mixed	*userinfo;
 
   NEEDS_ARG();
   if(info->connected || !info->user)
@@ -454,7 +454,7 @@ private void FTP_CMD_pasv(class ftp_session info, string arg)
 {
   string ip;
   int port_dec;
-  int array port;
+  int *port;
   int listen_socket;
   int tries;
   if(arg)
@@ -562,7 +562,7 @@ private void FTP_CMD_port(class ftp_session info, string arg)
 
 private void do_list(class ftp_session info, string arg, int ltype)
 {
-  string array 	files;
+  string *	files;
   string flags;
   string output;
   int isfile;
@@ -641,7 +641,7 @@ private void do_list(class ftp_session info, string arg, int ltype)
   /* Check the F flag */
   if(strsrch(flags,'F')>-1)
     {
-      foreach(mixed array file in files)
+      foreach(mixed *file in files)
 	if(file[1]==-2)
 	  file[0]=sprintf("%s/",file[0]);
     }
@@ -661,7 +661,7 @@ private void do_list(class ftp_session info, string arg, int ltype)
       output="";
       for(i=0;i<lines;i++)
 	{
-	  mixed array these_files;
+	  mixed *these_files;
 	  if((i*3+2)<size)
 	      these_files=files[(i*3)..(i*3+2)];
 	  else if(i*3<size)
@@ -996,7 +996,7 @@ void remove()
 
 int clean_up() { return 0; }
 
-string array list_users()
+string *list_users()
 {
   return map(values(sessions), (: ((class ftp_session)$1)->connected ? 
 	    ((class ftp_session)$1)->user : "(login)" :));

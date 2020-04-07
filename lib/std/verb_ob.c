@@ -12,7 +12,7 @@
 string verb = split_path(file_name())[1];
 int flags = NEED_TO_SEE | NEED_TO_BE_ALIVE | NEED_TO_THINK;
 
-protected varargs void add_rules(array rules, array syns)
+protected varargs void add_rules(mixed *rules, mixed *syns)
 {
   parse_init();
 
@@ -107,7 +107,7 @@ mixed default_checks()
   return 1;
 }
 
-void handle_obs(array info, function callback, mixed extra...)
+void handle_obs(mixed *info, function callback, mixed extra...)
 {
   foreach (mixed ob in info)
   {
@@ -155,7 +155,7 @@ void do_verb_obj(string verb, object ob)
 }
 
 /* default behavior for OBS rules */
-void do_verb_obs(string verb, object * obs)
+void do_verb_obs(string verb, object *obs)
 {
   object * success = ({});
   foreach(mixed ob in obs)

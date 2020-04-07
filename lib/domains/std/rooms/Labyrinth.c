@@ -2,7 +2,7 @@
 
 #define SIZE 10
 
-string array data;
+string *data;
 
 int is_valid(int x, int y) {
     if (x < 0 || x >= SIZE) return 0;
@@ -28,7 +28,7 @@ int dy(int i) {
 }
 
 void create() {
-    array valid = allocate(4);
+    *valid = allocate(4);
     int x, y;
     
     data = allocate(SIZE);

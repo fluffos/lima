@@ -9,7 +9,7 @@ Adapt from the example used in the basic or simple npc.
 
 Start by adding periodic actions, in set_actions.
 First argument - pause between actions (seconds)
-Second argument - string for action, or string array for alternatives.
+Second argument - string for action, or string *for alternatives.
 
   set_actions( 10, ({
     "say What are you waiting for?",

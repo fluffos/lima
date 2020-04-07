@@ -494,7 +494,7 @@ string parser_error_message(int kind, object ob, mixed arg, int flag)
       break;
     case ERR_AMBIG:
       {
-	      array descs = unique_array(arg, (: parser_gen_pos($1, 1, 0) :));
+	      mixed *descs = unique_array(arg, (: parser_gen_pos($1, 1, 0) :));
   	    string str;
 
 	      if (sizeof(descs) == 1)

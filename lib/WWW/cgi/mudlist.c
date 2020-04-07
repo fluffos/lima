@@ -46,10 +46,10 @@ string main(string pattern)
   string	ret = "";
   mapping	mudlist	= IMUD_D->query_mudlist();
   int		nummuds = sizeof(mudlist);
-  string array  muds = keys(mudlist);
-  array 	data;
-  string array  matches;
-  array         arg;
+  string * muds = keys(mudlist);
+  *	data;
+  string * matches;
+  *        arg;
 
   if ( !pattern )
     matches = muds;

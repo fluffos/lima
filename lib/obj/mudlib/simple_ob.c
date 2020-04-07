@@ -29,7 +29,7 @@ inherit BASE_OBJ;
 
 private nosave mapping msgs = ([]);
 
-varargs void create(mapping long, string array ids, object dest)
+varargs void create(mapping long, string *ids, object dest)
 {
     if (!clonep()) return;
     ::create();

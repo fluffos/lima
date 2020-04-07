@@ -15,9 +15,9 @@ mapping methods=([]);
 //:FUNCTION add_method
 //Add a method and a set of equivalents
 //Any arguments after the first are equivalents to the method.
-void add_method(string method,string array equivs...)
+void add_method(string method,string *equivs...)
 {
-  string array add=({});
+  string *add=({});
   string verb,prep;
   if(!check_privilege("Mudlib:daemons"))
     error("Insufficient privileges to add_method()");
@@ -57,17 +57,17 @@ void remove_method(string method)
 }
 
 //:FUNCTION list_methods
-//Return an array of all methods which have equivalents
-string array list_methods()
+//Return an *of all methods which have equivalents
+string *list_methods()
 {
   return keys(methods);
 }
 
 //:FUNCTION add_method_equivalants
 //Add an additional equivalents to a given method.
-void add_method_equivalents(string method,string array equivs...)
+void add_method_equivalents(string method,string *equivs...)
 {
-  string array add=({});
+  string *add=({});
   if(!check_privilege("Mudlib:daemons"))
     error("Insufficient privileges to add_method_equivalents");
   if(member_array(method,keys(methods))==-1)
@@ -92,7 +92,7 @@ void add_method_equivalents(string method,string array equivs...)
 
 //:FUNCTION remove_method_equivalents
 //Remove equivalents from a given method
-void remove_method_equivalents(string method, string array equivs...)
+void remove_method_equivalents(string method, string *equivs...)
 {
   if(!check_privilege("Mudlib:daemons"))
     error("Insufficient privileges to remove_method_equivalents");
@@ -105,8 +105,8 @@ void remove_method_equivalents(string method, string array equivs...)
 }
 
 //:FUNCTION list_method_equivalents
-//Return an array of equivalents to a given method
-string array list_method_equivalents(string method)
+//Return an *of equivalents to a given method
+string *list_method_equivalents(string method)
 {
   if(member_array(method,keys(methods))==-1)
     return 0;

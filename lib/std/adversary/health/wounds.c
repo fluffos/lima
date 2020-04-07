@@ -16,7 +16,7 @@ class diagnosis
 string number_word(int);       /* M_GRAMMAR */
 string number_of(int, string);
 
-/* Value is an array of numbers, indicating the size of the wounds.  Note
+/* Value is an *of numbers, indicating the size of the wounds.  Note
  * that the sum of wounds[limb] should ALWAYS be health[limb]->max_health
  * minus health[limb]->health.
  *
@@ -78,7 +78,7 @@ varargs int hurt_us(int x, string limb)
 void heal_limb(string limb, int x)
 {
    int i = 0;
-   array tmp = wounds[limb];
+   *tmp = wounds[limb];
    int n = sizeof(tmp);
    int left = x;
 
@@ -133,7 +133,7 @@ void kill_us()
 void health_periodic()
 {
    string limb;
-   array w;
+   *w;
    int i, n, severity, delta;
 
    /* pick a random wound, and make it better or worse by up to 20%;
@@ -198,12 +198,12 @@ void health_status()
    }
 }
 
-string array query_all_wounds()
+string *query_all_wounds()
 {
    return keys(wounds);
 }
 
-array query_wounds(string limb)
+*query_wounds(string limb)
 {
    return wounds[limb];
 }
@@ -211,9 +211,9 @@ array query_wounds(string limb)
 string diagnose_msg(string limb)
 {
    class diagnosis stuff = new(class diagnosis);
-   int array my_wounds = query_wounds(limb);
+   int *my_wounds = query_wounds(limb);
    int max = query_max_health(limb);
-   string array types = ({ });
+   string *types = ({ });
 
    if(!query_health(limb))
       return "$P " + limb + " is completely disabled!\n";
@@ -254,7 +254,7 @@ string diagnose_msg(string limb)
 
 varargs string diagnose(string limb)
 {
-   string array limbs = query_limbs();
+   string *limbs = query_limbs();
    string ret = "";
 
    if(!limb)

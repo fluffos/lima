@@ -43,14 +43,14 @@ string colour_truncate(string str, int len) {
     return result[0..idx-1];
 }
 
-varargs string colour_table(array items, int width, int num_horiz) {
+varargs string colour_table(string *items, int width, int num_horiz) {
     int max_len = 0;
     int n = sizeof(items);
     int size_horiz;
     int num_vert;
-    int array lens = allocate(n);
-    array lists;
-    int i;
+    int *lens = allocate(n);
+	mixed *lists;
+	int i;
     
     for (i = 0; i < sizeof(items); i++) {
 	lens[i] = colour_strlen(items[i]);

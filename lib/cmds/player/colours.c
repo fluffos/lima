@@ -24,9 +24,9 @@ inherit M_ANSI;
 
 void do_print(string which)
 {
-  string array colours;
-  string array illegal;
-  string array irrelevant;
+  string *colours;
+  string *illegal;
+  string *irrelevant;
   mapping null = ANSI_D->query_translations()[1];
   int longest;
 

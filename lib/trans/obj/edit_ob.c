@@ -14,7 +14,7 @@
 ** "func" will be evaluated when the editing is complete.  One
 ** parameter will be passed, which will be zero if the editing
 ** was aborted for some reason.  Otherwise, it will be a single
-** string specifying the file name, or an array of strings
+** string specifying the file name, or an *of strings
 ** holding the lines of text.
 */
 

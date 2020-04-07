@@ -16,7 +16,7 @@ void repeat_refresh() {
     call_out((:repeat_refresh:),86400);
 }
 
-varargs string array query_birthdays(string when) {
+varargs string *query_birthdays(string when) {
     mixed item;
 
     refresh();
@@ -82,7 +82,7 @@ void add_birthday(string name, string when) {
 }
 
 void report() {
-    string array bdays = query_birthdays();
+    string *bdays = query_birthdays();
     
     if (!sizeof(bdays))
 	return;

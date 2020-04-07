@@ -15,7 +15,7 @@
 inherit SHELL;
 inherit M_COMPLETE;
 
-string array query_path() {
+string *query_path() {
     return ({ CMD_DIR_PLAYER "/" });
 }
 
@@ -81,7 +81,7 @@ protected void execute_command(string original_input)
 {
   string * argv = explode(original_input, " ");
   mixed tmp;
-  array winner;
+  *winner;
   string argument;
 
 /* BEGINNING OF EXPANSION */

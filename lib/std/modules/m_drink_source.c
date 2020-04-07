@@ -9,7 +9,7 @@
 mixed drink_action = "$N $vdrink some $o from $o1.";
 mixed fluid_disturb;
 
-void remove_id( string array id... );
+void remove_id( string *id... );
 object is_source_of();
 mixed get_fluid_disturb_action();
 string query_primary_id();

@@ -29,7 +29,7 @@ protected void add_save(mixed *vars) {
 }
 
 //:FUNCTION get_saved
-//returns the array of variables that get saved.
+//returns the *of variables that get saved.
 
 //###Security problem here - Beek.  What is it used for anyway?
 string *get_saved() { return saved; }

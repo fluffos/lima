@@ -16,9 +16,9 @@ private nosave function arrival_fn = (: action_arrival :);
 private nosave function departure_fn = (: action_departure :);
 
 private function            my_hook;
-private nosave string array response_queue = ({ });
+private nosave string *response_queue = ({ });
 private int                 delay_time = 5;
-private string array        my_actions;
+private string *       my_actions;
 
 private object              env;
 
@@ -36,7 +36,7 @@ object query_shell_ob()
   return this_object();
 }
 
-string array query_actions()
+string *query_actions()
 {
   return my_actions;
 }
@@ -64,7 +64,7 @@ int query_delay_time()
 void do_game_command(string str)
 {
   object save_tu;
-  array winner;
+  mixed *winner;
   string verb, argument;
 
   save_tu = this_user();
@@ -190,11 +190,11 @@ void start_actions()
 
 
 //:FUNCTION set_actions
-// protected void set_actions(int chance, string array actions);
+// protected void set_actions(int chance, string *actions);
 // This function sets a list of actions and a delay, 
 // and chooses one to be executed time each time that delay elapses.
 // This function should only be called from within setup().
-protected void set_actions(int delay, string array actions)
+protected void set_actions(int delay, string *actions)
 {
   delay_time = delay;
   my_actions = actions;

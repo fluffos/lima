@@ -18,6 +18,6 @@ class mail_msg
     int		thread_id;	/* first msg's id (date) */
     string *	body;		/* body of msg */
   // IMUD_MAIL doesn't need to know WHO hasn't deleted the message, so
-  // it just uses a number.  regular mail uses an array of names.
+  // it just uses a number.  regular mail uses an *of names.
     mixed	dels_pending;	/* these users must delete msg */
 }

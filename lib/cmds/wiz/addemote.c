@@ -67,7 +67,7 @@ mixed parse_rule(string str)
 
 private nomask void got_message(string verb, string rule, string str)
 {
-    string array parts;
+    string *parts;
     string s;
 
     if ( str == "" )

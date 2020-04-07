@@ -11,7 +11,7 @@ nomask string module_key() {
     return "M";
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
   return ({
     new(class command_info,
       key : "h",

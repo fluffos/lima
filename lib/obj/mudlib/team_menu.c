@@ -31,7 +31,7 @@ private string team_name;
 void who_current()
 {
    string s;
-   string array members = TEAM_D->query_team_members(team_name);
+   string *members = TEAM_D->query_team_members(team_name);
 
    s = sprintf("%%^BOLD%%^%%^WHITE%%^Members of %s%%^RESET%%^%%^MAGENTA%%^:%%^RESET%%^\n", team_name);
    
@@ -65,7 +65,7 @@ void who_offline()
 
 void list_active()
 {
-   string array active = TEAM_D->list_all_parties();
+   string *active = TEAM_D->list_all_parties();
    string line = sprintf("%%^BOLD%%^%%^BLUE%%^%s%%^RESET%%^",
                     repeat_string("-", 20));
 

@@ -146,7 +146,7 @@ private nomask void initialize_user() {
 
 private nomask int check_special_commands(string arg)
 {
-   string array b;
+   string *b;
 
    switch(arg)
    {
@@ -188,7 +188,7 @@ private nomask int check_special_commands(string arg)
 
 private nomask void modify_guest_userid()
 {
-   string array userids = users()->query_userid();
+   string *userids = users()->query_userid();
 
    for(int i = 1; ; ++i)
    {
@@ -229,7 +229,7 @@ void login_handle_logon(int state, mixed extra, string arg)
 {
    switch (state)
    {
-      string array foo;
+      string *foo;
 
       case INITIAL_PROMPT:
 	 /* setup timeout */

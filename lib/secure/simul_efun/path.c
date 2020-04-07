@@ -116,8 +116,7 @@ string canonical_path(string path)
  * Rewritten by Beek to be more efficient.
  */
 
-private string array
-wiz_dir_parts = explode(WIZ_DIR, "/") - ({ "", "." });
+private string *wiz_dir_parts = explode(WIZ_DIR, "/") - ({ "", "." });
 
 varargs
 string evaluate_path(string path, string prepend)

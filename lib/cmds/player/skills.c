@@ -24,7 +24,7 @@ private void main(string arg)
 #else
 
   mapping skills = this_body()->get_skills();
-  string array names;
+  string *names;
 
   if ( sizeof(skills) == 0 )
   {

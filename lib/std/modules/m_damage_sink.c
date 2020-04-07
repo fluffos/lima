@@ -51,7 +51,7 @@ void set_resist(string type, int amt)
 //possesses.
 void set_resistances(mapping x)
 {
-  string array exclude = keys(x) - DAMAGE_D->query_damage_types();
+  string *exclude = keys(x) - DAMAGE_D->query_damage_types();
   if(sizeof(exclude))
     error("Invalid damage type(s) : " + implode(exclude,","));
    resistances = x;
@@ -73,7 +73,7 @@ void set_weakness(string type, int amt)
 //possesses.
 void set_weaknesses(mapping weak)
 {
-  string array exclude = keys(weak) - DAMAGE_D->query_damage_types();
+  string *exclude = keys(weak) - DAMAGE_D->query_damage_types();
   if(sizeof(exclude))
     error("Invalid damage type(s) : " + implode(exclude,","));
   weaknesses = weak;

@@ -54,8 +54,8 @@ void create() {
 #ifndef __MUDLIB_ERROR_HANDLER__
     need("#define MUDLIB_ERROR_HANDLER");
 #endif
-#ifndef __ARRAY_RESERVED_WORD__
-    need("#define ARRAY_RESERVED_WORD");
+#ifdef __ARRAY_RESERVED_WORD__
+    need("#undef ARRAY_RESERVED_WORD");
 #endif
 #ifndef __PACKAGE_CONTRIB__
     need("#define PACKAGE_CONTRIB");

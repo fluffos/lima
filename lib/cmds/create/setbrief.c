@@ -2,7 +2,7 @@
 
 inherit __DIR__ "scr_command";    
 
-private void main(array args) {
+private void main(*args) {
     string brief = implode(args[0], " ");
     string fname;
     

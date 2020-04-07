@@ -18,7 +18,7 @@ private mapping weapons = ([
 // will be overwritten. Adversaries have "left arm" and "right arm"
 // set as default values normally. Note that this is only available if
 // WIELD_MULTIPLE is defined.
-void set_wield_slots(string array list)
+void set_wield_slots(string *list)
 {
    if(!list)
       return;
@@ -27,7 +27,7 @@ void set_wield_slots(string array list)
 
 private string find_open_wield_slot()
 {
-   string array tmp = filter(keys(weapons), (: !weapons[$1] :));
+   string *tmp = filter(keys(weapons), (: !weapons[$1] :));
 
    if(!sizeof(tmp))
       return 0;
@@ -74,7 +74,7 @@ varargs object query_weapon(string where)
 {
    if(!where)
    {
-      string array slots = keys(weapons);
+      string *slots = keys(weapons);
       if(!sizeof(slots))
          return this_object();   // I am my own lethal weapon..
       while(1)
@@ -110,7 +110,7 @@ int do_unwield(mixed where)
 {
    if(objectp(where))
    {
-      string array slots = filter(keys(weapons),
+      string *slots = filter(keys(weapons),
                                   (: weapons[$1] == $(where) :));
       if(!sizeof(slots))
          return 0;
@@ -130,7 +130,7 @@ int do_unwield(mixed where)
 string get_wield_attributes()
 {
    string ret = " (wielded with ";
-   string array wielding_slots = previous_object()->query_wielding();
+   string *wielding_slots = previous_object()->query_wielding();
 
    if(sizeof(wielding_slots) == 1)
       return sprintf(" (wielded in %s)", wielding_slots[0]);
@@ -156,7 +156,7 @@ string get_wield_attributes()
    return ret;
 }
 
-string array query_wielding_limbs()
+string *query_wielding_limbs()
 {
    return keys(weapons);
 }

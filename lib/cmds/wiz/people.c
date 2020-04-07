@@ -69,7 +69,7 @@ string get_who_string(string arg)
 {
     string retval="";
     int debug, no_delim;
-    object array b = bodies() - ({ 0 });
+    object *b = bodies() - ({ 0 });
     string *args=({});
     string tmp;
 

@@ -140,7 +140,7 @@ private nomask void remove_user_from_domain(string user, string domain)
     printf("Removed %s from %s.\n", user, domain);
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "l",

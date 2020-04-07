@@ -16,7 +16,7 @@ int valid_set(string set)
 {
   int part1, part2;
   string rest;
-  string array parts=explode(set,",");
+  string *parts=explode(set,",");
   if(set="") return 1;
   foreach(string part in parts)
     {
@@ -207,7 +207,7 @@ string set_remove(string set, int number) {
 }
 
 int set_member(string set, int number) {
-    string array set_parts;
+    string *set_parts;
 
     if(!valid_set(set))
       error(sprintf("Invalid set in set_member: %s\n",set));

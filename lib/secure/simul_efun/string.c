@@ -236,7 +236,7 @@ int is_letter(int c)
   return strsrch(lowercase+uppercase,c) != -1;
 }
 
-string format_list(string array list, string separator)
+string format_list(string *list, string separator)
 {
   if (!separator)
     separator = "and";
@@ -252,7 +252,7 @@ string format_list(string array list, string separator)
 string tidy_list(mixed items, string separator)
 {
   mapping tmp = ([]);
-  string array list = ({});
+  string *list = ({});
 
   foreach(mixed item in items)
   {
@@ -281,8 +281,8 @@ string tidy_list(mixed items, string separator)
 string title_capitalize(string instring)
 {
 /* Always capitalize the first word. The normal capitalize() handles this */
-  string array inarr=explode(capitalize(instring)," ");
-  string array out=({});
+  string *inarr=explode(capitalize(instring)," ");
+  string *out=({});
 /* There are more in parse_command_prepos_list() than is necessary, but 
  * they are all two word preps, so they will never be matched, thus this 
  * works */

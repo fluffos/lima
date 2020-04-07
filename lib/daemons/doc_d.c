@@ -72,13 +72,13 @@ inherit M_DAEMON_DATA;
 
 private void continue_scan();
 private int last_time;
-private array files_to_do, dirs_to_do;
+private *files_to_do, dirs_to_do;
 
 private void delete_directory(string directory)
 {
   if(file_size(directory)==-1)
     return;
-  foreach(mixed array file in get_dir(sprintf("%s/",directory),-1))
+  foreach(mixed *file in get_dir(sprintf("%s/",directory),-1))
   {
     string target=sprintf("%s/%s",directory,file[0]);
     if(file[1]==-2)
@@ -169,7 +169,7 @@ void process_file(string fname)
 {
   string file = read_file(fname);
   string line, prototype;
-  array lines, match;
+  *lines, match;
   string outfile = 0;
   int i;
 
@@ -303,8 +303,8 @@ void process_file(string fname)
 
 void continue_scan()
 {
-  array files;
-  array item;
+  *files;
+  *item;
 
   for (int i = 0; i < 10; i++)
   {

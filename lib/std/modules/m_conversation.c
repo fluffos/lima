@@ -15,7 +15,7 @@ mapping responses = ([]);
 
 mapping current = ([]);
 mapping start = ([]);
-array default_start = ({ });
+*default_start = ({ });
 mixed goodbye_action;
 
 void set_goodbye(mixed arg)
@@ -33,7 +33,7 @@ void set_responses(mapping m)
     responses = m;
 }
 
-varargs void set_start(array a, object target) 
+varargs void set_start(mixed *a, object target) 
 {
     if (target)
 	start[target] = a;

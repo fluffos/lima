@@ -1,0 +1,2842 @@
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/secure/user/channel'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/verb_ob'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:11:28 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/secure/user/channel'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/cmds/verbs/drop'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/cmds/verbs/get'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/cmds/verbs/give'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/cmds/verbs/look'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/cmds/verbs/put'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:07 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/secure/user/channel'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:12:41 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:14:16 2020
+*Error in loading object '/secure/user/channel'
+Object: /secure/master at line 60
+
+'connect' at /secure/master at line 92
+'CATCH' at /secure/master at line 92
+'get_player_fname' at /secure/master at line 60
+'CATCH' at /secure/master at line 60
+---
+Tue Apr  7 20:14:16 2020
+*Bad argument 1 to new()
+Expected: string Got: 0.
+Object: /secure/master at line 92
+
+'connect' at /secure/master at line 92
+'CATCH' at /secure/master at line 92
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/secure/user/channel'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:28 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:15:33 2020
+*Error in loading object '/secure/user/channel'
+Object: /secure/master at line 60
+
+'connect' at /secure/master at line 92
+'CATCH' at /secure/master at line 92
+'get_player_fname' at /secure/master at line 60
+'CATCH' at /secure/master at line 60
+---
+Tue Apr  7 20:15:33 2020
+*Bad argument 1 to new()
+Expected: string Got: 0.
+Object: /secure/master at line 92
+
+'connect' at /secure/master at line 92
+'CATCH' at /secure/master at line 92
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/std/object/hooks'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:16:32 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:17:31 2020
+*Error in loading object '/std/object/hooks'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/std/object'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/std/object'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:32 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:18:45 2020
+*Error in loading object '/std/object'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/verb_d at line 35
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'create' at /daemons/verb_d at line 52
+'<fake>' at /daemons/verb_d (/<driver>) at /(fake):0
+'reload_verb' at /daemons/verb_d at line 35
+'CATCH' at /daemons/verb_d at line 35
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:04 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:20 2020
+*Error in loading object '/std/modules/m_messages'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/std/living/effects'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/std/living/effects'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:41 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:19:51 2020
+*Error in loading object '/std/living/effects'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/std/adversary/messages'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/std/adversary/messages'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:20 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:33 2020
+*Error in loading object '/std/adversary/messages'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/std/modules/m_smartmove'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/std/modules/m_smartmove'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:21:53 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:22:08 2020
+*Error in loading object '/std/modules/m_smartmove'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/std/modules/m_smartmove'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/std/modules/m_smartmove'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:00 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:11 2020
+*Error in loading object '/std/modules/m_smartmove'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/std/modules/m_actions'
+Object: /secure/master at line 43
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+'compile_object' at /secure/master at line 43
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/std/modules/m_actions'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:37 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:23:47 2020
+*Error in loading object '/std/modules/m_actions'
+Object: /daemons/race_d at line 13
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'CATCH' at /trans/obj/more_ob#3 at line 302
+'do_more' at /trans/obj/more_ob#3 at line 276
+'finish' at /trans/obj/more_ob#3 at line 96
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'sw_body_handle_new_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 376
+'create_body' at /secure/user#2 (/secure/user/sw_body.c) at line 298
+'create' at /daemons/race_d at line 13
+---
+Tue Apr  7 20:24:20 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:24:20 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:24:20 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:24:20 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:24:20 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:24:20 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:08 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:08 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:08 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:08 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:08 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:08 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:39 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:39 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:39 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:39 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:39 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:25:39 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:14 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:14 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:14 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:14 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:14 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:14 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:37 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:37 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:37 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:37 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:37 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:26:37 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:07 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:07 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:07 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:07 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:07 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:07 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:48 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:48 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:48 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:48 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:48 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:27:48 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:17 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:17 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:17 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:17 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:17 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:17 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:54 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:54 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:54 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:54 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:54 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:28:54 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:11 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:11 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:11 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:11 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:11 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:11 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:40 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:40 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:40 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:40 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:40 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:29:40 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:30:32 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:30:32 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:30:32 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:30:32 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:30:32 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:30:32 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:31:02 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:31:02 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:31:02 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:31:02 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:31:02 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:31:02 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:06 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:06 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:06 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:06 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:06 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:06 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:39 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:39 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:39 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:39 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:39 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:39 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:57 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:57 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:57 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:57 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:57 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:32:57 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:21 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:21 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:21 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:21 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:21 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:21 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:42 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:42 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:42 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:42 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:42 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:33:42 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:35:51 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:35:51 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:35:51 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:35:51 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:35:51 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:35:51 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:36:46 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:36:46 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:36:46 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:36:46 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:36:46 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:36:46 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:06 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:06 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:06 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:06 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:06 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:06 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:50 2020
+*Error in loading object '/daemons/help_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:50 2020
+*Error in loading object '/daemons/imud/mudlist'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:50 2020
+*Error in loading object '/daemons/doc_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:50 2020
+*Error in loading object '/daemons/memcheck_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:50 2020
+*Error in loading object '/secure/daemons/imail_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585
+---
+Tue Apr  7 20:38:50 2020
+*Error in loading object '/daemons/news_d'
+Object: /secure/master at line 585
+
+'preload' at /secure/master at line 585
+'CATCH' at /secure/master at line 585

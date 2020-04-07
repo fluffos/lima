@@ -9,7 +9,7 @@ inherit CMD;
 
 private void main( string message )
 {
-  string array exits = environment(this_body())->query_exit_directions( 0 );
+  string *exits = environment(this_body())->query_exit_directions( 0 );
   string str = "You can leave ";
 
   switch( sizeof(exits))

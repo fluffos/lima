@@ -24,7 +24,7 @@ string handle_command(string part)
     
   if (part == 0)
   {
-    string array commands = get_dir("/help/autodoc/command/");
+    string *commands = get_dir("/help/autodoc/command/");
 
     return @END
 <title>Automatic Command Documentation</title>
@@ -49,7 +49,7 @@ string handle_function(string part)
     
   if (part == 0)
   {
-    string array functions = get_dir("/help/autodoc/functions/");
+    string *functions = get_dir("/help/autodoc/functions/");
 
     return @END
 <title>Automatic Function Documentation</title>
@@ -62,7 +62,7 @@ END
   sscanf(part, "%s-%s", part, func);
   if (func == 0)
   {
-    string array functions = get_dir("/help/autodoc/functions/" + part + "/");
+    string *functions = get_dir("/help/autodoc/functions/" + part + "/");
 
     return @END
 <title>Automatic Function Documentation</title>
@@ -91,7 +91,7 @@ string handle_hook(string part)
     
   if (part == 0)
   {
-    string array hooks = get_dir("/help/autodoc/hook/");
+    string *hooks = get_dir("/help/autodoc/hook/");
 
     return @END
 <title>Automatic Hook Documentation</title>
@@ -119,7 +119,7 @@ string handle_module(string part)
     
   if (part == 0)
   {
-    string array modules = get_dir("/help/autodoc/modules/");
+    string *modules = get_dir("/help/autodoc/modules/");
 
     return @END
 <title>Automatic Module Documentation</title>
@@ -202,7 +202,7 @@ string object_summary_line(string arg)
 
 string handle_overview(string part)
 {
-  array tmp;
+  *tmp;
     
   string ret = @END
 <title>Mudlib Overview</title>

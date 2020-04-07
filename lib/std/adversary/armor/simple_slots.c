@@ -60,9 +60,9 @@ nomask int has_body_slot(string what)
 }
 
 //:FUNCTION query_armor_slots
-// string array query_armor_slots();
-// Returns an array of all valid armor slots.
-string array query_armor_slots()
+// string *query_armor_slots();
+// Returns an *of all valid armor slots.
+string *query_armor_slots()
 {
    return keys(slots);
 }
@@ -76,9 +76,9 @@ string query_random_armor_slot()
    return tmp;
 }
 
-object array event_get_armors()
+object *event_get_armors()
 {
-   object array tmp = ({ get_random_clothing() }) - ({ 0 });
+   object *tmp = ({ get_random_clothing() }) - ({ 0 });
    if(!sizeof(tmp))
       return 0;
    else return tmp;

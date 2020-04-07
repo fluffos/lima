@@ -56,7 +56,7 @@ protected nomask void add_body_slot(string sname, int num, int maxsize)
 // Wear object 'what' on slot 'sname'.
 nomask int wear_item(object what, string sname)
 {
-  object array athere;
+  object *athere;
   int num;
   int slot_max_size;
 
@@ -136,16 +136,16 @@ nomask int has_body_slot(string what)
 }
 
 //:FUNCTION query_armor_slots
-// string array query_armor_slots()
+// string *query_armor_slots()
 // Returns a list of all armor slots on the adversary.
-string array query_armor_slots()
+string *query_armor_slots()
 {
   return keys(slots);
 }
 
-varargs object array event_get_armors()
+varargs object *event_get_armors()
 {
-  object array tmp = ({ get_random_clothing() }) - ({ 0 });
+  object *tmp = ({ get_random_clothing() }) - ({ 0 });
   if(!sizeof(tmp))
     return 0;
   else return tmp;

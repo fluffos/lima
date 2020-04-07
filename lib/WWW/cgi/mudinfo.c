@@ -65,7 +65,7 @@ string main (string pattern)
   {
     ret += "<h3>Which of the following muds are you looking for?</h3>"
       "<br><font size=+1><em>";
-    foreach (mudname in sort_array (keys (mudlist), 1))
+    foreach (mudname in sort_*(keys (mudlist), 1))
     {
 //      ret += sprintf ("<a href=http://%s:%d/cgi/mudinfo.c?=%s$>%s</a><br>",
 //		      __HOST__, PORT_HTTP, mudname, mudname);

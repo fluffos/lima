@@ -79,7 +79,7 @@ private void rcv_archive_group(string group,int days)
 
 private void rcv_show_archive_times()
 {
-    string array output=({});
+    string *output=({});
     mapping archive_info=NEWS_D->get_archive_info();
     if(!sizeof(keys(archive_info)))
     {
@@ -125,7 +125,7 @@ private void rcv_unforward_mail(string group,string destination)
 
 private nomask void rcv_list_forward_newsgroup(string group)
 {
-    string array addies;
+    string *addies;
     if(member_array(group,NEWS_D->get_groups())==-1)
     {
 	write("** That newsgroup does not exist\n");
@@ -156,7 +156,7 @@ private nomask void show_restrictions()
     more(output);
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
       new(class command_info,
 	key : "l",

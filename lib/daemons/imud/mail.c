@@ -18,7 +18,7 @@ private nomask void handle_mail(string mudname,
 				object socket,
 				mixed * message)
 {
-  string array 	errors;
+  string *	errors;
 
   errors = IMAIL_D->incoming_mail(mudname, message);
   oob_svc_send(socket, ({"mail-ack", ([ message[1] : errors ])}));
@@ -57,7 +57,7 @@ protected nomask void mail_startup()
 				]));
 }
 
-private nomask void mail_add_request(string mudname, mixed array request)
+private nomask void mail_add_request(string mudname, mixed *request)
 {
     if ( !mail_requests[mudname] )
       {
@@ -69,7 +69,7 @@ private nomask void mail_add_request(string mudname, mixed array request)
       }
 }
 
-public nomask void send_mail_message_to_mud(array packet, string mudname)
+public nomask void send_mail_message_to_mud(*packet, string mudname)
 {
   if(previous_object() != find_object(IMAIL_D))
     {

@@ -212,7 +212,7 @@ int usable( object o, int flag )
 /* returns a nice listing of the given objects */
 /* if (flag) then don't print untouched obs */
 /* depth is for internal use only */
-varargs string inv_list(object array obs, int flag, int depth)
+varargs string inv_list(object *obs, int flag, int depth)
 {
   string res;
   int j;

@@ -11,7 +11,7 @@
 inherit CMD;
 inherit M_INPUT;
 
-private void receive_body(object brd, string subj, string array body) {
+private void receive_body(object brd, string subj, string *body) {
     if (!body) {
         write("Post aborted.\n");
         return;

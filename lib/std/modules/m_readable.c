@@ -184,7 +184,7 @@ mixed query_entry(string entry)
 
 //:FUNCTION list_entries
 //A list of all the readable entries on the object
-string array list_entries()
+string *list_entries()
 {
   return keys(entries);
 }

@@ -2,8 +2,8 @@
 
 inherit __DIR__ "base";
 
-class command_info array module_commands() {
-    class command_info array ret = ({});
+class command_info *module_commands() {
+    class command_info *ret = ({});
 
     if (file_size(base_name()) != -2)
 	error("Could not find directory\n");

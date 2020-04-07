@@ -86,11 +86,11 @@ private nomask varargs string format_message_line(int id) {
 }
 
 // Format all message lines.
-private nomask string array query_message_lines() {
-    int array ids = sort_array(filter_array(
+private nomask string *query_message_lines() {
+    int *ids = sort_array(filter_array(
       NEWS_D->get_messages(linked_group), (: filter_removed :)), 1);
     int i;
-    string array tmp;
+    string *tmp;
 
     tmp = map_array(ids, (: format_message_line($1) :));
     for (i = 1; i < sizeof(tmp) + 1; i++)
@@ -113,7 +113,7 @@ nomask int has_entries() {
 nomask mixed read_entry(string str) {
     class news_msg msg;
     int id;
-    int array ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
+    int *ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
       (: filter_removed :)), 1);
 
     if (str == "next") {
@@ -142,7 +142,7 @@ nomask mixed direct_read_obj(object ob) {
 
 // Short description.
 private nomask string do_desc() {
-    int array ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
+    int *ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
       (: filter_removed :)), 1);
     int curr_id = this_body()->query_board_id(board_name);
 

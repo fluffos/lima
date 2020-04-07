@@ -45,7 +45,7 @@ void target_is_asleep()
 //Moves through a random exit. Probable implementation of "flee"
 void do_move_away()
 {
-  string array directions;
+  string *directions;
   string chosen_dir;
   string file;
   object dest;

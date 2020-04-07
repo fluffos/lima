@@ -18,7 +18,7 @@ inherit CLASS_EVENT_INFO;
 
 private int weapon_class = 1;
 private int to_hit_bonus;
-private string array damage_type = ({ "blow" });
+private string *damage_type = ({ "blow" });
 private nosave mapping def_combat_messages = ([]);
 private mapping combat_messages = ([]);
 
@@ -28,11 +28,11 @@ int query_to_hit_bonus(object target){ return to_hit_bonus; }
 
 void set_to_hit_bonus(int x){ to_hit_bonus = x; }
 
-string array query_damage_type(){ return damage_type; }
+string *query_damage_type(){ return damage_type; }
 
-void set_damage_type(string array str...)
+void set_damage_type(string *str...)
 {
-  string array exclude = str - DAMAGE_D->query_damage_types();
+  string *exclude = str - DAMAGE_D->query_damage_types();
   if(sizeof(exclude))
     error("Invalid damage type(s) : " + implode(exclude,","));
   damage_type = str;

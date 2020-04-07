@@ -12,7 +12,7 @@ nomask string module_key() {
 
 private void obj_and_prog() {
     mapping info = ([]);
-    array k;
+    *k;
     string ret;
     
     foreach (object o in objects())
@@ -29,7 +29,7 @@ private void obj_and_prog() {
     more(ret);
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "o",

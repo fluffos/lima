@@ -24,7 +24,7 @@ void save_me();
 #ifndef SAY_HISTORY_SAVES
 nosave
 #endif
-private string array say_history=({});
+private string *say_history=({});
 
 void add_say_history(string add) {
   int size;
@@ -32,7 +32,7 @@ void add_say_history(string add) {
   /* Strip trailing \n's */
   if(add[<1]=='\n')
     add=add[0..<2];
-  /* Add the history item to the end of the array */
+  /* Add the history item to the end of the **/
   say_history+=({add});
   size=sizeof(say_history);
   if(size>CHANNEL_HISTORY_SIZE) { 
@@ -40,6 +40,6 @@ void add_say_history(string add) {
   }
 }
 
-string array list_say_history() {
+string *list_say_history() {
   return copy(say_history);
 }

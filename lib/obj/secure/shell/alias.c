@@ -234,7 +234,7 @@ add_alias(string name, string template, string* defaults, int xverb)
 		     sscanf(s, "%d%s",d,s);
 		     return d;}));
 
-// Pad the default array with empty strings if there aren't enough
+// Pad the default *with empty strings if there aren't enough
 // defaults provided to us.
   if(!arrayp(new_alias->defaults))
     new_alias->defaults = ({});
@@ -339,7 +339,7 @@ void create()
     }
 }
 
-varargs protected void cmd_alias(mixed argv, string array implode_info)
+varargs protected void cmd_alias(mixed argv, string *implode_info)
 {
     switch(sizeof(argv))
     {

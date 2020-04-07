@@ -71,7 +71,7 @@ int can_travel()
     return 1;
 }
 
-object array get_riders()
+object *get_riders()
 {
     return filter(all_inventory(this_object()), (:$1->is_living():));
 }
@@ -87,9 +87,9 @@ string show_contents()
 string get_riders_as_string()
 {
     // Get the inventory of the horse.
-    object array inv = all_inventory(this_object());
+    object *inv = all_inventory(this_object());
     // Filter out anything that isn't living.
-    object array riders = filter(inv, (: $1->is_living() :));
+    object *riders = filter(inv, (: $1->is_living() :));
 
     if(!sizeof(riders))
     {
@@ -136,7 +136,7 @@ mixed enter_check()
 
 void change_driving_hook_func(string direction)
 {
-  object array new_driver=get_riders();
+  object *new_driver=get_riders();
   this_body()->set_driving_vehicle(0);
   if(sizeof(new_driver))
     {

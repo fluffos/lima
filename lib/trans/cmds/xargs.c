@@ -44,7 +44,7 @@ varargs nomask void start_cmd(mixed * arg,int lock)
 }
 
 private nomask void main(mixed * arg, mapping flags, string stdin,
-			 string array implode_inf)
+			 string *implode_inf)
 {
   arg[0] = implode_by_arr(arg[0],implode_inf);
   if (stdin)

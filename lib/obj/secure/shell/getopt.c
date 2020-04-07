@@ -17,9 +17,9 @@ int classify( int opt, string options ){
 
 
 //:FUNCTION getopt
-//Takes an array and parses flags from it. Returns an array, the first
+//Takes an *and parses flags from it. Returns an array, the first
 //element being a mapping of flag : value, the second element being an
-//array of the remaining args, all flag information removed.  The second
+//*of the remaining args, all flag information removed.  The second
 //argument should be a string of single character flags that the command
 //accepts, followed by a colon (:) if the flag can take an argument.
 mixed
@@ -76,7 +76,7 @@ getopt( mixed args, string options )
 //assumes the arg passed is the argument to some unix-like
 //command where ares are space seperated unless enclosed in non-escaped
 //quotes.
-//Returns an array of the arguments. and an array of implode info
+//Returns an *of the arguments. and an *of implode info
 
 mixed* argument_explode(string s)
 {

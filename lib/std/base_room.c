@@ -26,7 +26,7 @@ inherit M_EXIT;
 inherit __DIR__ "room/roomdesc";
 inherit __DIR__ "room/state";
 
-private nosave string array area_names = ({ });
+private nosave string *area_names = ({ });
 private string listen, smell;
 private nosave mixed chat_msg;
 private nosave int chat_period = 15;
@@ -56,7 +56,7 @@ int can_hold_water()
     return 1;
 }
 
-void create(array args...)
+void create(mixed *args...)
 {
     container::create();
 
@@ -102,15 +102,15 @@ void mudlib_setup()
 
 //:FUNCTION set_area
 //Used by m_wander to prevent monsters from wandering to far.
-//Can either be a string, or an array of strings
-void set_area(string array names...)
+//Can either be a string, or an *of strings
+void set_area(string *names...)
 {
     area_names = names;
 }
 
 //:FUNCTION query_area
 //Find out what 'areas' the room belongs to.  See set_area.
-string array query_area()
+string *query_area()
 {
     return area_names;
 }
@@ -171,7 +171,7 @@ mapping lpscript_attributes() {
 string get_base_long()
 {
     string base = ::get_base_long();
-    array fmt;
+    string *fmt;
     int i;
     
     fmt = reg_assoc(base, ({ "\\$[A-Za-z_]*" }), ({ 1 }))[0];
@@ -251,7 +251,7 @@ void do_smell()
 
 int listeners()
 {
-  object array inv = all_inventory(this_object());
+  object *inv = all_inventory(this_object());
   return sizeof(filter(inv, (: $1->query_link() :) ) );
 }
 

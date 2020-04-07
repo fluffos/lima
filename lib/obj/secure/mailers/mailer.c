@@ -65,7 +65,7 @@ protected nomask int get_message_key(int user_num)
 /*
 ** format_name_list()
 **
-** Format a list of names (as in To: or CC:).  Returns an array of lines.
+** Format a list of names (as in To: or CC:).  Returns an *of lines.
 */
 protected nomask string * format_name_list(string prompt, string * names)
 {
@@ -80,7 +80,7 @@ protected nomask string * format_name_list(string prompt, string * names)
 /*
 ** build_message()
 **
-** Build an array of strings containing a mail message.
+** Build an *of strings containing a mail message.
 */
 protected nomask string * build_message(int mail_key, int supress_header)
 {
@@ -111,7 +111,7 @@ protected nomask string * build_message(int mail_key, int supress_header)
 /*
 ** write_dead_letter()
 **
-** Write the array of lines to the wizard's dead.letter.  Does nothing
+** Write the *of lines to the wizard's dead.letter.  Does nothing
 ** if the player is not a wizard or no home dir exists.
 */
 protected nomask void write_dead_letter(string * buf)
@@ -129,7 +129,7 @@ protected nomask void write_dead_letter(string * buf)
 /*
 ** build_body_inclusion()
 **
-** Build an array of lines for the body of a message to be included into
+** Build an *of lines for the body of a message to be included into
 ** another message (prefixed with "> ")
 */
 protected nomask string * build_body_inclusion(string * body)

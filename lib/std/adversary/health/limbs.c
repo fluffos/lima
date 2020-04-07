@@ -70,63 +70,63 @@ int is_attacking_limb(string limb)
 }
 
 //:FUNCTION query_limbs
-// string array query_limbs();
-// Returns a string array containing all limbs that health is applied to.
-string array query_limbs()
+// string *query_limbs();
+// Returns a string *containing all limbs that health is applied to.
+string *query_limbs()
 {
    return keys(health);
 }
 
 //:FUNCTION query_wielding_limbs
-// string array query_wielding_limbs();
-// Returns a string array containing all the limbs that can wield weapons.
-string array query_wielding_limbs()
+// string *query_wielding_limbs();
+// Returns a string *containing all the limbs that can wield weapons.
+string *query_wielding_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags & LIMB_WIELDING :));
 }
 
 //:FUNCTION query_attacking_limbs
-// string array query_attacking_limbs();
-// Returns a string array containing all the limba that can attack.
-string array query_attacking_limbs()
+// string *query_attacking_limbs();
+// Returns a string *containing all the limba that can attack.
+string *query_attacking_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags &
 LIMB_ATTACKING :));
 }
 
 //:FUNCTION query_vital_limbs
-// string array query_vital_limbs();
-// Returns a string array containing all the limbs that are considered
+// string *query_vital_limbs();
+// Returns a string *containing all the limbs that are considered
 // vital for survival. If any one of these limbs is disabled, the
 // adversary dies.
-string array query_vital_limbs()
+string *query_vital_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags & LIMB_VITAL :));
 }
 
 //:FUNCTION query_mobile_limbs
-// string array query_mobile_limbs();
+// string *query_mobile_limbs();
 // Lima doesn't do anything with mobile limbs, but they're provided for
 // those who want health of mobile limbs to affect movement and such.
-string array query_mobile_limbs()
+string *query_mobile_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags & LIMB_MOBILE :));
 }
 
 //:FUNCTION query_system_limbs
-// string array query_system_limbs();
-// Returns a string array of 'system' limbs. When ALL system limbs are
+// string *query_system_limbs();
+// Returns a string *of 'system' limbs. When ALL system limbs are
 // disabled, the adversary dies.
-string array query_system_limbs()
+string *query_system_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags & LIMB_SYSTEM :));
 }
 
 //:FUNCTION query_non_limbs
-// string array query_non_limbs();
+// string *query_non_limbs();
 // Returns a list of body parts that are not worth tracking health for.
 // Such body parts are defined by having a max_health of -1.
-string array query_non_limbs()
+string *query_non_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->max_health == -1 :));
 }
@@ -191,7 +191,7 @@ void kill_us()
 
 string query_random_limb()
 {
-   string array limbs = filter(keys(health),
+   string *limbs = filter(keys(health),
                         (: ((class limb)health[$1])->health > 0 :));
    return sizeof(limbs) ? choice(limbs) : 0;
 }
@@ -418,7 +418,7 @@ int badly_wounded()
 string diagnose()
 {
    string ret;
-   string array damaged_limbs;
+   string *damaged_limbs;
 
    if(query_ghost())
       return "$N $vare dead. Other than that, things are going pretty well for $n.\n";

@@ -51,7 +51,7 @@ private void rcv_can_ed(string y_or_n)
   goto_menu_silently(toplevel);
 }
 
-private void end_edit(string array annotation)
+private void end_edit(string *annotation)
 {
   new_annotation->text = implode(annotation,"\n");
   get_input_then_call((: rcv_can_ed :), "Allow anyone to remove this "
@@ -86,7 +86,7 @@ private void rm_it(int a)
 
 private void remove_annotation()
 {
-  class annotation array ann;
+  class annotation *ann;
   class annotation a;
 
 
@@ -138,7 +138,7 @@ private void see_it(int index)
 
 private void see_annotations()
 {
-  class annotation array ann;
+  class annotation *ann;
   class annotation a;
 
   ann = ANNOTATION_D->retrieve_annotations(annotation_target);

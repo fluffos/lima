@@ -27,7 +27,7 @@ inherit CLASS_MAILMSG;
 inherit M_COMPLETE;
 
 
-varargs string array targ_map_to_list(mapping, int);
+varargs string *targ_map_to_list(mapping, int);
 private void process_queue();
 varargs private void handle_ack(mapping, int);
 
@@ -85,7 +85,7 @@ string format_addrs(mapping m)
   return implode(targ_map_to_list(m), ", ");
 }
 
-private string array quote_msg(class mail_msg msg)
+private string *quote_msg(class mail_msg msg)
 {
   return ({
       "",  
@@ -99,7 +99,7 @@ private string array quote_msg(class mail_msg msg)
 	}) + msg->body;
 }
 
-private void send_warning (int id, string array warning)
+private void send_warning (int id, string *warning)
 {
   class outgoing_info	this_info;
   string 		recipient;
@@ -126,7 +126,7 @@ private void send_warning (int id, string array warning)
   save_me();
 }
 
-private void report_errors (int id, string array errorset)
+private void report_errors (int id, string *errorset)
 {
   class outgoing_info	this_info;
   string 		recipient;
@@ -145,8 +145,8 @@ private void report_errors (int id, string array errorset)
 private void error_ambiguous_or_unknown_mudnames(class mail_msg msg, 
 						 mapping info)
 {
-  string array 	problems = ({});
-  string array 	whatItCouldHaveBeen;
+  string *	problems = ({});
+  string *	whatItCouldHaveBeen;
   string	whatYouCalledIt;
 
   foreach(whatYouCalledIt, whatItCouldHaveBeen in info)
@@ -216,7 +216,7 @@ varargs private void handle_ack(mapping ack_list, int flag)
 }
 
 
-private array prep_message(int id, class outgoing_info info)
+private *prep_message(int id, class outgoing_info info)
 {
   class	mail_msg msg = internal_queue[info->msgId];
   return ({
@@ -424,10 +424,10 @@ void enqueue_message(class mail_msg msg)
   save_me();
 }
 
-private string array get_local_recipients(mixed array mail_packet)
+private string *get_local_recipients(mixed *mail_packet)
 {
   string array	mudnames;
-  string array 	local_recipients = ({});
+  string *	local_recipients = ({});
 
   mudnames = filter(keys(mail_packet[3]), // TO list
 		    (: mud_name() == IMUD_D->canon_mudname($1) :)); 
@@ -458,11 +458,11 @@ private string array get_local_recipients(mixed array mail_packet)
 // To one of the form: ({user-1@MUD-A, user-2@MUD-A, ... })
 
 // If flag, I want @This Mud to be left off.
-varargs string array targ_map_to_list(mapping info, int flag)
+varargs string *targ_map_to_list(mapping info, int flag)
 {
-  string array ret = ({});
+  string *ret = ({});
 
-  foreach(string mudname, string array userlist in info)
+  foreach(string mudname, string *userlist in info)
     {
       if(flag && mudname == mud_name())
 	{
@@ -477,9 +477,9 @@ varargs string array targ_map_to_list(mapping info, int flag)
   return ret;
 }
 
-string array incoming_mail(string mudname, mixed array mail_packet)
+string *incoming_mail(string mudname, mixed *mail_packet)
 {
-  string array 	local_recipients;
+  string *	local_recipients;
   string array	errors = ({});
   int	 	i;
 

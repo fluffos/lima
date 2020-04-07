@@ -5,7 +5,7 @@
 string evaluate_path(string);
 object find_body(string);
 object this_body();
-private nosave string array normal_directions = ({ "up", "down",
+private nosave string *normal_directions = ({ "up", "down",
                                                    "north", "northeast",
                                                    "northwest", "east",
                                                    "southeast", "southwest",
@@ -27,9 +27,9 @@ string
 call_trace() {
     string res;
     int i, n;
-    object array objects;
-    string array programs;
-    string array functions;
+    object *objects;
+    string *programs;
+    string *functions;
     
     res = "";
     programs = call_stack(0);
@@ -47,7 +47,7 @@ call_trace() {
 // There should be an | operator for this.
 
 //:FUNCTION clean_array
-//returns a version of the passed array with duplicate
+//returns a version of the passed *with duplicate
 //entries removed.  Eg, clean_array(({1,2,2}))  => ({1,2})
 mixed*
 clean_array(mixed* r) {
@@ -76,9 +76,9 @@ clean_array(mixed* r) {
 //returns a reversable explode, because sometimes this has a desired
 //effect.  This sefun requires SANE_EXPLODE_STRING to work properly 
 //but the mudlib already requires that anyway.
-string array rev_explode(string arr_in, string delim)
+string *rev_explode(string arr_in, string delim)
 {
-  string array arr_out=({});
+  string *arr_out=({});
   if(arr_in[0..strlen(delim)-1]==delim)
     arr_out=({""});
   arr_out+=explode(arr_in,delim);
@@ -140,8 +140,8 @@ int cmp( mixed a, mixed b )
 
 
 //:FUNCTION insert
-//Inserts the contents of the array of the first argument into
-//The array in the second argument before the nth element of the array,
+//Inserts the contents of the *of the first argument into
+//The *in the second argument before the nth element of the array,
 //where n is the 3rd argument passed to insert.
 
 // Rust hacked at this to make it a bit more intuitive...
@@ -155,7 +155,7 @@ mixed insert( mixed 	to_insert,
   if( !arrayp( to_insert ) )
     return (void)error("Bad type arg 1 to simul efun insert()");
 
-  if( !arrayp( into_array ) )
+  if( !arrayp( into_*) )
     return (void)error("Bad type arg 2 to simul efun insert()");
 
   if( !intp( where ) )
@@ -371,7 +371,7 @@ varargs mixed eval( string arg, string includefile )
 //will return: ({1,2,3,4}).  The algorithm is not recursive, so if any of
 //the arrays have arrays in them, those arrays remain intact.  Eg,
 //decompose( ({1,({({2,3}),4}),5}) )  returns:({1,({2,3}),4,5}).
-//See flatten_array for a recursive version.
+//See flatten_*for a recursive version.
 
 mixed* decompose( mixed* org )
 {
@@ -393,7 +393,7 @@ mixed* decompose( mixed* org )
 
 //:FUNCTION choice
 //Returns a random element of the structure passed, if that
-// is an aggregate type (i.e., A string, array or mapping).
+// is an aggregate type (i.e., A string, *or mapping).
 
 mixed choice( mixed f ){
     mixed *k;
@@ -422,7 +422,7 @@ else
 
 //:FUNCTION max
 //Returns the largest element of a structure that is a string,
-//array or mapping.
+//*or mapping.
 
 mixed max( mixed f ){
   if(stringp(f)) f = explode(f," ");
@@ -433,7 +433,7 @@ else
 }
 
 //:FUNCTION flatten_array
-//Takes a array that may contain arrays, and reduces all
+//Takes a *that may contain arrays, and reduces all
 //arrays so that the result is a one dimensional array
 
 mixed
@@ -456,7 +456,7 @@ flatten_array(mixed arr)
 //Does a call_out to a list of functions, one following
 //another, with each returning the delay till the next one is called.
 
-protected void handle_chain(object ob, array funcs, array args) {
+protected void handle_chain(object ob, mixed *funcs, mixed *args) {
     int delay;
     if(!sizeof(funcs))
       return;
@@ -468,7 +468,7 @@ protected void handle_chain(object ob, array funcs, array args) {
     call_out( (: handle_chain :), delay, ob, funcs[1..], args);
 }
 
-void call_out_chain(array funcs, int delay, array args...) {
+void call_out_chain(mixed *funcs, int delay, mixed *args...) {
     call_out( (: handle_chain :), delay, previous_object(), funcs, args);
 }
 
@@ -577,7 +577,7 @@ int fuzzy_divide(int top, int bottom) {
 	return top / bottom;
 }
 
-string implode_by_arr(string array arr1, string array arr2)
+string implode_by_arr(string *arr1, string *arr2)
 {
   string 	res = "";
   int		i;
@@ -653,10 +653,10 @@ string convert_time(int sec, int type) {
 }
 
 //:FUNCTION sort_by_value
-//sort_by_value(arr, f) returns the array arr sorted in such
+//mixed sort_by_value(mixed arr, function) returns the *arr sorted in such
 //a way that the elements are in increasing order, as defined by the
 //value of the function f
-array sort_by_value(array arr, function value_func) {
+mixed *sort_by_value(mixed arr, function value_func) {
     return sort_array(arr, (: evaluate($(value_func), $1) - evaluate($(value_func), $2) :));
 }
 
@@ -665,7 +665,7 @@ string dump_socket_status() {
   string ret = 
     "Fd    State      Mode       Local Address          Remote Address\n"
     "--  ---------  --------  ---------------------  ---------------------\n";
-  foreach (array item in socket_status()) {
+  foreach (mixed *item in socket_status()) {
     ret += sprintf("%2d  %|9s  %|8s  %-21s  %-21s\n", item[0], item[1], item
 		   [2], item[3], item[4]);
   }

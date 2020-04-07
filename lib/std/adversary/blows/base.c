@@ -9,10 +9,10 @@ varargs void attacked_by(object, int);
 string query_random_limb();
 void handle_message(string, object, object);
 string damage_message(int);
-object array query_targets();
+object *query_targets();
 object query_weapon();
 varargs void unwield(string);
-object array event_get_armors(class event_info);
+object *event_get_armors(class event_info);
 
 int do_damage_event(class event_info evt)
 {
@@ -42,7 +42,7 @@ class event_info health_modify_event(class event_info evt)
 
 class event_info armors_modify_event(class event_info evt)
 {
-   object array armors = event_get_armors(evt);
+   object *armors = event_get_armors(evt);
 
    if(armors)
       foreach(object ob in armors)

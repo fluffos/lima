@@ -2,7 +2,7 @@
 
 private int max_char = 100;
 private int char_left = 100;
-string array msgs = ({ });
+string *msgs = ({ });
 string extra;
 
 void add_hook(string, mixed);

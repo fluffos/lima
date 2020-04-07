@@ -15,7 +15,7 @@ private void main()
 {
   mapping raw_data;
   mapping str_data = ([]);
-  string array snoopers;
+  string *snoopers;
 
 
   if(!adminp(this_body()))

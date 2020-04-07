@@ -25,7 +25,7 @@ void add_body(string body_name, mapping body_limbs)
    save_me();
 }
 
-string array list_body_types() {
+string *list_body_types() {
   return keys(body_types);
 }
 

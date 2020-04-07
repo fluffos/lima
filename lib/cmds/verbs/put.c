@@ -13,7 +13,6 @@ void do_put_obj_wrd_obj(object ob1, string p, object ob2)
 {
   mixed tmp;
   string prep;
-  
   if( ob2->is_living())
     {
       write( "Try giving it.\n");
@@ -34,7 +33,7 @@ void do_put_obj_wrd_obj(object ob1, string p, object ob2)
   write(tmp);
 }
 
-void do_put_obs_wrd_obj(array info, string p, object ob2) {
+void do_put_obs_wrd_obj(string *info, string p, object ob2) {
     handle_obs(info, (: do_put_obj_wrd_obj :), p, ob2);
 }
 

@@ -6,7 +6,7 @@ inherit M_EXIT;
 #include <hooks.h>
 
 varargs mixed call_hooks(string tag, mixed func, mixed start,
-                         array args...);
+                         *args...);
 string get_default_exit();
 void do_go_somewhere(string);
 

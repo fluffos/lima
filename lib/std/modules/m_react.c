@@ -7,18 +7,18 @@ private object		script;
 
 class parse_info {
     int cur;
-    string array lines;
-    string array vars;
+    string *lines;
+    string *vars;
     int trigger_num;
     int term;
 }
 
 private array
-parse_file(class parse_info pi, string array term) {
-    array program = ({});
+parse_file(class parse_info pi, string *term) {
+    *program = ({});
     string keyword;
     int tmp;
-    array tmparr;
+    *tmparr;
     string arg1, arg2;
     
     while (pi->cur < sizeof(pi->lines)) {
@@ -144,7 +144,7 @@ string parse_literal(string expr) {
     return expr;
 }
 
-string parse_expr1(array parts) {
+string parse_expr1(*parts) {
     string expr1, expr2;
     string token = parts[parts[0]++];
     
@@ -172,7 +172,7 @@ string parse_expr1(array parts) {
  * expr: expr1 |
  *       expr1 infix expr
  */
-string parse_expr(array parts) {
+string parse_expr(*parts) {
     string expr1, expr2;
     string token;
     
@@ -187,7 +187,7 @@ string parse_expr(array parts) {
 }
 
 string handle_expression(string e) {
-    array parts = explode(e, " ");
+    *parts = explode(e, " ");
     
     parts = ({ 1 }) + map(parts, (: trim_spaces :)) - ({ "" });
 
@@ -200,7 +200,7 @@ string handle_set(string lhs, string rhs) {
     return "  var_" + lhs[1..] + " = " + handle_expression(rhs) + ";\n";
 }
 
-void compile_func(mapping funcs, string sname, array prog) {
+void compile_func(mapping funcs, string sname, *prog) {
     int i;
     string ssname;
     mixed prog_stack = ({ "", prog });
@@ -268,7 +268,7 @@ void compile_func(mapping funcs, string sname, array prog) {
     }
 }
 
-string compile_program(class parse_info pi, array prog) {
+string compile_program(class parse_info pi, *prog) {
     mapping funcs = ([]);
     string ret;
     
@@ -317,7 +317,7 @@ void receive_private_msg(string str) {
 	
 void compile_script(string fname) {
     class parse_info pi;
-    array program;
+    *program;
     object ob;
     
     if (script) destruct(script);

@@ -6,7 +6,7 @@ private nosave int stunned; // time to awake from stunned status
 private int asleep;         // flag for "asleep" status
 private nosave int chance;  // counter for attempted "wake up"
 private nosave int attack_speed = 1;
-private nosave object * readied = ({}); // array of ready ammunition
+private nosave object * readied = ({}); // *of ready ammunition
 
 void add_readied(object ob)
 {

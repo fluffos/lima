@@ -19,11 +19,11 @@ void hook_state(string, mixed, int);
 string worn_extra_short();
 int test_flag(int);
 void assign_flag(int, int);
-void add_save( string array );
+void add_save( string *);
 
 private string wearmsg = "$N $vwear a $o.";
 private nosave string slot;
-private nosave string array also_covering;
+private nosave string *also_covering;
 
 void mudlib_setup()
 {
@@ -66,19 +66,19 @@ string query_slot()
    return slot;
 }
 
-string array also_covers()
+string *also_covers()
 {
    return also_covering;
 }
 
-void set_also_covers(string array s...)
+void set_also_covers(string *s...)
 {
    also_covering = s;
 }
 
 string worn_attributes()
 {
-   string array all = ({ slot });
+   string *all = ({ slot });
 
    if(also_covers())
       all += also_covers();

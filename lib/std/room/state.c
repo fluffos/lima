@@ -6,10 +6,10 @@
 ** 96...., Rust: created
 */
 
-private nosave string array room_state = ({});
+private nosave string *room_state = ({});
 private nosave mapping room_state_extra_longs = ([]);
 
-string array get_room_state_info()
+string *get_room_state_info()
 {
   return copy(room_state);
 }

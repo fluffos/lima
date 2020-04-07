@@ -40,11 +40,11 @@ private mapping inheritable = ([
 int cur, intrigger;
 int unique;
 
-string handle_oneof(string arg, array block);
+string handle_oneof(string arg, mixed *block);
 string handle_expression(string arg);
 mixed handle_subexpression(string arg);
-string handle_block(array lines);
-string handle_check(string arg, array block);
+string handle_block(string *lines);
+string handle_check(string arg, mixed *block);
 string handle_delay(string arg);
 string handle_action(string arg);
 
@@ -66,9 +66,9 @@ private mapping keywords = ([
   "return" : (: "return " + handle_expression($1) + ";\n" :),
 ]);
 
-mixed handle_periodic(string arg, array lines);
-mixed handle_trigger(string arg, array lines);
-mixed handle_setup(string arg, array lines);
+mixed handle_periodic(string arg, string *lines);
+mixed handle_trigger(string arg, string *lines);
+mixed handle_setup(string arg, string *lines);
 
 private mapping funcs = ([
   "periodic" : (: handle_periodic :),
@@ -76,25 +76,25 @@ private mapping funcs = ([
   "setup" : (: handle_setup :),
 ]);
 
-string handle_string(array args);
-mixed handle_is(array args);
-mixed handle_variables(array args);
-mixed handle_gender(array args);
-mixed handle_list(string s1, string s2, array args);
-mixed handle_objects(array args);
-mixed handle_exits(array args);
+string handle_string(string *args);
+mixed handle_is(string *args);
+mixed handle_variables(string *args);
+mixed handle_gender(string *args);
+mixed handle_list(string s1, string s2, string *args);
+mixed handle_objects(string *args);
+mixed handle_exits(string *args);
 
 mapping attributes;
 int dest, indent, linesync;
-array lines;
-array errors;
-string fname, tail;
-string setup_args;
-array cur_vars;
-array globals;
+mixed *lines;
+mixed *errors;
+mixed fname, tail;
+mixed setup_args;
+mixed *cur_vars;
+mixed *globals;
 
-array inherits;
-array triggers;
+mixed *inherits;
+mixed *triggers;
 
 void create() {
     set_privilege(1);
@@ -110,7 +110,7 @@ void do_errors() {
 	error("Script compilation failed:\n" + implode(errors, "\n") + "\n");
 }
 
-array line_info() {
+*line_info() {
     if (linesync) {
 	linesync = 0;
 	return ({ cur });
@@ -118,7 +118,7 @@ array line_info() {
     return ({});
 }
 
-array parse_long_string() {
+*parse_long_string() {
     int first = cur;
     string ind;
     int indent;
@@ -144,9 +144,9 @@ array parse_long_string() {
     return map(lines[first..cur-2], (: $1[$(indent)..] :));
 }
 
-array parse_block(int oldind, int indent) {
+mixed *parse_block(int oldind, int indent) {
     int needend = -1;
-    array ret = ({});
+    mixed *ret = ({});
 
     while (cur < sizeof(lines)) {
 	int newind;
@@ -315,13 +315,13 @@ mixed handle_expr1(string arg) {
     return ({ "", rest });
 }
 
-string handle_call(string s1, string s2, array rest...) {
+string handle_call(string s1, string s2, mixed *rest...) {
     return "call_other(" + s1 + ", " + s2 + 
     (sizeof(rest) > 0 ? "," : "") +
     implode(rest, ", ") + ")";
 }
 
-string handle_lcall(string s1, array rest...) {
+string handle_lcall(string s1, mixed *rest...) {
     if (s1[0] == '"' && s1[<1] == '"')
 	return s1[1..<2] + "(" + implode(rest, ", ") + ")";
     else
@@ -405,7 +405,7 @@ mixed handle_expr2(string arg) {
     mixed tmp;
     function f;
     int num;
-    array args = ({});
+    mixed *args = ({});
 
     if (arg == "") {
 	add_error(cur, "expression expected.");
@@ -481,8 +481,8 @@ string translate_string(string str) {
     return ret;
 }
 
-string handle_block(array lines) {
-    array ret = ({ "", "" });
+string handle_block(mixed *lines) {
+    mixed *ret = ({ "", "" });
     int i;
     string tmp;
 
@@ -546,14 +546,14 @@ string handle_action(string arg) {
 }
 
 string sub_file_name() {
-    array tmp = split_path(fname);
+    mixed *tmp = split_path(fname);
     return tmp[0] + "tmp_" + tmp[1][0..<5] + "_" + (unique++) + ".scr";
 }
 
 string handle_delay(string arg) {
     int idx = unique++;
     string args, rest;
-    array locals = cur_vars - globals;
+    mixed *locals = cur_vars - globals;
 
     if (intrigger) 
 	add_error(cur, "Delay illegal inside trigger (move to a function).\n");
@@ -567,7 +567,7 @@ string handle_delay(string arg) {
     return "call_out(\"unnamed" + idx + "\", " + arg + rest + "); }\n}\n\nvoid unnamed" + idx + "(" + args + ") {\n{\n";
 }
 
-string handle_check(string arg, array lines) {
+string handle_check(string arg, mixed *lines) {
     string ret = "";
 
     foreach (string line in lines) {
@@ -584,7 +584,7 @@ string handle_check(string arg, array lines) {
     return ret;
 }
 
-string handle_oneof(string arg, array block) {
+string handle_oneof(string arg, mixed *block) {
     string ret;
 
     ret = "switch (random(" + sizeof(block) + ")) {\n";
@@ -597,7 +597,7 @@ string handle_oneof(string arg, array block) {
     return ret + "}\n";
 }
 
-mixed handle_periodic(string arg, array lines) {
+mixed handle_periodic(string arg, mixed *lines) {
     int min, max;
     string time;
 
@@ -612,13 +612,13 @@ mixed handle_periodic(string arg, array lines) {
     return ({ "setup", "f = function(function f) { " + handle_block(lines) + " call_out(f, " + time + ", f); }; call_out(f, " + time + ", f)" });
 }
 
-mixed handle_setup(string arg, array lines) {
+mixed handle_setup(string arg, mixed *lines) {
     setup_args = arg;
     cur_vars = globals;
     return ({ "setup", handle_block(lines) });
 }
 
-mixed handle_trigger(string arg, array lines) {
+mixed handle_trigger(string arg, mixed *lines) {
     int num;
     int oldlen;
 
@@ -634,7 +634,7 @@ mixed handle_trigger(string arg, array lines) {
     return 0;
 }
 
-varargs string regenerate(array lines, int level) {
+varargs string regenerate(mixed *lines, int level) {
     string ind = repeat_string("  ", level);
     string ret = "";
 
@@ -654,9 +654,9 @@ varargs string regenerate(array lines, int level) {
 //   weapon1
 //   weapon2
 // end
-string one_object(array args)
+string one_object(mixed *args)
 {
-  string array output = ({});
+  string *output = ({});
   foreach (mixed line in args)
   {
     if (arrayp(line))
@@ -680,17 +680,17 @@ string one_object(array args)
     return output[0];
 }
 
-mixed handle_wield(array args)
+mixed handle_wield(mixed *args)
 {
   return ({ "setup", "set_wielding(" + one_object(args) + ")" });
 }
 
-mixed handle_wear(array args)
+mixed handle_wear(mixed *args)
 {
   return ({ "setup", "set_wearing(" + one_object(args) + ")" });
 }
 
-mixed handle_objects(array args) {
+mixed handle_objects(mixed *args) {
     string ret = "set_objects( ([\n";
     string tmp;
 
@@ -718,7 +718,7 @@ mixed handle_objects(array args) {
     return ({ "setup", ret + "]) )" });
 }
 
-mixed handle_mapping(string rfunc, string func, array args) {
+mixed handle_mapping(string rfunc, string func, mixed *args) {
     string ret = func + "( ([\n";
 
     foreach (string line in args) {
@@ -735,7 +735,7 @@ mixed handle_mapping(string rfunc, string func, array args) {
     return ({ rfunc, ret + "]) )" });
 }
 
-mixed handle_int_mapping(string rfunc, string func, array args) {
+mixed handle_int_mapping(string rfunc, string func, mixed *args) {
     string ret = func + "( ([\n";
 
     foreach (string line in args) {
@@ -752,7 +752,7 @@ mixed handle_int_mapping(string rfunc, string func, array args) {
     return ({ rfunc, ret + "]) )" });
 }
 
-string handle_string(array args) {
+string handle_string(mixed *args) {
     string ret = implode(map(args, (: stringp($1) ? $1 : "%-%" :)), "");
     int ret_size;
 
@@ -780,7 +780,7 @@ string handle_string(array args) {
     return "\"" + ret + "\"";
 }
 
-mixed handle_flags(array args) {
+mixed handle_flags(mixed *args) {
     string ret = "0";
     args = map(explode(args[0], ","), (: trim_spaces :));
     foreach (string arg in args) {
@@ -791,7 +791,7 @@ mixed handle_flags(array args) {
     return ({ "setup", "set_flag(" + ret + ")" });
 }
 
-mixed handle_list(string rfunc, string func, array args) {
+mixed handle_list(string rfunc, string func, mixed *args) {
     args = map(explode(args[0], ","), (: trim_spaces :));
 
     return ({ rfunc, func + "(\"" + implode(args, "\", \"") + "\")" });
@@ -810,14 +810,14 @@ void get_attributes(string fname) {
     if (tmp) attributes += tmp;
 }
 
-mixed handle_variables(array args) {
+mixed handle_variables(mixed *args) {
     args = map(explode(args[0], ","), (: trim_spaces :));
 
     globals += args;
     return ({ -1, "mixed _" + implode(args, ";\nmixed _") });
 }
 
-mixed handle_is(array args) {
+mixed handle_is(mixed *args) {
     args = map(explode(args[0], ","), (: trim_spaces :));
 
     foreach (string file in args) {
@@ -833,7 +833,7 @@ mixed handle_is(array args) {
     return 0;
 }
 
-mixed handle_gender(array args) {
+mixed handle_gender(mixed *args) {
     int gen;
 
     switch (args[0]) {
@@ -862,7 +862,7 @@ int handle_boolean(string arg) {
     }
 }
 
-array handle_attribute(mixed entry, array args) {
+*handle_attribute(mixed entry, mixed *args) {
     switch (entry[0]) {
     case LPSCRIPT_LIST:
 	return handle_list(entry[1], entry[2], args);
@@ -947,21 +947,21 @@ private nomask void handle_generation(string outname) {
     string ret = "";
     string globals = "";
     string protos = "";
-    array tmp;
+    mixed *tmp;
     string actions = "";
 
     if (sizeof(triggers)) {
 	for (int i = 0; i < sizeof(triggers); i++)
 	    actions += "case " + i + ":\n" + triggers[i][2] + "return;\n";
 
-	ret += "array patterns = ({ ";
+	ret += "*patterns = ({ ";
 	for (int i = 0; i < sizeof(triggers); i++) {
 	    if (i) ret += ", ";
 	    ret += "\"" + triggers[i][0] + "\"";
 
 	}
 	ret += "});\n";
-	ret += "array num = ({ ";
+	ret += "*num = ({ ";
 	for (int i = 0; i < sizeof(triggers); i++) {
 	    if (i) ret += ", ";
 	    ret += triggers[i][1];
@@ -981,9 +981,9 @@ END + actions + "}}}}";
     }
 
     tmp = unique_array(lines - ({ 0 }), (: $1[0] :));
-    foreach (array item in tmp) {
+    foreach (mixed *item in tmp) {
 	if (item[0][0] == -1) {
-	    foreach (array block in item)
+	    foreach (mixed *block in item)
 	    globals += block[1] + ";\n";
 	    continue;
 	} else if (item[0][0] == "setup") {
@@ -994,7 +994,7 @@ END + actions + "}}}}";
 	    ret += "\nmixed " + item[0][0] + "() {\n";
 	}
 
-	foreach (array block in item)
+	foreach (mixed *block in item)
 	ret += block[1] + ";\n";
 	ret += "}\n\n";
     }

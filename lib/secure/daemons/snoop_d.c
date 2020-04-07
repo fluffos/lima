@@ -8,7 +8,7 @@
 mapping cycle_info;
 mapping snoops = ([]);
 mapping dummy_objects = ([]);
-object  array admins;
+object  *admins;
 
 
 mapping get_snoop_info()
@@ -39,8 +39,8 @@ private object get_dummy_object(object snoopee)
 // some new guy...
 private int detect_cycle_recursive(object snooper)
 {
-  object array snoopees;
-  int    array cycles;
+  object *snoopees;
+  int    *cycles;
   if(cycle_info[snooper])
     {
       return 1;
@@ -74,7 +74,7 @@ private int detect_cycle(object snoopee)
 
 int unsnoop(object snooper, object snoopee)
 {
-  object array snoopees;
+  object *snoopees;
   object target;
   if(origin() != "local"
      && previous_object() != find_object(UNSNOOP_CMD))
@@ -152,7 +152,7 @@ int snoop(object snooper, object snoopee)
 
 void remove()
 {
- object array snoopers;
+ object *snoopers;
 
   snoopers = keys(snoops) - ({0});
   snoopers->receive_private_msg("Whoops! SNOOP_D is being dested!\n");
@@ -164,7 +164,7 @@ void bye()
 {
   object who;
   object dummy;
-  object array snoopers;
+  object *snoopers;
 
   who = previous_object();
   if(snoops[who] != 0)

@@ -10,7 +10,7 @@
 inherit CMD;
 
 private void main() {
-  string array currencies = ({ });
+  string *currencies = ({ });
   mapping money = this_body()->query_money();
 
   if ( sizeof(money) == 0 )

@@ -6,7 +6,7 @@ private mixed eat_action = "$N $veat $o.";
 private mixed last_eat_action;
 
 string the_short();
-void add_save( string array );
+void add_save( string *);
 
 void mudlib_setup()
 {

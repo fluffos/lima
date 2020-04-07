@@ -33,12 +33,12 @@ private nomask void receive_more(string arg);
 private nomask void receive_topic(string arg);
 private nomask void display_choice(string topic);
 
-string array shorten(string array names)
+string *shorten(string *names)
 {
-  string array short = ({});
+  string *short = ({});
   mixed temp;
-  string array dup = ({});
-  string array ret = ({});
+  string *dup = ({});
+  string *ret = ({});
   string last;
 
   if(!sizeof(names))
@@ -48,11 +48,11 @@ string array shorten(string array names)
 
   temp = unique_array(short, (:$1:));
 
-  foreach(string array t in temp)
+  foreach(string *t in temp)
     if(sizeof(t)>1)
       dup += ({t[0]});
 
-// dup is now an array of duplicate names
+// dup is now an *of duplicate names
 
   for(int j=0;j<sizeof(names);j++)
   {
@@ -110,7 +110,7 @@ private nomask string last_component(string fname)
 
 private nomask void parse_directory(string fname) 
 {
-  string array files = get_dir(fname + "*") - ({ ".", ".." });
+  string *files = get_dir(fname + "*") - ({ ".", ".." });
   string topic = last_component(fname);
 
   cur_line = 0;
@@ -188,7 +188,7 @@ private nomask void display_choice(string topic)
 //### not to mention that we don't have their parents until
 //### we read the files.
 
-  string array files = shorten(topic_files);
+  string *files = shorten(topic_files);
 /* ack. must use a global to get the index to work */
   i = 0;
 

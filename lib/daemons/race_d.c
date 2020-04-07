@@ -24,7 +24,7 @@ string query_race_filename(string race)
    return races[race];
 }
 
-string array query_races()
+string *query_races()
 {
    return keys(races);
 }

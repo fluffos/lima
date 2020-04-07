@@ -90,9 +90,9 @@ string *query_msg_types()
       keys(MESSAGES_D->get_messages(def_message_type)));
 }
 
-array handle_obs(array obs, string res, mapping has)
+*handle_obs(mixed *obs, string res, mapping has)
 {
-  string array ret = ({});
+  string *ret = ({});
   mapping items = ([]);
   string t_short;
 
@@ -160,7 +160,7 @@ array handle_obs(array obs, string res, mapping has)
   return ({ res, ret });
 }
 
-array handle_ob(mixed ob, string res, mapping has)
+*handle_ob(mixed ob, string res, mapping has)
 {
   string bit;
 
@@ -191,14 +191,14 @@ array handle_ob(mixed ob, string res, mapping has)
 
 //:FUNCTION compose_message
 //The lowest level message composing function; it is passed the object
-//for whom the message is wanted, the message string, the array of people
+//for whom the message is wanted, the message string, the *of people
 //involved, and the objects involved.  It returns the appropriate message.
 //Usually this routine is used through the higher level interfaces.
 varargs string compose_message(object forwhom, string msg, object *who, 
-  array obs...)
+  mixed *obs...)
 {
   mixed ob;
-  array fmt;
+  mixed *fmt;
   string res;
   int i;
   int c;
@@ -345,6 +345,13 @@ varargs string compose_message(object forwhom, string msg, object *who,
         break;
       case 'p':
       case 'P':
+        //Bit of defensive coding here
+        if (num>=sizeof(who))
+        {
+          bit = "WHOSE(?)";
+          break;
+        }
+        else
         if (forwhom == who[num])
         {
           bit = "your";
@@ -378,11 +385,11 @@ varargs string compose_message(object forwhom, string msg, object *who,
 
 //:FUNCTION action
 //Make the messages for a given group of people involved.  The return
-//value will have one array per person, as well as one for anyone else.
+//value will have one *per person, as well as one for anyone else.
 //inform() can be used to send these messages to the right people.
 //see: inform
 
-varargs string *action(object *who, mixed msg, array obs...)
+varargs string *action(object *who, mixed msg, mixed *obs...)
 {
   int i;
   string *res;
@@ -399,11 +406,11 @@ varargs string *action(object *who, mixed msg, array obs...)
 //### This now always indents continuation lines.  Might want a flag at the
 //### end to enable or disable that.
 //:FUNCTION inform
-//Given an array of participants, and an array of messages, and either an
-//object or array of objects, deliver each message to the appropriate
+//Given an *of participants, and an *of messages, and either an
+//object or *of objects, deliver each message to the appropriate
 //participant, being careful not to deliver a message twice.
 //The last arg is either a room, in which that room is told the 'other'
-//message, or an array of people to recieve the 'other' message.
+//message, or an *of people to recieve the 'other' message.
 void inform(object *who, string *msgs, mixed others)
 {
   int i;
@@ -424,7 +431,7 @@ void inform(object *who, string *msgs, mixed others)
 //:FUNCTION simple_action
 //Generate and send messages for an action involving the user and possibly
 //some objects
-varargs void simple_action(mixed msg, array obs...)
+varargs void simple_action(mixed msg, mixed *obs...)
 {
   string us;
   string others;
@@ -446,7 +453,7 @@ varargs void simple_action(mixed msg, array obs...)
 
 //:FUNCTION my_action
 //Generate and send a message that should only be seen by the person doing it
-varargs void my_action(mixed msg, array obs...)
+varargs void my_action(mixed msg, mixed *obs...)
 {
   string us;
   object *who;
@@ -462,7 +469,7 @@ varargs void my_action(mixed msg, array obs...)
 
 //:FUNCTION other_action
 //Generate and send a message that should only be seen by others
-varargs void other_action(mixed msg, array obs...)
+varargs void other_action(mixed msg, mixed *obs...)
 {
   string others;
   object *who;
@@ -479,7 +486,7 @@ varargs void other_action(mixed msg, array obs...)
 //:FUNCTION targetted_action
 //Generate and send a message involving the doer and a target (and possibly
 //other objects)
-varargs void targetted_action(mixed msg, object target, array obs...)
+varargs void targetted_action(mixed msg, object target, mixed *obs...)
 {
   string us, them, others;
   object *who;

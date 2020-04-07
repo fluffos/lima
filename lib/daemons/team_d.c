@@ -37,7 +37,7 @@ nomask void fix_shares(class team team_data)
 {
 #if 0
    int total_shares;
-   class team_member array members = values(team_data->members);
+   class team_member *members = values(team_data->members);
 
    foreach(class team_member member in members)
    {
@@ -77,9 +77,9 @@ private int filter_shares(class team_member m, mixed extra)
 nomask int award_experience(string name, int amount)
 {
    class team tmp = parties[lower_case(name)];
-   string array team_members = keys(tmp->members);
+   string *team_members = keys(tmp->members);
    int x = 0, total = 0;
-   int array shares = filter_array(values(tmp->members), (: filter_shares :));
+   int *shares = filter_array(values(tmp->members), (: filter_shares :));
 
    foreach(x in shares)
       total += x;
@@ -150,7 +150,7 @@ nomask int remove_member(string member, string pname)
 
 nomask string locate_access_member(string pname, int access)
 {
-   string array members;
+   string *members;
 
    pname = lower_case(pname);
    members = keys(((class team)parties[pname])->members);
@@ -184,7 +184,7 @@ private int change_access(string pname, string member, int access)
 
 nomask string locate_user(string name)
 {
-   string array p = keys(parties);
+   string *p = keys(parties);
 
    foreach(string s in p)
    {
@@ -195,12 +195,12 @@ nomask string locate_user(string name)
 //            keys(((class team)parties[$1])->members)) :));
 }
 
-nomask string array list_all_parties()
+nomask string *list_all_parties()
 {
    return keys(parties);
 }
 
-nomask string array query_team_members(string pname)
+nomask string *query_team_members(string pname)
 {
    return keys(((class team)parties[lower_case(pname)])->members);
 }
@@ -213,7 +213,7 @@ nomask int query_member_access(string pname, string member)
 // Find a user in the team 'pname' with a given access level.
 nomask string locate_member_by_access(string pname, int access)
 {
-   string array m;
+   string *m;
 
    pname = lower_case(pname);
    m = keys(((class team)parties[pname])->members);
@@ -237,10 +237,10 @@ nomask void set_max_active(string pname, int n)
    save_me();
 }
 
-nomask string array query_active_members(string pname)
+nomask string *query_active_members(string pname)
 {
    int max;
-   string array all;
+   string *all;
 
    pname = lower_case(pname);
    max = ((class team)parties[pname])->max_active;

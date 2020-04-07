@@ -40,10 +40,10 @@ private void main(string arg)
     string user;
     string host;
     mixed tmp;
-    string array words;
+    string *words;
     string muds;
-    string array previous_matches;
-    string array matches;
+    string *previous_matches;
+    string *matches;
     int i, j;
     string mystring;
     string deststring;
@@ -99,7 +99,7 @@ private void main(string arg)
 
 	    if( arg[0] == ';' || arg[0] == ':' )
 	      {
-		array soul_ret;
+		*soul_ret;
 		
 		arg = arg[1..];
 		soul_ret = SOUL_D->parse_imud_soul(arg);
@@ -151,7 +151,7 @@ private void main(string arg)
 
     if( arg[0] == ':' || arg[0] == ';' )
     {
-	array soul_ret;
+	*soul_ret;
 	int tindex;
 
 	arg = arg[1..];

@@ -21,7 +21,7 @@ private int filter_removed(object brd, int elem) {
     return 1;
 }
 
-private void receive_body(object brd, int reply_id, string array body) {
+private void receive_body(object brd, int reply_id, string *body) {
     class news_msg msg = NEWS_D->get_message(brd->query_group(), reply_id);
 
     if (!body) {
@@ -41,7 +41,7 @@ private void receive_body(object brd, int reply_id, string array body) {
 private void main(string arg) {
     object ob, brd;
     int id;
-    int array ids;
+    int *ids;
 
     brd = 0;
     foreach (ob in deep_inventory(environment(this_body()))) {

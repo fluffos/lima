@@ -4,7 +4,7 @@
 inherit MOVING_ROOM;
 
 /* The destinations with their lamps lit */
-array queue = ({});
+string *queue = ({});
 
 void hook_elevator_door_closed();
 

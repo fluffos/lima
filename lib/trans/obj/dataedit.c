@@ -49,7 +49,7 @@ int save_data_file(string fname) {
 }
 
 mixed expression(string str) {
-    array parts = reg_assoc(str, ({ "\\$\\$", "\\$[a-zA-Z0-9_]+" }), ({ 1, 2 }));
+    *parts = reg_assoc(str, ({ "\\$\\$", "\\$[a-zA-Z0-9_]+" }), ({ 1, 2 }));
     string expr = "mixed expression(mapping internal_data) {\nreturn ";
     mixed value;
     object ob;

@@ -8,7 +8,7 @@
 
 inherit M_DAEMON_DATA;
 
-private string array damage = ({ });
+private string *damage = ({ });
 
 void add_damage_type( string t )
 {
@@ -37,7 +37,7 @@ void clear_damage_types()
   write("Damage types cleared\n");
 }
 
-string array query_damage_types()
+string *query_damage_types()
 {
   return copy(damage);
 }

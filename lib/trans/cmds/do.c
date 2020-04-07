@@ -9,7 +9,7 @@ inherit CMD;
 
 void main(string arg)
 {
-  string array cmds;
+  string *cmds;
 
   if (!arg)
     return write("Syntax : do <cmd_1>;...;<cmd_n>\n");

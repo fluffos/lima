@@ -11,7 +11,7 @@
 void stop_attacking();
 
 private nosave object target;
-private nosave object array other_targets = ({});
+private nosave object *other_targets = ({});
 #ifdef TARGETTING_IS_RANDOM
 private nosave int explicit;  // Attack the person we just switch_to()'ed
 #endif
@@ -21,7 +21,7 @@ object query_target()
    return target;
 }
 
-object array query_targets()
+object *query_targets()
 {
    return ({ target }) + other_targets;
 }

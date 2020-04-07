@@ -9,13 +9,13 @@ class flow_set
     int delay;
 }
 
-class flow_set array flow_arr = ({});
+class flow_set *flow_arr = ({});
 
 void add_hook( string tag, function hook );
 
 void object_action( object obj, string msg, object where )
 {
-    string array msgs = M_MESSAGES->action(({}), msg, obj);
+    string *msgs = M_MESSAGES->action(({}), msg, obj);
     msg = msgs[0];
     tell_from_inside( where, msg );
 }
@@ -44,7 +44,7 @@ void fall_through( object obj)
     }
 }
 
-void set_flow( mapping array flows )
+void set_flow( mapping *flows )
 {
     foreach( mapping fs in flows )
     {

@@ -75,7 +75,7 @@ string long()
   return ret;
 }
 
-protected string array discarded_message, plural_discarded_message;
+protected string *discarded_message, plural_discarded_message;
 
 string untouched_long() {
     return untouched_long;

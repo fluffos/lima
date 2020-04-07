@@ -11,8 +11,8 @@ inherit CMD;
 
 private void main( mixed * arg )
 {
-  string array targets;
-  string array bodies = bodies()->query_userid();
+  string *targets;
+  string *bodies = bodies()->query_userid();
   object curr_body;
 
   outf("%-13s%-30s%-s\n","Who","File","Room");

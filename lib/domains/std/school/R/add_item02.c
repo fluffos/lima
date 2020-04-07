@@ -6,7 +6,7 @@ void setup(){
     set_long(@MAY
 
 You can use one description to relate to multiple names.
-Just include all the alternatives as an array at the beginning.
+Just include all the alternatives as an *at the beginning.
 
   add_item( "desk", "table", "furniture" ,
       ([ "look" :

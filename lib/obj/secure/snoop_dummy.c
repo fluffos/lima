@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-object array snoopers = ({});
+object *snoopers = ({});
 string buf = "";
 string header;
 
@@ -18,7 +18,7 @@ void create(string name)
   header = name + "% ";
 }
 
-object array get_snoopers()
+object *get_snoopers()
 {
   if(previous_object() != find_object(SNOOP_D))
     {

@@ -93,14 +93,14 @@ varargs void check_msg(string str,int type) {
 }
 
 varargs void
-receive_inside_msg(string msg,object array exclude,int message_type,mixed other)
+receive_inside_msg(string msg,object *exclude,int message_type,mixed other)
 {
   ::receive_inside_msg(msg,exclude,message_type,other);
   check_msg(msg,LISTEN_INSIDE);
 }
 
 varargs void
-receive_outside_msg(string msg, object array exclude,int message_type,mixed other)
+receive_outside_msg(string msg, object *exclude,int message_type,mixed other)
 {
   ::receive_outside_msg(msg,exclude,message_type,other);
   check_msg(msg,LISTEN_OUTSIDE);

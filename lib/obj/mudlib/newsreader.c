@@ -32,8 +32,8 @@ private nosave string   current_group;
 private nosave int      current_id;
 private nosave int      current_thread;
 private nosave int      queue_position;
-private nosave int array message_queue=({});
-private nosave int array all_messages=({});
+private nosave int *message_queue=({});
+private nosave int *all_messages=({});
 private nosave mapping active_messages=([]);
 private nosave mapping unread_cache=([]);
 
@@ -113,7 +113,7 @@ private int get_lowest_unread_thread_id(string group)
 }
 
 private void receive_search(int flag, string str) {
-    mixed array results;
+    mixed *results;
     if(!sizeof(str))
       {
         write( "You must specify a search.\n");
@@ -139,7 +139,7 @@ private int count_active_messages(string group)
 private int count_unread_messages(string group)
 {
   string unread=get_unread_ids(group);
-  int array ids=active_messages[group];
+  int *ids=active_messages[group];
   int i;
   foreach(int id in ids)
     {
@@ -456,7 +456,7 @@ private nomask void previous_message()
 
 private nomask void next_message()
 {
-  int array old_queue;
+  int *old_queue;
   queue_position++;
   if(queue_position>=sizeof(message_queue))
     {
@@ -514,8 +514,8 @@ string format_message_line(int short_fmt, int id,int all)
 
 private nomask void display_messages(int display_all)
 {
-    int array ids;
-    string array lines;
+    int *ids;
+    string *lines;
     if ( !display_all )
       {
 	ids=message_queue;

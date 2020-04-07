@@ -28,7 +28,7 @@ private mixed base=this_object();/* The base directory to determine exit
  * PROTOTYPES
  */
 string query_primary_id();
-string array list_methods();
+string *list_methods();
 string the_short();
 string query_primary_name();
 
@@ -43,11 +43,11 @@ int is_exit()
     return 1;
 }
 
-private string array all_methods_matched(string method)
+private string *all_methods_matched(string method)
 {
     string verb;
     string prep;
-    string array matches=({});
+    string *matches=({});
     /* The first word of the method is expected to be the verb, the rest is 
      * a preposition, if it exists.  If it is only one word, that is the verb */
     if(sscanf(method,"%s %s",verb,prep)==2)
@@ -68,13 +68,13 @@ private string array all_methods_matched(string method)
     return matches;
 }
 
-/* Return an array of all of the methods which might match the method passed
+/* Return an *of all of the methods which might match the method passed
  * to the function.  It breaks down the preposition to it's lowest form before
  * making its determination, allowing for the fullest range of possible forms.
  */
-private string array methods_matched(string method)
+private string *methods_matched(string method)
 {
-    string array matches=all_methods_matched(method);
+    string *matches=all_methods_matched(method);
     /* We only want to return those matches which are also methods on this object
      * so eliminate those that aren't */
     matches=filter(matches, (: member_array($1,list_methods() ) > -1 :) );
@@ -90,7 +90,7 @@ int prime_method(string method)
 {
     string verb;
     string prep;
-    string array matches=({});
+    string *matches=({});
     /* The first word of the method is expected to be the verb, the rest is 
      * a preposition, if it exists.  If it is only one word, that is the verb */
     if(sscanf(method,"%s %s",verb,prep)==2)
@@ -176,13 +176,13 @@ string query_direction()
 //Setup a go method.  The first argument is the verb to be used, the second 
 //argument is the destination to move the body to when invoked successfully,
 //the third argument is the check to be performed before invoking the method
-//the fourth argument is an array of possible exit messages, and the fifth
-//argument is an array of possible enter messages.  Only the first two
+//the fourth argument is an *of possible exit messages, and the fifth
+//argument is an *of possible enter messages.  Only the first two
 //arguments are required, the rest are optional.
-varargs void set_method(string method,mixed destination,mixed checks,mixed array exit_messages,mixed array enter_messages)
+varargs void set_method(string method,mixed destination,mixed checks,mixed *exit_messages,mixed *enter_messages)
 {
     class move_data new_method=new(class move_data);
-    string array matches=all_methods_matched(method);
+    string *matches=all_methods_matched(method);
     if(sizeof(matches)!=1&&!prime_method(method))
     {
 	error(sprintf("Cannot set method '%s'.  Method is either too ambiguous "
@@ -216,10 +216,10 @@ varargs void set_method(string method,mixed destination,mixed checks,mixed array
 //Add a go method.  The first argument is the verb to be used, the second 
 //argument is the destination to move the body to when invoked successfully,
 //the third argument is the check to be performed before invoking the method
-//the fourth argument is an array of possible exit messages, and the fifth
-//argument is an array of possible enter messages.  Only the first two
+//the fourth argument is an *of possible exit messages, and the fifth
+//argument is an *of possible enter messages.  Only the first two
 //arguments are required, the rest are optional.
-varargs void add_method(string method,mixed destination,mixed checks,mixed array exit_messages,mixed array enter_messages)
+varargs void add_method(string method,mixed destination,mixed checks,mixed *exit_messages,mixed *enter_messages)
 {
     set_method(method,destination,checks,exit_messages,enter_messages);
 }
@@ -233,7 +233,7 @@ void remove_method(string method)
 
 //:FUNCTION list_methods
 //Return a list of arrays of all of the current go methods of the exit
-string array list_methods()
+string *list_methods()
 {
     return keys(methods);
 }
@@ -241,7 +241,7 @@ string array list_methods()
 //:FUNCTION has_method
 //Return true if the method exists
 int has_method(string method) {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	return 0;
     return 1;
@@ -252,7 +252,7 @@ int has_method(string method) {
 //pointer, or string.
 void set_method_checks(string method,mixed checks)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to set_method_checks on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -267,7 +267,7 @@ void set_method_checks(string method,mixed checks)
 //which is the error message received by the body.
 mixed query_method_checks(string method)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to query_method_checks on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -284,7 +284,7 @@ mixed query_method_checks(string method)
 //a string.
 void set_method_destination(string method,mixed destination)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to set_method_destination on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -297,7 +297,7 @@ void set_method_destination(string method,mixed destination)
 //The argument is the method being checked
 mixed query_method_destination(string method)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     mixed ret;
     if(!sizeof(applicable_methods))
 	error("Attempted to query_method_destination on a nonexistant method");
@@ -311,12 +311,12 @@ mixed query_method_destination(string method)
 
 //:FUNCTION set_method_enter_messages
 //Set the enter messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an array of 
+//Acceptable arguments are strings, or function pointers, or an *of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is entering
-varargs void set_method_enter_messages(string method,mixed array messages...)
+varargs void set_method_enter_messages(string method,mixed *messages...)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to set_method_enter_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -326,12 +326,12 @@ varargs void set_method_enter_messages(string method,mixed array messages...)
 
 //:FUNCTION add_method_enter_messages
 //Add the enter messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an array of 
+//Acceptable arguments are strings, or function pointers, or an *of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is entering
 varargs void add_method_enter_messages(string method,mixed messages...)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to add_method_enter_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -341,12 +341,12 @@ varargs void add_method_enter_messages(string method,mixed messages...)
 
 //:FUNCTION remove_method_enter_messages
 //Remove the enter messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an array of 
+//Acceptable arguments are strings, or function pointers, or an *of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is entering
 varargs void remove_method_enter_messages(string method,mixed messages...)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to remove_method_enter_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -359,7 +359,7 @@ varargs void remove_method_enter_messages(string method,mixed messages...)
 //The method is to be seen by the bodies in the room that the body is entering
 string query_method_enter_message(string method)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     mixed ret;
 
     if(!sizeof(applicable_methods))
@@ -370,7 +370,7 @@ string query_method_enter_message(string method)
 	return;
 
     ret=methods[applicable_methods[0]]->enter_messages;
-    /* We know that ret has to be an array at this point, select one element
+    /* We know that ret has to be an *at this point, select one element
      * randomly */
     ret=ret[random(sizeof(ret))];
     /* Evaluate it on the chance it's a function pointer */
@@ -379,10 +379,10 @@ string query_method_enter_message(string method)
 }
 
 //:FUNCTION list_method_enter_messages
-//Return an array of the method's enter messages
-mixed array list_method_enter_messages(string method)
+//Return an *of the method's enter messages
+mixed *list_method_enter_messages(string method)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to list_method_enter_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -392,12 +392,12 @@ mixed array list_method_enter_messages(string method)
 
 //:FUNCTION set_method_exit_messages
 //Set the exit messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an array of 
+//Acceptable arguments are strings, or function pointers, or an *of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is exiting
 varargs void set_method_exit_messages(string method,mixed messages...)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to set_method_exit_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -407,12 +407,12 @@ varargs void set_method_exit_messages(string method,mixed messages...)
 
 //:FUNCTION add_method_exit_messages
 //Add the exit messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an array of 
+//Acceptable arguments are strings, or function pointers, or an *of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is exiting
 varargs void add_method_exit_messages(string method,mixed messages...)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to add_method_exit_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -422,12 +422,12 @@ varargs void add_method_exit_messages(string method,mixed messages...)
 
 //:FUNCTION remove_method_exit_messages
 //Remove the exit messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an array of 
+//Acceptable arguments are strings, or function pointers, or an *of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is exiting
 varargs void remove_method_exit_messages(string method,mixed messages...)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to remove_method_exit_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -440,7 +440,7 @@ varargs void remove_method_exit_messages(string method,mixed messages...)
 //The method is to be seen by the bodies in the room that the body is exiting
 string query_method_exit_message(string method)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     mixed ret;
 
     if(!sizeof(applicable_methods))
@@ -451,7 +451,7 @@ string query_method_exit_message(string method)
 	return;
 
     ret=methods[applicable_methods[0]]->exit_messages;
-    /* We know that ret has to be an array at this point, select one element
+    /* We know that ret has to be an *at this point, select one element
      * randomly */
     ret=ret[random(sizeof(ret))];
     /* Evaluate it on the chance it's a function pointer */
@@ -460,10 +460,10 @@ string query_method_exit_message(string method)
 }
 
 //:FUNCTION list_method_exit_messages
-//Return an array of the method's exit messages
-mixed array list_method_exit_messages(string method)
+//Return an *of the method's exit messages
+mixed *list_method_exit_messages(string method)
 {
-    string array applicable_methods=methods_matched(method);
+    string *applicable_methods=methods_matched(method);
     if(!sizeof(applicable_methods))
 	error("Attempted to list_method_exit_messages on a nonexistant method");
     if(sizeof(applicable_methods)>1)
@@ -478,7 +478,7 @@ mixed complex_exit_direct_verb_rule(string verb,string rule,mixed args...)
 //second_part,mixed third)
 {
     string prep;
-    string array matches;
+    string *matches;
     string method;
     /* The first argument is always the verb used. */
     /* The second argument is the rule used.  For our purposes it should always

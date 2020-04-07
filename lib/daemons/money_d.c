@@ -38,7 +38,7 @@ private mapping rates = ([ ]);
 //Mapping of currency names to plural of the names
 private mapping plurals = ([ ]);
 
-//Mapping of currency names to sorted array of denomination names
+//Mapping of currency names to sorted *of denomination names
 private mapping denominations = ([ ]);
 
 //Mapping of denomination name to class denomination
@@ -72,9 +72,9 @@ nomask string *query_currency_types() {
 }
 
 //:FUNCTION query_denominations
-//Returns the array of denominations of a currency 
+//Returns the *of denominations of a currency 
 //or all available denominations
-varargs nomask string array query_denominations(string type) {
+varargs nomask string *query_denominations(string type) {
   if (type) {
     return denominations[singular_name(type)];
   } 
@@ -285,7 +285,7 @@ mapping calculate_denominations(float f_amount, string currency) {
 varargs nomask string currency_to_string(mixed money, string currency) {
   int amount;
   string name, str = "";
-  string array types;
+  string *types;
   
   if (currency) {
     currency = singular_name(currency);
@@ -319,9 +319,9 @@ varargs nomask string currency_to_string(mixed money, string currency) {
 
 //:FUNCTION handle_subtract_money
 //substracts an amount of currency from a player and adds change.
-//returns an array of two mappings: substract and change, which
+//returns an *of two mappings: substract and change, which
 //consist of the denominations which were used.
-mapping array handle_subtract_money(object player, float f_amount, 
+mapping *handle_subtract_money(object player, float f_amount, 
 				     string type) {
   mapping substract = ([ ]), change;
   int amount;
@@ -330,7 +330,7 @@ mapping array handle_subtract_money(object player, float f_amount,
   if (is_currency(type)) {
     
     mapping money = player->query_money();
-    string array types = denominations[type];
+    string *types = denominations[type];
     string currency = type;
     for (int i = sizeof(types) - 1; i >= 0; i--) {
       type = types[i];

@@ -17,7 +17,7 @@ int calculate_damage()
 
 void cast_spell(object ob, object reagent)
 {
-    object array targets;
+    object *targets;
 
     if ( !ob )
     {

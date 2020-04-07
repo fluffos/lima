@@ -59,8 +59,8 @@ private nomask void show_banishes(string header, class banish_data *list)
 
 nomask void show_registered_users()
 {
-  string array users=BANISH_D->get_registered();
-  string array result;
+  string *users=BANISH_D->get_registered();
+  string *result;
   if(!sizeof(users))
     {
       write("No users registered.\n");
@@ -72,7 +72,7 @@ nomask void show_registered_users()
   return;
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "L",

@@ -196,7 +196,7 @@ private nomask void receive_days_for_purge(string days)
     modal_simple((: confirm_purge, times :));
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "n",

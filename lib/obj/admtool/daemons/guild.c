@@ -26,7 +26,7 @@ nomask string module_key()
 
 private nomask void list_guilds()
 {
-  string array guilds = sort_array(GUILD_D->query_guilds(), 1);
+  string *guilds = sort_array(GUILD_D->query_guilds(), 1);
 
   if(sizeof(guilds) == 0)
   {
@@ -44,7 +44,7 @@ private nomask void list_guilds()
 private nomask void show_guild(string name)
 {
   string str, temp;
-  string array ary;
+  string *ary;
   int i;
 
   str = "Name: " + capitalize(name) + "\n";
@@ -129,7 +129,7 @@ private nomask void set_title(string name)
   modal_simple( (: set_title2, name :), "Title? ");
 }
 
-private nomask void send_prospectus(string name, string array lines)
+private nomask void send_prospectus(string name, string *lines)
 {
   GUILD_D->set_guild_prospectus(name, implode(lines, " "));
 }
@@ -247,7 +247,7 @@ private nomask void need_all(string name)
   }
 }
 
-nomask class command_info array module_commands() 
+nomask class command_info *module_commands() 
 {
   return ({
     new(class command_info,

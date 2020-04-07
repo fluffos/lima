@@ -20,7 +20,7 @@ private int filter_removed(object brd, int elem) {
 
 private void main(string arg) {
     object ob, brd;
-    int array ids;
+    int *ids;
     int id;
     class news_msg msg;
 

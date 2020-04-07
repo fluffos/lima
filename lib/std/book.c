@@ -25,13 +25,13 @@ nosave function extra_long_hook=(:extra_long_hook_func:);
 
 private nomask mixed page_first()
 {
-  string array pages=sort_array(map(list_entries(),(:to_int:)),1);
+  string *pages=sort_array(map(list_entries(),(:to_int:)),1);
   return sprintf("%i",pages[0]);
 }
 
 private nomask mixed page_before(string first)
 {
-  string array pages=sort_array(map(list_entries(),(:to_int:)),1);
+  string *pages=sort_array(map(list_entries(),(:to_int:)),1);
   if(!query_entry(first))
     first=query_synonym(first);
   if(!query_entry(first))
@@ -43,7 +43,7 @@ private nomask mixed page_before(string first)
 
 private nomask mixed page_after(string first)
 {
-  string array pages=sort_array(map(list_entries(),(:to_int:)),1);
+  string *pages=sort_array(map(list_entries(),(:to_int:)),1);
   if(!query_entry(first))
     first=query_synonym(first);
   if(!query_entry(first))
@@ -159,10 +159,10 @@ private nomask string query_last_page()
 }
 
 //:FUNCTION set_pages
-//Set the pages that are in the book.  Each element of the array is the text
+//Set the pages that are in the book.  Each element of the *is the text
 //that appears on the page.  The elements can be either the text that is on the
 //page, a filename, or a function pointer that generates one of these.
-void set_pages(mixed array page_data...)
+void set_pages(mixed *page_data...)
 {
   int counter=0;
   clear_entries();
@@ -176,7 +176,7 @@ void set_pages(mixed array page_data...)
 //:FUNCTION add_pages
 //Add pages to the existing pages of the book.
 //See set_pages()
-void add_pages(string array page_data...)
+void add_pages(string *page_data...)
 {
   int counter=to_int(query_last_page());
   foreach(string page in flatten_array(page_data))
@@ -190,7 +190,7 @@ void add_pages(string array page_data...)
 //Remove pages from the existing pages of the book.
 //The arguments passed to remove_pages() are the page numbers to be removed.
 //See set_pages()
-void remove_pages(mixed array pagenum...)
+void remove_pages(mixed *pagenum...)
 {
   foreach(mixed page in flatten_array(pagenum))
     {
@@ -204,7 +204,7 @@ void remove_pages(mixed array pagenum...)
 
 //:FUNCTION list_pages
 //Return all of the pages in the book in an array.
-string array list_pages()
+string *list_pages()
 {
   return list_entries();
 }
@@ -236,7 +236,7 @@ void add_contents(mapping additions)
 //:FUNCTION remove_contents
 //Remove contents from the existing contents
 //See set_contents()
-void remove_contents(string array headings...)
+void remove_contents(string *headings...)
 {
   foreach(string heading in flatten_array(headings))
     remove_synonym(headings);

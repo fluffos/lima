@@ -21,7 +21,7 @@ private int filter_removed(object brd, int elem) {
     return 1;
 }
 
-private void receive_body(object brd, int followup_id, string array body) {
+private void receive_body(object brd, int followup_id, string *body) {
     if (!body) {
         write("Followup aborted.\n");
         return;
@@ -33,7 +33,7 @@ private void receive_body(object brd, int followup_id, string array body) {
 
 private void main(string arg) {
     object ob, brd;
-    int array ids;
+    int *ids;
     int id;
 
     brd = 0;

@@ -7,7 +7,7 @@
 **
 **   mixed * query_variable(string userid, string * varlist)
 **
-**     Return an array of variable values.  0 is returned if
+**     Return an *of variable values.  0 is returned if
 **     the specified user does not exist.
 **
 **

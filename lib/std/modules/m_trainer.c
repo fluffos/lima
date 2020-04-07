@@ -15,7 +15,7 @@ mapping trainer_msgs = ([
 
 void set_trainer_msgs( mapping msgs )
 {
-    string array msg_names = keys( trainer_msgs );
+    string *msg_names = keys( trainer_msgs );
     foreach( string key, string msg in msgs )
     {
 	if( !member_array( key, msg_names ) + 1 )
@@ -25,9 +25,9 @@ void set_trainer_msgs( mapping msgs )
 }
 
 
-void set_train_restrict( array restrictions )
+void set_train_restrict( *restrictions )
 {
-    string array valid_skills = SKILL_D->query_skills();
+    string *valid_skills = SKILL_D->query_skills();
 
     foreach( string skill, string restriction in restrictions )
     {

@@ -20,8 +20,8 @@
  * id NEWS_D->post(group, subject, message)
  * id NEWS_D->followup(group, id, message)
  * message NEWS_D->get_message(group, id)
- * id array NEWS_D->get_messages(group)
- * id array NEWS_D->get_thread(group, thread)
+ * id *NEWS_D->get_messages(group)
+ * id *NEWS_D->get_thread(group, thread)
  * NEWS_D->get_groups()
  * varargs id NEWS_D->system_post(group, subject, message, poster)  (poster optional)
  *
@@ -214,7 +214,7 @@ nomask mapping get_mail_forward()
   return mail_forward;
 }
 
-nomask string array query_mail_forward(string group)
+nomask string *query_mail_forward(string group)
 {
   if(!check_privilege("Mudlib:daemons"))
     return 0;
@@ -276,10 +276,10 @@ nomask mapping list_restrictions()
 nomask int is_write_restricted(string group)
 {
   string closest="";
-  mixed array restrict;
+  mixed *restrict;
   string whoami=this_user()->query_userid();
   string rest;
-  mixed array priv;
+  mixed *priv;
   /* Never ever restrict the administration from being able to access a
    * newsgroup */
   if(adminp(whoami))
@@ -344,10 +344,10 @@ nomask int is_write_restricted(string group)
 nomask int is_read_restricted(string group)
 {
   string closest="";
-  mixed array restrict;
+  mixed *restrict;
   string whoami;
   string rest;
-  mixed array priv;
+  mixed *priv;
   /* Never ever restrict the administration from being able to access a
    * newsgroup */
   if(!this_user())
@@ -654,7 +654,7 @@ nomask void remove_post(string group, int id)
 
 varargs nomask int * get_messages(string group, int no_removed)
 {
-    array ret = keys(data[group]) - ({ "next_id" });
+    *ret = keys(data[group]) - ({ "next_id" });
     
     if(is_read_restricted(group))
       return 0;
@@ -686,7 +686,7 @@ nomask int * get_thread(string group, int thread)
 		       == $(thread) :) );
 }
 
-nomask int array get_thread_ids(string group)
+nomask int *get_thread_ids(string group)
 {
   if(is_read_restricted(group))
      return 0;
@@ -695,7 +695,7 @@ nomask int array get_thread_ids(string group)
 
 nomask string * get_groups()
 {
-    string array ret;
+    string *ret;
 
     // filter before sorting; the func is typically pretty cheap, and
     // and calling them all is O(n).  Sorting the list first is more
@@ -862,8 +862,8 @@ void dump(string path) {
     write_file(path, ret);
 }
 
-array search_for(string what) {
-    array ret = ({});
+*search_for(string what) {
+    *ret = ({});
     
     foreach (string group, mapping contents in data) {
         foreach (mixed id, class news_msg post in contents) {
@@ -877,8 +877,8 @@ array search_for(string what) {
     return ret;
 }
 
-array search_for_author(string who) {
-    array ret = ({});
+*search_for_author(string who) {
+    *ret = ({});
     
     foreach (string group, mapping contents in data) {
         foreach (mixed id, class news_msg post in contents) {
@@ -906,7 +906,7 @@ private nomask int sort_messages_by_thread(int first,int second,string group)
   return 1;
 }
 
-nomask string array get_threads(string group)
+nomask string *get_threads(string group)
 {
   return threading_data[group];
 }

@@ -20,8 +20,8 @@
  * id NEWS_D->post(group, subject, message)
  * id NEWS_D->followup(group, id, message)
  * message NEWS_D->get_message(group, id)
- * id array NEWS_D->get_messages(group)
- * id array NEWS_D->get_thread(group, thread)
+ * id *NEWS_D->get_messages(group)
+ * id *NEWS_D->get_thread(group, thread)
  * NEWS_D->get_groups()
  * varargs id NEWS_D->system_post(group, subject, message, poster)  (poster optional)
  *
@@ -415,14 +415,14 @@ nomask int * get_thread(string group, int thread)
 
 nomask string * get_groups()
 {
-    string array ret;
+    string *ret;
 
     // filter before sorting; the func is typically pretty cheap, and
     // and calling them all is O(n).  Sorting the list first is more
     // expensive
     ret = filter(keys(data), function(string group)
       {
-	  array a;
+	  *a;
 	  string prefix;
 	  function f;
 	  int i = member_array('.', group, 1) - 1;
@@ -443,7 +443,7 @@ nomask string * get_groups()
 nomask int query_write_to_group( string group )
 {
     function f;
-    array a;
+    *a;
 
     string prefix;
     int i = member_array('.', group, 1) - 1;
@@ -596,8 +596,8 @@ nomask void change_header( string group, int id, string header )
     return;
 }
 
-array search_for(string what) {
-    array ret = ({});
+*search_for(string what) {
+    *ret = ({});
     
     foreach (string group, mapping contents in data) {
 	foreach (mixed id, class news_msg post in contents) {
@@ -612,8 +612,8 @@ array search_for(string what) {
     return ret;
 }
 
-array search_for_author(string who) {
-    array ret = ({});
+*search_for_author(string who) {
+    *ret = ({});
     
     foreach (string group, mapping contents in data) {
 	foreach (mixed id, class news_msg post in contents) {

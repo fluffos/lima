@@ -10,10 +10,10 @@
 #define WIZ_CHANNELS ({"wiz", "errors", "announce", "news" })
 
 void save_me();
-varargs void receive_private_msg(string msg,object array exclude, 
+varargs void receive_private_msg(string msg,object *exclude, 
 				 int message_type,mixed other);
 
-private string array channel_list;
+private string *channel_list;
 
 /* 
  * Set up channels for the new player and/or wiz
@@ -60,7 +60,7 @@ void remove_channel(string which_channel) {
 
 //:FUNCTION query_channel_list
 //List all of the channels that the user is listening to.
-string array query_channel_list() {
+string *query_channel_list() {
     return channel_list;
 }
 
@@ -69,7 +69,7 @@ void channel_rcv_string(string channel_name, string msg)
   receive_private_msg(msg);
 }
 
-void channel_rcv_soul(string channel_name, array data)
+void channel_rcv_soul(string channel_name, mixed *data)
 {
     string msg;
 

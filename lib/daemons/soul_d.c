@@ -52,7 +52,7 @@ string stat_me()
 }
 
 int
-add_emote(string verb, mixed rule, string array parts)
+add_emote(string verb, mixed rule, string *parts)
 {
 /*
     if( base_name( previous_object()) != CMD_ADD_EMOTE )
@@ -359,10 +359,10 @@ mixed *parse_imud_soul(string str) {
     if(sscanf(str,"%s@%s",user,tmp)==2)
     {
       
-      string array muds=IMUD_D->query_up_muds();
-      string array words=explode(tmp," ");
-      string array matches;
-      string array previous_matches=muds;
+      string *muds=IMUD_D->query_up_muds();
+      string *words=explode(tmp," ");
+      string *matches;
+      string *previous_matches=muds;
       string emote;
       int j=sizeof(words);
       

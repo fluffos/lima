@@ -14,7 +14,7 @@ nomask string module_key()
 
 private nomask void list_damage_types()
 {
-  string array types = sort_array(DAMAGE_D->query_damage_types(), 1);
+  string *types = sort_array(DAMAGE_D->query_damage_types(), 1);
 
   if(sizeof(types) == 0)
     write("There are no damage types defined.\n");
@@ -34,7 +34,7 @@ private nomask void remove_damage_type(string name)
   printf("Damage type \"%s\" has been removed.\n", name);
 }
 
-nomask class command_info array module_commands() 
+nomask class command_info *module_commands() 
 {
   return ({
     new(class command_info,

@@ -18,7 +18,7 @@ void create() {
     clear_flag(NEED_TO_BE_ALIVE);
 
     add_rules( ({ "", "STR OBJ","STR","WRD OBJ","at OBJ", "for OBS",
-		      "at OBS with OBJ" }) );
+		      "at OBS with OBJ", "at STR" }) );
 
     add_rules( ({ "OBS", "OBS with OBJ" }), ({ "examine" }) );
 }
@@ -45,7 +45,12 @@ void do_look_at_obj(object ob, string name) {
     write(str);
 }
 
-void do_look_at_obs(array info, string name) {
+void do_look_at_str(string prep)
+{
+    environment(this_body())->do_look_at_str(prep);
+}
+
+void do_look_at_obs(string *info, string name) {
     handle_obs(info, (: do_look_at_obj :), name);
 }
 
@@ -57,7 +62,7 @@ void do_look_obj(object ob, string name) {
     do_look_at_obj(ob, name);
 }
 
-void do_look_obs(array info, string name) {
+void do_look_obs(string *info, string name) {
     handle_obs(info, (: do_look_at_obj :), name);
 }
 
@@ -66,7 +71,7 @@ void do_look_at_obj_with_obj(object o1, object o2) {
     o2->use("look", o1);
 }
 
-void do_look_at_obs_with_obj(array info, object o2) {
+void do_look_at_obs_with_obj(string *info, object o2) {
     handle_obs(info, (: do_look_at_obj_with_obj :), o2);
 }
 
@@ -74,7 +79,7 @@ void do_look_obj_with_obj(object o1, object o2) {
     do_look_at_obj_with_obj(o1, o2);
 }
 
-void do_look_obs_with_obj(array info, object o2) {
+void do_look_obs_with_obj(string *info, object o2) {
     handle_obs(info, (: do_look_at_obj_with_obj :), o2);
 }
 
@@ -119,7 +124,7 @@ string look_for_phrase(object ob) {
     return env->query_prep(ob) + " " + env->the_short();
 }
 
-void do_look_for_obs(array info) {
+void do_look_for_obs(string *info) {
     mixed ua;
     int i, n;
     string res;

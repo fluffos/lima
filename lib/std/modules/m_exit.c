@@ -13,7 +13,7 @@
 inherit "/std/classes/move";
 
 private mapping exits = ([]);
-private string array hidden_exits = ({});
+private string *hidden_exits = ({});
 private string default_error;
 private string default_desc;
 private mixed default_exit_message;
@@ -22,10 +22,10 @@ private mixed default_check;
 private mixed default_desc;
 private nosave mixed base=(:file_name(this_object())[0..strsrch(file_name(this_object()),'/',-1)] :);
 
-varargs mixed call_hooks(string tag,mixed func,mixed start,array args...);
+varargs mixed call_hooks(string tag,mixed func,mixed start,mixed *args...);
 mixed query_exit_check(string);
 mapping debug_exits();
-string array query_hidden_exits();
+string *query_hidden_exits();
 
 /* 
  * DEFAULTS AND ERRORS
@@ -103,9 +103,9 @@ string query_default_error()
 //Return all of the exit directions controlled by the exit object
 //The optional argument determines whether hidden exits are included in this 
 //list.  If nonnull, they are included
-varargs string array query_exit_directions(int show_hidden)
+varargs string *query_exit_directions(int show_hidden)
 {
-  string array dirs = keys( exits );
+  string *dirs = keys( exits );
   object exit_obs=filter(all_inventory(this_object()),
 			 (: $1->is_exit() && $1->query_obvious_description() :) );
   foreach(object exit_ob in exit_obs)
@@ -125,7 +125,7 @@ varargs string array query_exit_directions(int show_hidden)
 string show_exits()
 {
   string exit_str;
-  string array exit_names;
+  string *exit_names;
   exit_names = query_exit_directions(0);
   exit_str = ((sizeof(exit_names)) ? implode(exit_names,", ") :"none");
 #ifdef WIZARDS_SEE_HIDDEN_EXITS
@@ -160,7 +160,7 @@ string query_enter_msg(string direction)
 //This message will be displayed in the destination room.
 //The message can be a fucntion pointer or a string.
 //If multiple messages are passed, a random one will be selected when invoked
-void set_enter_msg(string direction, mixed array message...)
+void set_enter_msg(string direction, mixed *message...)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -175,7 +175,7 @@ void set_enter_msg(string direction, mixed array message...)
 //Add an additional enter message to a given exit.
 //The message can be a function pointer or a string
 //If multiple messages are passed, a random one will be selected when invoked
-void add_enter_msg(string direction, mixed array message...)
+void add_enter_msg(string direction, mixed *message...)
 {  
   object which=present(direction);
   if(which && which->is_exit())
@@ -188,7 +188,7 @@ void add_enter_msg(string direction, mixed array message...)
 
 //:FUNCTION remove_enter_msg
 //Remove an enter emssage from a given exit.
-void remove_enter_msg(string direction, mixed array message...)
+void remove_enter_msg(string direction, mixed *message...)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -201,7 +201,7 @@ void remove_enter_msg(string direction, mixed array message...)
 
 //:FUNCTION list_enter_msgs
 //Return all possible enter messages for a given exit
-mixed array list_enter_msgs(string direction)
+mixed *list_enter_msgs(string direction)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -225,7 +225,7 @@ string query_exit_msg(string direction)
 //:FUNCTION set_exit_msg
 //Set the exit message of a given exit.
 //This message will be displayed in the room the body is leaving
-void set_exit_msg(string direction, mixed array message...)
+void set_exit_msg(string direction, mixed *message...)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -239,7 +239,7 @@ void set_exit_msg(string direction, mixed array message...)
 //:FUNCTION add_exit_msg
 //Add an additional exit message to a given exit.
 //The message can be a function pointer or a string
-void add_exit_msg(string direction, mixed array message...)
+void add_exit_msg(string direction, mixed *message...)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -252,7 +252,7 @@ void add_exit_msg(string direction, mixed array message...)
 
 //:FUNCTION remove_exit_msg
 //Remove an exit emssage from a given exit.
-void remove_exit_msg(string direction, mixed array message...)
+void remove_exit_msg(string direction, mixed *message...)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -265,7 +265,7 @@ void remove_exit_msg(string direction, mixed array message...)
 
 //:FUNCTION list_exit_msgs
 //List all of the possible exit messages for an exit
-mixed array list_exit_msgs(string direction)
+mixed *list_exit_msgs(string direction)
 {
   object which=present(direction);
   if(which && which->is_exit())
@@ -419,7 +419,7 @@ void set_exits( mapping new_exits )
 //This is the list of exits to NOT be shown to the mortals in the room.
 //If "all" is any of the arguements in exits_list all exits for the object 
 //will be marked as hidden regardless to the rest of the arguments.
-void set_hidden_exits( string array exits_list ... )
+void set_hidden_exits( string *exits_list ... )
 {
   if(member_array("all",exits_list)>-1)
     hidden_exits=keys(exits);
@@ -429,7 +429,7 @@ void set_hidden_exits( string array exits_list ... )
 
 //:FUNCTION add_hidden_exit
 //Make a given exit direction a hidden exit.  See set_hidden_exits
-void add_hidden_exit( string array exits_list ... )
+void add_hidden_exit( string *exits_list ... )
 {
   if( sizeof( exits_list ) == 1 && exits_list[0] == "all" )
     hidden_exits = query_exit_directions(1);
@@ -439,7 +439,7 @@ void add_hidden_exit( string array exits_list ... )
 
 //:FUNCTION remove_hidden_exit
 //Make a given exit direction no longer a hidden exit.  See set_hidden_exits
-void remove_hidden_exit( string array exits_list ... )
+void remove_hidden_exit( string *exits_list ... )
 {
   if( sizeof( exits_list ) == 1 && exits_list[0] == "all" )
     hidden_exits = 0;
@@ -449,7 +449,7 @@ void remove_hidden_exit( string array exits_list ... )
 
 //:FUNCTION query_hidden_exits
 //Return all of the hidden exits controlled by the exit object
-string array query_hidden_exits() {
+string *query_hidden_exits() {
   string exit_obs=filter(all_inventory(this_object()), (: $1->is_exit() && $1->query_hidden() :) );
   
   return hidden_exits + exit_obs->query_direction();

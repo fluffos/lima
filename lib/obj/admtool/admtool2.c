@@ -18,8 +18,8 @@ string module_name() {
     return "main";
 }
 
-class command_info array module_commands() {
-    class command_info array ret = ({});
+class command_info *module_commands() {
+    class command_info *ret = ({});
     string dir = base_name();
     string ourname;
     int idx = strsrch(dir, "/", -1);
@@ -53,7 +53,7 @@ protected void heading() {
 	  "%^RESET%^\n");
 }
 
-class command_info array defaults() {
+class command_info *defaults() {
     return ({
 	    new(class command_info), // blank line
 	    new(class command_info,

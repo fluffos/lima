@@ -39,10 +39,10 @@ private void main(string arg)
   string user;
   string host;
   mixed tmp;
-  string array words;
-  string array muds;
-  string array previous_matches;
-  string array matches;
+  string *words;
+  string *muds;
+  string *previous_matches;
+  string *matches;
   int i, j;
   string mystring;
   string deststring;
@@ -63,8 +63,8 @@ private void main(string arg)
 
   if (arg == "/last"|| arg == "/history")
   {
-    string array out=({"History of tells:\n"});
-    string array msgs;
+    string *out=({"History of tells:\n"});
+    string *msgs;
     msgs=this_user()->list_tell_history();
     if(sizeof(msgs))
       out+=msgs;
@@ -121,7 +121,7 @@ private void main(string arg)
 
         if( arg[0] == ';' || arg[0] == ':' )
         {
-          array soul_ret;
+          *soul_ret;
           arg = arg[1..];
           soul_ret = SOUL_D->parse_imud_soul(arg);
 
@@ -176,7 +176,7 @@ private void main(string arg)
 
   if( arg[0] == ':' || arg[0] == ';' )
   {
-    array soul_ret;
+    *soul_ret;
     int tindex;
 
     arg = arg[1..];

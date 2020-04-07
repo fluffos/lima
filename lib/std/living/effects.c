@@ -4,7 +4,7 @@
 
 inherit CLASS_EFFECT;
 
-private array effects = ({}); // Queue of effects to call
+private mixed *effects = ({}); // Queue of effects to call
 nosave private int tag; // Tag for call_out
 
 //:MODULE
@@ -34,7 +34,7 @@ int time_to_next_effect()
 //:FUNCTION actual_period
 // Converts period to an actual interval, with suitable randomisation
 // Formats : int val : period = val
-//           int array ({ fixed, var}) : period = fixed + random(var)
+//           int *({ fixed, var}) : period = fixed + random(var)
 //           function : evaluate it
 int actual_period( mixed val )
 {
@@ -92,11 +92,11 @@ int find_effect_name_index(string name)
 }
 
 //:FUNCTION find_effect_indexes_matching
-// Return array of positions of effects (part-)matching specified name
+// Return *of positions of effects (part-)matching specified name
 // Return ({})
-int array find_effect_indexes_matching(string name)
+int *find_effect_indexes_matching(string name)
 {
-  int array res = ({});
+  int *res = ({});
   if(name)
     for(int i = 0; i<sizeof(effects); i++)
     {
@@ -156,7 +156,7 @@ int remove_effect_named(string name)
 // Return 1 on success, 0 on failure
 int remove_effects_matching(string name)
 {
-  int array matches = find_effect_indexes_matching(name);
+  int *matches = find_effect_indexes_matching(name);
   if(sizeof(matches))
   {
     foreach(int idx in sort_array(matches, -1))
@@ -302,7 +302,7 @@ void clear_effects()
 
 //:FUNCTION query_effects
 // Returns copy of the effects queue
-array query_effects() { return copy(effects); }
+*query_effects() { return copy(effects); }
 
 //:FUNCTION add_effect
 // Adds the specified effect

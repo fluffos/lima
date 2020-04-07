@@ -92,7 +92,7 @@ private nomask void remove_denomination(string denomination) {
   printf("Removed denomination %s from currency %s.\n", denomination, type);
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "c",

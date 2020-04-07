@@ -36,7 +36,7 @@ private void receive_remove_method_equivalent(string method, string equiv)
 
 private void receive_add_method(string method, string equivs)
 {
-   string array tmp = map(explode(equivs, ","), (: trim_spaces :));
+   string *tmp = map(explode(equivs, ","), (: trim_spaces :));
 
    METHOD_D->add_method(method);
    if(sizeof(tmp))
@@ -57,13 +57,13 @@ private void receive_add_method_equivalent(string method, string equiv)
 
 private void list_methods()
 {
-   string array tmp = sort_array(METHOD_D->list_methods(), 1);
+   string *tmp = sort_array(METHOD_D->list_methods(), 1);
    write(implode(tmp, ", ") + "\n\n");
 }
 
 private void list_method_equivalents(string method)
 {
-   string array tmp = METHOD_D->list_method_equivalents(method);
+   string *tmp = METHOD_D->list_method_equivalents(method);
    if(!tmp)
    {
       write("That method does not exist. Use 'a' to add it.\n");
@@ -74,7 +74,7 @@ private void list_method_equivalents(string method)
    }
 }
 
-nomask class command_info array module_commands()
+nomask class command_info *module_commands()
 {
    return ({
       new(class command_info,

@@ -4,7 +4,7 @@ inherit M_ACTIONS;
 inherit MENUS;
 
 void do_menu_setup();
-void set_id(string array id...);
+void set_id(string *id...);
 
 private MENU toplevel;
 private string bank_id          = "unknown", bank_name = "Unknown Bank";
@@ -75,7 +75,7 @@ void set_bank_name(string name)
 
 void show_money()
 {
-   string array currencies = ({ });
+   string *currencies = ({ });
    mapping money = this_body()->query_money();
 
    if(sizeof(money) == 0)
@@ -103,7 +103,7 @@ void show_money()
 
 void show_rates()
 {
-   string array types = MONEY_D->query_currency_types();
+   string *types = MONEY_D->query_currency_types();
 
    if(sizeof(types) == 0)
       write("Sorry, no currencies are defined.\n");
@@ -132,7 +132,7 @@ void exchange4b(string currency1, string denomination2, string answer)
    string  currency2;
    float   rate1, rate2, factor, amount1;
    int     amount2 = to_int(answer);
-   mapping array money_info;
+   mapping *money_info;
 
    if(amount2 > 0)
    {

@@ -31,7 +31,7 @@ inherit MODULE("blows", BLOW_MODULE);
 inherit MODULE("formula", FORMULA_MODULE);
 inherit MODULE("advancement", ADVANCEMENT_MODULE);
 
-void mudlib_setup(mixed array args...)
+void mudlib_setup(mixed *args...)
 {
   living::mudlib_setup(args...);
 // Please read the headers in /std/adversary/mod_config.c before

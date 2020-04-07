@@ -16,7 +16,7 @@ inherit CMD;
 
 private void main()
 {
-  object array ulist = users();
+  object *ulist = users();
   string ustring;
 
   if (sizeof(ulist) <= 0)

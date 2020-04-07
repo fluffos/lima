@@ -18,7 +18,7 @@ private mapping subs = ([
 ]);
 
   string hax0r_letters(string s) {
-    string array r = explode(s,"");
+    string *r = explode(s,"");
     string result = "";
     foreach(string item in r)
       result += subs[item] ? subs[item] : item;
@@ -28,7 +28,7 @@ private mapping subs = ([
 
 string hax0r(string s)
 {
-  string array words;
+  string *words;
 
 
   words = explode(s, " ");

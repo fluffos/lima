@@ -34,7 +34,7 @@ inherit CMD;
 
 private void main(string str)
 {
-  string array info = explode(parse_dump(), "\n");
+  string *info = explode(parse_dump(), "\n");
   string line, verb, rule;
   int ignore = 0;
   int first;

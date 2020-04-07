@@ -1,0 +1,481 @@
+---
+Tue Apr  7 20:17:31 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:18:45 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:19:20 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:19:51 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:21:33 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:22:08 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:23:11 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:23:47 2020
+*Bad argument 1 to call_other()
+Expected: string or array or object Got: 0.
+Object: /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'userinfo_handle_logon' at /secure/user#2 (/secure/user/userinfo.c) at line 175
+'more_file' at /secure/simul_efun (/secure/simul_efun/more.c) at line 71
+'create' at /trans/obj/more_ob#3 at line 302
+'modal_pop' at /trans/obj/more_ob#3 (/secure/modules/m_input.c) at line 48
+---
+Tue Apr  7 20:24:32 2020
+*Error in loading object '/trans/obj/wish'
+Object: /secure/user#2 (/secure/user/shell.c) at line 32
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'got_entry' at /secure/user#2 (/secure/user/sw_body.c) at line 279
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 141
+'start_shell' at /secure/user#2 (/secure/user/shell.c) at line 32
+---
+Tue Apr  7 20:25:13 2020
+*Error in loading object '/std/modules/m_exit'
+Object: /std/race/orc#4 (/std/body/start.c) at line 40
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+---
+Tue Apr  7 20:25:45 2020
+*Error in loading object '/std/base_room'
+Object: /std/race/orc#4 (/std/body/start.c) at line 40
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+---
+Tue Apr  7 20:26:17 2020
+*Error in loading object '/std/base_room'
+Object: /std/race/orc#4 (/std/body/start.c) at line 40
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+---
+Tue Apr  7 20:26:42 2020
+*Error in loading object '/std/modules/m_conversation'
+Object: /domains/std/Wizroom (/std/container.c) at line 614
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+---
+Tue Apr  7 20:27:13 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:27:53 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:28:23 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:28:59 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:29:16 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:29:45 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:30:40 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:31:09 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:32:14 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:32:43 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:33:07 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:33:26 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:33:46 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:35:57 2020
+*Error in loading object '/secure/daemons/lpscript_d'
+Object: /secure/master at line 23
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 614
+'compile_object' at /secure/master at line 23
+---
+Tue Apr  7 20:36:51 2020
+*Error in loading object '/domains/std/2.4.5/elevator'
+Object: /domains/std/2.4.5/obj/elevator_door#11 (/std/modules/m_sibling.c) at line 47
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'login_handle_logon' at /secure/user#2 (/secure/user/login.c) at line 428
+'sw_body_handle_existing_logon' at /secure/user#2 (/secure/user/sw_body.c) at line 250
+'incarnate' at /secure/user#2 (/secure/user/sw_body.c) at line 142
+'enter_game' at /std/race/orc#4 (/std/body.c) at line 200
+'move_to_start' at /std/race/orc#4 (/std/body/start.c) at line 40
+'create' at /domains/std/Wizroom (/std/base_room.c) at line 83
+'setup' at /domains/std/Wizroom at line 36
+'set_objects' at /domains/std/Wizroom (/std/container.c) at line 707
+'make_objects_if_needed' at /domains/std/Wizroom (/std/container.c) at line 620
+'on_clone' at /domains/std/2.4.5/obj/elevator_door#11 at line 85
+'on_clone' at /domains/std/2.4.5/obj/elevator_door#11 (/std/door.c) at line 102
+'get_sibling' at /domains/std/2.4.5/obj/elevator_door#11 (/std/modules/m_sibling.c) at line 47
+---
+Tue Apr  7 20:38:19 2020
+*Error in loading object '/secure/daemons/cmd_d'
+Object: /trans/obj/wish#5 at line 238
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /trans/obj/wish#5 (/<driver>) at /(fake):0
+'shell_input' at /trans/obj/wish#5 (/obj/secure/shell.c) at line 116
+'execute_command' at /trans/obj/wish#5 at line 238
+---
+Tue Apr  7 20:38:59 2020
+*Error in loading object '/std/modules/m_ansi'
+Object: /std/race/orc#4 (/std/body/naming.c) at line 103
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /trans/obj/wish#5 (/<driver>) at /(fake):0
+'shell_input' at /trans/obj/wish#5 (/obj/secure/shell.c) at line 116
+'execute_command' at /trans/obj/wish#5 at line 250
+'call_main' at /cmds/player/who (/obj/secure/cmd.c) at line 34
+'main' at /cmds/player/who at line 103
+'get_who_string' at /cmds/player/who at line 85
+'query_formatted_desc' at /std/race/orc#4 (/std/body/naming.c) at line 103
+---
+Tue Apr  7 20:39:41 2020
+*Error in loading object '/std/modules/m_ansi'
+Object: /secure/simul_efun (/secure/simul_efun/objcalls.c) at line 144
+
+'<fake>' at /secure/user#2 (/<driver>) at /(fake):0
+'dispatch_modal_input' at /secure/user#2 (/secure/user/inputsys.c) at line 311
+'<fake>' at /trans/obj/wish#5 (/<driver>) at /(fake):0
+'shell_input' at /trans/obj/wish#5 (/obj/secure/shell.c) at line 116
+'execute_command' at /trans/obj/wish#5 at line 238
+'smart_arg_parsing' at /secure/daemons/cmd_d at line 346
+'parse_arg' at /secure/daemons/cmd_d at line 428
+'get_object' at /secure/simul_efun (/secure/simul_efun/objcalls.c) at line 144

@@ -22,7 +22,7 @@
 #ifndef TELL_HISTORY_SAVES
 nosave
 #endif
-private string array tell_history=({});
+private string *tell_history=({});
 
 private nosave string reply;
 
@@ -32,7 +32,7 @@ void add_tell_history(string add) {
   /* Strip trailing \n's */
   if(add[<1]=='\n')
     add=add[0..<2];
-  /* Add the history item to the end of the array */
+  /* Add the history item to the end of the **/
   tell_history+=({add});
   size=sizeof(tell_history);
   if(size>CHANNEL_HISTORY_SIZE) { 
@@ -40,7 +40,7 @@ void add_tell_history(string add) {
   }
 }
 
-string array list_tell_history() {  return copy(tell_history); }
+string *list_tell_history() {  return copy(tell_history); }
 
 void clear_tell_history() { tell_history = ({}); }
 

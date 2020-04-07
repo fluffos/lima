@@ -34,7 +34,7 @@ void update_translations() {
 	translations = ANSI_D->query_translations()[1];
     translations = copy(translations);
     foreach (string code, string value in colours) {
-	string array parts = map(explode(value, ","), (: upper_case :));
+	string *parts = map(explode(value, ","), (: upper_case :));
 	string val = "";
 	
 	foreach (string item in parts) {
@@ -55,7 +55,7 @@ void query_colour(string which) {
     return colours[which];
 }
 
-array query_colours() {
+*query_colours() {
     return keys(colours);
 }
 

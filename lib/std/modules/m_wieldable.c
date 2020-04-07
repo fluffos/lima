@@ -26,7 +26,7 @@ void clear_flag(int);
 private nosave object wielded_by;
 private nosave function move_hook = (: unwield_me :);
 #if WIELD_STYLE != WIELD_SINGLE
-private string array wielding_limbs;
+private string *wielding_limbs;
 #endif
 
 int valid_wield()
@@ -70,7 +70,7 @@ string wielded_attributes()
    return this_body()->get_wield_attributes();
 }
 
-varargs void mark_wielded_by(object which, string array limbs...)
+varargs void mark_wielded_by(object which, string *limbs...)
 {
    wielded_by = which;
 #if WIELD_STYLE != WIELD_SINGLE

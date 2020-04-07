@@ -67,7 +67,7 @@ inherit M_BODY_STATS;
 
 // Global variables --
 private string reply;
-private string array channel_list = ({ });
+private string *channel_list = ({ });
 private string plan;
 private static object link;
 private mixed saved_items;
@@ -493,7 +493,7 @@ void channel_rcv_string(string channel_name, string message)
     receive_private_msg(message);
 }
 
-void channel_rcv_soul(string channel_name, array data)
+void channel_rcv_soul(string channel_name, *data)
 {
     string msg;
 
@@ -635,7 +635,7 @@ string in_room_desc() { return base_in_room_desc() + query_idle_string(); }
 
 #ifdef USE_SKILLS
 
-class combat_result array negotiate_result(class combat_result array result)
+class combat_result *negotiate_result(class combat_result *result)
 {
     result = (class combat_result array)::negotiate_result(result);
 

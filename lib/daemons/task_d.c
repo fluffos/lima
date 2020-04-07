@@ -16,16 +16,16 @@ inherit M_DAEMON_DATA;
 #define TASK_SUB    6
 
 
-nomask private array find_task(string);
+nomask private *find_task(string);
 
-private array tasks = ({});
+private *tasks = ({});
 
 
 //:FUNCTION query_title
 // Return the title for a given task.
 nomask string query_title(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -38,7 +38,7 @@ nomask string query_title(string task_id)
 // Return the description for a given task.
 nomask string query_description(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -51,7 +51,7 @@ nomask string query_description(string task_id)
 // Return the owner of a given task.
 nomask string query_owner(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -64,7 +64,7 @@ nomask string query_owner(string task_id)
 // Return the creation time of a given task.
 nomask string query_creation_time(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -77,7 +77,7 @@ nomask string query_creation_time(string task_id)
 // Return the status of a given task.
 nomask string query_status(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -90,7 +90,7 @@ nomask string query_status(string task_id)
 // Return a particular attribute of the specified task.
 nomask mixed query_attribute(string task_id, string attr)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -103,7 +103,7 @@ nomask mixed query_attribute(string task_id, string attr)
 // Return all attributes of the specified task.
 nomask mixed query_attributes(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -114,9 +114,9 @@ nomask mixed query_attributes(string task_id)
 
 //:FUNCTION query_sub_tasks
 // Return the sub-tasks for a given task.
-nomask array query_sub_tasks(string task_id)
+nomask *query_sub_tasks(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       return 0;
@@ -129,7 +129,7 @@ nomask array query_sub_tasks(string task_id)
 // Set the title of a given task.
 nomask void set_title(string task_id, string title)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!title)
       error("null title");
@@ -146,7 +146,7 @@ nomask void set_title(string task_id, string title)
 // Set the description of a given task.
 nomask void set_description(string task_id, string desc)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       error("unable to find task " + task_id);
@@ -160,7 +160,7 @@ nomask void set_description(string task_id, string desc)
 // Set the owner of a given task.
 nomask void set_owner(string task_id, string owner)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!owner)
       error("null owner");
@@ -177,7 +177,7 @@ nomask void set_owner(string task_id, string owner)
 // Set the status of a given task.
 nomask void set_status(string task_id, string status)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!status)
       error("null status");
@@ -194,7 +194,7 @@ nomask void set_status(string task_id, string status)
 // Set an attribute of a given task.
 nomask void set_attribute(string task_id, string attr, mixed val)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!attr)
       error("null attribute");
@@ -214,7 +214,7 @@ nomask void set_attribute(string task_id, string attr, mixed val)
 // Remove an attribute of a given task.
 nomask void remove_attribute(string task_id, string attr)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!attr)
       error("null attribute");
@@ -231,7 +231,7 @@ nomask void remove_attribute(string task_id, string attr)
 // Clear all attributes of a given task.
 nomask void clear_attributes(string task_id)
 {
-    array task = find_task(task_id);
+    *task = find_task(task_id);
     
     if (!task)
       error("unable to find task " + task_id);
@@ -245,16 +245,16 @@ nomask void clear_attributes(string task_id)
 
 
 //:FUNCTION check_completed
-// Recursively check an array of tasks and
+// Recursively check an *of tasks and
 // return 1 if they are all completed, 0 otherwise.
-nomask private int check_completed(array task_list)
+nomask private int check_completed(*task_list)
 {
     int completed = 0;
     
     if (!task_list || sizeof(task_list) == 0)
       return 1;
     
-    foreach (array task in task_list)
+    foreach (*task in task_list)
       if (task[TASK_STATUS] == "completed")
 	if (check_completed(task[TASK_SUB]))
 	  completed++;
@@ -290,10 +290,10 @@ nomask mixed complete_task(string task_id)
 //:FUNCTION find_task
 // Given a task id, traverse the task array
 // and return the specified task, or 0 if error.
-nomask private array find_task(string task_id)
+nomask private *find_task(string task_id)
 {
-    array arr = tasks;
-    array t_id, task;
+    *arr = tasks;
+    *t_id, task;
     
     if (!task_id)
       return 0;
@@ -320,7 +320,7 @@ nomask private array find_task(string task_id)
 // Returns "0" for a top-level task.
 nomask string resolve_parent_id(string task_id)
 {
-    array parent_id = explode(task_id, ".")[<2..<2];
+    *parent_id = explode(task_id, ".")[<2..<2];
 
     if (sizeof(parent_id) == 0)
       return "0";
@@ -331,7 +331,7 @@ nomask string resolve_parent_id(string task_id)
 
 //:FUNCTION query_task
 // Return a copy of the specified task.
-nomask array query_task(string task_id)
+nomask *query_task(string task_id)
 {
     return copy(find_task(task_id));
 }
@@ -339,9 +339,9 @@ nomask array query_task(string task_id)
 
 //:FUNCTION query_tasks
 // Return a copy of the tasks array.
-varargs nomask array query_tasks(string task_id)
+varargs nomask *query_tasks(string task_id)
 {
-    array task;
+    *task;
     
     if (!task_id) {
 	return copy(tasks);
@@ -361,7 +361,7 @@ varargs nomask array query_tasks(string task_id)
 // Returns the task id of the new task.
 string add_task(string parent_id, string title, string description, string who)
 {
-    array task_list, new_task;
+    *task_list, new_task;
     string new_id;
     
     if (!title || sizeof(title) == 0)
@@ -380,7 +380,7 @@ string add_task(string parent_id, string title, string description, string who)
 	new_id = "" + (sizeof(tasks));
     }
     else {
-	array task = find_task(parent_id);
+	*task = find_task(parent_id);
     
 	if (!task)
 	  return 0;
@@ -396,9 +396,9 @@ string add_task(string parent_id, string title, string description, string who)
 
 //:FUNCTION remove_task
 // Remove the specified task.
-array remove_task(string task_id)
+*remove_task(string task_id)
 {
-    array task = copy(find_task(task_id));
+    *task = copy(find_task(task_id));
     string parent_id = resolve_parent_id(task_id);
 
     // This catches problems with task_id being invalid.
@@ -411,8 +411,8 @@ array remove_task(string task_id)
 	tasks = tasks[0..n-1] + tasks[n+1..<1];
     }
     else {
-	array parent = find_task(parent_id);
-	array p_sub = parent[TASK_SUB];
+	*parent = find_task(parent_id);
+	*p_sub = parent[TASK_SUB];
 	int n = to_int(explode(task_id, ".")[<1]) - 1;
 	
 	parent[TASK_SUB] = p_sub[0..n-1] + p_sub[n+1..<1];

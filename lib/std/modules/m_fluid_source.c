@@ -10,7 +10,7 @@
 #define PATH_TO_OBJECTS __DIR__
 
 void add_id( string x );
-string array query_id();
+string *query_id();
 string query_primary_id();
 
 string source_of;

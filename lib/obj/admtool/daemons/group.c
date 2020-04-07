@@ -118,7 +118,7 @@ private nomask void remove_user_from_group(string user, string group)
     printf("Removed %s from group %s.\n", user, group);
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "l",

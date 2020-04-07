@@ -146,7 +146,7 @@ void say(string m)
     error("say() not available. Consider using this_body()->other_action()\n");
 }
 
-void printf(string format, array rest...) {
+void printf(string format, string *rest...) {
     if (this_user())
 	tell(this_user(), sprintf(format, rest...));
     else

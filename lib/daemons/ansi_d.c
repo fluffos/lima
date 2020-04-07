@@ -42,7 +42,7 @@ string * restrictions;
 
 mapping defaults;
 
-mapping array query_translations()
+mapping *query_translations()
 {
   return ({ translations, null_translations, identity_translations });
 }

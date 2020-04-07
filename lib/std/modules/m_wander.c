@@ -29,7 +29,7 @@ int player_did_arrive(string dir);
 void moving();
 
 private mixed wander_time;
-private string array wander_area=({});
+private string *wander_area=({});
 private nosave int call;
 private nosave int num_moves;
 private int max_moves;
@@ -41,21 +41,21 @@ private nosave function move_hook=(:moving:);
 //Set the area(s) that an NPC can wander in.  If this is not set 
 //it is assumed that the NPC can wander anywhere without area
 //restrictions.
-void set_wander_area(string array area...)
+void set_wander_area(string *area...)
 {
   wander_area=clean_array(area);
 }
 
 //:FUNCTION add_wander_area
 //Add area(s) which an NPC can wander in.  See set_wander_area()
-void add_wander_area(string array area...)
+void add_wander_area(string *area...)
 {
   wander_area=clean_array(wander_area+({area}));
 }
 
 //:FUNCTION remove_wander_area
 //Remove area(s) which an NPC can wander in.  See set_wander_area()
-void remove_wander_area(string array area...)
+void remove_wander_area(string *area...)
 {
   if(member_array(area,wander_area))
     wander_area-=({area});
@@ -70,9 +70,9 @@ void clear_wander_area()
 }
 
 //:FUNCTION query_wander_area
-//Returns an array of areas in which may wander.  
+//Returns an *of areas in which may wander.  
 //See set_wander_area()
-string array query_wander_area()
+string *query_wander_area()
 {
   return wander_area;
 }
@@ -222,7 +222,7 @@ private void move_me(string direction)
 
 private void do_wander()
 {
-  string array directions;
+  string *directions;
   int i;
   string chosen_dir;
   string file;

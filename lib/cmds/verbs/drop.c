@@ -36,7 +36,7 @@ void do_drop_obj(object ob)
     drop_one(ob);
 }
 
-void do_drop_obs(array info)
+void do_drop_obs(mixed *info)
 {
     foreach (mixed item in info)
     {

@@ -205,8 +205,8 @@ protected nomask void sw_body_handle_existing_logon(int enter_now)
       ** users currently connected with this userid.  Those other usersmay
       ** be interactive or link-dead.  Do the right thing...
       */
-      object array users;
-      string array ids;
+      object *users;
+      string *ids;
       int idx;
       object the_user;
 
@@ -295,7 +295,7 @@ void create_body()
 #ifndef USE_RACES
    incarnate(1, DIR_RACES "/human");
 #else
-   string array races = RACE_D->query_races();
+   string *races = RACE_D->query_races();
    function when_done = (: incarnate, 1 :);
    int width = 0;
 

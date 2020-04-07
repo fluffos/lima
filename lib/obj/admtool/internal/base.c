@@ -17,7 +17,7 @@ class command_info {
     string priv;     // priv required to use this command
     string who;      // A short [~10 chars] description of who can use the
     // command
-    array args;      // An array of prompts to use to ask for arguments not
+    *args;      // An *of prompts to use to ask for arguments not
     // given on the line.  Max == 2.
     function action; // The function to be called.
 }
@@ -25,7 +25,7 @@ class command_info {
 // Overload these
 string module_name();
 string module_key();
-class command_info array module_commands();
+class command_info *module_commands();
 
 mixed module_priv() {
     return 0;
@@ -33,7 +33,7 @@ mixed module_priv() {
 
 // our variables
 private string prompt;
-private class command_info array commands;
+private class command_info *commands;
 private object parent;
 
 private nomask string parent_name() {
@@ -121,7 +121,7 @@ protected nomask int write_error(string err) {
     return 0;
 }
 
-protected class command_info array defaults() {
+protected class command_info *defaults() {
     return  ({
       new(class command_info), // blank line
       new(class command_info, key : "m", desc : "previous menu", 
@@ -160,7 +160,7 @@ void create() {
 
 private void handle_input(string str)
 {
-  string array parts = ({});
+  string *parts = ({});
   string arg;
   if(stringp(str))
     parts = explode(str," ");

@@ -15,7 +15,7 @@
 inherit M_SET;
 
 void save_me();
-private string array subscribed_groups();
+private string *subscribed_groups();
 private int check_subscribed(string group);
 
 private nomask mapping news_data;
@@ -119,9 +119,9 @@ nomask int check_subscribed(string group)
 
 /* Return a list of all subscribed groups.  Possibly this should be removed
  * as it may be redundant w/ the existance of registered_groups() */
-nomask string array subscribed_groups()
+nomask string *subscribed_groups()
 {
-  string array groups;
+  string *groups;
   if(!sizeof(news_data))
     return 0;
   groups=sort_array(keys(news_data),1);
@@ -131,7 +131,7 @@ nomask string array subscribed_groups()
 
 /* Returns all groups that are registered either as subscribed or 
  * unsubscribed */
-nomask string array registered_groups()
+nomask string *registered_groups()
 {
   if(!sizeof(news_data))
     return 0;
@@ -143,7 +143,7 @@ nomask string array registered_groups()
  * format if it has not already been done */
 nomask void validate_groups()
 {
-  string array groups;
+  string *groups;
   if(!news_data) {
     news_data=([]);
   }

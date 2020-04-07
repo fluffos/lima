@@ -158,7 +158,7 @@ private nomask void disallow_mud_on_our_channel(string channel_name, string  dis
 
 private nomask void rcv_block_mud(string mudname)
 {
-  string array muds = IMUD_D->query_barred();
+  string *muds = IMUD_D->query_barred();
 
   mudname = IMUD_D->canon_mudname(mudname);
   if ( !mudname )
@@ -172,7 +172,7 @@ private nomask void rcv_block_mud(string mudname)
 
 private nomask void rcv_unblock_mud(string mudname)
 {
-  string array muds = IMUD_D->query_barred();
+  string *muds = IMUD_D->query_barred();
 
   mudname = IMUD_D->canon_mudname(mudname);
   if ( !mudname )
@@ -191,12 +191,12 @@ private nomask void rcv_unblock_mud(string mudname)
 
 private nomask void list_blocked_muds()
 {
-  string array muds = IMUD_D->query_barred();
+  string *muds = IMUD_D->query_barred();
 
   write(colour_table(sort_array(muds,1), this_user()->query_screen_width(), 4)+"\n");
 }
 
-nomask class command_info array module_commands()
+nomask class command_info *module_commands()
 {
   return ({
     new(class command_info,

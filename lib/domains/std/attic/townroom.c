@@ -3,7 +3,7 @@
 inherit OUTDOOR_ROOM;
 
 void setup(string n, string e, string s, string w) {
-    string array d = ({});
+    string *d = ({});
     string i;
 
     if (n) {

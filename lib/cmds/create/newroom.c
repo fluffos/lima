@@ -2,7 +2,7 @@
 
 inherit CMD;
 
-private void main(array args) {
+private void main(*args) {
     string fname = args[0];
     
     if (fname[4..] != ".scr")

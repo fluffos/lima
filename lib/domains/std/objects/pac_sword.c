@@ -17,7 +17,7 @@ class event_info source_modify_event(class event_info evt)
   int opp_health;
   int damage;
   int excess;
-  string array system_limbs;
+  string *system_limbs;
 
   if(evt->data == "miss" || evt->data == "disarm")
     return evt;

@@ -26,8 +26,8 @@ void create()
 
 private void main(string str)
 {
-  string array msgs;
-  object array others = ({});
+  string *msgs;
+  object *others = ({});
   object ob;
 
 // Collect speech recipients upwards through environments,
@@ -48,7 +48,7 @@ private void main(string str)
   }
   switch(explode(str," ")[0])
   {
-    string array out=({});
+    string *out=({});
     case "/last":
     case "/history":
       out=({"History of says:\n"});

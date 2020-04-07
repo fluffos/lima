@@ -4,10 +4,10 @@
 
 inherit __DIR__ "internal/base";
 
-class command_info array module_commands(string);
+class command_info *module_commands(string);
 
 string our_task;
-class command_info array our_defaults;
+class command_info *our_defaults;
 
 
 string module_name() {
@@ -70,19 +70,19 @@ nomask private void my_remove_task(string task_id) {
 }
 
 
-class command_info array module_commands() {
-    class command_info array ret = ({ });
+class command_info *module_commands() {
+    class command_info *ret = ({ });
     int n = 1;
 
     if (our_task != 0) {
-	array t = TASK_D->query_task(our_task);
+	*t = TASK_D->query_task(our_task);
 	
 	ret += ({
 	    new(class command_info, desc : t[1] )
 	});
     }
     
-    foreach (array task in TASK_D->query_tasks(our_task)) {
+    foreach (*task in TASK_D->query_tasks(our_task)) {
 	string key, name, status;
 	
 	key = sprintf("%d", n);
@@ -149,7 +149,7 @@ protected void heading() {
 	  "%^RESET%^\n");
 }
 
-protected class command_info array defaults() {
+protected class command_info *defaults() {
     return  our_defaults;
 }
 

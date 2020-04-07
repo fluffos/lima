@@ -186,7 +186,7 @@ private nomask void perform_clear_dir_priv(string dir)
     printf("The privileges on '%s' have been cleared.\n", dir);
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
     return ({
 	new(class command_info,
 	    key : "p",

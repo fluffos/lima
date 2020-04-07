@@ -7,6 +7,6 @@ mixed do_note_str_on_obj(string str, object ob) {
 	ob->note(str);
 }
 
-array query_verb_info() {
+*query_verb_info() {
 	return ({({"STR on OBJ"}),({})});
 }

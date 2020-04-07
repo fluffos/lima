@@ -19,7 +19,7 @@ MENU_ITEM quit_item;
 MENU_ITEM goto_main_menu_item;
 MENU_ITEM main_seperator;
 MENU_ITEM blank_seperator;
-string array hints;
+string *hints;
 int	hints_read;
 
 
@@ -75,8 +75,8 @@ void view_question(string area, string file, string question)
 
 void view_dir(string s)
 {
-  string array files = get_dir("/help/hints/"+s+"/*") - ({".","..","README"});
-  string array questions = map(files, (: read_file("/help/hints/"+$(s)
+  string *files = get_dir("/help/hints/"+s+"/*") - ({".","..","README"});
+  string *questions = map(files, (: read_file("/help/hints/"+$(s)
 						   +"/"+$1,1,1) :));
   MENU m = new_menu(replace_string(s,"_"," "));
   MENU_ITEM item;
@@ -103,7 +103,7 @@ void view_dir(string s)
 
 void create()
 {
-  string array sections;
+  string *sections;
 
   set_privilege(1);
 

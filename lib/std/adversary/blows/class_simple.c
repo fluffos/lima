@@ -4,7 +4,7 @@
 
 inherit CLASS_EVENT_INFO;
 
-nosave class event_info array queue = ({ });
+nosave class event_info *queue = ({ });
 
 void add_event(object target, object weapon, mixed target_extra, mixed data)
 {

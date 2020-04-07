@@ -82,7 +82,7 @@ string format_editor(string user, string password, string filename,
   output = output + "</table>\n";
   if (contents)
     {
-	array inh;
+	*inh;
 	object ob;
 
 	output +="<hr><font size=+1><strong>Editing: " + HTML_encode(filename) + "</strong></font><p>";
@@ -118,7 +118,7 @@ string display_error(string error, mapping form)
 
 int validate_user(mapping form)
 {
-  string array info;
+  string *info;
   string val;
 
   if(!form["user"] || !form["password"])

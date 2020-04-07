@@ -1,9 +1,9 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 /* grammar related stuff */
-private nosave string array ids;
-private nosave string array plurals;
-private nosave string array adjs;
+private nosave string *ids;
+private nosave string *plurals;
+private nosave string *adjs;
 private int quantity;
 private string primary_id, primary_adj;
 
@@ -23,7 +23,7 @@ private nosave mixed proper_name;
 /*
 ** Can be implemented by subclasses to provide additional stuff dynamically
 */
-string array fake_item_id_list();
+string *fake_item_id_list();
 int is_visible();
 string invis_name();
 int test_flag(mixed);
@@ -188,7 +188,7 @@ int plural_id( mixed arg ) {
 //:Adds adjectives.  The first one _DOES NOT_ become the prim
 //:primary adjective when using add_adj().
 void
-add_adj(string array adj... )
+add_adj(string *adj... )
 {
     if(!arrayp(adjs)) 
 	adjs = adj;
@@ -199,7 +199,7 @@ add_adj(string array adj... )
 
 //:FUNCTION add_plural
 //Add a plural id
-void add_plural( string array plural... )
+void add_plural( string *plural... )
 {
     if(!arrayp(plurals))
 	plurals = plural;
@@ -210,7 +210,7 @@ void add_plural( string array plural... )
 
 //:FUNCTION add_id_no_plural
 //Add an id without adding the corresponding plural
-void add_id_no_plural( string array id... ) {
+void add_id_no_plural( string *id... ) {
     // set new primary
     if(!arrayp(ids))
 	ids = id;
@@ -221,7 +221,7 @@ void add_id_no_plural( string array id... ) {
 
 //:FUNCTION add_id
 //Add an id and its corresponding plural
-void add_id( string array id... )
+void add_id( string *id... )
 {
     if(!arrayp(ids))
 	ids = id;
@@ -233,14 +233,14 @@ void add_id( string array id... )
 
 /****** set_ ******/
 //These actually add, but the first argument becomes the primary id/adjective
-void set_id( string array id... ) {
+void set_id( string *id... ) {
     ids = id + ids; // Ensure proper order for resync of primary id
     plurals += map(id, (: pluralize :));
     primary_id = 0;
     resync();
 }
 
-void set_adj( string array adj... ) {
+void set_adj( string *adj... ) {
     if(!arrayp(adjs))
 	adjs = adj;
     else
@@ -252,7 +252,7 @@ void set_adj( string array adj... ) {
 /****** remove_ ******/
 //:FUNCTION remove_id
 //Remove the given id
-void remove_id( string array id... )
+void remove_id( string *id... )
 {
     if(!arrayp(ids))
 	return;
@@ -262,7 +262,7 @@ void remove_id( string array id... )
     resync();
 }
 
-void remove_adj( string array adj ... ) {
+void remove_adj( string *adj ... ) {
     if(!arrayp(ids))
 	return;
     adjs -= adj;
@@ -293,9 +293,9 @@ void clear_adj()
 /****** query_ ******/
 
 //:FUNCTION query_id
-//Returns an array containing the ids of an object
-string array query_id() {
-    string array fake = this_object()->fake_item_id_list();
+//Returns an *containing the ids of an object
+string *query_id() {
+    string *fake = this_object()->fake_item_id_list();
 
     if (fake) return fake + ids;
     else return ids;
@@ -321,14 +321,14 @@ string query_primary_name() {
 
 //:FUNCTION query_adj
 //return the adjectives
-string array query_adj()
+string *query_adj()
 {
     return adjs;
 }
 
 /****** parser interaction ******/
 
-string array parse_command_id_list()
+string *parse_command_id_list()
 {
     if (test_flag(INVIS)) return ({ });
     //### should strip non-alphanumerics here; might need an efun to do it
@@ -336,12 +336,12 @@ string array parse_command_id_list()
     return query_id();
 }
 
-nomask string array parse_command_plural_id_list() {
+nomask string *parse_command_plural_id_list() {
     if (test_flag(INVIS)) return ({ });
     return plurals;
 }
 
-nomask string array parse_command_adjectiv_id_list() {
+nomask string *parse_command_adjectiv_id_list() {
     if (test_flag(INVIS)) return ({ });
     return adjs;
 }

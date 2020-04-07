@@ -72,7 +72,7 @@ private nomask void set_limb_flags(string bodytype, string limb, int health, str
     }
   }
   else {
-    string array parts=explode(flags,",")-({});
+    string *parts=explode(flags,",")-({});
     foreach(string part in parts)
       {
 	switch(trim_spaces(lower_case(part)))
@@ -154,7 +154,7 @@ private nomask void list_body_types() {
   }
 }
 
-nomask class command_info array module_commands() {
+nomask class command_info *module_commands() {
   return ({
       new(class command_info,
           key : "p",

@@ -1,0 +1,1055 @@
+/secure/user/channel.c line 72: syntax error before data)
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/verb_ob.c line 15: syntax error before rules, *syns)
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/user/channel.c line 72: syntax error before data)
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/cmds/verbs/drop.c line 39: syntax error before info)
+/cmds/verbs/get.c line 77: syntax error before info, object ob2)
+/cmds/verbs/give.c line 16: syntax error before info, object liv) {
+/cmds/verbs/look.c line 48: syntax error before info, string name) {
+/cmds/verbs/put.c line 37: syntax error before info, string p, obje
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/user/channel.c line 72: syntax error before data)
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/user/channel.c line 72: syntax error before data)
+/secure/user/channel.c line 72: syntax error before data)
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/user/channel.c line 72: syntax error before data)
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/object/hooks.c line 30: syntax error before tmp = ({ hook });
+/std/object/hooks.c line 30: Illegal LHS before the end of line
+/std/object/hooks.c line 33: Undefined variable 'tmp' before the end of line
+/std/object/hooks.c line 80: syntax error before args...) {
+/std/object.c line 103: syntax error before args...)
+/std/object.c line 103: syntax error before args...)
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/object.c line 103: syntax error before args...)
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_messages.c line 93: syntax error before obs, string res, map
+/std/living/effects.c line 62: Left argument of -> is not a class before  effects[pos]->delay
+/std/living/effects.c line 62: Illegal lvalue before  effects[pos]->delay
+/std/living/effects.c line 62: Left argument of -> is not a class before the end of line
+/std/living/effects.c line 74: Left argument of -> is not a class before  ob)
+/std/living/effects.c line 88: Left argument of -> is not a class before  name)
+/std/living/effects.c line 103: Left argument of -> is not a class before 0..strlen(name)-1] =
+/std/living/effects.c line 62: Left argument of -> is not a class before  effects[pos]->delay
+/std/living/effects.c line 62: Illegal lvalue before  effects[pos]->delay
+/std/living/effects.c line 62: Left argument of -> is not a class before the end of line
+/std/living/effects.c line 74: Left argument of -> is not a class before  ob)
+/std/living/effects.c line 88: Left argument of -> is not a class before  name)
+/std/living/effects.c line 103: Left argument of -> is not a class before 0..strlen(name)-1] =
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/living/effects.c line 62: Left argument of -> is not a class before  effects[pos]->delay
+/std/living/effects.c line 62: Illegal lvalue before  effects[pos]->delay
+/std/living/effects.c line 62: Left argument of -> is not a class before the end of line
+/std/living/effects.c line 74: Left argument of -> is not a class before  ob)
+/std/living/effects.c line 88: Left argument of -> is not a class before  name)
+/std/living/effects.c line 103: Left argument of -> is not a class before 0..strlen(name)-1] =
+/std/adversary/messages.c line 3: syntax error before obs...);
+/std/adversary/messages.c line 3: syntax error before obs...);
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/adversary/messages.c line 3: syntax error before obs...);
+/std/modules/m_smartmove.c line 22: syntax error before obs... );
+/std/modules/m_smartmove.c line 22: syntax error before obs... );
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_smartmove.c line 22: syntax error before obs... );
+/std/modules/m_smartmove.c line 22: syntax error before obs... );
+/std/modules/m_smartmove.c line 22: syntax error before obs... );
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_smartmove.c line 22: syntax error before obs... );
+/std/modules/m_actions.c line 67: syntax error before winner;
+/std/modules/m_actions.c line 70: Illegal LHS before the end of line
+/std/modules/m_actions.c line 73: Undefined variable 'verb' before  str;
+/std/modules/m_actions.c line 73: Illegal lvalue before  str;
+/std/modules/m_actions.c line 74: Undefined variable 'argument' before ;
+/std/modules/m_actions.c line 74: Illegal lvalue before ;
+/std/modules/m_actions.c line 67: syntax error before winner;
+/std/modules/m_actions.c line 70: Illegal LHS before the end of line
+/std/modules/m_actions.c line 73: Undefined variable 'verb' before  str;
+/std/modules/m_actions.c line 73: Illegal lvalue before  str;
+/std/modules/m_actions.c line 74: Undefined variable 'argument' before ;
+/std/modules/m_actions.c line 74: Illegal lvalue before ;
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_actions.c line 67: syntax error before winner;
+/std/modules/m_actions.c line 70: Illegal LHS before the end of line
+/std/modules/m_actions.c line 73: Undefined variable 'verb' before  str;
+/std/modules/m_actions.c line 73: Illegal lvalue before  str;
+/std/modules/m_actions.c line 74: Undefined variable 'argument' before ;
+/std/modules/m_actions.c line 74: Illegal lvalue before ;
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/trans/obj/wish.c line 365: syntax error before  = 0;
+/trans/obj/wish.c line 365: Illegal LHS before the end of line
+/trans/obj/wish.c line 373: Undefined variable 'stdinstuff' before  args[i+1..(j-1)];
+/trans/obj/wish.c line 373: Illegal lvalue before  args[i+1..(j-1)];
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_exit.c line 25: syntax error before args...);
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/base_room.c line 59: syntax error before args...)
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/base_room.c line 174: syntax error before fmt;
+/std/base_room.c line 177: Illegal LHS before the end of line
+/std/base_room.c line 179: Undefined variable 'i' before  1; i < sizeof(fmt);
+/std/base_room.c line 179: Illegal lvalue before  1; i < sizeof(fmt);
+/std/base_room.c line 179: Undefined variable 'fmt' before ; i++) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_conversation.c line 36: syntax error before a, object target) 
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 43: syntax error before block);
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 69: syntax error before lines);
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 79: syntax error before args);
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 149: syntax error before ret = ({});
+/secure/daemons/lpscript_d.c line 149: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 185: Undefined variable 'ret' before <1]))
+/secure/daemons/lpscript_d.c line 197: Undefined variable 'ret' before the end of line
+/secure/daemons/lpscript_d.c line 217: Type mismatch ( string vs unknown ) when initializing line before the end of line
+/secure/daemons/lpscript_d.c line 249: Bad assignment ( unknown vs unknown * ). before the end of line
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 149: syntax error before ret = ({});
+/secure/daemons/lpscript_d.c line 149: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 153: Type mismatch ( string vs unknown ) when initializing line before the end of line
+/secure/daemons/lpscript_d.c line 185: Undefined variable 'ret' before <1]))
+/secure/daemons/lpscript_d.c line 197: Undefined variable 'ret' before the end of line
+/secure/daemons/lpscript_d.c line 217: Type mismatch ( string vs unknown ) when initializing line before the end of line
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 153: Type mismatch ( string vs unknown ) when initializing line before the end of line
+/secure/daemons/lpscript_d.c line 188: Bad assignment ( string vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 217: Type mismatch ( string vs unknown ) when initializing line before the end of line
+/secure/daemons/lpscript_d.c line 249: Bad assignment ( unknown vs unknown * ). before the end of line
+/secure/daemons/lpscript_d.c line 252: Bad assignment ( unknown vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 257: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 188: Bad assignment ( string vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 249: Bad assignment ( string vs unknown * ). before the end of line
+/secure/daemons/lpscript_d.c line 252: Bad assignment ( string vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 257: Bad assignment ( string vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 318: syntax error before rest...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 249: Bad assignment ( string vs unknown * ). before the end of line
+/secure/daemons/lpscript_d.c line 252: Bad assignment ( string vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 257: Bad assignment ( string vs mixed * ). before the end of line
+/secure/daemons/lpscript_d.c line 318: syntax error before rest...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 318: syntax error before rest...) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 408: syntax error before args = ({});
+/secure/daemons/lpscript_d.c line 408: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 423: Undefined variable 'args' before  ({ tmp[0] });
+/secure/daemons/lpscript_d.c line 423: Illegal lvalue before  ({ tmp[0] });
+/secure/daemons/lpscript_d.c line 484: syntax error before lines) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 484: syntax error before lines) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 485: syntax error before ret = ({ "", "" });
+/secure/daemons/lpscript_d.c line 485: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 486: Reserved type name unexpected. before ;
+/secure/daemons/lpscript_d.c line 486: syntax error before ;
+/secure/daemons/lpscript_d.c line 491: Undefined variable 'line' before the end of line
+/secure/daemons/lpscript_d.c line 491: Illegal LHS before the end of line
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 549: syntax error before tmp = split_path(fna
+/secure/daemons/lpscript_d.c line 549: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 550: Undefined variable 'tmp' before 0] + "tmp_" + tmp[1]
+/secure/daemons/lpscript_d.c line 556: syntax error before locals = cur_vars - 
+/secure/daemons/lpscript_d.c line 556: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 561: Undefined variable 'locals' before ) {
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 950: syntax error before tmp;
+/secure/daemons/lpscript_d.c line 951: Illegal LHS before the end of line
+/secure/daemons/lpscript_d.c line 955: Undefined variable 'actions' before  "case " + i + ":\n"
+/secure/daemons/lpscript_d.c line 955: Illegal lvalue before  "case " + i + ":\n"
+/secure/daemons/lpscript_d.c line 958: Illegal to redeclare local name 'i' before  = 0; i < sizeof(tri
+/secure/daemons/lpscript_d.c line 979: Undefined variable 'actions' before  "}}}}";
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/domains/std/2.4.5/elevator.c line 66: Bad type for argument 1 of move_to ( string vs unknown ) before ;
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/secure/daemons/cmd_d.c line 268: syntax error before matches = filter_arr
+/secure/daemons/cmd_d.c line 268: Illegal LHS before the end of line
+/secure/daemons/cmd_d.c line 269: Undefined variable 'matches' before )
+/secure/daemons/cmd_d.c line 412: Undefined variable 'array' before  = ({});
+/secure/daemons/cmd_d.c line 412: syntax error before  = ({});
+/secure/daemons/cmd_d.c line 412: Illegal LHS before the end of line
+/daemons/help_d.c line 52: syntax error before  = ({ DIR_HELP "/aut
+/daemons/imud/mudlist.c line 64: syntax error before inf;
+/daemons/imud/mudlist.c line 66: Illegal LHS before the end of line
+/daemons/imud/mudlist.c line 68: Undefined variable 'inf' before the end of line
+/daemons/doc_d.c line 128: Bad assignment ( unknown vs mixed * ). before the end of line
+/daemons/doc_d.c line 172: syntax error before lines, match;
+/daemons/doc_d.c line 173: Illegal LHS before the end of line
+/daemons/doc_d.c line 174: Reserved type name unexpected. before ;
+/daemons/doc_d.c line 174: syntax error before ;
+/daemons/doc_d.c line 193: Undefined variable 'file' before  "\n");
+/daemons/memcheck_d.c line 4: Only '=' is legal in initializers. before the end of line
+/secure/daemons/imail_d.c line 186: syntax error before ;
+/secure/daemons/imail_d.c line 193: Illegal LHS before the end of line
+/secure/daemons/imail_d.c line 194: Undefined variable 'errorset' before  && sizeof(errorset)
+/secure/daemons/imail_d.c line 199: Undefined variable 'info' before mudname)}) + errorse
+/secure/daemons/imail_d.c line 209: Undefined variable 'this_msg' before  internal_queue[info
+/secure/daemons/imail_d.c line 209: Illegal lvalue before  internal_queue[info
+/daemons/news_d.c line 657: syntax error before ret = keys(data[grou
+/daemons/news_d.c line 657: Illegal LHS before the end of line
+/daemons/news_d.c line 662: Undefined variable 'ret' before  removed[group];
+/daemons/news_d.c line 662: Illegal lvalue before  removed[group];
+/daemons/news_d.c line 866: syntax error before ret = ({});
+/daemons/news_d.c line 866: Illegal LHS before the end of line
+/std/modules/m_ansi.c line 46: syntax error before items, int width, in
+/std/modules/m_ansi.c line 97: Bad assignment ( int vs string ). before the end of line

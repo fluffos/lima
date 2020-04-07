@@ -13,7 +13,7 @@ inherit M_GLOB;
 mixed *did = ({ });
 
 int someone_did(string str) {
-    object array who;
+    object *who;
 
     if( !is_directory( wiz_dir( this_user())))
     {
@@ -79,7 +79,7 @@ private nomask string * get_entries(int after, string * header, string pattern)
     return output;
 }
 
-string array dump_entries()
+string *dump_entries()
 {
   return did;
 }

@@ -31,7 +31,7 @@ inherit "/std/body/history";
  */
 class relation_data
 {
-  object array contents;           /* All of the objects associated with that relation */
+  object *contents;           /* All of the objects associated with that relation */
   int max_capacity;                /* The maximum capacity of that relation. */
   int hidden;                      /* Whether the contents in this relation can be seen */
   int attached;                    /* Whether the contents of the relation will be added to 
@@ -111,7 +111,7 @@ varargs void add_relation(string relation,int max_capacity,int hidden)
 //:FUNCTION remove_relations
 //Remove relations from an object.  Relations can only successfully be removed 
 //if they are unoccupied.
-void remove_relations(string array rels...)
+void remove_relations(string *rels...)
 {
   foreach(string rel in rels)
   {
@@ -126,7 +126,7 @@ void remove_relations(string array rels...)
 //Set the relations which are legal for a complex container.  Example:
 //set_relations("on", "in", "under").  The first one is the default
 //relation (the one used by set_objects(), etc)
-void set_relations(string array rels...)
+void set_relations(string *rels...)
 {
 /* Ok, a bit tricky here.  We can't remove relations if there is an
    object occupying that, so we remove all relations with no objects,
@@ -139,7 +139,7 @@ void set_relations(string array rels...)
 
 //:FUNCTION get_relations
 //Return all of the possible relations for an object
-string array get_relations(){ return keys(relations); }
+string *get_relations(){ return keys(relations); }
 
 //:FUNCTION is_relation_alias
 //Determine whether or not the relation is valid and return which relation
@@ -199,8 +199,8 @@ void remove_relation_alias(string relation,string aliases...)
 }
 
 //:FUNCTION query_relation_aliases
-//Return the array of aliases that a relation has.
-string array query_relation_aliases(string relation)
+//Return the *of aliases that a relation has.
+string *query_relation_aliases(string relation)
 {
   return relation_aliases[relation];
 }
@@ -567,7 +567,7 @@ int inventory_visible()
 
 /* Function which creates objects on reset if they are needed. */
 
-mixed array make_objects_if_needed()
+mixed *make_objects_if_needed()
 {
     mixed *objs = ({});
 
@@ -579,8 +579,8 @@ mixed array make_objects_if_needed()
 	foreach(string file,mixed parameters in object_data->create_on_reset)
 	{
 	    int num=1;
-	    mixed array rest=({});
-	    object array matches=({});
+	    mixed *rest=({});
+	    object *matches=({});
 	    /* Allow use of relative paths, relative to the container. */
 	    file = absolute_path(file, this_object());
 	    /* If the only parameter is an integer, it is the quantity of the
@@ -626,9 +626,9 @@ mixed array make_objects_if_needed()
     return objs;
 }
 
-mixed array make_unique_objects_if_needed()
+mixed *make_unique_objects_if_needed()
 {
-    mixed array objs=({});
+    mixed *objs=({});
 
     /* Loop through each relation */
     foreach(string relation,class relation_data object_data in relations)
@@ -636,9 +636,9 @@ mixed array make_unique_objects_if_needed()
 	/* Loop through each file in the mapping. */
 	foreach (string file, mixed parameters in relations[relation]->create_unique_on_reset)
 	{
-	    mixed array rest=({});
+	    mixed *rest=({});
 	    int num;
-	    object array matches=({});
+	    object *matches=({});
 	    /* Allow use of relative paths, relative to the container. */
 	    file = absolute_path(file, this_object());
 	    /* If the only parameter is an integer, it is the quantity of the
@@ -699,7 +699,7 @@ mixed array make_unique_objects_if_needed()
 //Note:  the number already present is determined by counting the number of
 //objects with the same first id, and objects are only cloned to bring the
 //count up to that number.
-varargs mixed array set_objects(mapping m,string relation) {
+varargs mixed *set_objects(mapping m,string relation) {
     if(!relation||relation=="")
 	relation=query_default_relation();
     relation=PREPOSITION_D->translate_preposition(relation);
@@ -710,7 +710,7 @@ varargs mixed array set_objects(mapping m,string relation) {
 //:FUNCTION set_unique_objects
 //Provide a list of objects to be loaded now and at every reset if they
 //are not already loaded.  The key should be the filename of the object, 
-//and the value should be an array which is passed to create() when the 
+//and the value should be an *which is passed to create() when the 
 //objects are cloned.
 //The structure of the mapping should be the same as the structure of the 
 //mapping for set_objects().  For unique objects, to be checked, you should
@@ -719,7 +719,7 @@ varargs mixed array set_objects(mapping m,string relation) {
 //        int test_unique();
 //An optional second string argument represents a specific relation which
 //should produce objects on reset()
-varargs mixed array set_unique_objects(mapping m,string relation) {
+varargs mixed *set_unique_objects(mapping m,string relation) {
     if(!relation||relation=="")
 	relation=query_default_relation();
     relation=PREPOSITION_D->translate_preposition(relation);
@@ -762,7 +762,7 @@ varargs string introduce_contents(string relation)
 varargs string inventory_recurse(int depth, mixed avoid)
 {
   string res;
-  object array obs;
+  object *obs;
   int i;
   string str="";
   string tmp;
@@ -850,7 +850,7 @@ receive_inside_msg(string msg, object * exclude, int message_type,
   mixed other)
 {
     object env;
-    object array contents;
+    object *contents;
 
     do_receive(msg, message_type);
 
@@ -878,7 +878,7 @@ varargs void
 receive_outside_msg(string msg, object * exclude, int message_type,
   mixed other)
 {
-    object array contents;
+    object *contents;
 
     do_receive(msg, message_type);
 
@@ -893,7 +893,7 @@ receive_outside_msg(string msg, object * exclude, int message_type,
 
 //Remote messages propogate just like an inside message by defauly
 varargs void 
-receive_remote_msg(string msg, object array exclude, int message_type,
+receive_remote_msg(string msg, object *exclude, int message_type,
   mixed other)
 {
     receive_inside_msg(msg, exclude, message_type, other);

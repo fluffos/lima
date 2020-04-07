@@ -22,8 +22,8 @@ void setup()
    * The second argument is the destination that the body is going to be moved 
    * to when the method is invoked.
    * The third is the check to see if the body can actually use the method,
-   * The fourth argument is an array of possible exit messages
-   * The fifth argument is an array of possible enter messages */
+   * The fourth argument is an *of possible exit messages
+   * The fifth argument is an *of possible enter messages */
   add_method("wade in",
 	     "Outside_Cave",
 	     1,

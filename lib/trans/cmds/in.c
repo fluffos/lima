@@ -21,7 +21,7 @@ void create()
 
 private void main(string orig_input){
   object old=environment(this_body());
-  string array parts=explode(orig_input," ");
+  string *parts=explode(orig_input," ");
   object where;
   string cmd = implode(parts[1..], " ");
 

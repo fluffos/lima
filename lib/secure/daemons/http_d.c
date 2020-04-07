@@ -206,8 +206,8 @@ string html_decode(string str)
 mapping form_parse(string s)
 {
     mapping result = ([]);
-    string array entries = explode(s, "&");
-    string array halves;
+    string *entries = explode(s, "&");
+    string *halves;
 
     foreach(string entry in entries)
     {
@@ -554,14 +554,14 @@ string parse_headers(string text, object socket)
 {
     class client_request req;
     string header_name, header_value;
-    string array lines;
+    string *lines;
     int i = 0;
 
     req = requests[socket];
     lines = explode(text, "\n");
     if(!req->any_input_yet_p)
       {
-	string array request_line = explode(lines[0], " ");
+	string *request_line = explode(lines[0], " ");
 	request_line-=({"\r"});
 	if(sizeof(request_line)==0)
 	  return;

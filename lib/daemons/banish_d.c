@@ -22,7 +22,7 @@ inherit CLASS_BANISH_DATA;
 
 class banish_data * bad_names = ({ });
 class banish_data * bad_sites = ({ });
-string array registered=({});
+string *registered=({});
 
 //### used to upgrade old banish information
 private void create()
@@ -147,7 +147,7 @@ varargs int check_registered(string *sites,string who)
   return (member_array(who,registered)+1);
 }
 
-string array get_registered()
+string *get_registered()
 {
   return registered;
 }

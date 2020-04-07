@@ -12,11 +12,11 @@
 inherit CMD;
 inherit M_REGEX;
 
-private void cut_it(string what, string array fields, string delim)
+private void cut_it(string what, string *fields, string delim)
 {
-  string array lines;
-  string array delimited;
-  int array rfields = ({ });
+  string *lines;
+  string *delimited;
+  int *rfields = ({ });
   string tmp;
   string output = "";
   string line;
@@ -57,8 +57,8 @@ private void main(mixed *argv, mapping flags, string stdin)
 {
   string delim = "[ \r\t\n]+";
   string tmp;
-  string array fields;
-  string array filenames;
+  string *fields;
+  string *filenames;
   string  contents;
   string file;
 

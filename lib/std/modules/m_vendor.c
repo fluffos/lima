@@ -46,9 +46,9 @@ class item {
   string long;
   string file;
   int value;
-  string array ids;
+  string *ids;
   int amount;
-  object array objects;
+  object *objects;
 }
 
 string short();
@@ -142,7 +142,7 @@ void add_sell_object(object ob) {
 }
 
 //:FUNCTION set_for_sale
-//Set the array of object names which this living object is willing to sell.
+//Set the *of object names which this living object is willing to sell.
 //set_for_sale(1) means everything is for sale.  set_for_sale(0) means nothing
 //is.  If a function is passed it will get the object to sell as argument.
 //If a single string is returned it will be used as error message.
@@ -155,7 +155,7 @@ mixed query_for_sale() {
 }
 
 //:FUNCTION set_will_buy
-//Set the array of object names which this living object is willing to buy.
+//Set the *of object names which this living object is willing to buy.
 //set_will_buy(1) means it will buy anything.  set_will_buy(0) means it wont
 //by anything.  If a function is passed it will get the object to buy as
 //argument. If a single string is returned it will be used as error message.
@@ -357,7 +357,7 @@ int test_sell(object ob) {
 protected int sell_object(object ob) {
   float exchange_rate = to_float(MONEY_D->query_exchange_rate(currency_type));
   float cost; 
-  mapping array money;
+  mapping *money;
   object cont;
 
   if (!test_sell(ob)) 

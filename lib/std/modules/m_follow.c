@@ -28,7 +28,7 @@ void add_hook(string tag, function hook);
 
 private nosave function f_follow=(:follow_hook:);
 private nosave function arrive=(:arrive_hook:);
-private mixed array follow_search=({});
+private mixed *follow_search=({});
 private object follow;
 private nosave object my_location;
 private nosave int following;
@@ -39,9 +39,9 @@ private nosave int following;
 //Strings must be an id of the object which you want to have 
 //followed.
 //If a function pointer is used it must return a string, object
-//or an array of objects and strings.  An argument of this_object
+//or an *of objects and strings.  An argument of this_object
 //is passed to the function pointer.
-void set_follow_search(mixed array follow...)
+void set_follow_search(mixed *follow...)
 {
   follow_search=clean_array(flatten_array(follow));
 }
@@ -49,28 +49,28 @@ void set_follow_search(mixed array follow...)
 //:FUNCTION add_follow_search
 //Add names to the list of objects that the object will follow
 //See set_follow_search
-void add_follow_search(mixed array follow...)
+void add_follow_search(mixed *follow...)
 {
   follow_search=clean_array(flatten_array(follow_search+follow));
 }
 
 //:FUNCTION remove_follow_search
 //Remove names from the list of objects that the object will follow
-void remove_follow_search(mixed array follow...)
+void remove_follow_search(mixed *follow...)
 {
   follow_search-=flatten_array(follow);
 }
 
 //:FUNCTION clear_follow_search
-//Clears the search array for following
+//Clears the search *for following
 void clear_follow_search()
 {
   follow_search=({});
 }
 
-varargs private mixed array expand_follows()
+varargs private mixed *expand_follows()
 {
-  mixed array potentials=({});
+  mixed *potentials=({});
   foreach(mixed elem in follow_search)
     {
       if(functionp(elem))
@@ -83,7 +83,7 @@ varargs private mixed array expand_follows()
 
 //:FUNCTION query_follow_search
 //Returns a list of the follow strings that the object will follow
-string array query_follow_search()
+string *query_follow_search()
 {
   return expand_follows();
 }
@@ -125,7 +125,7 @@ int is_following()
 void acquire_follow()
 {
   int i;
-  mixed array potentials=({});
+  mixed *potentials=({});
   if(follow && present(follow,environment(this_object() ) ) )
     return;
   

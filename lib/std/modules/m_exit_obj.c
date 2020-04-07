@@ -243,7 +243,7 @@ mixed direct_dismount_obj()
 }
 
 void propogate_exits_up() {
-    string array dirs = query_exit_directions(1);
+    string *dirs = query_exit_directions(1);
     string dir;
     foreach (dir in dirs) {
         if (member_array(dir, 
@@ -259,7 +259,7 @@ void propogate_exits_up() {
 }
 
 void delete_exits_up() {
-    string array dirs = query_exit_directions(0);
+    string *dirs = query_exit_directions(0);
     string dir;
     foreach (dir in dirs) {
         environment(this_object())->delete_exit(dir);

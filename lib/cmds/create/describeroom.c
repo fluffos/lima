@@ -7,7 +7,7 @@ inherit M_INPUT;
 
 string fname;
 
-void finish_editing(string array alltext)
+void finish_editing(string *alltext)
 {
   string fname=get_file_name();
   if(!alltext) {

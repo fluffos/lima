@@ -17,7 +17,7 @@
 
 // TODO
 // Something to show more than the MAX_HEADERS amount of posts
-// The query_message_lines() returns an array which is then imploded,
+// The query_message_lines() returns an *which is then imploded,
 //   would it not be faster to send a string and not have to implode?
  
 #include <edit.h>
@@ -144,11 +144,11 @@ private nomask varargs string format_message_line(int id) {
 // Added some changes to support groups with less than MAX_HEADERS posts
 // to them...it used to make negative ID's
 // Added a * to unread posts
-private nomask string array query_message_lines() {
-    int array ids = sort_array(filter_array(
+private nomask string *query_message_lines() {
+    int *ids = sort_array(filter_array(
       NEWS_D->get_messages(linked_group), (: filter_removed :)), 1);
     int i,k, j = sizeof(ids) - MAX_HEADERS;
-    string array tmp;
+    string *tmp;
 
     if (j<0) j = 0;
 //### This can probably be removed, but will wait for now  --Vette--
@@ -185,7 +185,7 @@ nomask int has_entries() {
 nomask mixed read_entry(string str) {
     class news_msg msg;
     int id;
-    int array ids;
+    int *ids;
 
 // Before we do anything, need to make sure this user can read the group
     if (!check_group(linked_group)) 
@@ -232,7 +232,7 @@ mixed direct_read_about_str_from_obj(string str, object ob)
 // Short description.
 private nomask string do_desc() {
     int new_id;
-    int array ids;
+    int *ids;
     int curr_id = this_body()->get_news_group_id(linked_group);
 
     if ( !NEWS_D->get_messages(linked_group) ) ids = ({ });
@@ -264,7 +264,7 @@ nomask int is_bulletin_board() {
 
 // Check if id is in range, for board verbs can_* functions.
 nomask int valid_id(int id) {
-    int array ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
+    int *ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
       (: filter_removed :)), 1);
     if (id <= 0 || id > sizeof(ids))
         return 0;
@@ -281,7 +281,7 @@ nomask int valid_post() {
 
 // Remove a note.
 nomask void do_remove(int id) {
-    int array ids;
+    int *ids;
     class news_msg msg;
 
     ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
@@ -314,7 +314,7 @@ mixed direct_remove_wrd_from_obj(string wrd, object ob) {
 }
 
 // Post a note.
-private void receive_post(string subj, string array body) {
+private void receive_post(string subj, string *body) {
     if (!body) {
         write("Post aborted.\n");
         return;
@@ -364,7 +364,7 @@ mixed direct_post_on_obj_about_str(string str, object ob) {
 
 
 // Followup a note.
-private void receive_followup(int followup_id, string array body) {
+private void receive_followup(int followup_id, string *body) {
     if (!body) {
         write("Followup aborted.\n");
         return;
@@ -375,7 +375,7 @@ private void receive_followup(int followup_id, string array body) {
 }
 
 nomask void do_followup(int id) {
-    int array ids;
+    int *ids;
 
     ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
       (: filter_removed :)), 1);
@@ -384,7 +384,7 @@ nomask void do_followup(int id) {
 }
 
 nomask void do_followup_with_message(int id) {
-    int array ids;
+    int *ids;
     class news_msg msg;
     string * lines;
 
@@ -427,7 +427,7 @@ mixed direct_post_wrd_with_wrd_on_obj(string wrd1, string wrd2, object ob) {
 }
 
 // Reply to a user about a note.
-private void receive_reply(int reply_id, string array body) {
+private void receive_reply(int reply_id, string *body) {
     class news_msg msg = NEWS_D->get_message(linked_group, reply_id);
 
     if (!body) {
@@ -445,7 +445,7 @@ private void receive_reply(int reply_id, string array body) {
 }
 
 nomask void do_reply(int id) {
-    int array ids;
+    int *ids;
 
     ids = sort_array(filter_array(NEWS_D->get_messages(linked_group),
       (: filter_removed :)), 1);

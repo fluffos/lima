@@ -29,7 +29,7 @@ void remove();
 //fluid.  'x' is evaluated when the
 //fluid is drunk.  By default it is
 //a my_action, but it could be a
-//function or an array of mixed.
+//function or an *of mixed.
 //To have no taste action, pass a
 //zero.
 void set_taste_action( mixed x ){
@@ -46,7 +46,7 @@ mixed get_taste_action(){
 //fluid.  'x' is evaluated when the
 //fluid is drunk.  By default it is
 //a simple_action, but it could be a
-//function or an array of mixed.
+//function or an *of mixed.
 //To have no drink action, pass a
 //zero.
 void set_drink_action(mixed action) {

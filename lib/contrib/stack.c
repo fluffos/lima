@@ -2,7 +2,7 @@
 
 class stack {
     int which;
-    array elems;
+    *elems;
 };
 
 class stack stack_new(int size) {

@@ -19,10 +19,10 @@ varargs mixed call_hooks(string, mixed, mixed);
 varargs mixed move(mixed dest, string where);
 string query_msg(string which);
 int test_flag(int which);
-void simple_action(string s,array obs... );
-varargs string *action(object *who, mixed msg, array obs...);
+void simple_action(string s,mixed *obs... );
+varargs string *action(object *who, mixed msg, mixed *obs...);
 varargs string compose_message(object forwhom, string msg, object *who, 
-  array obs...);
+  mixed *obs...);
 object query_target();
 
 private nomask int move_me_there(class move_data data)

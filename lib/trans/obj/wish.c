@@ -25,7 +25,7 @@ void set_expand_vars(int i)
 }
 
 int is_variable(string name);
-private mixed check_for_nuggets(string array args);
+private mixed check_for_nuggets(string *args);
 
 private void cmd_rehash()
 {
@@ -161,7 +161,7 @@ varargs protected void execute_command(string original_input)
     mixed       nugget_info;
     mixed	remaining_implode_info;
     string	virgin_input;
-    string      array implode_info;
+    string      *implode_info;
 
     /* BEGINNING OF EXPANSION */
     tmp = evaluate(arg_to_words_func, implode(argv," "));
@@ -359,10 +359,10 @@ protected nomask string query_save_path(string userid)
 }
 
 // Support for IO redirection
-private mixed check_for_nuggets(string array args)
+private mixed check_for_nuggets(string *args)
 {
     int		i,j;
-    string array	stdinstuff = 0;
+    string *stdinstuff = 0;
 
     i = member_array("<",args);
     if(i != -1)

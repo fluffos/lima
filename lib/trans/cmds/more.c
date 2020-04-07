@@ -11,11 +11,11 @@ inherit CMD;
 //
 // Prints out the lines of a file
 
-// we will recieve  : ({ array of files })
+// we will recieve  : ({ *of files })
 
 private void main(mixed *arg, mapping flags, string stdin)
 {
-    array files = arg[0];
+    *files = arg[0];
     if (!files) {
         if (!stdin) {
 	    out("Too few arguments.\n");

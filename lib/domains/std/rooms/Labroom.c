@@ -3,7 +3,7 @@
 inherit INDOOR_ROOM;
 
 void setup(int x, int y, int north, int east, int south, int west) {
-    string array dirs = ({ });
+    string *dirs = ({ });
 
     if (north == ' ') {
 	add_exit("north", __DIR__ + "labyrinth/" + x + "," + (y-1));
