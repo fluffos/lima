@@ -35,7 +35,7 @@ name : Lima Mud	- FluffOS 2019 Demo
 # This will be the port number that your users will connect to	
 #	
 external_port_1: websocket 7878
-websocket http dir: ./build/bin/www
+websocket http dir: ../build/bin/www
 
 #	
 # [ REQUIRED ]	

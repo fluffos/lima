@@ -14,7 +14,7 @@ protected void create()
 {
   int i;
 
-  for(i=0; i < 256; i++){
+  for(i=1; i < 255; i++){
      if(i==0)ascii+=" ";
 	ascii += chr(i);
   }
