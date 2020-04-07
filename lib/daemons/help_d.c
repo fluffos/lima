@@ -49,7 +49,7 @@ private mapping restrict;
 private nosave int	pending_count;
 private nosave object	initiator;
 
-private nosave array	ignore = ({ DIR_HELP "/autodoc/FIXME/" });
+private nosave mixed *ignore = ({ DIR_HELP "/autodoc/FIXME/" });
 
 nomask void process_dir(string path);
 
@@ -182,7 +182,7 @@ nomask string * find_topic(string name)
   lvl = adminp(this_user()) ? 5 : wizardp(this_user()) ? 1 : 0;
 
   return filter_array(result, function(string file, int lvl){
-	*parts = explode(file, "/");
+	mixed *parts = explode(file, "/");
 	if (sizeof(parts) < 3) return 1;
 	return (lvl >= restrict[parts[1]]);
     }, lvl);
