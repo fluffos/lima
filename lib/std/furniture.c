@@ -21,7 +21,6 @@ void mudlib_setup()
   ::mudlib_setup();
   add_relation("on",VERY_LARGE);
   
-  add_method("sit on",this_object(),(: enter_check :),"$N $vsit on the $o,");
-  add_method("stand",(:environment(this_object()):),1,"$N $vstand up");
+  add_method("sit on",this_object(),(: enter_check :),({"$N $vsit on the $o,"}));
+  add_method("stand",(:environment(this_object()):),1,({"$N $vstand up"}));
 }
-

@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 string *known = ({ "Performing memory tests ..." });
-string *last_post_*= ({});
+string *last_post_array= ({});
 int last_post;
 
 void create() {
@@ -11,7 +11,7 @@ void create() {
     function f = function(function f) {
 	string *s = explode(check_memory(), "\n") - known;
 
-	if (sizeof(s - last_post_array) || sizeof(last_post_*- s)) {
+	if (sizeof(s - last_post_array) || sizeof(last_post_array- s)) {
 	    if (last_post)
 		NEWS_D->remove_post("driver.leaks", last_post);
 

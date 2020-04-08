@@ -4,7 +4,7 @@
 
 void simple_action(string, object);
 int query_health(string);
-varargs mixed call_hooks(string, mixed, mixed, array...);
+varargs mixed call_hooks(string, mixed, mixed, mixed *...);
 
 private mapping weapons = ([ ]);
 
@@ -27,7 +27,7 @@ varargs void wield(object ob, string limb)
       limb = find_an_open_limb();
    if(!limb)
    {
-      *limbs = filter(query_wielding_limbs(), (: query_health($1) > 0 :));
+      mixed *limbs = filter(query_wielding_limbs(), (: query_health($1) > 0 :));
 
       if(!sizeof(limbs))         /* Houston, we have a problem. */
       {
@@ -66,7 +66,7 @@ varargs object query_weapon(string limb)
 {
    if(!limb)
    {
-      *limbs = filter(query_wielding_limbs(), (: weapons[$1] :));
+      mixed *limbs = filter(query_wielding_limbs(), (: weapons[$1] :));
       if(!sizeof(limbs))
          return this_object();  // return 0?
 
@@ -91,7 +91,7 @@ int do_unwield(mixed limb)
 {
    if(objectp(limb))
    {
-      *limbs = filter(query_wielding_limbs(),
+      mixed *limbs = filter(query_wielding_limbs(),
                     (: weapons[$1] == $(limb) :));
       if(!sizeof(limbs))
          return 0;

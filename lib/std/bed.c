@@ -15,9 +15,9 @@ void mudlib_setup()
   add_relation("under",VERY_LARGE);
   set_max_capacity(VERY_LARGE*3, "on");
   /* NOTE: 'sit on' is already added by FURNITURE */
-  add_method("lie on",this_object(),(:enter_check:),"$N $vlie on the bed");
+  add_method("lie on",this_object(),(:enter_check:),({"$N $vlie on the bed"}));
   /* This probably isn't a very good capacity for under */
   add_method("crawl under",this_object(),(:enter_check:), 
-	     "$N $vcrawl under the bed");
+	     ({"$N $vcrawl under the bed"}));
 }
 

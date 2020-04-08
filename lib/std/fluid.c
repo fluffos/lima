@@ -95,7 +95,7 @@ void create(){
   set_quantity( 1 );
 }
 
-varargs void set_fluid_level( int x, string y ){
+varargs void set_fluid_level( int x, int y ){
 #ifdef USE_SIZE
   set_size( x );
 #endif

@@ -15,7 +15,7 @@ inherit CMD;
 
 private void main(mixed *arg, mapping flags, string stdin)
 {
-    *files = arg[0];
+    mixed *files = arg[0];
     if (!files) {
         if (!stdin) {
 	    out("Too few arguments.\n");

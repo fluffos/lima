@@ -183,7 +183,7 @@ void receive_ack(mapping ack_list)
 varargs private void handle_ack(mapping ack_list, int flag)
 {
   int			id;
-  string array		errorset;
+  string *errorset;
   class outgoing_info	info;
   class mail_msg	this_msg;
 
@@ -235,7 +235,7 @@ private *prep_message(int id, class outgoing_info info)
 private void send_message(int id)
 {
   class outgoing_info	this_info;
-  array			packet;
+  mixed *packet;
 
   this_info = outgoing_queue[id];
   if (!IMUD_D->mud_exists(this_info->mudname))
@@ -426,8 +426,8 @@ void enqueue_message(class mail_msg msg)
 
 private string *get_local_recipients(mixed *mail_packet)
 {
-  string array	mudnames;
-  string *	local_recipients = ({});
+  string *mudnames;
+  string *local_recipients = ({});
 
   mudnames = filter(keys(mail_packet[3]), // TO list
 		    (: mud_name() == IMUD_D->canon_mudname($1) :)); 
@@ -479,8 +479,8 @@ varargs string *targ_map_to_list(mapping info, int flag)
 
 string *incoming_mail(string mudname, mixed *mail_packet)
 {
-  string *	local_recipients;
-  string array	errors = ({});
+  string *local_recipients;
+  string *errors = ({});
   int	 	i;
 
   if(previous_object() != find_object(IMUD_D))
