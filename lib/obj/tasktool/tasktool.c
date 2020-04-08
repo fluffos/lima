@@ -75,14 +75,14 @@ class command_info *module_commands() {
     int n = 1;
 
     if (our_task != 0) {
-	*t = TASK_D->query_task(our_task);
+	mixed *t = TASK_D->query_task(our_task);
 	
 	ret += ({
 	    new(class command_info, desc : t[1] )
 	});
     }
     
-    foreach (*task in TASK_D->query_tasks(our_task)) {
+    foreach (mixed *task in TASK_D->query_tasks(our_task)) {
 	string key, name, status;
 	
 	key = sprintf("%d", n);
