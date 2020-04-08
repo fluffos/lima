@@ -18,7 +18,7 @@ class command_info {
     string desc;     // A short [~40 chars] description of the command
     string priv;     // priv required to use this command
     string status;      // A short [~10 chars] description of task status
-    *args;      // An *of prompts to use to ask for arguments not
+    mixed *args;      // An *of prompts to use to ask for arguments not
     // given on the line.  Max == 2.
     function action; // The function to be called.
 }
