@@ -38,7 +38,7 @@ protected nomask int mail_has_outgoing(string mudname)
 
 protected nomask int mail_send_outgoing(string mudname, object socket)
 {
-    mixed array	requests = mail_requests[mudname];
+    mixed *requests = mail_requests[mudname];
 
     if (!sizeof(requests))
     {
@@ -69,7 +69,7 @@ private nomask void mail_add_request(string mudname, mixed *request)
       }
 }
 
-public nomask void send_mail_message_to_mud(*packet, string mudname)
+public nomask void send_mail_message_to_mud(mixed *packet, string mudname)
 {
   if(previous_object() != find_object(IMAIL_D))
     {

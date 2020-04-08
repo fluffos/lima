@@ -61,7 +61,7 @@ nomask mapping query_mudlist()
 
 nomask int has_service(string mud, string service)
 {
-  *inf;
+  mixed *inf;
 
   inf = mud_info[mud];
 
