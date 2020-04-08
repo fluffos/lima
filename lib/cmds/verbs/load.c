@@ -9,7 +9,7 @@ void do_load_obj_with_obj(object ob1, object ob2)
 
 void do_load_obj_with_obs( object ob1, object *ob2)
 {
-  handle_obs(ob1, (: do_load_obj_with_obj :), ob2);
+  handle_obs(({ob1}), (: do_load_obj_with_obj :), ob2);
 }
 
 void do_load_obj_in_obj(object ob1, object ob2)

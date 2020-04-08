@@ -18,6 +18,16 @@ void write(string str) {
     }
 }
 
+//:FUNCTION terminal_colour
+//Override of efun to avoid some driver issues.
+string terminal_colour(string str, mapping m, int wrap, int indent)
+{
+    str = efun::terminal_colour(str, m, wrap, indent);
+    str = replace_string(str, "\e[0;10m", "");
+    str = replace_string(str, "\e[49;49m", "");
+    return str;
+}
+
 //:FUNCTION ed
 //The ed() efun is not used by the LIMA mudlib, as we use the new ed
 //functionality.  See ed_session.c

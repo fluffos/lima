@@ -72,7 +72,8 @@ inherit M_DAEMON_DATA;
 
 private void continue_scan();
 private int last_time;
-private *files_to_do, dirs_to_do;
+private mixed *files_to_do;
+private mixed *dirs_to_do;
 
 private void delete_directory(string directory)
 {
@@ -169,7 +170,7 @@ void process_file(string fname)
 {
   string file = read_file(fname);
   string line, prototype;
-  *lines, match;
+  string *lines, match;
   string outfile = 0;
   int i;
 
@@ -303,8 +304,8 @@ void process_file(string fname)
 
 void continue_scan()
 {
-  *files;
-  *item;
+  mixed *files;
+  mixed *item;
 
   for (int i = 0; i < 10; i++)
   {

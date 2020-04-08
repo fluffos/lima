@@ -239,7 +239,7 @@ void add_contents(mapping additions)
 void remove_contents(string *headings...)
 {
   foreach(string heading in flatten_array(headings))
-    remove_synonym(headings);
+    remove_synonym(heading);
 }
 
 //:FUNCTION query_content_page

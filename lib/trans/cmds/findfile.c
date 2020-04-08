@@ -32,7 +32,7 @@ private void end_building()
 private void do_building()
 {
   int i = ITERS_PER_CALL;
-  string array	this_dir;
+  string *this_dir;
 
   while(i--)
   {

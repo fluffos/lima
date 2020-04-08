@@ -6,10 +6,10 @@ inherit CMD;
 mapping data = ([ ]);
 mapping reverse = ([ ]);
 
-*todo;
+string *todo;
 
 void process() {
-    *block = todo[0..99];
+    string *block = todo[0..99];
     mapping m;
     
     todo = todo[100..];
@@ -20,7 +20,7 @@ void process() {
 	string soul = SOUL_D->query_emote(emote);
 	
 	foreach (string rule, string value in soul) {
-	    *parts;
+	    mixed *parts;
 	    string l1, l2, tmp;
 
 	    if (!stringp(value)) continue;
@@ -42,7 +42,7 @@ void process() {
 
 		tmp = part + " " + l1;
                 if (!reverse[tmp]) {
-                    if ( sizeof(reverse) >= get_config(__MAX_MAPPING_SIZE__) )
+                    if ( sizeof(reverse) >= to_int(get_config(__MAX_MAPPING_SIZE__)) )
                         return;
 		    reverse[tmp] = ([ ]);
                 }
@@ -100,7 +100,7 @@ private void main(string str) {
     string ret;
 
     if (str) {
-	*choices = map(filter(keys(data), (: strsrch($1, $(str) + " ") == 0 :)), (: $1[strsrch($1, ' ')+1..] :));
+	string *choices = map(filter(keys(data), (: strsrch($1, $(str) + " ") == 0 :)), (: $1[strsrch($1, ' ')+1..] :));
 	string next;
 	
 	if (!sizeof(choices)) {

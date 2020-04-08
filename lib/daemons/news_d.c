@@ -654,7 +654,7 @@ nomask void remove_post(string group, int id)
 
 varargs nomask int * get_messages(string group, int no_removed)
 {
-    *ret = keys(data[group]) - ({ "next_id" });
+    mixed *ret = keys(data[group]) - ({ "next_id" });
     
     if(is_read_restricted(group))
       return 0;
@@ -863,7 +863,7 @@ void dump(string path) {
 }
 
 *search_for(string what) {
-    *ret = ({});
+    mixed *ret = ({});
     
     foreach (string group, mapping contents in data) {
         foreach (mixed id, class news_msg post in contents) {
@@ -878,7 +878,7 @@ void dump(string path) {
 }
 
 *search_for_author(string who) {
-    *ret = ({});
+    mixed *ret = ({});
     
     foreach (string group, mapping contents in data) {
         foreach (mixed id, class news_msg post in contents) {

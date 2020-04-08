@@ -56,7 +56,7 @@ object *query_armors(string s)
 nomask int wear_item(object what, string where)
 {
    class wear_info wi;
-   *also;
+   mixed *also;
 
    wi = find_wi(where);
    if(!wi || wi->primary)

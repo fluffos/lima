@@ -78,7 +78,7 @@ varargs int hurt_us(int x, string limb)
 void heal_limb(string limb, int x)
 {
    int i = 0;
-   *tmp = wounds[limb];
+   mixed *tmp = wounds[limb];
    int n = sizeof(tmp);
    int left = x;
 
@@ -133,7 +133,7 @@ void kill_us()
 void health_periodic()
 {
    string limb;
-   *w;
+   mixed *w;
    int i, n, severity, delta;
 
    /* pick a random wound, and make it better or worse by up to 20%;
@@ -203,7 +203,7 @@ string *query_all_wounds()
    return keys(wounds);
 }
 
-*query_wounds(string limb)
+int *query_wounds(string limb)
 {
    return wounds[limb];
 }
