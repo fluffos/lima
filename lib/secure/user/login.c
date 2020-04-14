@@ -39,6 +39,8 @@ void display_didlog();
 #define CONFIRM_PASSWORD	4
 #define GET_PASSWORD		10
 
+#define OLD_PASSWD_COMPAT
+
 private string password;
 
 private nomask void get_lost_now()
@@ -67,7 +69,22 @@ private nomask void get_lost()
 
 nomask int matches_password(string str)
 {
-   return crypt(str, password) == password;
+#ifdef OLD_PASSWD_COMPAT
+   if (password[0..2] == "$6$") // 36 == $
+#endif
+      return crypt(str, password) == password;
+#ifdef OLD_PASSWD_COMPAT
+   else
+   {
+      if (oldcrypt(str, password) == password)
+      {
+         write("(Upgrading your password hash to SHA)\n");
+         password = crypt(str, 0);
+         return 1;
+      }
+   }
+   return 0;
+#endif
 }
 
 nomask void set_password(string str)
