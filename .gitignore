@@ -1,1 +1,6 @@
 /build
+/lib/data
+/lib/log
+
+!**/.gitignore
+!/lib/data/config
