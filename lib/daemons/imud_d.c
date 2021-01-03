@@ -16,8 +16,8 @@
 #include <log.h>
 #include <ports.h>
 
-#define ROUTER	"*i4"
-#define ROUTER_ADDRESS "204.209.44.3 8080"
+#define ROUTER "*dalet"
+#define ROUTER_ADDRESS "97.107.133.86 8787"
 
 inherit M_DAEMON_DATA;
 inherit M_RECONNECT;
