@@ -7,7 +7,7 @@ Lima MUD that work with fluffos v2019
 
 # How to test and contribute
 ```
-git clone --recurse-submodules https://github.com/flfufos/lima
+git clone --recurse-submodules https://github.com/fluffos/lima
 cd lima
 ./build.sh
 ./run.sh
