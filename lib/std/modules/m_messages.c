@@ -90,7 +90,7 @@ string *query_msg_types()
       keys(MESSAGES_D->get_messages(def_message_type)));
 }
 
-*handle_obs(mixed *obs, string res, mapping has)
+string *handle_obs(mixed *obs, string res, mapping has)
 {
   string *ret = ({});
   mapping items = ([]);
@@ -160,7 +160,7 @@ string *query_msg_types()
   return ({ res, ret });
 }
 
-*handle_ob(mixed ob, string res, mapping has)
+string *handle_ob(mixed ob, string res, mapping has)
 {
   string bit;
 
