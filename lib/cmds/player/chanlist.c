@@ -26,10 +26,11 @@ private nomask string fmt_imud_channel(string channel_name,
 				       mixed * channel_data)
 {
   string owner = channel_data[0];
-  string type = ({ "unrestricted",
-      "restricted",
-      "filtered" })[channel_data[1]];
+  string type ;
+  string *valid_types = ({ "unrestricted", "restricted", "filtered" }) ;
 
+  if(!intp(channel_data[1])) type = save_variable(channel_data[1]) ;
+  else type = valid_types[channel_data[1]];
   if ( owner == "*" )
     owner = "no owner";
 
