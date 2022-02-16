@@ -28,7 +28,7 @@ void update_translations() {
      * chooses the second when there is an overlap.
      */
     colours = ANSI_D->defaults() + colours;
-    if (this_user()->query_shell_ob()->get_variable("ansi"))
+    if (query_shell_ob()->get_variable("ansi"))
 	translations = ANSI_D->query_translations()[0];
     else
 	translations = ANSI_D->query_translations()[1];
@@ -51,11 +51,11 @@ void set_colour(string which, string what) {
     save_me();
 }
 
-string query_colour(string which) {
+void query_colour(string which) {
     return colours[which];
 }
 
-string *query_colours() {
+mixed *query_colours() {
     return keys(colours);
 }
 

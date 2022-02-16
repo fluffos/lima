@@ -19,7 +19,7 @@ private nomask int default_num()
 }
 
 //:FUNCTION more
-//more(arg) starts up more to display the *of lines 'arg'.  If arg is
+//more(arg) starts up more to display the array of lines 'arg'.  If arg is
 //a string, it is exploded around "\n".  An optional second argument gives
 //the number of lines per chunk.  An optional continuation function will
 //be evaluated when the "more" is completed.
@@ -52,7 +52,7 @@ varargs nomask void more(mixed arg, int num, function continuation,
 
 //:FUNCTION more_file
 //more_file(arg) starts up more to display the single file 'arg' if 'arg'
-//is a string, or more than one file if 'arg' is an *of strings.
+//is a string, or more than one file if 'arg' is an array of strings.
 //An optional second argument gives the number of lines per chunk.  An
 //optional continuation function will be evaluated when the "more" is
 //completed.

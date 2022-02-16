@@ -422,7 +422,7 @@ nomask string * get_groups()
     // expensive
     ret = filter(keys(data), function(string group)
       {
-	  function *a;
+	  mixed *a;
 	  string prefix;
 	  function f;
 	  int i = member_array('.', group, 1) - 1;
@@ -443,7 +443,7 @@ nomask string * get_groups()
 nomask int query_write_to_group( string group )
 {
     function f;
-    function *a;
+    mixed *a;
 
     string prefix;
     int i = member_array('.', group, 1) - 1;

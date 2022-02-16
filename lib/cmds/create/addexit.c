@@ -17,7 +17,7 @@ private string reverse(string dir) {
     }
 }
 
-private void main(mixed *args) {
+private void main(string *args) {
     string dir = args[0];
     string where = args[1];
     string fname;

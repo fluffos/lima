@@ -8,9 +8,9 @@
 **	/serverfname/x/y
 **
 ** The data for the server is pulled from the data file provided at
-** create() time.  It is an *of description-id values (in the
+** create() time.  It is an array of description-id values (in the
 ** first N non-comment lines).  Comments are lines beginning with #.
-** After the description *are lists of rooms for the boundaries
+** After the description array are lists of rooms for the boundaries
 ** of the grid.  They are in north, east, south, west order; one line
 ** per grid spot.
 **

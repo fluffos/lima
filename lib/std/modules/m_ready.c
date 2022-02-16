@@ -5,14 +5,14 @@
 // to interact with the "ready" verb which prepares for firing
 
 //:FUNCTION do_ready
-// Adds the object to the "ready" *of ammunition
+// Adds the object to the "ready" array of ammunition
 void do_ready()
 {
   this_body()->add_readied(this_object());
 }
 
 //:FUNCTION do_unready
-// Removes the object from the "ready" *of ammunition
+// Removes the object from the "ready" array of ammunition
 void do_unready()
 {
   this_body()->remove_readied(this_object());

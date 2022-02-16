@@ -73,7 +73,7 @@ mixed check_condition(int urgent) {
 	if (urgent) {
 	    if (random(5)<=chance++) {
 		wake_up();
-//FIXME: print_result takes a class combat_result *now.
+//FIXME: print_result takes a class combat_result array now.
 #if 0
 		print_result("wakeup");
 #endif

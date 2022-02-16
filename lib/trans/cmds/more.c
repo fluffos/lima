@@ -11,7 +11,7 @@ inherit CMD;
 //
 // Prints out the lines of a file
 
-// we will recieve  : ({ *of files })
+// we will recieve  : ({ array of files })
 
 private void main(mixed *arg, mapping flags, string stdin)
 {

@@ -159,7 +159,7 @@ private nomask string query_last_page()
 }
 
 //:FUNCTION set_pages
-//Set the pages that are in the book.  Each element of the *is the text
+//Set the pages that are in the book.  Each element of the array is the text
 //that appears on the page.  The elements can be either the text that is on the
 //page, a filename, or a function pointer that generates one of these.
 void set_pages(mixed *page_data...)

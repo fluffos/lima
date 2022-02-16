@@ -16,6 +16,12 @@
 #include <log.h>
 #include <ports.h>
 
+// "*Kelly" "45.64.56.66 8080"
+// "*dalet" "97.107.133.86 8787"
+// "*wpr" "195.242.99.94 8080"
+// "*i4" "204.209.44.3 8080" defunct
+// "*gjs" "198.144.203.194 9000" defunct
+
 #define ROUTER "*dalet"
 #define ROUTER_ADDRESS "97.107.133.86 8787"
 
@@ -112,7 +118,7 @@ protected void send_to_router(string type, mixed * message)
     send_message(type, ROUTER, 0, message);
 }
 
-public void send_to_mud(string type, string mudname, mixed * message)
+protected void send_to_mud(string type, string mudname, mixed * message)
 {
     send_message(type, mudname, 0, message);
 }
@@ -137,16 +143,13 @@ protected void return_error(string mudname, string username,
 /* handle reads from the router */
 private nomask void handle_router_read(object socket, mixed * message)
 {
-    // If there's nothing in the message, then return ;
-    if(!sizeof(message)) return ;
-
-    if (message[0]!= "mudlist")
-    {
-        string s = sprintf("%O", message);
-        if ( sizeof(s) > 200 )
-	    s[200..] = "...";
-        //    TBUG(s);
-    }
+if (message[0]!= "mudlist")
+{
+    string s = sprintf("%O", message);
+    if ( sizeof(s) > 200 )
+	s[200..] = "...";
+    //    TBUG(s);
+}
 
     if ( !dispatch[message[0]] )
     {

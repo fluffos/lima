@@ -28,7 +28,7 @@ int dy(int i) {
 }
 
 void create() {
-    int *valid = allocate(4);
+    mixed *valid = allocate(4);
     int x, y;
     
     data = allocate(SIZE);

@@ -39,7 +39,7 @@ private nosave int following;
 //Strings must be an id of the object which you want to have 
 //followed.
 //If a function pointer is used it must return a string, object
-//or an *of objects and strings.  An argument of this_object
+//or an array of objects and strings.  An argument of this_object
 //is passed to the function pointer.
 void set_follow_search(mixed *follow...)
 {
@@ -62,7 +62,7 @@ void remove_follow_search(mixed *follow...)
 }
 
 //:FUNCTION clear_follow_search
-//Clears the search *for following
+//Clears the search array for following
 void clear_follow_search()
 {
   follow_search=({});

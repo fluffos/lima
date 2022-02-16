@@ -38,7 +38,7 @@ private mapping rates = ([ ]);
 //Mapping of currency names to plural of the names
 private mapping plurals = ([ ]);
 
-//Mapping of currency names to sorted *of denomination names
+//Mapping of currency names to sorted array of denomination names
 private mapping denominations = ([ ]);
 
 //Mapping of denomination name to class denomination
@@ -72,7 +72,7 @@ nomask string *query_currency_types() {
 }
 
 //:FUNCTION query_denominations
-//Returns the *of denominations of a currency 
+//Returns the array of denominations of a currency 
 //or all available denominations
 varargs nomask string *query_denominations(string type) {
   if (type) {
@@ -319,7 +319,7 @@ varargs nomask string currency_to_string(mixed money, string currency) {
 
 //:FUNCTION handle_subtract_money
 //substracts an amount of currency from a player and adds change.
-//returns an *of two mappings: substract and change, which
+//returns an array of two mappings: substract and change, which
 //consist of the denominations which were used.
 mapping *handle_subtract_money(object player, float f_amount, 
 				     string type) {

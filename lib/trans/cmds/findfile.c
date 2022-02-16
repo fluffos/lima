@@ -117,7 +117,7 @@ private void main(mixed * arg, mapping flags)
     begin_database_build();
     return;
   } else {
-/* arg[0] is an *of strings. use just the first */
+/* arg[0] is an array of strings. use just the first */
     find = arg[0];
     ed_start(DATA_FILE);
     outstr = ed_cmd(sprintf("1,$g#%s#p", find));

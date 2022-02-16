@@ -15,9 +15,10 @@ inherit M_DAEMON_DATA;
 #define TASK_ATTR 5
 #define TASK_SUB 6
 
-nomask private mixed *find_task(string);
+nomask private *find_task(string);
 
-private mixed *tasks = ({});
+private
+mixed *tasks = ({});
 
 //:FUNCTION query_title
 // Return the title for a given task.
@@ -105,7 +106,7 @@ nomask mixed query_attributes(string task_id)
 
 //:FUNCTION query_sub_tasks
 // Return the sub-tasks for a given task.
-nomask *query_sub_tasks(string task_id)
+nomask mixed *query_sub_tasks(string task_id)
 {
   mixed *task = find_task(task_id);
 
@@ -227,7 +228,7 @@ nomask void clear_attributes(string task_id)
 // --------------------------------------------------------------
 
 //:FUNCTION check_completed
-// Recursively check an *of tasks and
+// Recursively check an array of tasks and
 // return 1 if they are all completed, 0 otherwise.
 nomask private int check_completed(mixed *task_list)
 {
@@ -312,14 +313,14 @@ nomask string resolve_parent_id(string task_id)
 
 //:FUNCTION query_task
 // Return a copy of the specified task.
-nomask *query_task(string task_id)
+nomask mixed *query_task(string task_id)
 {
   return copy(find_task(task_id));
 }
 
 //:FUNCTION query_tasks
 // Return a copy of the tasks array.
-varargs nomask *query_tasks(string task_id)
+varargs nomask mixed *query_tasks(string task_id)
 {
   mixed *task;
 

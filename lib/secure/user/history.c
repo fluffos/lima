@@ -32,7 +32,7 @@ void add_tell_history(string add) {
   /* Strip trailing \n's */
   if(add[<1]=='\n')
     add=add[0..<2];
-  /* Add the history item to the end of the **/
+  /* Add the history item to the end of the array */
   tell_history+=({add});
   size=sizeof(tell_history);
   if(size>CHANNEL_HISTORY_SIZE) { 

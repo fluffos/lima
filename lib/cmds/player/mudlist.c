@@ -21,7 +21,7 @@ inherit M_REGEX;
 
 /*
 ** Pairs of info for each column.  ( header-index, field-width )
-** The header indices can be seen from the headers[] *below.
+** The header indices can be seen from the headers[] array below.
 **
 ** NOTE: at the moment, the first two elements must specify the "Up"
 **       state and the mud name

@@ -10,7 +10,7 @@
 
 //:FUNCTION complete
 //Given a string and a list of possible completions of that string,
-//return an *of all strings that would be valid completions.
+//return an array of all strings that would be valid completions.
 
 string* complete(string partial, string* potentials)
 { 
@@ -44,7 +44,7 @@ string *find_best_match_or_complete(string partial, string *potentials)
 
 //:FUNCTION complete_user
 //given a username that might be partial, returns a
-//user name, or an *of strings on a partial match, or 0 on no match.
+//user name, or an array of strings on a partial match, or 0 on no match.
 
 mixed complete_user(string name)
 {

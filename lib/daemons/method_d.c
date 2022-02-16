@@ -57,7 +57,7 @@ void remove_method(string method)
 }
 
 //:FUNCTION list_methods
-//Return an *of all methods which have equivalents
+//Return an array of all methods which have equivalents
 string *list_methods()
 {
   return keys(methods);
@@ -105,7 +105,7 @@ void remove_method_equivalents(string method, string *equivs...)
 }
 
 //:FUNCTION list_method_equivalents
-//Return an *of equivalents to a given method
+//Return an array of equivalents to a given method
 string *list_method_equivalents(string method)
 {
   if(member_array(method,keys(methods))==-1)

@@ -25,7 +25,7 @@ void set_trainer_msgs( mapping msgs )
 }
 
 
-void set_train_restrict( *restrictions )
+void set_train_restrict( string *restrictions )
 {
     string *valid_skills = SKILL_D->query_skills();
 

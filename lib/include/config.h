@@ -235,7 +235,7 @@
 /* The administrator(s)' email address(es).
  * NOTE: This is required to be changed in order to have a working
  * I3 system. */
-#define ADMIN_EMAIL		"user@host.name"
+#define ADMIN_EMAIL		"quixadhal@gmail.com"
 
 /* If this is undefined, anonymous ftp is allowed - undef it to prevent.
   Anon ftp users are limited to /ftp/pub.*/

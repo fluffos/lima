@@ -79,7 +79,7 @@ void do_get_obj_from_obj(object ob1, object ob2)
   get_one(ob1, 0, 0);
 }
 
-void do_get_obs_from_obj(string *info, object ob2)
+void do_get_obs_from_obj(object *info, object ob2)
 {
   handle_obs(info, (
                        : get_one:));
@@ -90,7 +90,7 @@ void do_get_obj_from_wrd_obj(object ob1, string rel, object ob2)
   get_one(ob1, 0, rel);
 }
 
-void do_get_obs_from_wrd_obj(string *info, string rel, object ob2)
+void do_get_obs_from_wrd_obj(object *info, string rel, object ob2)
 {
   handle_obs(info, (
                        : get_one:),
@@ -102,7 +102,7 @@ void do_get_obj_out_of_obj(object ob1, object ob2)
   get_one(ob1, 0, 0);
 }
 
-void do_get_obs_out_of_obj(string *info, object ob2)
+void do_get_obs_out_of_obj(object *info, object ob2)
 {
   handle_obs(info, (
                        : get_one:));
