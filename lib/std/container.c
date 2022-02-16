@@ -199,7 +199,7 @@ void remove_relation_alias(string relation,string aliases...)
 }
 
 //:FUNCTION query_relation_aliases
-//Return the *of aliases that a relation has.
+//Return the array of aliases that a relation has.
 string *query_relation_aliases(string relation)
 {
   return relation_aliases[relation];
@@ -710,7 +710,7 @@ varargs mixed *set_objects(mapping m,string relation) {
 //:FUNCTION set_unique_objects
 //Provide a list of objects to be loaded now and at every reset if they
 //are not already loaded.  The key should be the filename of the object, 
-//and the value should be an *which is passed to create() when the 
+//and the value should be an array which is passed to create() when the 
 //objects are cloned.
 //The structure of the mapping should be the same as the structure of the 
 //mapping for set_objects().  For unique objects, to be checked, you should

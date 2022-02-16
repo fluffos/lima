@@ -17,7 +17,7 @@ class command_info {
     string priv;     // priv required to use this command
     string who;      // A short [~10 chars] description of who can use the
     // command
-    *args;      // An *of prompts to use to ask for arguments not
+    string *args;      // An *of prompts to use to ask for arguments not
     // given on the line.  Max == 2.
     function action; // The function to be called.
 }

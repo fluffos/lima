@@ -493,7 +493,7 @@ void channel_rcv_string(string channel_name, string message)
     receive_private_msg(message);
 }
 
-void channel_rcv_soul(string channel_name, *data)
+void channel_rcv_soul(string channel_name, mixed *data)
 {
     string msg;
 
@@ -635,7 +635,7 @@ string in_room_desc() { return base_in_room_desc() + query_idle_string(); }
 
 #ifdef USE_SKILLS
 
-class combat_result *negotiate_result(class combat_result *result)
+class combat_result *negotiate_result(class combat_result mixed *result)
 {
     result = (class combat_result array)::negotiate_result(result);
 

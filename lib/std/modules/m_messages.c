@@ -90,7 +90,7 @@ string *query_msg_types()
       keys(MESSAGES_D->get_messages(def_message_type)));
 }
 
-*handle_obs(mixed *obs, string res, mapping has)
+mixed *handle_obs(mixed *obs, string res, mapping has)
 {
   string *ret = ({});
   mapping items = ([]);
@@ -191,7 +191,7 @@ string *query_msg_types()
 
 //:FUNCTION compose_message
 //The lowest level message composing function; it is passed the object
-//for whom the message is wanted, the message string, the *of people
+//for whom the message is wanted, the message string, the array of people
 //involved, and the objects involved.  It returns the appropriate message.
 //Usually this routine is used through the higher level interfaces.
 varargs string compose_message(object forwhom, string msg, object *who, 
@@ -385,7 +385,7 @@ varargs string compose_message(object forwhom, string msg, object *who,
 
 //:FUNCTION action
 //Make the messages for a given group of people involved.  The return
-//value will have one *per person, as well as one for anyone else.
+//value will have one array per person, as well as one for anyone else.
 //inform() can be used to send these messages to the right people.
 //see: inform
 
@@ -406,11 +406,11 @@ varargs string *action(object *who, mixed msg, mixed *obs...)
 //### This now always indents continuation lines.  Might want a flag at the
 //### end to enable or disable that.
 //:FUNCTION inform
-//Given an *of participants, and an *of messages, and either an
-//object or *of objects, deliver each message to the appropriate
+//Given an array of participants, and an array of messages, and either an
+//object or array of objects, deliver each message to the appropriate
 //participant, being careful not to deliver a message twice.
 //The last arg is either a room, in which that room is told the 'other'
-//message, or an *of people to recieve the 'other' message.
+//message, or an array of people to recieve the 'other' message.
 void inform(object *who, string *msgs, mixed others)
 {
   int i;

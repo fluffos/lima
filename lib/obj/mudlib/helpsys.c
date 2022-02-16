@@ -52,7 +52,7 @@ string *shorten(string *names)
     if(sizeof(t)>1)
       dup += ({t[0]});
 
-// dup is now an *of duplicate names
+// dup is now an array of duplicate names
 
   for(int j=0;j<sizeof(names);j++)
   {

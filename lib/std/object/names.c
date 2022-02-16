@@ -293,7 +293,7 @@ void clear_adj()
 /****** query_ ******/
 
 //:FUNCTION query_id
-//Returns an *containing the ids of an object
+//Returns an array containing the ids of an object
 string *query_id() {
     string *fake = this_object()->fake_item_id_list();
 

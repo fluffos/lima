@@ -70,7 +70,7 @@ void clear_wander_area()
 }
 
 //:FUNCTION query_wander_area
-//Returns an *of areas in which may wander.  
+//Returns an array of areas in which may wander.  
 //See set_wander_area()
 string *query_wander_area()
 {

@@ -18,7 +18,7 @@ private nomask void handle_mail(string mudname,
 				object socket,
 				mixed * message)
 {
-  string *	errors;
+  string * errors;
 
   errors = IMAIL_D->incoming_mail(mudname, message);
   oob_svc_send(socket, ({"mail-ack", ([ message[1] : errors ])}));

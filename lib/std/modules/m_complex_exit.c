@@ -68,7 +68,7 @@ private string *all_methods_matched(string method)
     return matches;
 }
 
-/* Return an *of all of the methods which might match the method passed
+/* Return an array of all of the methods which might match the method passed
  * to the function.  It breaks down the preposition to it's lowest form before
  * making its determination, allowing for the fullest range of possible forms.
  */
@@ -176,8 +176,8 @@ string query_direction()
 //Setup a go method.  The first argument is the verb to be used, the second 
 //argument is the destination to move the body to when invoked successfully,
 //the third argument is the check to be performed before invoking the method
-//the fourth argument is an *of possible exit messages, and the fifth
-//argument is an *of possible enter messages.  Only the first two
+//the fourth argument is an array of possible exit messages, and the fifth
+//argument is an array of possible enter messages.  Only the first two
 //arguments are required, the rest are optional.
 varargs void set_method(string method,mixed destination,mixed checks,mixed *exit_messages,mixed *enter_messages)
 {
@@ -216,8 +216,8 @@ varargs void set_method(string method,mixed destination,mixed checks,mixed *exit
 //Add a go method.  The first argument is the verb to be used, the second 
 //argument is the destination to move the body to when invoked successfully,
 //the third argument is the check to be performed before invoking the method
-//the fourth argument is an *of possible exit messages, and the fifth
-//argument is an *of possible enter messages.  Only the first two
+//the fourth argument is an array of possible exit messages, and the fifth
+//argument is an array of possible enter messages.  Only the first two
 //arguments are required, the rest are optional.
 varargs void add_method(string method,mixed destination,mixed checks,mixed *exit_messages,mixed *enter_messages)
 {
@@ -311,7 +311,7 @@ mixed query_method_destination(string method)
 
 //:FUNCTION set_method_enter_messages
 //Set the enter messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an *of 
+//Acceptable arguments are strings, or function pointers, or an array of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is entering
 varargs void set_method_enter_messages(string method,mixed *messages...)
@@ -326,7 +326,7 @@ varargs void set_method_enter_messages(string method,mixed *messages...)
 
 //:FUNCTION add_method_enter_messages
 //Add the enter messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an *of 
+//Acceptable arguments are strings, or function pointers, or an array of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is entering
 varargs void add_method_enter_messages(string method,mixed messages...)
@@ -341,7 +341,7 @@ varargs void add_method_enter_messages(string method,mixed messages...)
 
 //:FUNCTION remove_method_enter_messages
 //Remove the enter messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an *of 
+//Acceptable arguments are strings, or function pointers, or an array of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is entering
 varargs void remove_method_enter_messages(string method,mixed messages...)
@@ -379,7 +379,7 @@ string query_method_enter_message(string method)
 }
 
 //:FUNCTION list_method_enter_messages
-//Return an *of the method's enter messages
+//Return an array of the method's enter messages
 mixed *list_method_enter_messages(string method)
 {
     string *applicable_methods=methods_matched(method);
@@ -392,7 +392,7 @@ mixed *list_method_enter_messages(string method)
 
 //:FUNCTION set_method_exit_messages
 //Set the exit messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an *of 
+//Acceptable arguments are strings, or function pointers, or an array of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is exiting
 varargs void set_method_exit_messages(string method,mixed messages...)
@@ -407,7 +407,7 @@ varargs void set_method_exit_messages(string method,mixed messages...)
 
 //:FUNCTION add_method_exit_messages
 //Add the exit messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an *of 
+//Acceptable arguments are strings, or function pointers, or an array of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is exiting
 varargs void add_method_exit_messages(string method,mixed messages...)
@@ -422,7 +422,7 @@ varargs void add_method_exit_messages(string method,mixed messages...)
 
 //:FUNCTION remove_method_exit_messages
 //Remove the exit messages to be used by the given method.  
-//Acceptable arguments are strings, or function pointers, or an *of 
+//Acceptable arguments are strings, or function pointers, or an array of 
 //either (mixed is acceptable)
 //The method is to be seen by the bodies in the room that the body is exiting
 varargs void remove_method_exit_messages(string method,mixed messages...)
@@ -451,7 +451,7 @@ string query_method_exit_message(string method)
 	return;
 
     ret=methods[applicable_methods[0]]->exit_messages;
-    /* We know that ret has to be an *at this point, select one element
+    /* We know that ret has to be an array at this point, select one element
      * randomly */
     ret=ret[random(sizeof(ret))];
     /* Evaluate it on the chance it's a function pointer */
@@ -460,7 +460,7 @@ string query_method_exit_message(string method)
 }
 
 //:FUNCTION list_method_exit_messages
-//Return an *of the method's exit messages
+//Return an array of the method's exit messages
 mixed *list_method_exit_messages(string method)
 {
     string *applicable_methods=methods_matched(method);

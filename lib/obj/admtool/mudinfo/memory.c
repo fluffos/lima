@@ -12,7 +12,7 @@ nomask string module_key() {
 
 private void obj_and_prog() {
     mapping info = ([]);
-    *k;
+    mixed *k;
     string ret;
     
     foreach (object o in objects())

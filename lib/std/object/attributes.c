@@ -11,7 +11,7 @@
 
 /*
 ** The key is a flag value (see /include/flags.h) and the values are a
-** string or an *of three strings.  For the first case, the string will
+** string or an array of three strings.  For the first case, the string will
 ** be used if the flag is set. For the latter case: if the object responds
 ** TRUE to the function specified in the third string, then the first
 ** string (at index 0) will be used if the flag is off, and the second

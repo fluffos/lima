@@ -13,7 +13,7 @@ void do_give_obj_to_liv(object ob, object liv) {
     this_body()->targetted_action("$N $vgive a $o to $t.", liv, ob);
 }
 
-void do_give_obs_to_liv(string *info, object liv) {
+void do_give_obs_to_liv(object *info, object liv) {
     handle_obs(info, (: do_give_obj_to_liv :), liv);
 }
 

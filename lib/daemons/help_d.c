@@ -31,7 +31,7 @@ private nosave mapping topic_refs =
 
 /*
 ** This mapping contains all the topics in the system.  It
-** maps topic names to an *of pathnames.  The level-
+** maps topic names to an array of pathnames.  The level-
 ** restriction on the topic is then computed by examining
 ** the lead part of the pathname.
 */
@@ -164,7 +164,7 @@ nomask void create()
 ** find_topic()
 **
 ** Will return 0 if the topic does not exist (within the current
-** player's level).  Otherwise, an *of pathnames will be
+** player's level).  Otherwise, an array of pathnames will be
 ** returned.
 */
 nomask string * find_topic(string name)

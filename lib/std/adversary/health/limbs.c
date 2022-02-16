@@ -71,7 +71,7 @@ int is_attacking_limb(string limb)
 
 //:FUNCTION query_limbs
 // string *query_limbs();
-// Returns a string *containing all limbs that health is applied to.
+// Returns a string array containing all limbs that health is applied to.
 string *query_limbs()
 {
    return keys(health);
@@ -79,7 +79,7 @@ string *query_limbs()
 
 //:FUNCTION query_wielding_limbs
 // string *query_wielding_limbs();
-// Returns a string *containing all the limbs that can wield weapons.
+// Returns a string array containing all the limbs that can wield weapons.
 string *query_wielding_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags & LIMB_WIELDING :));
@@ -87,7 +87,7 @@ string *query_wielding_limbs()
 
 //:FUNCTION query_attacking_limbs
 // string *query_attacking_limbs();
-// Returns a string *containing all the limba that can attack.
+// Returns a string array containing all the limba that can attack.
 string *query_attacking_limbs()
 {
    return filter(keys(health), (: ((class limb)health[$1])->flags &
@@ -96,7 +96,7 @@ LIMB_ATTACKING :));
 
 //:FUNCTION query_vital_limbs
 // string *query_vital_limbs();
-// Returns a string *containing all the limbs that are considered
+// Returns a string array containing all the limbs that are considered
 // vital for survival. If any one of these limbs is disabled, the
 // adversary dies.
 string *query_vital_limbs()
@@ -115,7 +115,7 @@ string *query_mobile_limbs()
 
 //:FUNCTION query_system_limbs
 // string *query_system_limbs();
-// Returns a string *of 'system' limbs. When ALL system limbs are
+// Returns a string array of 'system' limbs. When ALL system limbs are
 // disabled, the adversary dies.
 string *query_system_limbs()
 {

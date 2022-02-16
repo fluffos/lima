@@ -16,6 +16,12 @@
 #include <log.h>
 #include <ports.h>
 
+// "*Kelly" "45.64.56.66 8080"
+// "*dalet" "97.107.133.86 8787"
+// "*wpr" "195.242.99.94 8080"
+// "*i4" "204.209.44.3 8080" defunct
+// "*gjs" "198.144.203.194 9000" defunct
+
 #define ROUTER "*dalet"
 #define ROUTER_ADDRESS "97.107.133.86 8787"
 

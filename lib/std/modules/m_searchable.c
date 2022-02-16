@@ -16,7 +16,7 @@ void searchable_once(int i) { once = i; }
 int query_search_once() { return once; }
 
 //:FUNCTION searchable_with
-//Give an *of filenames that can be used to search this object.
+//Give an array of filenames that can be used to search this object.
 void searchable_with(string *filenames) { with = filenames; }
 string *query_searchable_with() { return with; }
 

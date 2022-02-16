@@ -47,7 +47,7 @@ call_trace() {
 // There should be an | operator for this.
 
 //:FUNCTION clean_array
-//returns a version of the passed *with duplicate
+//returns a version of the passed array with duplicate
 //entries removed.  Eg, clean_array(({1,2,2}))  => ({1,2})
 mixed*
 clean_array(mixed* r) {
@@ -140,8 +140,8 @@ int cmp( mixed a, mixed b )
 
 
 //:FUNCTION insert
-//Inserts the contents of the *of the first argument into
-//The *in the second argument before the nth element of the array,
+//Inserts the contents of the array of the first argument into
+//The array in the second argument before the nth element of the array,
 //where n is the 3rd argument passed to insert.
 
 // Rust hacked at this to make it a bit more intuitive...
@@ -155,7 +155,7 @@ mixed insert( mixed 	to_insert,
   if( !arrayp( to_insert ) )
     return (void)error("Bad type arg 1 to simul efun insert()");
 
-  if( !arrayp( into_*) )
+  if( !arrayp( into_array ) )
     return (void)error("Bad type arg 2 to simul efun insert()");
 
   if( !intp( where ) )
@@ -371,7 +371,7 @@ varargs mixed eval( string arg, string includefile )
 //will return: ({1,2,3,4}).  The algorithm is not recursive, so if any of
 //the arrays have arrays in them, those arrays remain intact.  Eg,
 //decompose( ({1,({({2,3}),4}),5}) )  returns:({1,({2,3}),4,5}).
-//See flatten_*for a recursive version.
+//See flatten_array for a recursive version.
 
 mixed* decompose( mixed* org )
 {
@@ -393,7 +393,7 @@ mixed* decompose( mixed* org )
 
 //:FUNCTION choice
 //Returns a random element of the structure passed, if that
-// is an aggregate type (i.e., A string, *or mapping).
+// is an aggregate type (i.e., A string, array or mapping).
 
 mixed choice( mixed f ){
     mixed *k;
@@ -422,7 +422,7 @@ else
 
 //:FUNCTION max
 //Returns the largest element of a structure that is a string,
-//*or mapping.
+//array or mapping.
 
 mixed max( mixed f ){
   if(stringp(f)) f = explode(f," ");
@@ -433,7 +433,7 @@ else
 }
 
 //:FUNCTION flatten_array
-//Takes a *that may contain arrays, and reduces all
+//Takes an array that may contain arrays, and reduces all
 //arrays so that the result is a one dimensional array
 
 mixed

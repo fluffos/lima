@@ -81,7 +81,7 @@ protected void execute_command(string original_input)
 {
   string * argv = explode(original_input, " ");
   mixed tmp;
-  *winner;
+  mixed *winner;
   string argument;
 
 /* BEGINNING OF EXPANSION */

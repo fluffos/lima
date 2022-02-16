@@ -560,7 +560,7 @@ nomask int query_flags(string channel_name)
 /*
 ** make_name_list()
 **
-** Make a list of names given an *of players.
+** Make a list of names given an array of players.
 */
 nomask string make_name_list(mixed * list)
 {

@@ -43,13 +43,13 @@ private string mail_link(string s)
 
 string main(string pattern) 
 {
-  string	ret = "";
-  mapping	mudlist	= IMUD_D->query_mudlist();
-  int		nummuds = sizeof(mudlist);
-  string * muds = keys(mudlist);
-  *	data;
-  string * matches;
-  *        arg;
+  string        ret = "";
+  mapping       mudlist	= IMUD_D->query_mudlist();
+  int           nummuds = sizeof(mudlist);
+  string        *muds = keys(mudlist);
+  mixed         *data;
+  string        *matches;
+  mixed         *arg;
 
   if ( !pattern )
     matches = muds;

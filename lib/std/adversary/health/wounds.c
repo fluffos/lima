@@ -16,7 +16,7 @@ class diagnosis
 string number_word(int);       /* M_GRAMMAR */
 string number_of(int, string);
 
-/* Value is an *of numbers, indicating the size of the wounds.  Note
+/* Value is an array of numbers, indicating the size of the wounds.  Note
  * that the sum of wounds[limb] should ALWAYS be health[limb]->max_health
  * minus health[limb]->health.
  *

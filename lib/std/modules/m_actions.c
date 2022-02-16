@@ -15,12 +15,11 @@ void action_departure(object);
 private nosave function arrival_fn = (: action_arrival :);
 private nosave function departure_fn = (: action_departure :);
 
-private function            my_hook;
-private nosave string *response_queue = ({ });
-private int                 delay_time = 5;
-private string *       my_actions;
-
-private object              env;
+private function         my_hook;
+private nosave string   *response_queue = ({ });
+private int              delay_time = 5;
+private string          *my_actions;
+private object           env;
 
 mixed need_hooks() { return 1; }
 

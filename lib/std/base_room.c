@@ -102,7 +102,7 @@ void mudlib_setup()
 
 //:FUNCTION set_area
 //Used by m_wander to prevent monsters from wandering to far.
-//Can either be a string, or an *of strings
+//Can either be a string, or an array of strings
 void set_area(string *names...)
 {
     area_names = names;

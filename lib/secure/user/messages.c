@@ -55,7 +55,7 @@ void query_colour(string which) {
     return colours[which];
 }
 
-*query_colours() {
+mixed *query_colours() {
     return keys(colours);
 }
 
