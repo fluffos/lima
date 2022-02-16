@@ -15,10 +15,9 @@ inherit M_DAEMON_DATA;
 #define TASK_ATTR 5
 #define TASK_SUB 6
 
-nomask private *find_task(string);
+nomask private mixed *find_task(string);
 
-private
-mixed *tasks = ({});
+private mixed *tasks = ({});
 
 //:FUNCTION query_title
 // Return the title for a given task.
@@ -378,7 +377,7 @@ string add_task(string parent_id, string title, string description, string who)
 
 //:FUNCTION remove_task
 // Remove the specified task.
-*remove_task(string task_id)
+mixed *remove_task(string task_id)
 {
   mixed *task = copy(find_task(task_id));
   string parent_id = resolve_parent_id(task_id);

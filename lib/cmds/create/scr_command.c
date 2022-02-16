@@ -31,7 +31,7 @@ string get_file_name() {
 int add_exit(string fname, string dir, string value) {
     string text = read_file(fname);
     string before, values, after;
-    *parts;
+    string *parts;
     int i, found;
     
     if (!text) {
@@ -102,7 +102,7 @@ int add_exit(string fname, string dir, string value) {
 int change_attribute(string fname, string attr, string what) {
     string text = read_file(fname);
     string before, after;
-    *parts;
+    string *parts;
     int i;
     
     if (!text) {
@@ -150,7 +150,7 @@ int change_attribute(string fname, string attr, string what) {
 
 void update(string fname) {
     object ob;
-    *tosave;
+    object *tosave;
     
     if (ob = find_object(fname)) {
 	tosave = filter(all_inventory(ob), function(object ob) {
