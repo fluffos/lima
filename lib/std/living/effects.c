@@ -92,7 +92,7 @@ int find_effect_name_index(string name)
 }
 
 //:FUNCTION find_effect_indexes_matching
-// Return *of positions of effects (part-)matching specified name
+// Return array of positions of effects (part-)matching specified name
 // Return ({})
 int *find_effect_indexes_matching(string name)
 {
@@ -302,7 +302,7 @@ void clear_effects()
 
 //:FUNCTION query_effects
 // Returns copy of the effects queue
-*query_effects() { return copy(effects); }
+mixed *query_effects() { return copy(effects); }
 
 //:FUNCTION add_effect
 // Adds the specified effect

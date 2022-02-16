@@ -17,7 +17,7 @@
 
 // TODO
 // Something to show more than the MAX_HEADERS amount of posts
-// The query_message_lines() returns an *which is then imploded,
+// The query_message_lines() returns an array which is then imploded,
 //   would it not be faster to send a string and not have to implode?
  
 #include <edit.h>

@@ -13,11 +13,11 @@ class parse_info {
     int term;
 }
 
-private string *parse_file(class parse_info pi, string *term) {
-    string *program = ({});
+private mixed *parse_file(class parse_info pi, string *term) {
+    mixed *program = ({});
     string keyword;
     int tmp;
-    string *tmparr;
+    mixed *tmparr;
     string arg1, arg2;
     
     while (pi->cur < sizeof(pi->lines)) {
@@ -143,7 +143,7 @@ string parse_literal(string expr) {
     return expr;
 }
 
-string parse_expr1(mixed *parts) {
+string parse_expr1(string *parts) {
     string expr1, expr2;
     string token = parts[parts[0]++];
     
@@ -171,7 +171,7 @@ string parse_expr1(mixed *parts) {
  * expr: expr1 |
  *       expr1 infix expr
  */
-string parse_expr(mixed *parts) {
+string parse_expr(string *parts) {
     string expr1, expr2;
     string token;
     
@@ -199,7 +199,7 @@ string handle_set(string lhs, string rhs) {
     return "  var_" + lhs[1..] + " = " + handle_expression(rhs) + ";\n";
 }
 
-void compile_func(mapping funcs, string sname, string *prog) {
+void compile_func(mapping funcs, string sname, mixed *prog) {
     int i;
     string ssname;
     mixed prog_stack = ({ "", prog });
@@ -267,7 +267,7 @@ void compile_func(mapping funcs, string sname, string *prog) {
     }
 }
 
-string compile_program(class parse_info pi, string *prog) {
+string compile_program(class parse_info pi, mixed *prog) {
     mapping funcs = ([]);
     string ret;
     
@@ -316,7 +316,7 @@ void receive_private_msg(string str) {
 	
 void compile_script(string fname) {
     class parse_info pi;
-    string *program;
+    mixed *program;
     object ob;
     
     if (script) destruct(script);

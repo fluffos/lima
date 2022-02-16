@@ -51,11 +51,11 @@ void set_colour(string which, string what) {
     save_me();
 }
 
-string query_colour(string which) {
+void query_colour(string which) {
     return colours[which];
 }
 
-string *query_colours() {
+mixed *query_colours() {
     return keys(colours);
 }
 

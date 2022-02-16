@@ -52,7 +52,7 @@ mapping preposition_mappings() {
    return oneword_preps + twoword_preps + threeword_preps;
 }
 
-string *consolidated_preps() {
+mixed *consolidated_preps() {
     return clean_array(values(oneword_preps) + values(twoword_preps) +
                        values(threeword_preps));
 }

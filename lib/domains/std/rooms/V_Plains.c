@@ -9,7 +9,7 @@
 **
 ** The data for the plains is pulled from v_plains.data.  It is an array
 ** of description-id values (in the first N non-comment lines).  Comments
-** are lines beginning with #.  After the description *are lists of
+** are lines beginning with #.  After the description array are lists of
 ** rooms for the boundaries of the plains.  They are in north, east,
 ** south, west order; one line per grid spot.
 **

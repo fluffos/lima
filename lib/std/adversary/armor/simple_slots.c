@@ -61,7 +61,7 @@ nomask int has_body_slot(string what)
 
 //:FUNCTION query_armor_slots
 // string *query_armor_slots();
-// Returns an *of all valid armor slots.
+// Returns an array of all valid armor slots.
 string *query_armor_slots()
 {
    return keys(slots);

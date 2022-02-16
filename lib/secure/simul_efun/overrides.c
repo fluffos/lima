@@ -156,7 +156,8 @@ void say(string m)
     error("say() not available. Consider using this_body()->other_action()\n");
 }
 
-void printf(string format, string *rest...) {
+// Needs to be mixed, since you can pass in floats, ints, and whatever.
+void printf(string format, mixed *rest...) {
     if (this_user())
 	tell(this_user(), sprintf(format, rest...));
     else
