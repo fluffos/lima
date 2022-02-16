@@ -82,7 +82,7 @@ string format_editor(string user, string password, string filename,
   output = output + "</table>\n";
   if (contents)
     {
-	*inh;
+	string *inh;
 	object ob;
 
 	output +="<hr><font size=+1><strong>Editing: " + HTML_encode(filename) + "</strong></font><p>";

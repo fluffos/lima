@@ -2,7 +2,7 @@
 
 class stack {
     int which;
-    *elems;
+    mixed *elems;
 };
 
 class stack stack_new(int size) {

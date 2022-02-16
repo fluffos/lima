@@ -422,7 +422,7 @@ nomask string * get_groups()
     // expensive
     ret = filter(keys(data), function(string group)
       {
-	  *a;
+	  function *a;
 	  string prefix;
 	  function f;
 	  int i = member_array('.', group, 1) - 1;
@@ -443,7 +443,7 @@ nomask string * get_groups()
 nomask int query_write_to_group( string group )
 {
     function f;
-    *a;
+    function *a;
 
     string prefix;
     int i = member_array('.', group, 1) - 1;
@@ -596,8 +596,8 @@ nomask void change_header( string group, int id, string header )
     return;
 }
 
-*search_for(string what) {
-    *ret = ({});
+mixed *search_for(string what) {
+    mixed *ret = ({});
     
     foreach (string group, mapping contents in data) {
 	foreach (mixed id, class news_msg post in contents) {
@@ -612,8 +612,8 @@ nomask void change_header( string group, int id, string header )
     return ret;
 }
 
-*search_for_author(string who) {
-    *ret = ({});
+mixed *search_for_author(string who) {
+    mixed *ret = ({});
     
     foreach (string group, mapping contents in data) {
 	foreach (mixed id, class news_msg post in contents) {

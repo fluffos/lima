@@ -110,7 +110,7 @@ void do_errors() {
 	error("Script compilation failed:\n" + implode(errors, "\n") + "\n");
 }
 
-*line_info() {
+string *line_info() {
     if (linesync) {
 	linesync = 0;
 	return ({ cur });
@@ -118,7 +118,7 @@ void do_errors() {
     return ({});
 }
 
-*parse_long_string() {
+string *parse_long_string() {
     int first = cur;
     string ind;
     int indent;

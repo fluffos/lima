@@ -47,9 +47,9 @@ string main(string pattern)
   mapping	mudlist	= IMUD_D->query_mudlist();
   int		nummuds = sizeof(mudlist);
   string * muds = keys(mudlist);
-  *	data;
+  mixed *	data;
   string * matches;
-  *        arg;
+  mixed * arg;
 
   if ( !pattern )
     matches = muds;

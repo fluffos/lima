@@ -99,7 +99,7 @@ private void main(string arg)
 
 	    if( arg[0] == ';' || arg[0] == ':' )
 	      {
-		*soul_ret;
+		mixed *soul_ret;
 		
 		arg = arg[1..];
 		soul_ret = SOUL_D->parse_imud_soul(arg);
@@ -151,7 +151,7 @@ private void main(string arg)
 
     if( arg[0] == ':' || arg[0] == ';' )
     {
-	*soul_ret;
+	mixed *soul_ret;
 	int tindex;
 
 	arg = arg[1..];

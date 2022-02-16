@@ -202,7 +202,7 @@ string object_summary_line(string arg)
 
 string handle_overview(string part)
 {
-  *tmp;
+  string *tmp;
     
   string ret = @END
 <title>Mudlib Overview</title>

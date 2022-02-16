@@ -15,7 +15,7 @@ mapping responses = ([]);
 
 mapping current = ([]);
 mapping start = ([]);
-*default_start = ({ });
+mixed *default_start = ({ });
 mixed goodbye_action;
 
 void set_goodbye(mixed arg)

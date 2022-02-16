@@ -862,7 +862,7 @@ void dump(string path) {
     write_file(path, ret);
 }
 
-*search_for(string what) {
+mixed *search_for(string what) {
     mixed *ret = ({});
     
     foreach (string group, mapping contents in data) {
@@ -877,7 +877,7 @@ void dump(string path) {
     return ret;
 }
 
-*search_for_author(string who) {
+mixed *search_for_author(string who) {
     mixed *ret = ({});
     
     foreach (string group, mapping contents in data) {
