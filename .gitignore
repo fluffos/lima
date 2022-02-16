@@ -1,6 +1,9 @@
-/build
-/lib/data
-/lib/log
-
+# Ignore build directory from FluffOS
+/build/
+# Ignore these mudlib folders and any changes there
+/lib/data/
+/lib/log/
+tmp_*
+# but not these
 !**/.gitignore
 !/lib/data/config
