@@ -1,4 +1,4 @@
-Lima MUD that work with fluffos v2019
+Lima Mudlib that work with latest FluffOS
 
 # Current status
 - [x] Boot
