@@ -87,14 +87,6 @@ string *rev_explode(string arr_in, string delim)
   return arr_out;
 }
 
-//:FUNCTION abs
-// Absolute value function
-int abs(int x)
-{
-   return x < 0 ? -x : x;
-}
-
-
 //:FUNCTION cmp
 //returns whether its two arguments are equivalent.  This is about
 //the same as using the equivalence operator (==), but will return true
