@@ -2,6 +2,7 @@
 /build/
 # Ignore these mudlib folders and any changes there
 /lib/data/
+/lib/help/
 /lib/log/
 /open/
 tmp_*

@@ -28,7 +28,7 @@
 #define DBBUG(x) TELL_BUG("deathblade",(x))
 #define ZBUG(x) TELL_BUG("zifnab",(x))
 #define ZABUG(x) TELL_BUG("zakk", (x))
-#define TBUG(x) TELL_BUG("tigran",(x))
+#define TBUG(x) TELL_BUG("tsath",(x))
 #define LBUG(x) TELL_BUG("loriel",(x))
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
