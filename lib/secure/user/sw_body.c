@@ -5,12 +5,15 @@
 #include <security.h>
 
 string query_userid();
-protected nomask void sw_body_handle_new_logon();
+protected
+nomask void sw_body_handle_new_logon();
 
 void save_me();
 void remove();
 void initialize_user();
 void report_login_failures();
+string query_fname(string);
+int query_gender(string);
 
 void modal_simple(function input_func, mixed prompt, int secure, int lock);
 varargs void modal_push(function input_func,
@@ -25,13 +28,9 @@ mixed unguarded(mixed priv, function fp);
 void start_shell();
 void run_login_script();
 
-int query_n_gen();
-
 /*
 ** The file name for the body object
 */
-private
-string body_fname;
 private
 string format;
 
@@ -40,21 +39,9 @@ string format;
 */
 nosave private object body;
 
-nomask string query_body_fname()
-{
-   return body_fname;
-}
-
 nomask object query_body()
 {
    return body;
-}
-
-//### temp hack for upgrading link files. see restore_me()
-protected
-nomask void set_body_fname(string new_body_fname)
-{
-   body_fname = new_body_fname;
 }
 
 private
@@ -81,6 +68,7 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
 {
    object where;
    object old_body;
+   string body_fname;
    // tc("switch_bofy(): new_body_fname: "+identify(new_body_fname));
 
    if (previous_object() != body && this_body() != body)
@@ -129,18 +117,17 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
 ** Functions to get the body set up and the user into the game.
 */
 private
-nomask void incarnate(int is_new, string bfn)
+nomask void incarnate(string name, int is_new, string new_fname)
 {
-   // tc("incarnate");
-   if (bfn)
-      body_fname = bfn;
-
-   body = new (body_fname, query_userid());
+   string body_fname = query_fname(name);
+   if (strlen(new_fname))
+      body_fname = new_fname;
+   body = new (body_fname, name);
    master()->refresh_parse_info();
 
-   LAST_LOGIN_D->register_last(query_userid(), query_ip_name(this_object()));
-   if (query_n_gen() != -1)
-      body->set_gender(query_n_gen());
+   LAST_LOGIN_D->register_last(name, query_ip_name(this_object()));
+   if (query_gender(name) != -1)
+      body->set_gender(query_gender(name));
    save_me();
 
    start_shell();
@@ -202,7 +189,7 @@ nomask void rcv_try_to_boot(object who, string answer)
 }
 
 protected
-nomask void sw_body_handle_existing_logon(int enter_now)
+nomask void sw_body_handle_existing_logon(string name,int enter_now)
 {
    string *members = SECURE_D->query_domain_members("admin");
    // Woops, we have no admin! Treat as new logon.
@@ -266,7 +253,7 @@ nomask void sw_body_handle_existing_logon(int enter_now)
    report_login_failures();
    BIRTHDAY_D->report();
 
-   incarnate(0, 0);
+   incarnate(name, 0, 0);
 }
 
 /* when a user reconnects, this is used to steal the body back */
@@ -309,13 +296,15 @@ void got_entry(function when_done, string line)
 }
 #endif /* USE_RACES */
 
-void create_body()
+void create_body(string name)
 {
 #ifndef USE_RACES
-   incarnate(1, DIR_RACES "/human");
+   incarnate(name, 1, DIR_RACES "/human");
 #else
    string *races;
-   function when_done = (: incarnate, 1:);
+   function when_done = (
+       : incarnate, 1
+       :);
    int width = 0;
 
    races = RACE_D->query_races();
@@ -323,14 +312,14 @@ void create_body()
    {
       string default_race = races[0];
       write("You will be a " + default_race + ".\n");
-      incarnate(1, DIR_RACES + "/" + default_race);
+      incarnate(name, 1, DIR_RACES + "/" + default_race);
    }
    else
    {
-      foreach (string name in races)
+      foreach (string racename in races)
       {
-         if (strlen(name) > width)
-            width = strlen(name);
+         if (strlen(racename) > width)
+            width = strlen(racename);
       }
 
       format = "%#-75." + (75 / (width + 3)) + "s\n\n";
@@ -351,7 +340,7 @@ void create_body()
 ** Do a bit of additional work and go for a body.
 */
 protected
-nomask void sw_body_handle_new_logon()
+nomask void sw_body_handle_new_logon(string name)
 {
    // tc("sw_body_handle_new_logon() stack: "+get_stack());
    remove_call_out(); /* all call outs */
@@ -405,6 +394,6 @@ nomask void sw_body_handle_new_logon()
    // tc("9");
    //  pass a lfun pointer so that we don't have to worry about validating
    //  the call.
-   create_body();
+   create_body(name);
    // tc("10");
 }

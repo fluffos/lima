@@ -25,6 +25,7 @@ inherit __DIR__ "user/newsdata";
 inherit __DIR__ "user/channel";
 inherit __DIR__ "user/misc";
 inherit __DIR__ "user/history";
+inherit __DIR__ "user/bodies";
 
 /*
 ** This users's userid (login id).

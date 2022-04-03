@@ -219,17 +219,16 @@ void save_me()
 {
     object shell_ob = link && link->query_shell_ob();
     string userid = query_userid();
+    string bodyid = lower_case(query_name());
 
     /* save the shell information */
     if ( shell_ob )
 	shell_ob->save_me();
 
-    //### This check is bogus.  What should it be?
-    // This check also doesn't work for su's -- John
-    //    if (previous_object()==this_object())
     saved_items = save_to_string(1); // 1 meaning it is recursive.
 
-    unguarded( 1, (: save_object , USER_PATH(userid) :) );
+    //Save to the body id, and not the user ID. Part of User menu change.
+    unguarded( 1, (: save_object , USER_PATH(bodyid) :) );
     saved_items = 0;
 }
 
