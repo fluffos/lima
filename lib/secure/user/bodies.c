@@ -73,8 +73,9 @@ nomask void set_body_fname(string name, string new_body_fname)
     save_me();
 }
 
-string query_fname(string name)
+varargs string query_fname(string name)
 {
+    if (!name) name=query_selected_body();
     if (!mapp(bodies))
         set_body(name, "/std/race/human.c", "human", 0);
     if (bodies[name])

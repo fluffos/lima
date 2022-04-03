@@ -12,7 +12,8 @@ void save_me();
 void remove();
 void initialize_user();
 void report_login_failures();
-string query_fname(string);
+varargs string query_fname(string);
+string query_selected_body();
 int query_gender(string);
 
 void modal_simple(function input_func, mixed prompt, int secure, int lock);
@@ -31,8 +32,7 @@ void run_login_script();
 /*
 ** The file name for the body object
 */
-private
-string format;
+nosave private string format;
 
 /*
 ** The body object once it has been instantiated
@@ -68,31 +68,32 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
 {
    object where;
    object old_body;
-   string body_fname;
-   // tc("switch_bofy(): new_body_fname: "+identify(new_body_fname));
+   string body_fname = query_selected_body();
+   TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
 
    if (previous_object() != body && this_body() != body)
       error("security violation: bad body switch attempt\n");
-   // tc("1");
+   TBUG("1");
 
    where = body ? environment(body) : (mixed)VOID_ROOM;
-   // tc("2");
+   TBUG("2");
 
    if (permanent && new_body_fname)
    {
       body_fname = new_body_fname;
       save_me();
    }
-   // tc("3");
+   TBUG("3");
 
    if (!new_body_fname)
       new_body_fname = body_fname;
-   // tc("4");
+   TBUG("4 new ("+new_body_fname+");");
 
    old_body = body;
-   body = new (new_body_fname, query_userid());
+   body = new (BODY,new_body_fname);
+   TBUG(body);
    master()->refresh_parse_info();
-   // tc("5");
+   TBUG("5");
 
    if (old_body)
    {
@@ -100,17 +101,17 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
       if (old_body)
          catch (destruct(old_body));
    }
-   // tc("6");
+   TBUG("6");
 
    load_mailer();
-   // tc("7");
+   TBUG("7");
    report_login_failures();
-   // tc("8");
+   TBUG("8");
 
    /* NOTE: we are keeping the same shell for now... */
 
    body->su_enter_game(where);
-   // tc("9");
+   TBUG("9");
 }
 
 /*
@@ -151,7 +152,7 @@ void sw_body_handle_existing_logon(int);
 private
 nomask void rcv_try_to_boot(object who, string answer)
 {
-   // tc("rcv_try_to_boot("+identify(who)+", "+identify(answer));
+   TBUG("rcv_try_to_boot("+identify(who)+", "+identify(answer));
    answer = lower_case(answer);
    if (answer == "yes" || answer == "y")
    {
@@ -200,7 +201,7 @@ nomask void sw_body_handle_existing_logon(string name,int enter_now)
    }
 
    remove_call_out(); /* all call outs */
-                      // tc("sw_body_handle_existing_logon("+identify(enter_now)+")");
+                      TBUG("sw_body_handle_existing_logon("+identify(enter_now)+")");
 
    if (!enter_now)
    {
@@ -267,105 +268,37 @@ nomask void steal_body()
    remove();
 }
 
-#ifdef USE_RACES
-void got_entry(function when_done, string line)
-{
-   mapping races = RACE_D->query_race_data();
-
-   if (line == "list")
-   {
-      write("Please select a race from the following list:\n");
-      printf(format, implode(keys(races), "\n"));
-      return;
-   }
-
-   if (races[line])
-   {
-      modal_pop();
-      evaluate(when_done, races[line]);
-      return;
-   }
-
-   if (sscanf(line, "help %s", line) && races[line])
-   {
-      write(races[line]->short_description());
-      return;
-   }
-
-   write("No such race.\n");
-}
-#endif /* USE_RACES */
-
-void create_body(string name)
-{
-#ifndef USE_RACES
-   incarnate(name, 1, DIR_RACES "/human");
-#else
-   string *races;
-   function when_done = (
-       : incarnate, 1
-       :);
-   int width = 0;
-
-   races = RACE_D->query_races();
-   if (sizeof(races) == 1)
-   {
-      string default_race = races[0];
-      write("You will be a " + default_race + ".\n");
-      incarnate(name, 1, DIR_RACES + "/" + default_race);
-   }
-   else
-   {
-      foreach (string racename in races)
-      {
-         if (strlen(racename) > width)
-            width = strlen(racename);
-      }
-
-      format = "%#-75." + (75 / (width + 3)) + "s\n\n";
-
-      write("\nPlease select a race from the following list:\n");
-      printf(format, implode(races, "\n"));
-
-      write("Type 'help race' for a brief description.  Type 'list' to show the choices again.\n");
-      modal_push((
-                     : got_entry, when_done:),
-                 "Race? ");
-   }
-#endif /* USE_RACES */
-}
-
 /*
 ** A new character has been created and all inputs have been entered.
 ** Do a bit of additional work and go for a body.
 */
 protected
-nomask void sw_body_handle_new_logon(string name)
+nomask void sw_body_handle_new_logon(string name,string fname)
 {
-   // tc("sw_body_handle_new_logon() stack: "+get_stack());
+   TBUG("sw_body_handle_new_logon() stack: "+get_stack());
    remove_call_out(); /* all call outs */
-   // tc("1");
+   TBUG("1");
 
 #ifdef AUTO_WIZ
    /* auto-wiz everybody as they are created */
-   // tc("2");
+   TBUG("2");
    write(">>>>> You've been granted automatic guest wizard status. <<<<<\n");
-   // tc("3");
+   TBUG("3");
    unguarded(1, (
                     : SECURE_D->create_wizard($(query_userid()))
                     :));
-   // tc("4");
+   TBUG("4");
 #endif
 
    /* auto-admin the first wizard if there are no admins */
    {
       string *members = SECURE_D->query_domain_members("admin");
-      // tc("5: sizeof("+identify(members)+"): "+sizeof(members));
+      TBUG("5: sizeof("+identify(members)+"): "+sizeof(members));
 
       if (!sizeof(members))
       {
-         // tc("6");
-         // tc("wizardp("+identify(query_userid())+"): "+wizardp(query_userid()));
+         TBUG("6");
+         TBUG("wizardp("+identify(query_userid())+"): "+wizardp(query_userid()));
          if (!wizardp(query_userid()))
          {
             unguarded(1,
@@ -374,26 +307,26 @@ nomask void sw_body_handle_new_logon(string name)
                           :));
          }
          write(">>>>> You have been made admin. Remember to use admtool. <<<<<\n");
-         tc(">>>>> " + identify(query_userid()) + " has been made admin. <<<<<\n");
+         TBUG(">>>>> " + identify(query_userid()) + " has been made admin. <<<<<\n");
          unguarded(1, (
                           : SECURE_D->add_domain_member("admin",
                                                         $(query_userid()), 1)
                           :));
       }
-      // else tc("6b: apparently an admin existed");
+      // else TBUG"6b: apparently an admin existed");
    }
-   // tc("7");
+   TBUG("7");
    /* adjust the privilege of the user ob */
    if (adminp(query_userid()))
    {
-      // tc("8");
+      TBUG("8");
       set_privilege(1);
    }
    else
       set_privilege(query_userid());
-   // tc("9");
+   TBUG("9");
    //  pass a lfun pointer so that we don't have to worry about validating
    //  the call.
-   create_body(name);
-   // tc("10");
+   incarnate(name,1, fname);
+   TBUG("10");
 }

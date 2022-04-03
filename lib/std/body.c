@@ -392,8 +392,9 @@ void create(string userid)
     set_long( (: our_description :) );
     set_name(userid);
 
+    TBUG("restore_object("+USER_PATH(userid)+",1);");
     unguarded(1, (: restore_object, USER_PATH(userid), 1 :));
-
+    TBUG("Done");
     // up to the player
     set_attack_speed(0);
 }

@@ -48,13 +48,14 @@ nomask void simple_cmd(string cmd)
 void enter_game()
 {
     string selected = this_user()->query_selected_body();
+    string fname = this_user()->query_body_fname(selected);
     if (!selected)
     {
         write("Select a character first.\n");
         return;
     }
-    modal_pop();
-    this_user()->enter_game(selected);
+    //modal_pop();
+    this_user()->enter_game(selected,fname);
 }
 
 private
