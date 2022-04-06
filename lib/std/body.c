@@ -267,6 +267,9 @@ void quit()
 	return;
     }
 
+    if(link)
+        link->update_body(this_object());
+
     if (is_visible())
 	simple_action("$N $vhave left "+mud_name()+".");
 
@@ -392,9 +395,9 @@ void create(string userid)
     set_long( (: our_description :) );
     set_name(userid);
 
-    TBUG("restore_object("+USER_PATH(userid)+",1);");
+    // TBUG("restore_object("+USER_PATH(userid)+",1);");
     unguarded(1, (: restore_object, USER_PATH(userid), 1 :));
-    TBUG("Done");
+    // TBUG("Done");
     // up to the player
     set_attack_speed(0);
 }

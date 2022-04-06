@@ -69,31 +69,31 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
    object where;
    object old_body;
    string body_fname = query_selected_body();
-   TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
+   // TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
 
    if (previous_object() != body && this_body() != body)
       error("security violation: bad body switch attempt\n");
-   TBUG("1");
+   // TBUG("1");
 
    where = body ? environment(body) : (mixed)VOID_ROOM;
-   TBUG("2");
+   // TBUG("2");
 
    if (permanent && new_body_fname)
    {
       body_fname = new_body_fname;
       save_me();
    }
-   TBUG("3");
+   // TBUG("3");
 
    if (!new_body_fname)
       new_body_fname = body_fname;
-   TBUG("4 new ("+new_body_fname+");");
+   // TBUG("4 new ("+new_body_fname+");");
 
    old_body = body;
    body = new (BODY,new_body_fname);
-   TBUG(body);
+   // TBUG(body);
    master()->refresh_parse_info();
-   TBUG("5");
+   // TBUG("5");
 
    if (old_body)
    {
@@ -101,17 +101,17 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
       if (old_body)
          catch (destruct(old_body));
    }
-   TBUG("6");
+   // TBUG("6");
 
    load_mailer();
-   TBUG("7");
+   // TBUG("7");
    report_login_failures();
-   TBUG("8");
+   // TBUG("8");
 
    /* NOTE: we are keeping the same shell for now... */
 
    body->su_enter_game(where);
-   TBUG("9");
+   // TBUG("9");
 }
 
 /*
@@ -152,7 +152,7 @@ void sw_body_handle_existing_logon(int);
 private
 nomask void rcv_try_to_boot(object who, string answer)
 {
-   TBUG("rcv_try_to_boot("+identify(who)+", "+identify(answer));
+   // TBUG("rcv_try_to_boot("+identify(who)+", "+identify(answer));
    answer = lower_case(answer);
    if (answer == "yes" || answer == "y")
    {
@@ -201,7 +201,7 @@ nomask void sw_body_handle_existing_logon(string name,int enter_now)
    }
 
    remove_call_out(); /* all call outs */
-                      TBUG("sw_body_handle_existing_logon("+identify(enter_now)+")");
+                      // TBUG("sw_body_handle_existing_logon("+identify(enter_now)+")");
 
    if (!enter_now)
    {
@@ -275,30 +275,30 @@ nomask void steal_body()
 protected
 nomask void sw_body_handle_new_logon(string name,string fname)
 {
-   TBUG("sw_body_handle_new_logon() stack: "+get_stack());
+   // TBUG("sw_body_handle_new_logon() stack: "+get_stack());
    remove_call_out(); /* all call outs */
-   TBUG("1");
+   // TBUG("1");
 
 #ifdef AUTO_WIZ
    /* auto-wiz everybody as they are created */
-   TBUG("2");
+   // TBUG("2");
    write(">>>>> You've been granted automatic guest wizard status. <<<<<\n");
-   TBUG("3");
+   // TBUG("3");
    unguarded(1, (
                     : SECURE_D->create_wizard($(query_userid()))
                     :));
-   TBUG("4");
+   // TBUG("4");
 #endif
 
    /* auto-admin the first wizard if there are no admins */
    {
       string *members = SECURE_D->query_domain_members("admin");
-      TBUG("5: sizeof("+identify(members)+"): "+sizeof(members));
+      // TBUG("5: sizeof("+identify(members)+"): "+sizeof(members));
 
       if (!sizeof(members))
       {
-         TBUG("6");
-         TBUG("wizardp("+identify(query_userid())+"): "+wizardp(query_userid()));
+         // TBUG("6");
+         // TBUG("wizardp("+identify(query_userid())+"): "+wizardp(query_userid()));
          if (!wizardp(query_userid()))
          {
             unguarded(1,
@@ -315,18 +315,18 @@ nomask void sw_body_handle_new_logon(string name,string fname)
       }
       // else TBUG"6b: apparently an admin existed");
    }
-   TBUG("7");
+   // TBUG("7");
    /* adjust the privilege of the user ob */
    if (adminp(query_userid()))
    {
-      TBUG("8");
+      // TBUG("8");
       set_privilege(1);
    }
    else
       set_privilege(query_userid());
-   TBUG("9");
+   // TBUG("9");
    //  pass a lfun pointer so that we don't have to worry about validating
    //  the call.
    incarnate(name,1, fname);
-   TBUG("10");
+   // TBUG("10");
 }

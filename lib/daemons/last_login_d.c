@@ -74,7 +74,7 @@ nomask void remove_user(string userid, int skip_save)
 {
     if ( !check_previous_privilege(1) )
 	error("security: illegal attempt to remove user.\n");
-
+    userid=lower_case(userid);
     map_delete(lastdata, userid);
 
     if ( !skip_save )

@@ -11,6 +11,9 @@
 #include <commands.h>
 #include <security.h>
 
+// Move to config.h perhaps?
+#define MAX_CHRACTERS_PER_USER 10
+
 inherit MENUS;
 inherit M_ACCESS;
 
@@ -34,6 +37,7 @@ string race;
 private
 string fname;
 
+private
 int name_available(string name)
 {
     return !arrayp(LAST_LOGIN_D->query_last(name));
@@ -45,6 +49,7 @@ nomask void simple_cmd(string cmd)
     call_other(CMD_DIR_PLAYER "/" + dispatch[cmd], "player_menu_entry");
 }
 
+private
 void enter_game()
 {
     string selected = this_user()->query_selected_body();
@@ -54,8 +59,8 @@ void enter_game()
         write("Select a character first.\n");
         return;
     }
-    //modal_pop();
-    this_user()->enter_game(selected,fname);
+    // modal_pop();
+    this_user()->enter_game(selected, fname);
 }
 
 private
@@ -122,6 +127,7 @@ nomask int valid_name(string str)
     return 1;
 }
 
+private
 void got_entry(function when_done, string line)
 {
     int width = 0;
@@ -153,6 +159,16 @@ void got_entry(function when_done, string line)
     write("No such race.\n");
 }
 
+private
+int confirm_decision(string dec)
+{
+    dec = lower_case(dec);
+    if (dec == "yes" || dec = "y")
+        return 1;
+    return 0;
+}
+
+private
 void do_select(string name)
 {
     mapping bodies = this_user()->query_bodies();
@@ -169,16 +185,15 @@ void do_select(string name)
         write("Failed to select character '" + capitalize(name) + "' for playing.\n");
 }
 
-void select_char()
+private
+string *list_chars()
 {
     mapping bodies = this_user()->query_bodies();
     string *sorted_bodies = sort_array(keys(bodies), 1);
-    int body_count = sizeof(sorted_bodies);
     string selected = this_user()->query_selected_body();
     string *genders = ({"None", "Male", "Female", "Non-binary"});
     string format = "%-8.8s %-14.14s %-7.7s %-25.25s %-20.20s\n";
     int count = 1;
-    TBUG(bodies);
     printf(format, "Select", "Name", "Level", "Race", "Gender");
     write("--------------------------------------------------------------------------\n");
     foreach (string name in sorted_bodies)
@@ -190,6 +205,14 @@ void select_char()
     }
     write("--------------------------------------------------------------------------\n" +
           "(* Selected character)\n");
+    return sorted_bodies;
+}
+
+private
+void select_char()
+{
+    string *sorted_bodies = list_chars();
+    int body_count = sizeof(sorted_bodies);
 
     // We only have one body, select it.
     switch (body_count)
@@ -210,7 +233,7 @@ void select_char()
 private
 void creation_done()
 {
-    TBUG("Name: " + name + " Gender: " + gender + " Fname: " + fname + " Race: " + race);
+    write("Character '" + capitalize(name) + " has been created.\n");
     this_user()->set_body(name, fname, race, gender);
 }
 
@@ -265,6 +288,7 @@ void input_gender(int inputgender)
 private
 void char_name(string inputname)
 {
+    inputname=lower_case(inputname);
     if (!strlen(inputname))
     {
         write("\nName is not optional ('quit' will abort).\n");
@@ -288,12 +312,57 @@ void char_name(string inputname)
                                   : input_gender:));
 }
 
+private
 void create_char()
 {
-    input_one_arg("Name: ", (
-                                : char_name:));
+    if (this_user()->query_num_bodies() < MAX_CHRACTERS_PER_USER)
+    {
+        input_one_arg("Name: ", (
+                                    : char_name:));
+    }
+    else
+        write("The maximum number of characters on " + mud_name() + " is currently " + MAX_CHRACTERS_PER_USER + ".\n"
+                                                                                                                "Alas, you can create no more. Remove an old one to make space for a new.\n");
 }
 
+private
+confirm_remove(string name, string input)
+{
+    if (confirm_decision(input))
+    {
+        this_user()->remove_body(name);
+        write(capitalize(name) + " exists no longer.\n");
+    }
+    else
+        write("Cancelled. All is well.\n");
+}
+
+private
+void input_remove(string name)
+{
+    mapping bodies = this_user()->query_bodies();
+    string *sorted_bodies = sort_array(keys(bodies), 1);
+    int indexname = to_int(name) - 1;
+    if (indexname >= 0)
+    {
+        name = sorted_bodies[indexname];
+    }
+    else
+        name=lower_case(name);
+
+    input_one_arg("Are you sure? (Yes/no) ", (: confirm_remove, name:));
+}
+
+private
+void remove_char()
+{
+    string *sorted_bodies = list_chars();
+    write("Confirmation will be required before removal.\n");
+    input_one_arg("Remove: ", (
+                                  : input_remove:));
+}
+
+private
 void quit_game()
 {
     this_user()->save_me();
@@ -324,6 +393,9 @@ void create()
     add_menu_item(toplevel, new_menu_item("Create new character", (
                                                                       : create_char:),
                                           "c"));
+    add_menu_item(toplevel, new_menu_item("Remove a character", (
+                                                                    : remove_char:),
+                                          "r"));
     add_menu_item(toplevel, new_menu_item("Enter the game", (
                                                                 : enter_game:),
                                           "p"));

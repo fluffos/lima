@@ -34,7 +34,7 @@ protected nomask void save_me() {
 //Restore the data from the save file.  Automatically called by create().
 protected nomask void restore_me() {
     string fn = create_file_name();
-    if ( unguarded(1, (: file_size, fn + ".o" :)) > 0 )
+    if ( unguarded(1, (: file_size, fn + __SAVE_EXTENSION__ :)) > 0 )
 	unguarded(1, (: restore_object, fn, 1 :));
 }
 
