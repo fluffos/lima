@@ -97,7 +97,7 @@ private void load_all_colours()
 // vt100 - strip only colour codes
 // xterm - replace all tokens with xterm256 colour codes
 // ansi  - fall back to ansi colour codes
-public varargs string substitute_colour(string text, string mode, int wrap_at, int indent_at)
+public varargs string substitute_colour(string text, string mode)
 {
     mixed *assoc ;
     string *parts, sub ;
@@ -188,8 +188,6 @@ public varargs string substitute_colour(string text, string mode, int wrap_at, i
         default :
             return substitute_colour(text, "plain") ;
     }
-
-    if(!nullp(wrap_at)) return xterm256_wrap(implode(parts, ""), wrap_at, indent_at) ;
 
     return implode(parts, "") ;
 }
