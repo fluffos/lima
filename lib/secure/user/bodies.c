@@ -44,6 +44,8 @@ string query_selected_body()
 
 int query_num_bodies()
 {
+    if(!mapp(bodies)) bodies = ([ ]) ;
+    
     return sizeof(keys(bodies));
 }
 
@@ -60,6 +62,8 @@ int set_selected_body(string name)
 
 mapping query_bodies()
 {
+    if(!mapp(bodies)) bodies = ([ ]) ;
+    
     return bodies;
 }
 
