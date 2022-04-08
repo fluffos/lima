@@ -18,6 +18,7 @@ private nosave mapping x256_to_16_fg = ([ ]) ;
 private nosave mapping x256_to_16_bg = ([ ]) ;
 
 private void load_all_colours() ;
+public string xterm256_wrap(string str, int wrap_at, int indent_at) ;
 
 protected void create()
 {
@@ -51,7 +52,7 @@ private void load_all_colours()
         "fl1" : sprintf("%c[5m",  27), // flash on
     ]) ;
 
-    lines = explode(read_file("/etc/256_to_16_fallback.txt"), "\n") ;
+    lines = explode(read_file("/etc/xterm256/256_to_16_fallback.txt"), "\n") ;
     i = 256 ;
     fallback_codes = allocate(i) ;
     while(i--)
@@ -63,7 +64,7 @@ private void load_all_colours()
         fallback_codes[i] = fallback ;
     }
 
-    lines = explode(read_file("/etc/xterm_ansi_16_fg.txt"), "\n") ;
+    lines = explode(read_file("/etc/xterm256/xterm_ansi_16_fg.txt"), "\n") ;
     i = 16 ;
     while(i--)
     {
@@ -74,7 +75,7 @@ private void load_all_colours()
         x256_to_16_fg[xterm] = sprintf("%c[%sm", 27, fallback) ;
     }
 
-    lines = explode(read_file("/etc/xterm_ansi_16_bg.txt"), "\n") ;
+    lines = explode(read_file("/etc/xterm256/xterm_ansi_16_bg.txt"), "\n") ;
     i = 16 ;
     while(i--)
     {
@@ -96,7 +97,7 @@ private void load_all_colours()
 // vt100 - strip only colour codes
 // xterm - replace all tokens with xterm256 colour codes
 // ansi  - fall back to ansi colour codes
-public string substitute_colour(string text, string mode)
+public varargs string substitute_colour(string text, string mode, int wrap_at, int indent_at)
 {
     mixed *assoc ;
     string *parts, sub ;
@@ -188,7 +189,51 @@ public string substitute_colour(string text, string mode)
             return substitute_colour(text, "plain") ;
     }
 
+    if(!nullp(wrap_at)) return xterm256_wrap(implode(parts, ""), wrap_at, indent_at) ;
+
     return implode(parts, "") ;
+}
+
+public string xterm256_wrap(string str, int wrap_at, int indent_at)
+{
+    string *parts = explode(str, " ");
+    mapping running = ([ "length" : 0 ]);
+
+    // this routine strips out the first space, put it back into the 
+    // array if the original string had a leading space
+    if(str[0..0] == " ") parts = ({ "", parts... });
+
+    parts = map(parts, function(string part, mapping running, int max, int indent)
+    {
+        string plain ;
+        int len ;
+
+        // new lines
+        if(part[0..0] == "\n")
+        {
+            running["length"] = 0;
+            return part ;
+        }
+
+        // test for colour codes
+        plain = substitute_colour(part, "plain") ;
+        // printf("%O\n", plain) ;
+
+        len = sizeof(plain);
+
+        running["length"] += (len + 1);
+
+        if(running["length"] >= max)
+        {
+            running["length"] = sizeof(plain) + indent;
+            return "\n" + repeat_string(" ", indent) + part;
+        }
+
+        return part ;
+
+    }, running, wrap_at, indent_at);
+
+    return implode(map(explode(implode(parts, " "), "\n"), (: rtrim :)), "\n") ;
 }
 
 int colorp(string text)

@@ -68,18 +68,38 @@ void remove_colour(string which) {
     save_me();
 }
 
-void do_receive(string msg, int msg_type) {
-    if (msg_type & NO_ANSI) {
-	if (msg_type & NO_WRAP)
-	    receive(msg);
-	else
-	    receive(wrap(msg, query_screen_width()));
-    } else {
-	int indent = (msg_type & MSG_INDENT) ? 4 : 0;
-	int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
+void do_receive(string msg, int msg_type)
+{
+    int xterm = colourp(msg) ;
 
-	receive(terminal_colour(msg + "%^RESET%^", 
-	    translations, wrap, indent));
+    if(msg_type & NO_ANSI)
+    {
+        if(msg_type & NO_WRAP)
+        {
+            receive(msg);
+        }
+        else
+        {
+            receive(wrap(msg, query_screen_width()));
+        }
+    }
+    else
+    {
+        int indent = (msg_type & MSG_INDENT) ? 4 : 0;
+        int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
+        string wrapped ;
+
+        if(xterm)
+        {
+            wrapped = XTERM256_D->xterm256_wrap(msg+"<res>", wrap, indent) ;
+            wrapped = XTERM256_D->substitute_colour(wrapped, "xterm") ;
+        }
+        else
+        {
+            wrapped = terminal_colour(msg + "%^RESET%^", translations, wrap, indent) ;
+        }
+
+        receive(wrapped);
     }
 }
 
