@@ -40,7 +40,7 @@
 #define TIMER_D       "/daemons/timer_d"
 #define VERB_D        "/daemons/verb_d"
 #define WEATHER_D     "/daemons/weather_d"
-
+#define XTERM256_D    "/daemons/xterm256_d"
 #define CMD_D         "/secure/daemons/cmd_d"
 #define FINGER_D      "/secure/daemons/finger_d"
 #define FTP_D         "/secure/daemons/ftp_d"
