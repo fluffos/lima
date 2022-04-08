@@ -20,6 +20,7 @@ varargs mixed move(mixed dest, string where);
 string query_msg(string which);
 int test_flag(int which);
 void simple_action(string s,mixed *obs... );
+void other_action(string s,mixed *obs... );
 varargs string *action(object *who, mixed msg, mixed *obs...);
 varargs string compose_message(object forwhom, string msg, object *who, 
   mixed *obs...);
@@ -106,7 +107,7 @@ private nomask int move_me_there(class move_data data)
     else if(data->source)
 	simple_action(txt,data->source);
     else
-	simple_action(txt);
+	other_action(txt);
 
     return r == MOVE_OK;
 }
