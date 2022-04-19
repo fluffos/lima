@@ -133,7 +133,7 @@
 ** screw up your user data files.
 */
 #define DEATH_STYLE       DEATH_VAPORIZE
-#define HEALTH_STYLE      HEALTH_HITPOINTS
+#define HEALTH_STYLE      HEALTH_LIMBS
 #define WIELD_STYLE       WIELD_SINGLE
 #define ARMOR_STYLE       ARMOR_COMPLEX_SLOTS
 #define PULSE_STYLE       PULSE_HEART_BEAT

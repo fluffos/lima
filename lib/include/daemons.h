@@ -36,7 +36,7 @@
 #define SOUL_D        "/daemons/soul_d"
 #define SPELL_D       "/daemons/spell_d"
 #define TASK_D        "/daemons/task_d"
-#define TEAM_D        "/daemons/team_d"
+#define PARTY_D        "/daemons/party_d"
 #define TIMER_D       "/daemons/timer_d"
 #define VERB_D        "/daemons/verb_d"
 #define WEATHER_D     "/daemons/weather_d"

@@ -225,6 +225,7 @@
 #define M_FLUID_SOURCE    "/std/modules/m_fluid_source"
 #define M_FLUID_CONTAINER "/std/modules/m_fluid_container"
 #define M_CONVERSATION    "/std/modules/m_conversation"
+#define M_WIDGETS         "/std/modules/m_widgets"
 
 /* for area objects */
 #define M_ACCOUNTANT      "/std/modules/m_accountant"

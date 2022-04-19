@@ -1,24 +1,24 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 /*************************************************************************
- ** 									**
- **   Configuration file for the Lima Mudlib				**
- ** 									**
+ **                                                   									**
+ **   Configuration file for the Lima Mudlib				                    **
+ **                                                   									**
  **   Many things in the Lima Mudlib are configurable to make the game	**
- **   more like what you desire.  					**
- ** 									**
- **   It is recommended that you examine these options carefully.	**
- ** 									**
+ **   more like what you desire.  					                            **
+ ** 									                                                  **
+ **   It is recommended that you examine these options carefully.	      **
+ ** 									                                                  **
  *************************************************************************/
 
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
 /*************************************************************************
- ** 									**
- **  Options which have moved to other files.  All of these should 	**
- **  be read through.							**
- ** 									**
+ ** 									                                                  **
+ **  Options which have moved to other files.  All of these should 	    **
+ **  be read through.							                                      **
+ ** 									                                                  **
  *************************************************************************/
 
 /*
@@ -28,9 +28,9 @@
 
 
 /*************************************************************************
- ** 									**
- **  Options which affect gameplay.					**
- ** 									**
+ ** 									                                                  **
+ **  Options which affect gameplay.					                            **
+ ** 									                                                  **
  *************************************************************************/
 
 /* The players start room.  
@@ -61,8 +61,8 @@
  * which body slots you want to support.*/
 #define USE_BODYSLOTS
 
-/* Parties or 'team' support */
-#undef USE_TEAMS
+/* Parties support */
+#define USE_PARTIES
 
 /* Use a simple experience scheme for players. */
 #undef USE_SIMPLE_EXP
@@ -96,9 +96,9 @@
 
 
 /*************************************************************************
- ** 									**
- **  Options affecting the appearance of the game.			**
- ** 									**
+ ** 									                                                  **
+ **  Options affecting the appearance of the game.			                **
+ ** 									                                                  **
  *************************************************************************/
 
 /* WELCOME_FILE is the file displayed when someone connects to the game before
@@ -141,9 +141,9 @@
 
 
 /*************************************************************************
- ** 									**
- **  Other options which affect users, but not gameplay.		**
- ** 									**
+ **                                                   									**
+ **  Other options which affect users, but not gameplay.            		**
+ ** 									                                                  **
  *************************************************************************/
 
 /* Define the character which allows you to call up previous command history.
@@ -174,9 +174,9 @@
 
 
 /*************************************************************************
- ** 									**
- **  Wizard/builder handling.      					**
- ** 									**
+ ** 									                                                  **
+ **  Wizard/builder handling.      					                            **
+ ** 									                                                  **
  *************************************************************************/
 
 /* Define this if you have a lot of wizards */
@@ -199,9 +199,9 @@
 
 
 /*************************************************************************
- ** 									**
- **  Options affecting game news and logging.				**
- ** 									**
+ ** 									                                                  **
+ **  Options affecting game news and logging.				                    **
+ ** 									                                                  **
  *************************************************************************/
 
 /* Define this if you want bug, typo and idea commands to log to /log instead
@@ -218,24 +218,25 @@
 
 
 /*************************************************************************
- ** 									**
- **  Other stuff. 							**
- ** 									**
+ ** 									                                                  **
+ **  Other stuff. 							                                        **
+ ** 									                                                  **
  *************************************************************************/
 
 /* Max file size for editing etc (eg "ulimit -H -d 1200") */
 #define MAX_FILE_SIZE 1000000
 
 /* The status of your game.*/
-#define lib_status()		"game development"
+#define lib_status()		"mudlib development"
 
 /* What's the IP of your game?*/
 #define __HOST__		"localhost"
 
 /* The administrator(s)' email address(es).
  * NOTE: This is required to be changed in order to have a working
- * I3 system. */
-#define ADMIN_EMAIL		"quixadhal@gmail.com"
+ * I3 system. Must be changed for anything to work! 
+ */
+#define ADMIN_EMAIL		"tsath@lima-rebean.themud.org"
 
 /* If this is undefined, anonymous ftp is allowed - undef it to prevent.
   Anon ftp users are limited to /ftp/pub.*/
@@ -253,9 +254,9 @@
 #define MUD_AUTODOC_DIR "lima"
 
 /*************************************************************************
- ** 									**
- **  Directory specifications.						**
- ** 									**
+ ** 									                                                  **
+ **  Directory specifications.						                              **
+ ** 									                                                  **
  *************************************************************************/
 
 /* Where do you want your wizard's shell files to save? */
