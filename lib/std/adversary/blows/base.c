@@ -155,7 +155,11 @@ int do_damage_event(class event_info evt)
   int x;
   if (evt->data != "miss")
   {
+#if HEALTH_STYLE == HEALTH_LIMBS
     x = hurt_us(event_damage(evt), evt->target_extra);
+#else
+    x = hurt_us(event_damage(evt));
+#endif
   }
   if (member_array(previous_object(), query_targets()) == -1)
     attacked_by(previous_object(), 0);
@@ -174,7 +178,12 @@ void handle_result(class event_info evt)
     handle_message("!" + evt->data,
                    evt->target,
                    evt->weapon,
-                   evt->target_extra);
+#ifdef HEALTH_USES_LIMBS
+                   evt->target_extra
+#else
+                   0
+#endif
+                );
 
     switch (evt->data)
     {
@@ -195,11 +204,21 @@ void handle_result(class event_info evt)
   else
   {
     int percent = event_damage(evt);
+    
+#if HEALTH_STYLE == HEALTH_LIMBS
     percent = to_int(percent / (1.0 * evt->target->query_max_health(evt->target_extra)) * 100);
+#else
+    percent = to_int(percent / (1.0 * evt->target->query_max_health()) * 100);
+#endif
 
     if (evt->target)
     {
-      handle_message(damage_message(percent), evt->target, evt->weapon, evt->target_extra);
+      handle_message(damage_message(percent), evt->target, evt->weapon, 
+#ifdef HEALTH_USES_LIMBS
+                   evt->target_extra);
+#else
+                   0);
+#endif
       percent = evt->target->do_damage_event(evt);
     }
   }

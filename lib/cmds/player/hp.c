@@ -12,6 +12,8 @@
 #include <limbs.h>
 
 inherit CMD;
+
+#ifdef HEALTH_USES_LIMBS
 inherit CLASS_LIMB;
 inherit M_WIDGETS;
 
@@ -121,3 +123,10 @@ void main(string arg)
        "-",
        green_bar(this_body()->query_concentration(), this_body()->max_concentration(), hp_bar));
 }
+#else
+private
+void main(string arg)
+{
+    write("Current HP: "+this_body()->query_health()+"/"+this_body()->query_max_health()+"\n");
+}
+#endif
