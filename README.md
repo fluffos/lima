@@ -1,7 +1,7 @@
 Lima Mudlib that work with latest FluffOS
 
 # Current status
-- [x] Boot
+- [X] Boot
 - [X] Basic functions
 - [ ] Error free
 
