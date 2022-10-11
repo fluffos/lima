@@ -205,7 +205,7 @@ void handle_result(class event_info evt)
   {
     int percent = event_damage(evt);
     
-#if HEALTH_STYLE == HEALTH_LIMBS
+#ifdef HEALTH_USES_LIMBS
     percent = to_int(percent / (1.0 * evt->target->query_max_health(evt->target_extra)) * 100);
 #else
     percent = to_int(percent / (1.0 * evt->target->query_max_health()) * 100);
