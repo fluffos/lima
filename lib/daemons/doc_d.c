@@ -113,8 +113,6 @@ private void make_directories()
     mkdir("/help/autodoc/modules");
   if(file_size("/help/autodoc/todo")==-1)
     mkdir("/help/autodoc/todo");
-  if(file_size("/help/autodoc/rst")==-1)
-    mkdir("/help/autodoc/rst");
   if(file_size(sprintf("/help/autodoc/%s",MUD_AUTODOC_DIR))==-1)
     mkdir(sprintf("/help/autodoc/%s",MUD_AUTODOC_DIR));
 }
@@ -153,7 +151,7 @@ private:
 nosave private string * filtered_dirs = ({
   "/data/", "/ftp/", "/help/", "/include/",
   "/log/", "/open/", "/tmp/", "/user/", "/wiz/",
-  "/contrib/"
+  "/contrib/",
 });
 
 string mod_name(string foo)
@@ -174,8 +172,7 @@ void process_file(string fname)
   string line, prototype;
   string *lines, match;
   string outfile = 0;
-  string rstfile, rstout, description = "";
-  int i, len;
+  int i;
 
 /* If the file has not been modified since the last time that DOC_D
  * scanned, there is no reason for it to be checked again -- Tigran */
@@ -196,13 +193,7 @@ void process_file(string fname)
     return;
   lines = explode(file, "\n");
 
-  rstfile = "/help/autodoc/rst/" + mod_name(fname) + ".rst";
-  rstout = mod_name(fname) + "\n";
-  rstout += repeat_string("=", strlen(mod_name(fname)));
-
-
-  len = sizeof(lines);
-  while (i < len)
+  while (i < sizeof(lines))
   {
     if (regexp(lines[i],"^[ \t]*//###"))
     {
@@ -218,6 +209,7 @@ void process_file(string fname)
       printf("Writing to: %O\n", outfile);
     } else if (lines[i][0..2] == "//:") {
       line = lines[i][3..];
+      line = trim(line);
       i++;
       if (line == "TODO")
       {
@@ -278,7 +270,6 @@ void process_file(string fname)
         while ((i<sizeof(lines)) && (lines[i][0..1] == "//"))
         {
           write_file(outfile, lines[i][2..]+"\n");
-          description += "\n" + lines[i][2..];
           i++;
         }
 //### regexp() doesn't match any ";", had to replace_string() them
@@ -286,20 +277,14 @@ void process_file(string fname)
             "\\<"+line+"\\>", 1);
         if (sizeof(match) > 0)
         {
-          if (sscanf(implode(lines[i+match[1]-1..i+match[1]+4], "\n"),
+          if (sscanf(implode(lines[i+match[1]-1..i+match[1]+3], "\n"),
               "%([ \t]*([a-zA-Z_][a-zA-Z0-9_* \t\n]*|)\\<"+line
               +"\\>[ \t\n]*\\([ \t\na-zA-Z_0-9*,.]*(\\)|))",
               prototype))
           {
             write_file(outfile, "\nPrototype:\n"+prototype+";\n");
-            rstout += "\n\n" + ".. c:function:: " + prototype + "\n";
-            // rstout += repeat_string("-", strlen(prototype)) + "\n";
-            rstout += description;
           }
         }
-        write_file(rstfile, rstout);
-        rstout = "";
-        description = "";
       } else if (line == AUTODOC_MUDNAME) {
         outfile = "/help/autodoc/"+MUD_AUTODOC_DIR+"/" + mod_name(fname);
         write_file(outfile,"**** "+fname+" ****\n\n");
