@@ -27,11 +27,11 @@ nomask class command_info *module_commands() {
       action : (: DOC_D->complete_rebuild() :)),
     new(class command_info,
       key : "r",
-      desc : "RTS Update (scan-mudlib) [lots of output spam]",
-      action : (: RTS_D->scan_mudlib() :)),
+      desc : "RST Update (scan-mudlib) [lots of output spam]",
+      action : (: RST_D->scan_mudlib() :)),
     new(class command_info,
       key : "R",
-      desc : "RTS Update (complete-rebuild) [lots of ouput spam]",
-      action : (: RTS_D->complete_rebuild() :)),
+      desc : "RST Update (complete-rebuild) [lots of ouput spam]",
+      action : (: RST_D->complete_rebuild() :)),
   });
 }

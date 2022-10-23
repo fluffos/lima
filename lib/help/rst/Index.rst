@@ -18,6 +18,7 @@ Mudlib
 - `Daemons <Daemons.html>`_ - documentation and functions
 - `Modules <Modules.html>`_ - modules
 - `Mudlib <Mudlib.html>`_ - mudlib stuff
+- `In game help <Ingame.html>`_ - in game help files
 - `API <API.html>`_ - and other things
 
 .. note::
