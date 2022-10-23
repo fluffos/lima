@@ -1,6 +1,6 @@
-// /daemons/XTERM256_D.c
+//:MODULE
 // This daemon handles the 256 Colours of XTERM codes
-//
+
 // Created:     2022/04/08: Gesslar
 // Last Change: 2022/04/08: Gesslar
 //
@@ -89,14 +89,15 @@ private void load_all_colours()
 }
 
 //:FUNCTION substitute_colour
-// substitute_colour takes a string with tokenized xterm256 colour
-// codes and a mode, parses the tokens and substitutes with 
-// xterm colour codes suitable for printing.
-// available modes are: 
-// plain - strip all colour and style codes
-// vt100 - strip only colour codes
-// xterm - replace all tokens with xterm256 colour codes
-// ansi  - fall back to ansi colour codes
+//Substitute_colour takes a string with tokenized xterm256 colour
+//codes and a mode, parses the tokens and substitutes with 
+//xterm colour codes suitable for printing.
+//available modes are:
+//
+//  plain - strip all colour and style codes
+//  vt100 - strip only colour codes
+//  xterm - replace all tokens with xterm256 colour codes
+//  ansi  - fall back to ansi colour codes
 public varargs string substitute_colour(string text, string mode)
 {
     mixed *assoc ;
