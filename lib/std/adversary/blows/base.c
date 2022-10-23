@@ -4,94 +4,223 @@
 
 inherit __DIR__ "class_" STRINGIZE(BLOW_MODULE);
 
+private
+nosave int natural_armor = 0;
+nosave string *resistances = ({});
+nosave string *vulnerabilities = ({});
+
 varargs int hurt_us(int, string);
 varargs void attacked_by(object, int);
 string query_random_limb();
-void handle_message(string, object, object);
+void handle_message(string, object, object, string);
 string damage_message(int);
+void add_experience(int);
 object *query_targets();
 object query_weapon();
 varargs void unwield(string);
 object *event_get_armors(class event_info);
 
-int do_damage_event(class event_info evt)
+void gmcp_send_vitals()
 {
-  int x;
-  if(evt->data != "miss")
-   x = hurt_us(event_damage(evt)
-#ifdef HEALTH_USES_LIMBS
-    , evt->target_extra
-#endif
-    );
-  if(member_array(previous_object(), query_targets()) == -1)
-    attacked_by(previous_object(), 0);
-  return x;
+  //Do nothing in adversary. Real function for players is in body.
+}
+
+//:FUNCTION query_natural_armor
+// int query_natural_armor()
+// Returns the natural armor automatically reduces the amount of damage taken.
+int query_natural_armor()
+{
+  return natural_armor;
+}
+
+//:FUNCTION set_natural_armor
+// void set_natural_armor(int na)
+// Natural armor automatically reduces the amount of damage taken.
+void set_natural_armor(int na)
+{
+  if (na > 0)
+    natural_armor = na;
+}
+
+//:FUNCTION query_resistances
+// string *query_resistances()
+// A string array of damage type this adversary is reistant to.
+string *query_resistances()
+{
+  return resistances;
+}
+
+//:FUNCTION query_vulnerabilities
+// string *query_vulnerabilities()
+// A string array of damage type this adversary is vulnerable to.
+string *query_vulnerabilities()
+{
+  return vulnerabilities;
+}
+
+//:FUNCTION add_resistance
+// void add_resistance(string r)
+// Add a resistance damage type for this adversary.
+void add_resistance(string r)
+{
+  resistances += ({r});
+}
+
+void add_vulnerability(string v)
+{
+  vulnerabilities += ({v});
+}
+
+class event_info modify_resistances(class event_info evt)
+{
+  foreach (string r in resistances)
+  {
+    if (member_array(r, evt->data[0]) != -1)
+    {
+      evt->data[sizeof(evt->data) - 1] = evt->data[sizeof(evt->data) - 1] / 2;
+      return evt;
+    }
+  }
+  return evt;
+}
+
+class event_info modify_vulnerabilities(class event_info evt)
+{
+  foreach (string v in vulnerabilities)
+  {
+    if (member_array(v, evt->data[0]) != -1)
+    {
+      //      TBUG(this_object() + " vulnerable to " + v + ".");
+      evt->data[sizeof(evt->data) - 1] = evt->data[sizeof(evt->data) - 1] * 2;
+      return evt;
+    }
+  }
+  return evt;
 }
 
 // Modify us (as attacker). Include things such as racial modifiers,
 // resistances, etc.
 class event_info modify_our_event(class event_info evt)
 {
-   return evt;
+  if (!arrayp(evt->data))
+    return evt;
+
+  if (objectp(evt->target))
+  {
+    object t = evt->target;
+    evt = t->modify_resistances(evt);
+    evt = t->modify_vulnerabilities(evt);
+  }
+  return evt;
 }
 
 class event_info health_modify_event(class event_info evt)
 {
-   return evt;
+  if (stringp(evt->data))
+    return evt;
+
+  if (natural_armor)
+  {
+    evt->data[1] -= random(natural_armor);
+    if (evt->data[1] < 0)
+      evt->data[1] = 0;
+  }
+
+  return evt;
 }
 
 class event_info armors_modify_event(class event_info evt)
 {
-   object *armors = event_get_armors(evt);
+  object *armors = event_get_armors(evt);
 
-   if(armors)
-      foreach(object ob in armors)
-         evt = ob->sink_modify_event(evt);
-   return evt;
+  if (armors)
+    foreach (object ob in armors)
+      if (ob)
+        evt = ob->sink_modify_event(evt);
+  return evt;
 }
 
 // This is the method that gets called in the target object. Before
 // the event does any damage to us, make modifications.
 class event_info modify_event(class event_info evt)
 {
-   evt = health_modify_event(evt);
-   evt = armors_modify_event(evt);
+  evt = health_modify_event(evt);
+  evt = armors_modify_event(evt);
 
-   return evt;
+  return evt;
+}
+
+int do_damage_event(class event_info evt)
+{
+  int x;
+  if (evt->data != "miss")
+  {
+#if HEALTH_STYLE == HEALTH_LIMBS
+    x = hurt_us(event_damage(evt), evt->target_extra);
+#else
+    x = hurt_us(event_damage(evt));
+#endif
+  }
+  if (member_array(previous_object(), query_targets()) == -1)
+    attacked_by(previous_object(), 0);
+  return x;
 }
 
 void handle_result(class event_info evt)
 {
   object w;
 
-  if(stringp(evt->data))
+  //Debug combat events
+  //TBUG(event_to_str(evt));
+
+  if (stringp(evt->data))
   {
     handle_message("!" + evt->data,
                    evt->target,
-                   evt->weapon
+                   evt->weapon,
 #ifdef HEALTH_USES_LIMBS
-                   , evt->target_extra
+                   evt->target_extra
+#else
+                   0
 #endif
-                   );
+                );
 
     switch (evt->data)
     {
-      case "dispatch":
-        evt->target->kill_us();
-        break;
-      case "disarm":
-        w = evt->target->query_weapon();
-        evt->target->unwield();
-        w->move(environment());
-        break;
-      case "miss":
-        evt->target->do_damage_event(evt);
-        break;
+    case "dispatch":
+      evt->target->kill_us();
+      break;
+    case "disarm":
+      w = evt->target->query_weapon();
+      evt->target->unwield();
+      w->move(environment());
+      evt->target->disarm(w);
+      break;
+    case "miss":
+      evt->target->do_damage_event(evt);
+      break;
     }
-  } else {
+  }
+  else
+  {
     int percent = event_damage(evt);
-    handle_message(damage_message(percent), evt->target, evt->weapon);
-    percent = evt->target->do_damage_event(evt);
+    
+#ifdef HEALTH_USES_LIMBS
+    percent = to_int(percent / (1.0 * evt->target->query_max_health(evt->target_extra)) * 100);
+#else
+    percent = to_int(percent / (1.0 * evt->target->query_max_health()) * 100);
+#endif
+
+    if (evt->target)
+    {
+      handle_message(damage_message(percent), evt->target, evt->weapon, 
+#ifdef HEALTH_USES_LIMBS
+                   evt->target_extra);
+#else
+                   0);
+#endif
+      percent = evt->target->do_damage_event(evt);
+    }
   }
 }
 
@@ -99,28 +228,28 @@ void handle_events()
 {
   int i = 0;
 
-/* walking over the queue is slightly more efficient than deleting the
+  /* walking over the queue is slightly more efficient than deleting the
    first element each time, causing them all to have to move */
   while (i < sizeof(queue))
   {
     queue[i] = modify_our_event(queue[i]);
-    if(!queue[i])
+    if (!queue[i])
     {
       i++;
       continue;
     }
-    if(queue[i]->weapon)
+    if (queue[i]->weapon)
     {
       queue[i] = queue[i]->weapon->source_modify_event(queue[i]);
-      if(!queue[i])
+      if (!queue[i])
       {
         i++;
         continue;
       }
     }
-    if(queue[i]->target)
+    if (queue[i]->target)
       queue[i] = queue[i]->target->modify_event(queue[i]);
-    if(!queue[i])
+    if (!queue[i])
     {
       i++;
       continue;
@@ -130,5 +259,5 @@ void handle_events()
     i++;
   }
 
-  queue = ({ });
+  queue = ({});
 }

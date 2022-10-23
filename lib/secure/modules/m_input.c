@@ -28,8 +28,7 @@ protected varargs nomask void modal_push(
     function input_func,
     mixed prompt_func,
     function secure,
-    function return_to_func
-    )
+    function return_to_func )
 {
     if ( input_user && this_user() != input_user )
 	error("user mismatch -- already assigned to a user\n");
@@ -85,8 +84,7 @@ protected nomask int modal_stack_size()
 protected varargs nomask void input_one_arg(
     string arg_prompt,
     function fp,
-    string arg
-    )
+    string arg )
 {
     ZBUG( ({ arg_prompt, fp, arg }) );
     if ( !arg )
@@ -98,9 +96,9 @@ protected varargs nomask void input_one_arg(
     evaluate(fp, arg);
 }
 
-private nomask void rcv_first_of_two(string arg2_prompt,
+private nomask void rcv_first_of_two( string arg2_prompt,
 				     function fp,
-				     string arg1)
+				     string arg1 )
 {
     string arg2;
 
@@ -128,8 +126,7 @@ protected varargs nomask void input_two_args(
     string arg1_prompt,
     string arg2_prompt,
     function fp,
-    string arg
-    )
+    string arg )
 {
     if ( arg )
     {
@@ -153,7 +150,7 @@ protected varargs nomask void input_two_args(
 private nomask void rcv_last_of_three(string arg3_prompt,
 				      function fp,
 				      string arg1,
-				      string arg2)
+				      string arg2 )
 {   
     string arg3;
   
@@ -177,7 +174,7 @@ private nomask void rcv_last_of_three(string arg3_prompt,
 private nomask void rcv_second_of_three(string arg2_prompt,
 					string arg3_prompt,
 					function fp,
-					string arg)
+					string arg )
 {
     string arg1, arg2, arg3;
 
@@ -205,8 +202,7 @@ protected varargs nomask void input_three_args(
     string arg2_prompt,
     string arg3_prompt,
     function fp,
-    string arg
-    )
+    string arg )
 {
     string arg1, arg2, arg3;
 

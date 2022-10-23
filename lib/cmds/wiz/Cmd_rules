@@ -9,7 +9,7 @@ findfunc	str obj
 flist -i	obj
 goto		obj
 last -sn:d:D:	[str*]
-locate		str
+ilocate		str
 lightme		num
 move		obj obj
 objcount	[num]

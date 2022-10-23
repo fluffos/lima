@@ -11,7 +11,7 @@ dbxtracer	obj str
 du		[dir]
 ed		[obfile|fname]
 find -in        str file*
-findfile -u	[str]
+locate -u	[str]
 force		user str*
 grep -inv	str [file|dir*]
 head -n:	[file*]

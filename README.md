@@ -1,7 +1,10 @@
-Lima MUD that work with fluffos v2019
+Lima Mudlib that work with latest FluffOS
+
+# Documentation
+Please see https://limamudlib.readthedocs.io/en/latest/
 
 # Current status
-- [x] Boot
+- [X] Boot
 - [X] Basic functions
 - [ ] Error free
 

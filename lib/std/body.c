@@ -219,17 +219,16 @@ void save_me()
 {
     object shell_ob = link && link->query_shell_ob();
     string userid = query_userid();
+    string bodyid = lower_case(query_name());
 
     /* save the shell information */
     if ( shell_ob )
 	shell_ob->save_me();
 
-    //### This check is bogus.  What should it be?
-    // This check also doesn't work for su's -- John
-    //    if (previous_object()==this_object())
     saved_items = save_to_string(1); // 1 meaning it is recursive.
 
-    unguarded( 1, (: save_object , USER_PATH(userid) :) );
+    //Save to the body id, and not the user ID. Part of User menu change.
+    unguarded( 1, (: save_object , USER_PATH(bodyid) :) );
     saved_items = 0;
 }
 
@@ -267,6 +266,9 @@ void quit()
 	::remove();
 	return;
     }
+
+    if(link)
+        link->update_body(this_object());
 
     if (is_visible())
 	simple_action("$N $vhave left "+mud_name()+".");
@@ -393,8 +395,9 @@ void create(string userid)
     set_long( (: our_description :) );
     set_name(userid);
 
+    // TBUG("restore_object("+USER_PATH(userid)+",1);");
     unguarded(1, (: restore_object, USER_PATH(userid), 1 :));
-
+    // TBUG("Done");
     // up to the player
     set_attack_speed(0);
 }

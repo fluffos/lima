@@ -21,7 +21,7 @@ string *query_path() {
 
 string query_shellname(){ return "Player Shell"; }
 
-private mapping shell_vars = ([]);
+private mapping shell_vars = (["ansi":1]);
 
 void set_variable(string name, mixed value)
 {

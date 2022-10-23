@@ -225,6 +225,7 @@
 #define M_FLUID_SOURCE    "/std/modules/m_fluid_source"
 #define M_FLUID_CONTAINER "/std/modules/m_fluid_container"
 #define M_CONVERSATION    "/std/modules/m_conversation"
+#define M_WIDGETS         "/std/modules/m_widgets"
 
 /* for area objects */
 #define M_ACCOUNTANT      "/std/modules/m_accountant"
@@ -272,6 +273,7 @@
 #define ADDTO_OB          "/trans/obj/addto_ob"
 #define WIZ_SHELL         "/trans/obj/wish"
 #define TELNET_OB         "/trans/obj/telnet_ob"
+#define USER_MENU         "/obj/usermenu/usermenu"
 #define ADMTOOL           "/obj/admtool/admtool2"
 #define TASKTOOL          "/obj/tasktool/tasktool"
 #define DATAEDIT          "/trans/obj/dataedit"

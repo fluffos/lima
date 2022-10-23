@@ -26,8 +26,7 @@
 
 inherit CMD;
 
-#define SECS_PER_DAY	(24 * 60 * 60)
-
+#define SECS_PER_DAY 86400
 
 private void main(mixed *arg, mapping flags)
 {

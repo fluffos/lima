@@ -47,6 +47,7 @@
 //w -Prints brief description of the users enviroment.
 //f -Prints filename of the users environment.
 //a -Prints either player, wizard or admin titles only.
+//u -Prints username of body.
 //i -Prints idle times of people logged on.
 //I -Prints IP/hostnames of people logged on.
 //F -Prints an 'I' if a person is idle, and an 'E' if the person is editing.
@@ -183,6 +184,11 @@ string get_who_string(string arg)
 		DEBUG("Position");
 		retval+=sprintf("%|14.14s ",body->query_wiz_position() ?
 		  body->query_wiz_position() : "(None)");
+		break;
+	    case "u":
+		DEBUG("User");
+		retval+=sprintf("%-14.14s ",body->query_link()->query_userid() ?
+		  capitalize(body->query_link()->query_userid()) : "(None?)");
 		break;
 	    case "a":
 		if (!wizardp(this_user())) break;

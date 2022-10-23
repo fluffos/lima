@@ -209,6 +209,7 @@ void process_file(string fname)
       printf("Writing to: %O\n", outfile);
     } else if (lines[i][0..2] == "//:") {
       line = lines[i][3..];
+      line = trim(line);
       i++;
       if (line == "TODO")
       {

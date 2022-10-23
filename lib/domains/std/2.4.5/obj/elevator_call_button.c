@@ -1,7 +1,7 @@
 #pragma no_warnings
 inherit "/std/object";
-
 mixed _where;
+
 void setup(string w);
 mixed direct_press_obj();
 void do_press() {
@@ -16,23 +16,15 @@ void do_press() {
     }
 }
 void setup(string w) {
-function f;
-set_flag(0 | ATTACHED);
-set_adj("elevator");
-set_id("button");
-{
-_where = w
-;
-}
-;
+    function f;
+    set_flag(0 | ATTACHED);
+    set_adj("elevator");
+    set_id("button");
+    _where = w;
 }
 
 
 mixed direct_press_obj() {
-{
-return 1;
-;
-}
-;
+    return 1;
 }
 

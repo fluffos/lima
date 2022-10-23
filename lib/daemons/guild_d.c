@@ -1,11 +1,10 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-/*
-** guild_d.c -- daemon for recording guild information2
-**
-** Ohara: Design and original implementation
-** 951224, Deathblade: updated, installed, etc
-*/
+//:MODULE
+//guild_d.c -- daemon for recording guild information
+
+//Ohara: Design and original implementation
+// 951224, Deathblade: updated, installed, etc.
 
 inherit M_DAEMON_DATA;
 

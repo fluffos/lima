@@ -93,31 +93,33 @@ nomask string query_url()
     return url;
 }
 
-protected nomask varargs
-void userinfo_handle_logon(int state, mixed extra, string arg)
+protected
+nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
 {
-   switch(state)
+   switch (state)
    {
       case GENDER_QUERY:
-         modal_push((: userinfo_handle_logon, GOT_GENDER, 0 :),
+      modal_push((
+                     : userinfo_handle_logon, GOT_GENDER, 0
+                     :),
                        "Are you male or female? ");
          break;
 
       case GOT_GENDER:
          arg = lower_case(arg);
-         if(arg == "y" || arg == "yes")
+      if (arg == "y" || arg == "yes")
          {
             write("Ha, ha, ha. Which one are you?\n");
             return;
          }
-         if(arg == "n" || arg == "no")
+      if (arg == "n" || arg == "no")
          {
             write("Well, which one would you have liked to be, then?\n");
             return;
          }
-         if(arg == "f" || arg == "female")
+      if (arg == "f" || arg == "female")
             n_gen = 2;
-         else if(arg != "m" && arg != "male")
+      else if (arg != "m" && arg != "male")
          {
             write("I've never heard of that gender.  Please try again.\n");
             return;
@@ -133,46 +135,40 @@ void userinfo_handle_logon(int state, mixed extra, string arg)
                "\n"
                "You cannot gain wizard status without valid responses to these questions:\n");
 
-         modal_func((: userinfo_handle_logon, GOT_EMAIL, 0 :),
+      modal_func((
+                     : userinfo_handle_logon, GOT_EMAIL, 0
+                     :),
                        "Your email address: ");
          break;
 
       case GOT_EMAIL:
          email = arg;
-         modal_func((: userinfo_handle_logon, GOT_REAL_NAME, 0 :),
+      modal_func((
+                     : userinfo_handle_logon, GOT_REAL_NAME, 0
+                     :),
                        "Your real name: ");
          break;
 
       case GOT_REAL_NAME:
          real_name = arg;
 
-         modal_func((: userinfo_handle_logon, GOT_URL, 0 :),
+      modal_func((
+                     : userinfo_handle_logon, GOT_URL, 0
+                     :),
                        "Your home page address (if any): ");
-         //tc("hmm");
+      // tc("hmm");
          break;
 
       case GOT_URL:
          url = arg;
-         //tc("got url:"+url);
+      // tc("got url:"+url);
 
          /*
          ** Done with this series of inputs
          */
          modal_pop();
-         //tc("past pop");
-
-         /*
-         ** Let's move on to introducing the character to the mud.
-         */
-         if(file_size(NEW_PLAYER) <= 0)
-         {
-            //tc("about to call sw_body_handle_new_logon");
-            sw_body_handle_new_logon();
+      printf("New menu.\n");
+      new (USER_MENU)->start_menu();
             return;
-         }
-
-         //tc("about to more a file");
-         more_file(NEW_PLAYER, 0, (: sw_body_handle_new_logon :));
-         //tc("done?");
    }
 }

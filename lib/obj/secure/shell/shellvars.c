@@ -2,7 +2,7 @@
 
 #include <mudlib.h>
 
-private nosave mapping variables = ([]);
+private nosave mapping variables = (["ansi":1]);
 private nosave mapping set_var_hooks = ([]);
 
 

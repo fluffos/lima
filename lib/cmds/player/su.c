@@ -25,12 +25,12 @@ private void main(string arg)
   string name, race;
   if (!arg)
   {
-    name = this_user()->query_userid();
+    name = this_user()->query_selected_body();
     race = 0;
   } else
     if (sscanf(arg, "(%s)%s", race, name) == 2)
     {
-      if (name == "") name = this_user()->query_userid();
+      if (name == "") name = this_user()->query_selected_body();
     } else {
       name = arg;
       race = 0;
@@ -42,7 +42,7 @@ private void main(string arg)
       race += ".c";
     if (!is_file(race))
     {
-      BBUG(race);
+      TBUG(race);
       out("No such race.\n");
       return;
     }
@@ -53,6 +53,6 @@ private void main(string arg)
     this_body()->save_me();
     this_body()->save_autoload();
   }
-  BBUG(race);
+  TBUG("Name: "+name+" race: "+race);
   this_user()->switch_user(name, race);
 }

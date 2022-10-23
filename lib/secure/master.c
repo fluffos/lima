@@ -685,3 +685,23 @@ int valid_compile_to_c()
 {
   return check_privilege(1);
 }
+
+string domain_file(string file)
+{
+  string *parts = explode(file, "/");
+  if (sizeof(parts) > 2 && parts[0] == "domains")
+    return parts[1];
+  else
+    return "std";
+}
+
+string author_file(string file)
+{
+  string *parts = explode(file, "/");
+  if (file == "/secure/master.c")
+    return "beek";
+  if (sizeof(parts) > 2 && parts[0] == "wiz")
+    return parts[1];
+  else
+    return "mudlib";
+}

@@ -57,12 +57,11 @@ void create()
   // initialized.
  if (!restore_object(ACCESS_SAVE))
   {
-    //if (eval_cost() < 1000) // *sigh*
-      //for (;;);
-    privileges = ([ ]);
-    read_access = allocate_mapping(1);
-    write_access = allocate_mapping(1);
-    domains = ([ ]);
+    //The mudlib requires these defaults or it won't work. If restore_object() fails, we go back to something sane.
+    privileges = (["Approval":(["":({}),":":({}),]),"Admin":(["":({}),":intermud":({}),":news":({}),":":({}),]),"@contrib":(["":({}),":":({}),]),"Mail":(["":({}),":":({}),]),"Mudlib":([":socket":({"Mudlib:daemons","Mudlib:objects",}),":wizcmds":({}),":config":({}),":daemons":({}),":objects":({}),":WWW":({}),":help":({"Mudlib:daemons",}),"":({}),":verbs":({}),":std":({}),":plyrcmds":({}),":":({}),]),"Admin-channels":(["":({}),":":({}),]),"Std":(["":({}),":":({}),]),"@secure":(["":({}),":":({}),]),"Lpscript":(["":({}),":":({}),]),]);
+    read_access = (["data":({-1,(["mail":({"@secure",0,}),"wshells":({"@secure",0,}),"M":({"@secure",0,}),"players":({"Mudlib:std",0,}),"links":({"@secure",0,}),"pshells":({"Mudlib:objects",0,}),"secure":({"@secure",0,}),]),}),]);
+    write_access = (["help":({"Mudlib:help",0,}),"contrib":({"@contrib",(["incoming":({0,0,}),]),}),"wiz":({-1,([]),}),"cmds":({-1,(["wiz":({"Mudlib:wizcmds",0,}),"player":({"Mudlib:plyrcmds",0,}),"verbs":({"Mudlib:verbs",0,}),]),}),"ftp":({0,0,}),"open":({0,0,}),"std":({"Mudlib:std",0,}),"data":({-1,(["mail":({"@secure",0,}),"config":({"Mudlib:config",0,}),"M":({"@secure",0,}),"news":({"Mudlib:daemons",0,}),"daemons":({"Mudlib:daemons",0,}),"wshells":({"@secure",0,}),"players":({"Mudlib:std",0,}),"links":({"@secure",0,}),"pshells":({"Mudlib:objects",0,}),"secure":({"@secure",0,}),]),}),"tmp":({0,0,}),"WWW":({"Mudlib:WWW",0,}),"daemons":({"Mudlib:daemons",0,}),"obj":({-1,(["admtool":({-1,(["daemons":({"Mudlib:daemons",0,}),]),}),"mudlib":({"Mudlib:objects",0,}),]),}),"domains":({-1,(["lpscript":({"Lpscript:",0,}),"std":({"Std:",0,}),]),}),]);
+    domains = (["mail":([]),"admin":([]),"admin-channels":([]),"lpscript":([]),"approval":([]),"std":([]),"mudlib":([]),]);
     domainlists = ([ ]);
     wizards = ([ ]);
     save_data();

@@ -3,7 +3,7 @@
 //  Yaynu@Lima Bean
 
 //:PLAYERCOMMAND
-//$$ see: color, colours
+//$$ see: color, colours, simplify
 //USAGE ansi
 //      ansi on
 //      ansi off

@@ -9,6 +9,9 @@
 ** 950813, Deathblade: removed method of specifying admins here
 */
 
+//:MODULE
+//Daemon for handling system groups.
+
 #include <mudlib.h>
 #include <security.h>
 

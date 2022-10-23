@@ -12,6 +12,7 @@ string query_userid();
 object query_body();
 void initialize_user();
 string query_userid();
+string query_selected_body();
 void restore_me(string some_name, int preserve_vars);
 
 varargs void switch_body(string new_body_fname, int permanent);
@@ -105,7 +106,7 @@ private nomask void confirm_valid_su(string old_userid,
 
 nomask void switch_user(string str, string new_body)
 {
-    string old_userid = query_userid();
+    string old_userid = query_selected_body();
     string new_userid = lower_case(str);
     int is_admin = adminp(old_userid);
 

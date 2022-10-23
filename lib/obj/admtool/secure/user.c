@@ -24,19 +24,32 @@ private nomask void nuke_user(string userid, int skip_save)
 {
     object o;
     mixed err;
+    mapping bodies;
 
     if ( o = find_user(userid) )
     {
 	o->receive_private_msg("Sorry.  You're being nuked.\n");
+    bodies=o->query_bodies();
 	o->quit();
+    }
+    else
+    {
+        //A bit ugly, but does the job. We'd rather store user info in user files than create a daemon to track all these.
+        bodies = restore_variable(filter_array(explode(read_file(LINK_PATH(userid)+__SAVE_EXTENSION__),"\n"),(: $1[0..5]=="bodies" :))[0][7..]);
+    }
+
+    /* Remove each player for the user */
+    foreach(string player in keys(bodies))
+    {
+        err = rm(USER_PATH(player)+__SAVE_EXTENSION__);
     }
 
     MAILBOX_D->get_mailbox(userid)->nuke_mailbox(1);
     MAILBOX_D->unload_mailbox(userid);
 
+
     /* remove a bunch of files. note: some might not exist. */
     err = rm(LINK_PATH(userid) + __SAVE_EXTENSION__);
-    err = rm(USER_PATH(userid) + __SAVE_EXTENSION__);
     err = rm(PSHELL_PATH(userid) + __SAVE_EXTENSION__);
     err = rm(WSHELL_PATH(userid) + __SAVE_EXTENSION__);
 
