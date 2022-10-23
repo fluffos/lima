@@ -52,7 +52,7 @@ private void load_all_colours()
         "fl1" : sprintf("%c[5m",  27), // flash on
     ]) ;
 
-    lines = explode(read_file("/etc/xterm256/256_to_16_fallback.txt"), "\n") ;
+    lines = explode(read_file("/data/xterm256/256_to_16_fallback.txt"), "\n") ;
     i = 256 ;
     fallback_codes = allocate(i) ;
     while(i--)
@@ -64,7 +64,7 @@ private void load_all_colours()
         fallback_codes[i] = fallback ;
     }
 
-    lines = explode(read_file("/etc/xterm256/xterm_ansi_16_fg.txt"), "\n") ;
+    lines = explode(read_file("/data/xterm256/xterm_ansi_16_fg.txt"), "\n") ;
     i = 16 ;
     while(i--)
     {
@@ -75,7 +75,7 @@ private void load_all_colours()
         x256_to_16_fg[xterm] = sprintf("%c[%sm", 27, fallback) ;
     }
 
-    lines = explode(read_file("/etc/xterm256/xterm_ansi_16_bg.txt"), "\n") ;
+    lines = explode(read_file("/data/xterm256/xterm_ansi_16_bg.txt"), "\n") ;
     i = 16 ;
     while(i--)
     {

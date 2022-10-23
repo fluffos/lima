@@ -185,6 +185,7 @@ void process_file(string fname)
   rm("/help/autodoc/modules/" + mod_name(fname));
   rm("/help/autodoc/command/" + mod_name(fname));
   rm("/help/player/command/" + mod_name(fname));
+  rm("/help/admin/command/" + mod_name(fname));
   rm("/help/autodoc/hook/" + mod_name(fname));
   rm("/help/autodoc/" + MUD_AUTODOC_DIR + "/" + mod_name(fname));
   delete_directory("/help/autodoc/functions/" + mod_name(fname));
