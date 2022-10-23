@@ -287,7 +287,7 @@ void process_file(string fname)
         while ((i < sizeof(lines)) && (lines[i][0..1] == "//"))
         {
           //Skip first space for layout reasons.
-          if (strlen(lines[i])>3 && lines[i][2] = ' ')
+          if (strlen(lines[i])>3 && lines[i][2] == ' ')
             description += "\n" + lines[i][3..];
           else
             description += "\n" + lines[i][2..];
