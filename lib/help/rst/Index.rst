@@ -1,0 +1,26 @@
+************************************
+Welcome to LIMA Mudlib Documentation
+************************************
+
+**LIMA** (ˈlaɪmə) is FluffOS based Mudlib originally developed in the 1990's.
+
+Check out the `usage <Usage.html>`_ page for further information, including
+how to `install <Installation.html>`_ the project.
+
+Commands
+========
+- `Player Commands <Player_Commands.html>`_ - commands for players
+- `Verbs <Verbs.html>`_ - common interactions with the mudlib
+- `Other commands <Commands.html>`_ - mostly for wizards and admins
+
+Mudlib
+======
+- `Daemons <Daemons.html>`_ - documentation and functions
+- `Modules <Modules.html>`_ - modules
+- `Mudlib <Mudlib.html>`_ - mudlib stuff
+- `API <API.html>`_ - and other things
+
+.. note::
+
+   The LIMA documentation project is under active development.
+
