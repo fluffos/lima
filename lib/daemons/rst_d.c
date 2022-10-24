@@ -16,26 +16,10 @@ inherit M_DAEMON_DATA;
 
 //: MODULE
 // The RST (reStructured Text) daemon handles finding source files which have been modified and
-// updating the RST documentation.
-
-//: TODO
-// Finish the daemon.
-// And check that it works.
+// updating the RST documentation. The intent of this daemon is to do formatting without forcing
+// new autodoc standards nor introducing RST formatting into MUD help pages.
 
 // Public functions --------------------------------------------------------
-
-//: FUNCTION compose_message
-// The lowest level message composing function; it is passed the object
-// for whom the message is wanted, the message string, the array of people
-// involved, and the objects involved.  It returns the appropriate message.
-// Usually this routine is used through the higher level interfaces.
-varargs string compose_message(object forwhom,
-                               string msg,
-                               object *who,
-                               mixed *obs...)
-{
-  // Do nothing, just documentation test.
-}
 
 private
 void continue_scan();

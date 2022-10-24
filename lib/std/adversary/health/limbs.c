@@ -285,7 +285,7 @@ void kill_us()
       this_object()->slain_by(previous_object());
       if (team && sizeof(viable) > 1)
       {
-         //Player is in a team
+         //Player is in a party
          PARTY_D->award_experience(previous_object(), team, viable, query_level());
          PARTY_D->modify_karma(team, viable, karma_impact());
          previous_object()->query_bestiary()->add_slain(this_object());
