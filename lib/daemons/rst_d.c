@@ -285,7 +285,7 @@ void process_file(string fname)
             description += "\n" + lines[i][2..];
           i++;
         }
-        //### regexp() doesn't match any ";", had to replace_string() them
+        // ### regexp() doesn't match any ";", had to replace_string() them
         match = regexp(map(lines[i..i + 19], (
                                                  : replace_string($1, ";", "#")
                                                  :)),
@@ -332,7 +332,7 @@ void process_file(string fname)
     rstout += cfunch + "\n" + repeat_string("=", strlen(cfunch)) + "\n\n";
     foreach (string cinf in cmd_info)
     {
-      if (strlen(cinf) > 2 && cinf[0..6] == "$$ see:")
+      if (strlen(cinf) > 2 && (cinf[0..6] == "$$ see:" || cinf[0..5] == "$$see:"))
       {
         string *sees = explode(cinf[7..], ",");
         rstout += "See: ";
