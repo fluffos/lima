@@ -20,7 +20,7 @@ inherit CMD;
 private void main(string str)
 {
   string * emotes = SOUL_D->list_emotes();
-  string name = lower_case(trim_spaces(str));
+  string name = lower_case(trim(str));
   string rule;
   string extra;
 

@@ -26,7 +26,7 @@ private void main(mixed arg)
     return;
   }
 
-  arg = trim_spaces(arg);
+  arg = trim(arg);
   if ( arg == "1" )
     arg = 1;
   else if ( arg == "0" )

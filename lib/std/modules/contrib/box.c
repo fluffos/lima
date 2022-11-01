@@ -26,10 +26,10 @@ varargs string quote_box(string quote, int width, string author,
     width = 70;
   if(!corner){
     s = frame + frame;
-    s += power_str(frame,width);
+    s += repeat_string(frame,width);
  }else{
     s =  corner;
-    s += power_str(frame,width);
+    s += repeat_string(frame,width);
     s += corner;
  }
   quote = wrap(quote,width);
@@ -57,10 +57,10 @@ varargs string box(string text, int width,
     width = 70;
   if(!corner){
     s = frame + frame;
-    s += power_str(frame,width);
+    s += repeat_string(frame,width);
  }else{
     s =  corner;
-    s += power_str(frame,width);
+    s += repeat_string(frame,width);
     s += corner;
  }
   text = wrap(text, width-2);

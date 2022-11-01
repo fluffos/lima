@@ -137,7 +137,7 @@ private nomask void mail_prompt(string input)
 {
     string cmd_args;
 
-    input = trim_spaces(input);
+    input = trim(input);
     if ( sizeof(input) >= 3 && input[1] == ' ' )
 	cmd_args = input[2..];
 
@@ -225,7 +225,7 @@ nomask void begin_mail(string arg)
 {
     int idx;
 
-    if ( arg && trim_spaces(arg) != "" )
+    if ( arg && trim(arg) != "" )
     {
 	cmd_mail(arg);
 	return;

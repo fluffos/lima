@@ -36,7 +36,7 @@ private void receive_remove_method_equivalent(string method, string equiv)
 
 private void receive_add_method(string method, string equivs)
 {
-   string *tmp = map(explode(equivs, ","), (: trim_spaces :));
+   string *tmp = map(explode(equivs, ","), (: trim:));
 
    METHOD_D->add_method(method);
    if(sizeof(tmp))

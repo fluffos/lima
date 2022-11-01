@@ -387,7 +387,7 @@ SKTLOG("create: close_func",close_func);
         if ( fdOwned < 0 )
             error("could not create socket: " + socket_error(fdOwned) + "\n");
         if ( (err = socket_bind(fdOwned, p1)) < 0 )
-            error("could not bind socket: " + socket_error(err) + "\n");
+            error("could not bind socket: " + socket_error(err) + sprintf(" %O ", socket_address(fdOwned)) + "\n");
         if ( (err = socket_listen(fdOwned, "listen_callback")) < 0 )
             error("could not listen to socket: " + socket_error(err) + "\n");
 SKTLOG("create: SKT_STYLE_LISTEN_B",fdOwned);

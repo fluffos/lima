@@ -431,8 +431,8 @@ void define_from_file(string fname)
 	if ( idx == -1 )
 	    continue;
 
-	attr = trim_spaces(line[0..idx-1]);
-	value = trim_spaces(line[idx+1..]);
+	attr = trim(line[0..idx-1]);
+	value = trim(line[idx+1..]);
 
 	if ( attr == "name" )
 	{
@@ -457,23 +457,23 @@ void define_from_file(string fname)
 	    set_guild_suspend_level(which_guild, to_int(value));
 	    break;
 	case "attributes":
-	    value = map(explode(value, ","), (: trim_spaces :));
+	    value = map(explode(value, ","), (: trim:));
 	    set_guild_attributes(which_guild, value...);
 	    break;
 	case "exclusive":
-	    value = map(explode(value, ","), (: trim_spaces :));
+	    value = map(explode(value, ","), (: trim:));
 	    set_guild_exclusive(which_guild, value...);
 	    break;
 	case "allies":
-	    value = map(explode(value, ","), (: trim_spaces :));
+	    value = map(explode(value, ","), (: trim:));
 	    set_guild_allies(which_guild, value...);
 	    break;
 	case "prereq":
-	    value = map(explode(value, ","), (: trim_spaces :));
+	    value = map(explode(value, ","), (: trim:));
 	    set_guild_prereq(which_guild, value...);
 	    break;
 	case "banned":
-	    value = map(explode(value, ","), (: trim_spaces :));
+	    value = map(explode(value, ","), (: trim:));
 	    set_guild_banned(which_guild, value...);
 	    break;
 	case "title":

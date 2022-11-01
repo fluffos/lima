@@ -62,7 +62,7 @@ private nomask void list_channels()
 
 private nomask void rcv_add_channel(string channel_name, int type)
 {
-  channel_name = lower_case(trim_spaces(channel_name));
+  channel_name = lower_case(trim(channel_name));
   if ( channel_name == "" )
     return;
 

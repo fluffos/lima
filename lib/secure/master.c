@@ -208,7 +208,7 @@ mapping query_error(string name)
 string ws = " \t\n";
 
 /* don't use the string module, it's dangerous to do that here :) */
-string trim_spaces(string str)
+string trim(string str)
 {
   int i=0,j=strlen(str)-1;
   while (i<=j && member_array(str[i], " \t\n") != -1) i++;
@@ -337,7 +337,7 @@ void log_error(string file, string message)
     {
 #ifdef OLD_STYLE_COMPILATION_ERRORS
       printf(INDENT "Compilation error: %s\n   %s, before [%s]\n",
-          err, where, trim_spaces(context));
+          err, where, trim(context));
 #else
 /* for safety; it'll look wierd but have the right info */
       src = where; 

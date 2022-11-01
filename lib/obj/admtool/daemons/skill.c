@@ -41,7 +41,7 @@ private nomask void rcv_add_skill(string skill_name)
 {
     string * result;
 
-    skill_name = lower_case(trim_spaces(skill_name));
+    skill_name = lower_case(trim(skill_name));
     if ( skill_name == "" )
 	return;
 
@@ -56,7 +56,7 @@ private nomask void rcv_remove_skill(string skill_name)
 {
     string * result;
 
-    skill_name = lower_case(trim_spaces(skill_name));
+    skill_name = lower_case(trim(skill_name));
 
     result = SKILL_D->remove_skill(skill_name);
     if ( !result )

@@ -47,7 +47,7 @@ nosave mapping singulars = ([ ]);
 //singular_name returns the canonical name for a denomination/currency
 //e.g. lover case, without spaces and singular.
 string singular_name(string name) {
-  name = lower_case(trim_spaces(name));
+  name = lower_case(trim(name));
   if (singulars[name])
     name = singulars[name];
   return name;
@@ -128,7 +128,7 @@ nomask float query_factor(string name) {
 varargs nomask void add_currency(string type, string plural, int flag) {
   if (!check_privilege("Mudlib:daemons"))
     error("illegal attempt to add a currency.\n");
-  type = lower_case(trim_spaces(type));
+  type = lower_case(trim(type));
   if (plural)
     plural = lower_case(plural);
   else
@@ -195,7 +195,7 @@ void add_denomination(string type, string name, string plural, float factor) {
   if (!check_privilege("Mudlib:daemons"))
     error("illegal attempt to add a denomination.\n");
   type = singular_name(type);
-  name = lower_case(trim_spaces(name));
+  name = lower_case(trim(name));
   if (denomination[name] && denomination[name]->currency != type)
     error("denomination "+name+" already exists in currency "
 	  +denomination[name]->currency+"\n");

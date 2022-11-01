@@ -72,7 +72,7 @@ protected void shell_input(mixed input)
     }
 
     /* we can safely remove leading and trailing whitespace */
-    input = trim_spaces(input);
+    input = trim(input);
     if ( input == "" )
 	return;
 

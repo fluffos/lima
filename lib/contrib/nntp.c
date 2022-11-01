@@ -182,7 +182,7 @@ private nomask void nntp_read_callback(object socket, string data)
   {
     if(waiting_for_end_of_long_response)
       {
-	if(trim_spaces(lines_read[i]) == ".")
+	if(trim(lines_read[i]) == ".")
 	  {
 	    waiting_for_end_of_long_response = 0;
 	    handle_response(long_response_code, long_response);

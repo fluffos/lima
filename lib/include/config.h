@@ -79,6 +79,12 @@
 # define USE_MASS
 #endif
 
+/* If you want weight to be calculated in metric (kilo) rather than imperial (lbs) 
+   Only works use USE_MASS is defined.
+*/
+#define METRIC
+
+
 #define USE_SKILLS
 /*
  * This is the "maximum" skill level that players are compared against.
@@ -252,6 +258,11 @@
  * If you plan to make use of this feature. */
 #define AUTODOC_MUDNAME "LIMA"
 #define MUD_AUTODOC_DIR "lima"
+
+/* Metric definitions */
+#define KG_TO_LBS 2.20462262
+#define LBS_TO_KG 0.453592
+
 
 /*************************************************************************
  ** 									                                                  **

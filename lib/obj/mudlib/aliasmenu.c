@@ -395,7 +395,7 @@ private void input_from_main_menu(string arg)
 	    display_main_menu();
 	    return;
 	}
-	if(strlen(trim_spaces(arg)) > 1)
+	if(strlen(trim(arg)) > 1)
 	    arg = arg[2..];
 	else
 	    arg = 0;

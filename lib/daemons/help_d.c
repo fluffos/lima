@@ -69,7 +69,7 @@ int f_restrict(string s)
   if (member_array(':', s) == -1)
     return 0;
   r = explode(s, ":");
-  restrict[trim_spaces(r[0])] = to_int(r[1]);
+  restrict[trim(r[0])] = to_int(r[1]);
 }
 
 private

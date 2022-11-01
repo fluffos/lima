@@ -46,7 +46,7 @@ private void main( string who )
     string mailstring;
   
     if(!who) who = "";
-    who = lower_case(trim_spaces(who));
+    who = lower_case(trim(who));
     if ( sscanf(who, "%s@%s", name, mud) == 2 || sscanf(who, "@%s", mud) )
     {
 	string test;

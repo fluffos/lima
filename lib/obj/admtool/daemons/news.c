@@ -33,7 +33,7 @@ private nomask void list_newsgroups()
 
 private nomask void rcv_add_newsgroup(string str)
 {
-    str = lower_case(trim_spaces(str));
+    str = lower_case(trim(str));
     if ( str == "" )
 	return;
 
@@ -56,7 +56,7 @@ private nomask void rcv_remove_newsgroup(string group_name)
 	return;
     }
 
-    group_name = lower_case(trim_spaces(group_name));
+    group_name = lower_case(trim(group_name));
     if ( member_array(group_name, grouplist) == -1 )
     {
 	write("** That newsgroup does not exist.\n");

@@ -284,7 +284,7 @@ mixed expand_alias(string input)
       return "";
     }
   if(!(this_alias = aliases[argv[0]]))
-    return trim_spaces(implode(argv, " "));
+    return trim(implode(argv, " "));
 
   expanded_input = replace_string(this_alias->template,"\\\\$",sprintf("%c",255));
   j = numargs;
@@ -306,7 +306,7 @@ mixed expand_alias(string input)
     expanded_input = replace_string(expanded_input, "$*", 
 				    this_alias->defaults[0]);
 
-  return trim_spaces(replace_string(expanded_input,sprintf("%c",255), "$"));
+  return trim(replace_string(expanded_input,sprintf("%c",255), "$"));
 }
 
 

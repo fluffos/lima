@@ -9,10 +9,14 @@
 */
 
 //:PLAYERCOMMAND
-//USAGE biff
-//      biff on|off
+//$$see: mail
 //
-// Adjust the "biff" setting (mail announcements)
+//USAGE biff
+//      biff on
+//      biff off
+//
+//Setting biff on or off will determine whether you receive mail notifications from the in-game
+//mail system or not.
 
 #include <flags.h>
 

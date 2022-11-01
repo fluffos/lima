@@ -51,7 +51,7 @@ void banish_name(string name, string reason)
     if ( !stringp(name) || !stringp(reason) )
 	error("bad name or reason for banishing\n");
 
-    name = lower_case(trim_spaces(name));
+    name = lower_case(trim(name));
     if ( name == "" )
 	error("bad name for banishing\n");
 
@@ -82,7 +82,7 @@ void banish_site(string site, string reason)
     if ( !stringp(site) || !stringp(reason) )
 	error("bad site or reason for banishing\n");
 
-    site = lower_case(trim_spaces(site));
+    site = lower_case(trim(site));
     if ( site == "" )
 	error("bad site for banishing\n");
 

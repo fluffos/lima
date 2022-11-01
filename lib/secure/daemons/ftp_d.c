@@ -51,8 +51,8 @@ inherit M_ACCESS;
 #define LTYPE_NLST 1
 
 #define RESTRICT_PORTS
-#define MIN_PORT 4000
-#define MAX_PORT 4100
+#define MIN_PORT 40000
+#define MAX_PORT 40100
 #define MAX_TRIES 10
 
 private int lastport = MIN_PORT;
@@ -193,6 +193,12 @@ private void FTP_read(object socket, string data)
   class ftp_session	thisSession;
   function		dispatchTo;
   int i;
+  mixed err;
+  /* DEBUG FTP kobol */
+  FTPLOGF("SOCKET %O\n", socket); 
+  FTPLOGF("SOCKET_ADDR %O\n", socket->address());
+  /* END DEBUG */
+
   /* If there is no data, it's a new connection. */
   if (!data)
     {
@@ -223,7 +229,7 @@ private void FTP_read(object socket, string data)
   data=thisSession->command[0..i-1];
   thisSession->command=thisSession->command[i+1..];
 
-  thisSession->command=trim_spaces(thisSession->command);
+  thisSession->command=trim(thisSession->command);
 
 /* get the command and argument. */
   if (!sscanf(data, "%s %s", cmd, arg))
@@ -264,14 +270,44 @@ private void FTP_read(object socket, string data)
       socket->send(sprintf("502 Unknown command %s.\n", cmd));
       return;
     }
-  if(catch(evaluate(dispatchTo, thisSession, arg)))
+  if(err = catch(evaluate(dispatchTo, thisSession, arg)))
      {
        FTPLOGF("%s caused a FAILURE with command '%s'.\n",
 	    capitalize(thisSession->user), data);
+       FTPLOGF("Error caught was '%O'\n", err);
        socket->send("550 Unknown failure.  Please report what you were doing "
 		    "to the mud admin.\n");
      }
   return;
+}
+
+private void FTP_PASV_read_kobol(object socket, string text) {
+  class ftp_session info;
+
+  info = passives[socket->local_port()];
+
+  info->dataPipe = socket;
+
+  info->dataPipe->set_write_callback((: FTP_write :));
+
+  destruct(passives[info->cmdPipe]);
+
+  dataports[info->dataPipe] = info->cmdPipe;
+  if(!text)
+    return;
+  switch(info->binary)
+  {
+    case 0:
+      text=replace_string(text,"\r","");
+      unguarded(info->priv, (:write_file($(info->targetFile), $(text)):));
+      return;
+    case 1:
+      unguarded(info->priv, (:write_buffer($(info->targetFile), $(info->filepos), $(text)):));
+      info->filepos+=sizeof(text);
+      return;
+    default:
+      ENSURE(0);
+  }
 }
 
 private void FTP_PASV_read(class ftp_session info, object socket, string text)
@@ -457,6 +493,7 @@ private void FTP_CMD_pasv(class ftp_session info, string arg)
   int *port;
   int listen_socket;
   int tries;
+  FTPLOGF("PASV rec'd %O\n", info->cmdPipe);
   if(arg)
   {
     info->cmdPipe->send("500 command not understood.\n");
@@ -476,11 +513,21 @@ private void FTP_CMD_pasv(class ftp_session info, string arg)
               (: FTP_DATA_close :) ) :) );
       break;
     case 1:
-      while(!listen_socket && tries < MAX_TRIES)
-        listen_socket = unguarded(1,(:new(SOCKET, SKT_STYLE_LISTEN_B, 
+      tries = 0;
+
+      while(!listen_socket && tries < MAX_TRIES) {
+        next_port();
+        FTPLOGF("PASV trying PORT %d\n", lastport);
+        if(catch(listen_socket = unguarded(1, (: new( SOCKET, SKT_STYLE_LISTEN_B, 
+	            lastport,
+              (: FTP_PASV_read_kobol :),
+              (: FTP_DATA_close :) ) :) ) )) { continue; }
+        /* listen_socket = unguarded(1,(:new(SOCKET, SKT_STYLE_LISTEN_B, 
 	            next_port(),
               (: FTP_PASV_read, $(info) :),
-              (: FTP_DATA_close :) ) :) );
+              (: FTP_DATA_close :) ) :) ); */
+        tries++;
+      }
       break;
     default:
       return;
@@ -504,9 +551,11 @@ private void FTP_CMD_pasv(class ftp_session info, string arg)
       }
     }
   }
-  passives[info->cmdPipe]=listen_socket;
+  passives[info->cmdPipe]=listen_socket; 
   port_dec=listen_socket->local_port();
   port=({port_dec>>8,port_dec%256});
+  /* passives[port_dec] = listen_socket; */
+  FTPLOGF("PASV assigned local PORT %d\n", port[1]);
   info->cmdPipe->send(sprintf("227 Entering Passive mode. (%s,%i,%i)\n",
 			      replace_string(iphost,".",","),
 			      port[0],

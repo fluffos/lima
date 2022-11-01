@@ -93,11 +93,11 @@ private nomask int f_parse(string s)
     return 0;
 
   if ( member_array(':', s) == -1 )
-    directives[trim_spaces(s[2..])] = 1;
+    directives[trim(s[2..])] = 1;
   else
   {
     x = explode(s[2..], ":");
-    directives[trim_spaces(x[0])] = trim_spaces(x[1]);
+    directives[trim(x[0])] = trim(x[1]);
   }
 
   return 0;
@@ -231,7 +231,7 @@ private nomask void receive_choice(mixed arg)
     destruct(this_object());
 
   if ( arg )
-    arg = trim_spaces(arg);
+    arg = trim(arg);
 
   if ( !arg || arg == "" || arg == "q" )
     quit_help();
@@ -264,7 +264,7 @@ private nomask void receive_more(mixed arg)
   if (arg == -1)
     destruct(this_object());
   if ( arg )
-    arg = trim_spaces(arg);
+    arg = trim(arg);
 
   if ( arg == "q" )
     quit_help();
@@ -299,7 +299,7 @@ private nomask void receive_topic(mixed arg)
     destruct(this_object());
 
   if ( arg )
-    arg = trim_spaces(arg);
+    arg = trim(arg);
 
   if ( !arg || arg == "" || arg == "q" )
   {

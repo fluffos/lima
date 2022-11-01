@@ -82,7 +82,7 @@ private nomask void add_denomination1(string type, string name) {
 private nomask void remove_denomination(string denomination) {
   string type;
   
-  denomination = lower_case(trim_spaces(denomination));
+  denomination = lower_case(trim(denomination));
   if (!MONEY_D->is_denomination(denomination)) {
     write("Unknown denomination: "+denomination+".\n");
     return;

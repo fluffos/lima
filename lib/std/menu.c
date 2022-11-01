@@ -234,7 +234,7 @@ new_parse_menu_input(string input)
   MENU_ITEM	matched_item;
   MENU		completion_menu;
 
-  input = trim_spaces(input);
+  input = trim(input);
   if(input == "" && !current_menu->allow_enter)
     {
       return;
@@ -323,7 +323,7 @@ parse_menu_input(mixed input)
 
   if(input == -1)
     remove();
-  input = trim_spaces(input);
+  input = trim(input);
   if(input == "" && !current_menu->allow_enter)
     return; 	
 

@@ -573,7 +573,7 @@ string parse_headers(string text, object socket)
       }
     for(;i<sizeof(lines);i++)
     {
-	string line = trim_spaces(lines[i]);
+	string line = trim(lines[i]);
 	int colon_index; 
 
 	if(!strlen(line))
@@ -590,8 +590,8 @@ string parse_headers(string text, object socket)
 	    }
 	}
 	colon_index = strsrch(lines[i], ':');
-	header_name = lower_case(trim_spaces(lines[i][0..(colon_index-1)]));
-	header_value = trim_spaces(lines[i][colon_index+1..]);
+	header_name = lower_case(trim(lines[i][0..(colon_index-1)]));
+	header_value = trim(lines[i][colon_index+1..]);
 	req->headers[header_name] = header_value;
     }
     look_for_useful_header_info(socket);

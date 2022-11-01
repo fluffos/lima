@@ -24,7 +24,7 @@ private void main( mixed * arg )
 
   foreach( string target in targets )
   {
-    target = trim_spaces(target);
+    target = trim(target);
     if( !user_exists( target ))
     {
       outf("%-13s%-30s[Only in your Imagination]\n", capitalize( lower_case( target )), "Does not exist " );

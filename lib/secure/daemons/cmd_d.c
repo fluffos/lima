@@ -262,7 +262,7 @@ mixed smart_arg_parsing(mixed argv, string* path, string *implode_info)
   if (sizeof(argv) == 0)
     return -1;
     
-  cmd_name = trim_spaces(argv[0]);
+  cmd_name = trim(argv[0]);
   if (member_array('/', cmd_name) != -1)
   {
     mixed *matches = filter_array(glob(cmd_name + ".c"), (: is_file :));
@@ -416,7 +416,7 @@ private mixed parse_arg(int this_arg, mixed argv)
 
   if(stringp(argv))
   {
-    argv = trim_spaces(argv);
+    argv = trim(argv);
     if (this_arg & IS_PATH)
     {
       string path = evaluate_path(argv);

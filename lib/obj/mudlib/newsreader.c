@@ -361,7 +361,7 @@ private nomask void receive_group(mixed group)
   if ( group == -1 )
     destruct(this_object());
   
-  read_group(trim_spaces(group));
+  read_group(trim(group));
 }
 
 private nomask int test_for_new(string group)
@@ -750,7 +750,7 @@ private nomask void toggle_subscription(string group)
 
 private nomask void global_commands(string cmd)
 {
-  cmd=trim_spaces(cmd);
+  cmd=trim(cmd);
   if( cmd == "q" )
     {
         quit_news();
@@ -792,7 +792,7 @@ private nomask void global_commands(string cmd)
     {
         if ( strlen(cmd) > 1 )
         {
-            read_group(trim_spaces(cmd[1..]));
+            read_group(trim(cmd[1..]));
         }
         else
         {
@@ -887,7 +887,7 @@ private nomask void group_commands(string cmd)
 	  return;
 	read_message(current_group,message_queue[queue_position]);
       }
-    else if( id = to_int(trim_spaces(cmd)))
+    else if( id = to_int(trim(cmd)))
       {
         id-=1;
         if(!sizeof(message_queue))
@@ -986,7 +986,7 @@ private nomask void receive_top_cmd(mixed cmd)
     if ( cmd == -1 )
         destruct(this_object());
 
-    cmd = trim_spaces(cmd);
+    cmd = trim(cmd);
     if ( cmd == "?" )
     {
         write("\n" +
@@ -1022,7 +1022,7 @@ private nomask void receive_grp_cmd(mixed cmd)
 {
     if ( cmd == -1 )
         destruct(this_object());
-    cmd = trim_spaces(cmd);
+    cmd = trim(cmd);
     if ( cmd == "?" )
       {
         write("\n"
@@ -1064,7 +1064,7 @@ private nomask void receive_msg_cmd(mixed cmd)
         destruct(this_object());
         return;
     }
-    cmd = trim_spaces(cmd);
+    cmd = trim(cmd);
     switch(cmd)
       {
       case "?":

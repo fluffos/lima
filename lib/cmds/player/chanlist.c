@@ -13,7 +13,7 @@
 
 
 //:PLAYERCOMMAND
-//$$ see: channels, gossip, newbie, chan
+//$$see: channels, gossip, newbie, chan
 //USAGE:  chanlist
 //
 //Shows currently existing channels available to you.

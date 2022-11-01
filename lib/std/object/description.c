@@ -83,7 +83,7 @@ string untouched_long() {
 }
 
 //:FUNCTION show_in_room
-//Return a string appropriate for inclusing in a room long description.
+//Return a string appropriate for including in a room long description.
 //Note that duplicatep() objects return nothing.
 string show_in_room()
 {

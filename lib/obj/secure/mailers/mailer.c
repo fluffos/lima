@@ -26,6 +26,27 @@ inherit CLASS_MAILMSG;
 //### make it private so it can't be changed?
 nosave object	mailbox_ob;
 
+private string expand_range(string str)
+{
+  string ret;
+  mixed tmp;
+  int i, x, y;
+
+  if (!stringp(str))
+    return 0;
+  ret = "";
+  str = implode(explode(str, " "), "");
+  tmp = explode(str, ",");
+  i = sizeof(tmp);
+
+  while (i--)
+    if (sscanf(tmp[i], "%d-%d", x, y) == 2)
+      while (x <= y)
+        ret = set_bit(ret, x), x++;
+    else
+      ret = set_bit(ret, to_int(tmp[i]));
+  return ret;
+}
 
 /*
 ** tmp_fname()

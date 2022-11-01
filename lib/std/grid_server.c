@@ -61,7 +61,7 @@ void use_data_file(string fname)
     string * lines;
     int i;
     //tc("fname: "+identify(fname)+", size: "+file_size(fname));
-    lines = map(explode(read_file(fname), "\n"), (: trim_spaces :));
+    lines = map(explode(read_file(fname), "\n"), (: trim:));
     lines = filter(lines - ({ "" }), (: $1[0] != '#' :));
 
     /* find the extent of the grid descriptions */

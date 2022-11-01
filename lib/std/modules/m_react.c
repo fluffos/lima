@@ -21,7 +21,7 @@ private mixed *parse_file(class parse_info pi, string *term) {
     string arg1, arg2;
     
     while (pi->cur < sizeof(pi->lines)) {
-	string line = trim_spaces(pi->lines[pi->cur++]);
+	string line = trim(pi->lines[pi->cur++]);
 	if (line[0] == '#')
 	    continue;
 
@@ -70,8 +70,8 @@ private mixed *parse_file(class parse_info pi, string *term) {
 		string lhs, rhs;
 		if (sscanf(line, "%s=%s", lhs, rhs) != 2)
 		    error("Missing = in @set\n");
-		lhs = trim_spaces(lhs);
-		rhs = trim_spaces(rhs);
+		lhs = trim(lhs);
+		rhs = trim(rhs);
 		
 		if (lhs[0] != '$') error("Variable must begin with $\n");
 		if (member_array(lhs[1..], pi->vars) == -1)
@@ -188,7 +188,7 @@ string parse_expr(string *parts) {
 string handle_expression(string e) {
     string *parts = explode(e, " ");
     
-    parts = ({ 1 }) + map(parts, (: trim_spaces :)) - ({ "" });
+    parts = ({ 1 }) + map(parts, (: trim:)) - ({ "" });
 
     if (sizeof(parts) == 1) error("Missing expression.\n");
 

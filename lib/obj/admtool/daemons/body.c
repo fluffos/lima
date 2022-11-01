@@ -75,7 +75,7 @@ private nomask void set_limb_flags(string bodytype, string limb, int health, str
     string *parts=explode(flags,",")-({});
     foreach(string part in parts)
       {
-	switch(trim_spaces(lower_case(part)))
+	switch(trim(lower_case(part)))
 	  {
 	  case "vital":
 	    limbflags |= LIMB_VITAL;
