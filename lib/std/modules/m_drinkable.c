@@ -24,7 +24,6 @@ void set_quantity( int x );
 void remove();
 
 //:FUNCTION set_taste_action
-//set_taste_action( mixed x )
 //Put this function in the drinkable
 //fluid.  'x' is evaluated when the
 //fluid is drunk.  By default it is
@@ -41,7 +40,6 @@ mixed get_taste_action(){
 }
 
 //:FUNCTION set_drink_action
-//set_drink_action( mixed x )
 //Put this function in the drinkable
 //fluid.  'x' is evaluated when the
 //fluid is drunk.  By default it is
@@ -60,7 +58,6 @@ void set_last_drink_action(mixed action) {
 }
 
 //:FUNCTION set_num_drinks
-//set_num_drinks( int x )
 //This sets the number of drinks per 1 size-unit.
 //The default is 3;
 void set_num_drinks(int x) {

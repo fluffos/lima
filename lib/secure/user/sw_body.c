@@ -68,32 +68,29 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
 {
    object where;
    object old_body;
-   string body_fname = query_selected_body();
-   // TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
+   string body_fname = query_fname(query_selected_body());
+   TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
 
    if (previous_object() != body && this_body() != body)
       error("security violation: bad body switch attempt\n");
-   // TBUG("1");
 
    where = body ? environment(body) : (mixed)VOID_ROOM;
-   // TBUG("2");
 
    if (permanent && new_body_fname)
    {
       body_fname = new_body_fname;
       save_me();
+      TBUG("Taking change as permanent");
    }
-   // TBUG("3");
 
    if (!new_body_fname)
       new_body_fname = body_fname;
-   // TBUG("4 new ("+new_body_fname+");");
+   TBUG("Body filename: "+new_body_fname);
 
    old_body = body;
-   body = new (BODY,new_body_fname);
-   // TBUG(body);
+   body = new (new_body_fname,query_selected_body());
+   TBUG(body);
    master()->refresh_parse_info();
-   // TBUG("5");
 
    if (old_body)
    {
@@ -101,17 +98,11 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
       if (old_body)
          catch (destruct(old_body));
    }
-   // TBUG("6");
-
    load_mailer();
-   // TBUG("7");
    report_login_failures();
-   // TBUG("8");
 
    /* NOTE: we are keeping the same shell for now... */
-
    body->su_enter_game(where);
-   // TBUG("9");
 }
 
 /*
