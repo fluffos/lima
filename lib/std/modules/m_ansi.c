@@ -16,7 +16,7 @@ string ansi(string str) {
 }
 
 //:FUNCTION colour_strlen
-//colour_strlen(s) gives the length of the visible portion of s.  Colour
+//Gives the length of the visible portion of s.  Colour
 //codes (e.g. %^GREEN%^) are ignored.
 int colour_strlen(string str) {
     return strlen(terminal_colour(str, ANSI_D->query_translations()[1]));
@@ -29,7 +29,7 @@ string colour_center(string str) {
 }
 
 //:FUNCTION colour_truncate
-//colour_truncate(str, len) returns a string which consists of len or
+//Returns a string which consists of len or
 //fewer visible characters, not counting colour codes.
 string colour_truncate(string str, int len) {
     string result;

@@ -90,7 +90,7 @@ string worn_attributes()
 }
 
 //:FUNCTION set_worn
-//set_worn(1) causes an object to become worn.  set_worn(0) removes it.
+//Called with g == 1 causes an object to become worn. Called with g == 0 removes it.
 void set_worn(int g)
 {
    assign_flag(F_WORN, g);

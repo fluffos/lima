@@ -31,7 +31,6 @@ int default_user_width()
 }
 
 //:FUNCTION on_off_widget
-// string on_off_widget(int on)
 // [On ] (green) or [Off] (red) depending on int on.
 // "On " or "Off" for simplified view.
 string on_off_widget(int on)

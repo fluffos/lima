@@ -36,8 +36,8 @@ class event_info sink_modify_event(class event_info evt)
 }
 
 //:FUNCTION set_resist
-//set_resist(type, amt) specifies that for damage of type 'type', the armor
-//class should be increased by 'amt'
+//Specifies that for damage of type 'type', the armor class should be increased
+//by 'amt'
 void set_resist(string type, int amt)
 {
   if(DAMAGE_D->query_valid_damage_type(type))
@@ -47,8 +47,7 @@ void set_resist(string type, int amt)
 }
 
 //:FUNCTION set_resistances
-//void set_resistances(mapping) - Set all the resistances an armor
-//possesses.
+//Set all the resistances an armor possesses.
 void set_resistances(mapping x)
 {
   string *exclude = keys(x) - DAMAGE_D->query_damage_types();
@@ -58,8 +57,8 @@ void set_resistances(mapping x)
 }
 
 //:FUNCTION set_weakness
-//set_weakness(type, amt) specifies that for damage of type 'type', the armor
-//class should be decreased by 'amt'
+//Specifies that for damage of type 'type', the armor class should be decreased 
+//by 'amt'
 void set_weakness(string type, int amt)
 {
   if(DAMAGE_D->query_valid_damage_type(type))
@@ -69,8 +68,7 @@ void set_weakness(string type, int amt)
 }
 
 //:FUNCTION set_weaknesses
-//void set_weaknesses(mapping) - Set all the weaknesses an armor
-//possesses.
+//Set all the weaknesses an armor possesses.
 void set_weaknesses(mapping weak)
 {
   string *exclude = keys(weak) - DAMAGE_D->query_damage_types();

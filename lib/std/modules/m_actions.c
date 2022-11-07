@@ -41,7 +41,6 @@ string *query_actions()
 }
 
 //:FUNCTION set_delay_time
-// void set_delay_time(int);
 // Sets the amount of time between possible actions. The minimum value
 // is 5, which is default and is fine for most situations. For a large
 // number of action objects, increasing this number (and increasing the
@@ -189,7 +188,6 @@ void start_actions()
 
 
 //:FUNCTION set_actions
-// protected void set_actions(int chance, string *actions);
 // This function sets a list of actions and a delay, 
 // and chooses one to be executed time each time that delay elapses.
 // This function should only be called from within setup().

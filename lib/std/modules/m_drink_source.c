@@ -16,7 +16,6 @@ string query_primary_id();
 string *query_id();
 
 //:FUNCTION set_drink_action
-//void set_drink_action( mixed x )
 //x is a simple_action string or
 //a function that is evaluated whenever
 //this source of fluid is drunk from.

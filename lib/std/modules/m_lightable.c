@@ -41,10 +41,10 @@ void set_light_msgs(string x, string y)
 }
 
 //:FUNCTION set_source
-//set_source(function f) makes it so that the object can only be lit by
+//Makes it so that the object can only be lit by
 //objects for which evaluate(f, ob) returns 1.  f may return a string
 //error message on failure.  If f is a string, any object with that string
-//as an id is a valid source.  set_source(0) makes any object a valid source.
+//as an id is a valid source.  An argument of f == 0 makes any object a valid source.
 void set_source(mixed f)
 {
    source_filter = f;

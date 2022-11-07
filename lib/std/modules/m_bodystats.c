@@ -156,7 +156,7 @@ nomask int query_wil()
 ** Derived statistics
 */
 //:FUNCTION refresh_stats
-//refresh_stats() recalculates all the stats and requery's all the bonuses.
+//Recalculates all the stats and requery's all the bonuses.
 //Combat calls this once a round.  If you are using stats in a non-combat
 //setting, you might want to call this first.
 void refresh_stats() {

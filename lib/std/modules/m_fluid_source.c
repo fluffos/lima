@@ -18,7 +18,6 @@ mixed fluid_disturb = "The $o1 ripples gently as you disturb it.";
 mixed fill_action = "$N $vdip $p $o into $o1 and $vwithdraw some $o2.";
 
 //:FUNCTION set_source_of
-//set_source_of( string x )
 //x must be a path name to a fluid object.
 //new(x) is what is moved into a container
 //when the container is filled from here.
@@ -49,7 +48,6 @@ string is_source_of() {
 
 
 //:FUNCTION set_fluid_disturb_action
-//set_fluid_disturb_action( x )
 //'x' is evaluated whenever the fluid is
 //disturbed.  As a string, x is passed
 //to my_action.  If you don't want any
@@ -63,7 +61,6 @@ mixed get_fluid_disturb_action() {
 }
 
 //:FUNCTION set_fill_action
-//set_fill_action( string x )
 //'x' is passed to simple_action.
 //$o in the string represents the fluid container.
 //$o1 represents the fluid source.

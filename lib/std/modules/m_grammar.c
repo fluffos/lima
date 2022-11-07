@@ -77,7 +77,6 @@ string punctuate(string str)
 
 //: FUNCTION number_of
 // Handles the common operation: "0 bogs", "1 bog", "2 bogs", ...
-// number_of(num, what)
 string number_of(int num, string what)
 {
     if (num == 1)
@@ -86,8 +85,8 @@ string number_of(int num, string what)
 }
 
 //: FUNCTION number_word
-// number_word(1) == "one", etc.  number_word(10) == "10" and similarly
-// for numbers greater than 10, which is consistent with most English
+// num == 1 returns "one", etc. If num > 9, the number is returned as a string 
+// (num == 10 returns "10", for example), which is consistent with most English
 // style guidelines
 string number_word(int num)
 {

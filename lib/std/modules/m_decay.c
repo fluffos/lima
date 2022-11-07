@@ -18,9 +18,8 @@ private int auto_remove;
 void remove();
 
 //:FUNCTION set_decay_action
-//set_decay_action(string) causes 'string' to be printed this
-//object decays.  set_decay_action(function) causes the function
-//to be called instead.
+//string argument - causes 'string' to be printed this object decays.  
+//function argument -  causes the function to be called instead.
 void set_decay_action(mixed action)
 {
    decay_action = action;

@@ -19,7 +19,6 @@ void look_me();
 #include <move.h>
 
 //:FUNCTION can_hold_fluid
-//int can_hold_fluid( mixed fluid_ob )
 //When fluid is passed into the fluid
 //container, this function is called with
 //the fluid object as the argument.  returns
@@ -34,7 +33,6 @@ void set_fluid_only( mixed x ){ fluid_only = x; }
 mixed query_fluid_only(){ return fluid_only; }
 
 //:FUNCTION set_leak_action
-//set_leak_action(x)
 // 'x' is evaluated if this
 //container cannot hold the fluid
 //that is being put into it.
@@ -72,7 +70,6 @@ int will_fit( object fluid )
 }
 
 //:FUNCTION set_full_action
-//set_full_action(x)
 //'x' is evaluated when this container
 //is full of fluid and can hold no more.
 //If it is a string, it is passed to
