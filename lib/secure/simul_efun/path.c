@@ -114,51 +114,71 @@ string canonical_path(string path)
  * Sep 4, 1993
  *
  * Rewritten by Beek to be more efficient.
+ * Extended by Tsath to support ^ domains syntax.
+ * Extended further with no_interactive flag.
  */
 
-private string *wiz_dir_parts = explode(WIZ_DIR, "/") - ({ "", "." });
+private
+string *wiz_dir_parts = explode(WIZ_DIR, "/") - ({"", "."});
+private
+string *domain_dir_parts = explode("/domains", "/") - ({"", "."});
 
 varargs
-string evaluate_path(string path, string prepend)
+    string
+    evaluate_path(string path, string prepend, int no_interactive)
 {
     string *tree;
     int idx;
 
-    if (!path || path[0] != '/') {
-	if (this_body())
-	    path = get_user_variable("pwd")
-	    + "/" + path;
-	else if(prepend) 
-	    path = prepend + "/" + path;
-	else {
-	    string lname = file_name(previous_object());
-	    int tmp = strsrch(lname, "/", -1);
-	    path = lname[0..tmp] + path;
-	}
+    //TBUG("path: " + path + " prepend: " + prepend + " no_interact: " + no_interactive);
+    if (!path || path[0] != '/')
+    {
+        if (this_body() && !no_interactive)
+            path = get_user_variable("pwd") + "/" + path;
+        else if (prepend)
+            path = prepend + "/" + path;
+        else
+        {
+            string lname = file_name(previous_object());
+            int tmp = strsrch(lname, "/", -1);
+            path = lname[0..tmp] + path;
+        }
     }
-    tree = explode(path, "/") - ({ "", "." });
-    while (idx < sizeof(tree)) {
-	string tmp = tree[idx];
-	if (tmp == "..") {
-	    if (idx) {
-		tree[idx-1..idx] = ({ });
-		idx--;
-	    } else
-		tree[idx..idx] = ({ });
-	    continue;
-	}
-	if (tmp[0] == '~' && this_user()) {
-	    if (sizeof(tmp) == 1)
-		tmp = this_user()->query_userid();
-	    else
-		tmp = tmp[1..];
-	    tree[0..idx] = wiz_dir_parts + ({ tmp });
-	    continue;
-	}
-	idx++;
+    tree = explode(path, "/") - ({"", "."});
+    while (idx < sizeof(tree))
+    {
+        string tmp = tree[idx];
+        if (tmp == "..")
+        {
+            if (idx)
+            {
+                tree[idx - 1..idx] = ({});
+                idx--;
+            }
+            else
+                tree[idx..idx] = ({});
+            continue;
+        }
+        if (tmp[0] == '~' && this_user())
+        {
+            if (sizeof(tmp) == 1)
+                tmp = this_user()->query_userid();
+            else
+                tmp = tmp[1..];
+            tree[0..idx] = wiz_dir_parts + ({tmp});
+            continue;
+        }
+        if (tmp[0] == '^')
+        {
+            tmp = tmp[1..];
+            tree[0..idx] = domain_dir_parts + ({tmp});
+            continue;
+        }
+        idx++;
     }
     return "/" + implode(tree, "/");
 }
+
 
 string
 join_path( string dir, string file ){
