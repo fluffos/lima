@@ -206,6 +206,11 @@ void handle_result(class event_info evt)
     int percent = event_damage(evt);
     
 #ifdef HEALTH_USES_LIMBS
+if (evt->target->query_max_health(evt->target_extra)==0)
+  {
+    write("*Error: Cannot find max health of "+evt->target_extra+" limb.");
+  }
+  else
     percent = to_int(percent / (1.0 * evt->target->query_max_health(evt->target_extra)) * 100);
 #else
     percent = to_int(percent / (1.0 * evt->target->query_max_health()) * 100);
