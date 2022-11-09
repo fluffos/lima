@@ -124,6 +124,6 @@ mapping messages =
   }),
   ]);
 
-mixed get_messages(string type) {
+mixed query_messages(string type) {
     return messages[type];
 }

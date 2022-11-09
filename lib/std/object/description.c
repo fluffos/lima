@@ -121,7 +121,7 @@ string show_in_room()
 	//	if( query_ob_flag( AUTO_IN_ROOM_DESC ) )
 
 	if (!plural_discarded_message)
-	    plural_discarded_message = MESSAGES_D->get_messages("discarded-plural");
+	    plural_discarded_message = MESSAGES_D->query_messages("discarded-plural");
 	return capitalize(sprintf( choice(plural_discarded_message),
 		       sprintf("%d %s", our_count, plural_short())));
     }
@@ -140,7 +140,7 @@ string show_in_room()
     //    if( query_ob_flag( AUTO_IN_ROOM_DESC ) )
 
     if (!discarded_message)
-	discarded_message = MESSAGES_D->get_messages("discarded");
+	discarded_message = MESSAGES_D->query_messages("discarded");
     
     return capitalize(sprintf( choice(discarded_message), str ));
 }

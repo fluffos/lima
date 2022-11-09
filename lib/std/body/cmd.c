@@ -23,7 +23,7 @@ private nosave string *nonsense_msgs;
 string nonsense()
 {
     if (!nonsense_msgs)
-	nonsense_msgs = MESSAGES_D->get_messages("nonsense");
+	nonsense_msgs = MESSAGES_D->query_messages("nonsense");
     return choice(nonsense_msgs) + "\n";
 }
 

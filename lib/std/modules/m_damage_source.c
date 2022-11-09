@@ -44,7 +44,7 @@ int is_weapon(){ return 1; }
 //Set the set of combat messages which are used by default
 void set_combat_messages(string type)
 {
-  if(!(def_combat_messages = MESSAGES_D->get_messages(type)))
+  if(!(def_combat_messages = MESSAGES_D->query_messages(type)))
     error("No messages of that type.\n");
 }
 

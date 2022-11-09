@@ -341,9 +341,9 @@ protected void die()
 	// or something, instead of just letting action() pick at random.
 	// something like: 
 	//  action(({ this_object()}),
-	//     (MESSAGES_D->get_messages("player_death"))[query_level()/5])[1];
+	//     (MESSAGES_D->query_messages("player_death"))[query_level()/5])[1];
 	string msg = action(({this_object()}), 
-	  MESSAGES_D->get_messages("player-death"))[1];
+	  MESSAGES_D->query_messages("player-death"))[1];
 	tell( bodies() - ({ this_body() }), msg );
     }
 #endif

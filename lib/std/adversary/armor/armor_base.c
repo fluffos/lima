@@ -6,7 +6,7 @@
 // armor object from within the setup() function of your monster.
 void set_wearing(string s)
 {
-   object ob = new(s);
+   object ob = new (evaluate_path(s,0,1));
    if(!ob)
       return;
 

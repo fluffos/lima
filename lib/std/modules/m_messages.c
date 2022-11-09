@@ -67,6 +67,8 @@ void add_msg(string cls, string msg)
 
 string query_msg(string which)
 {
+  if (!messages)
+    messages = ([]);
   return messages[which] || MESSAGES_D->query_messages(def_message_type)[which];
 }
 

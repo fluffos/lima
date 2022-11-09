@@ -99,6 +99,8 @@ private class item init_item(object ob) {
 void add_sell(string file, int amt) {
   object ob;
   class item item;
+
+  file=evaluate_path(file,0,1);
   
   if(!amt) amt = 1;
   if(file) {
