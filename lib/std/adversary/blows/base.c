@@ -171,7 +171,7 @@ void handle_result(class event_info evt)
   object w;
 
   //Debug combat events
-  TBUG(event_to_str(evt));
+  //TBUG(event_to_str(evt));
 
   if (stringp(evt->data))
   {
