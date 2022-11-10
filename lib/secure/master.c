@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 /*
-** master.c -- the MudOS Master object
+** master.c -- the FluffOS Master object
 */
 
 #include <config.h>
@@ -274,8 +274,9 @@ private void report_context(string src, int line, string context)
     context = context[0..<2];
 
   src = read_file((src[0] == '/' ? src : "/" + src), line, 1);
-  if (src == "")
+  if (src == "" || src == 0)
     return;
+
   if (src[<1] != '\n')
     src += "\n";
 // HACK WARNING:

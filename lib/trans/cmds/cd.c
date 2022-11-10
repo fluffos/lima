@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-//:COMMAND
+//: COMMAND
 //$$ see: mkdir, ls, pwd, ed
 // USAGE:  cd [directory|obj]
 //
@@ -13,31 +13,33 @@
 
 inherit CMD;
 
-nomask private void main(string* argv)
+nomask private void main(string *argv)
 {
   mixed fname;
 
-  if ( sizeof(argv) )
+  if (sizeof(argv))
     fname = argv[0];
 
-  if ( !fname )
+  if (!fname)
   {
     fname = wiz_dir(this_user());
-    if(!is_directory(fname))
+    if (!is_directory(fname))
       fname = "/help";
   }
 
   if (objectp(fname))
-    fname = base_name(fname);
+    fname = base_path(base_name(fname));
 
-  if ( fname[<2..] == ".c" && is_directory(fname[0..<3]) )
-    fname = fname[0..<3];
+  if (fname[ < 2..] == ".c")
+    fname = base_path(fname);
 
-  if ( !is_directory( fname ) && !is_directory( fname = base_path(fname) ) )
+  TBUG(fname);
+  if (!is_directory(fname))
   {
     out("No such directory: " + fname + "\n");
     return;
   }
+  fname = strlen(fname) > 1 && fname[ < 1] == '/' ? fname[0.. < 2] : fname;
   this_user()->query_shell_ob()->set_pwd(fname);
-  outf("new cwd: %s\n", fname);
+  outf("New cwd: %s\n", fname);
 }
