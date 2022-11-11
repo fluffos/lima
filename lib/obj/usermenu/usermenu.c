@@ -59,7 +59,7 @@ void enter_game()
         write("Select a character first.\n");
         return;
     }
-    // modal_pop();
+    modal_pop();
     this_user()->enter_game(selected, fname);
 }
 

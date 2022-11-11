@@ -182,7 +182,6 @@ mixed can_get_wrd(string prep)
 
 void do_get_wrd(string prep)
 {
-  TBUG("get: do_get_wrd");
   environment(this_body())->do_get_wrd(prep);
 }
 

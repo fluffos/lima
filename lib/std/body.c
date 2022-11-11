@@ -268,14 +268,16 @@ void quit()
     }
 
     if(link)
+    {
         link->update_body(this_object());
+        link->modal_pop();
+    }
 
     if (is_visible())
 	simple_action("$N $vhave left "+mud_name()+".");
 
     CHANNEL_D->deliver_emote("announce", query_name(),
       sprintf("has left %s.", mud_name()));
-
 
     remove();
 }

@@ -39,7 +39,10 @@ string *get_saved() { return saved; }
 protected void set_save_recurse(int flag) {  save_recurse = flag; }
 
 //:FUNCTION save_to_string
-//saves an object into a string representation.
+//saves an object into a string representation. You can skip an
+//object from being saved by adding::
+//   int do_not_restore() { return 1; }
+//in the object.
 varargs string save_to_string(int recursep) {
     string *tmpsaved;
     string var;
@@ -56,7 +59,7 @@ varargs string save_to_string(int recursep) {
 
     map["#base_name#"] = base_name(this_object());
     if (save_recurse)
-	map["#inventory#"] = all_inventory()->save_to_string(1) - ({ 0 });
+       map["#inventory#"] = filter(all_inventory(),(: !$1->do_not_restore() :))->save_to_string(1) - ({0});
 
     return save_variable(map);
 }

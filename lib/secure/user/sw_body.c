@@ -69,7 +69,7 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
    object where;
    object old_body;
    string body_fname = query_fname(query_selected_body());
-   TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
+   //TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
 
    if (previous_object() != body && this_body() != body)
       error("security violation: bad body switch attempt\n");
@@ -80,16 +80,16 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
    {
       body_fname = new_body_fname;
       save_me();
-      TBUG("Taking change as permanent");
+      //TBUG("Taking change as permanent");
    }
 
    if (!new_body_fname)
       new_body_fname = body_fname;
-   TBUG("Body filename: "+new_body_fname);
+   //TBUG("Body filename: "+new_body_fname);
 
    old_body = body;
    body = new (new_body_fname,query_selected_body());
-   TBUG(body);
+   //TBUG(body);
    master()->refresh_parse_info();
 
    if (old_body)
@@ -303,6 +303,7 @@ nomask void sw_body_handle_new_logon(string name,string fname)
                           : SECURE_D->add_domain_member("admin",
                                                         $(query_userid()), 1)
                           :));
+                          
       }
       // else TBUG"6b: apparently an admin existed");
    }

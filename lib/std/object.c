@@ -102,6 +102,15 @@ void restore_to_game()
 #endif
 }
 
+//: FUNCTION do_not_restore
+// Called by M_SAVE to check if the object should be restored at all.
+// Some objects may be cloned in setup(), and should not be restored
+// at save since this would cause item duplication.
+int do_not_restore()
+{
+  return 0;
+}
+
 void create(mixed *args...)
 {
   base_obj::create();

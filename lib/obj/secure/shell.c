@@ -3,6 +3,7 @@
 #include <mudlib.h>
 #include <driver/origin.h>
 #include <security.h>
+#include <commands.h>
 
 inherit M_ACCESS;
 inherit M_INPUT;
@@ -12,18 +13,23 @@ inherit M_SHELLFUNCS;
 inherit M_SAVE;
 inherit M_SCROLLBACK;
 
-private nosave object owner;
+private
+nosave object owner;
 
 varargs void execute_command();
 string query_shellname();
 string query_save_path(string userid);
 
-protected function arg_to_words_func = (: explode($1," ") :);
+protected
+function arg_to_words_func = (
+    : explode($1, " ")
+    :);
 
-//### goofy fucking hack cuz the shell doesn't save for shit. only M_SAVE,
-//### even though in the alias code it professes to "not require it to be
-//### bound to M_SAVE" ... this is bunk...
-private string save_info;
+// ### goofy fucking hack cuz the shell doesn't save for shit. only M_SAVE,
+// ### even though in the alias code it professes to "not require it to be
+// ### bound to M_SAVE" ... this is bunk...
+private
+string save_info;
 
 void setup_for_save()
 {
@@ -37,44 +43,50 @@ void setup_for_save()
 
 void save_me()
 {
-    if ( !owner )	/* probably the blueprint */
-	return;
+    if (!owner) /* probably the blueprint */
+        return;
 
     setup_for_save();
     save_info = save_to_string();
-    unguarded(1, (: save_object, query_save_path(owner->query_userid()) :));
+    unguarded(1, (
+                     : save_object, query_save_path(owner->query_userid())
+                     :));
 }
-protected void restore_me(string userid)
+protected
+void restore_me(string userid)
 {
-    unguarded(1, (: restore_object, query_save_path(userid) :));
-    if ( save_info )
+    unguarded(1, (
+                     : restore_object, query_save_path(userid)
+                     :));
+    if (save_info)
     {
-	load_from_string(save_info, 0);
-	save_info = 0;
+        load_from_string(save_info, 0);
+        save_info = 0;
     }
 }
 
 void remove()
 {
-    if ( origin() != ORIGIN_LOCAL && owner && previous_object() != owner )
-	error("illegal attempt to remove shell object\n");
+    if (origin() != ORIGIN_LOCAL && owner && previous_object() != owner)
+        error("illegal attempt to remove shell object\n");
 
     save_me();
     destruct();
 }
 
-protected void shell_input(mixed input)
+protected
+void shell_input(mixed input)
 {
-    if ( input == -1 )
+    if (input == -1)
     {
-	remove();
-	return;
+        remove();
+        return;
     }
 
     /* we can safely remove leading and trailing whitespace */
     input = trim(input);
-    if ( input == "" )
-	return;
+    if (input == "")
+        return;
 
     /*
     ** ### WORK IN PROGRESS HERE
@@ -98,31 +110,32 @@ protected void shell_input(mixed input)
     */
 
     // is this history manipulation?
-    if ( input[0] == HISTORY_CHAR )
+    if (input[0] == HISTORY_CHAR)
     {
-	input = history_command(input);
-	if ( !input )
-	    return;
+        input = history_command(input);
+        if (!input)
+            return;
     }
 
     add_history_item(input);
 
-    if ( input[0] == '\\' )
-	input = input[1..];
+    if (input[0] == '\\')
+        input = input[1..];
     else
-	input = expand_alias(input);
+        input = expand_alias(input);
 
-    if ( input != "" )
-	execute_command(input);
+    if (input != "")
+        execute_command(input);
 }
 
-private void cmd_exit()
+private
+void cmd_exit()
 {
-    if(modal_stack_size() == 1)
+    if (modal_stack_size() == 1)
     {
-//### I think we could just issue the quit command rather than force it
-	this_user()->force_me("quit");
-	return;
+        // ### I think we could just issue the quit command rather than force it
+        this_user()->force_me("quit");
+        return;
     }
     printf("Exiting %s\n", query_shellname());
     modal_pop();
@@ -131,21 +144,35 @@ private void cmd_exit()
 
 void create()
 {
-    if ( !clonep() )
-	return;
+    if (!clonep())
+        return;
 
     owner = previous_object();
-    if ( owner != this_user() )
+    if (owner != this_user())
     {
-	destruct();
-	error("illegal shell object creation\n");
+        destruct();
+        error("illegal shell object creation\n");
     }
 
-    if ( owner )
-	restore_me(owner->query_userid());
+    if (owner)
+        restore_me(owner->query_userid());
 
     alias::create();
     history::create();
+}
+
+protected
+void add_admincmds()
+{
+    // Best way to call this since defined in /trans/obj/wish
+    string *paths = this_object()->query_path();
+
+    if (sizeof(paths) && adminp() && member_array(TRANS_ADMINCMD_DIR, paths) == -1)
+    {
+        paths += ({TRANS_ADMINCMD_DIR});
+        this_object()->set_variable("path", paths);
+        write("*** Added "+TRANS_ADMINCMD_DIR+" to your path as admin.\n");
+    }
 }
 
 /*
@@ -153,30 +180,39 @@ void create()
 ** Subclasses will typically override to set up bindings and variables
 ** with shell_bind_if_undefined() or set_if_undefined(), respectively.
 */
-protected void prepare_shell()
+protected
+void prepare_shell()
 {
-    shell_bind_if_undefined("alias",	(: cmd_alias :));
-    shell_bind_if_undefined("unalias",	(: cmd_remove_alias($1,1) :));
-    shell_bind_if_undefined("history",	(: cmd_history :));
-    shell_bind_if_undefined("scrollback", (: cmd_scrollback :));
-//    shell_bind_if_undefined("exit",	(: cmd_exit :));
+    shell_bind_if_undefined("alias", (
+                                         : cmd_alias:));
+    shell_bind_if_undefined("unalias", (
+                                           : cmd_remove_alias($1, 1)
+                                           :));
+    shell_bind_if_undefined("history", (
+                                           : cmd_history:));
+    shell_bind_if_undefined("scrollback", (
+                                              : cmd_scrollback:));
+    //    shell_bind_if_undefined("exit",	(: cmd_exit :));
+    add_admincmds();
 }
 
-protected mixed what_prompt()
+protected
+mixed what_prompt()
 {
     return "> ";
 }
 
 void start_shell()
 {
-    if ( owner != this_user() || previous_object() != owner )
-	error("illegal attempt to take over shell\n");
+    if (owner != this_user() || previous_object() != owner)
+        error("illegal attempt to take over shell\n");
 
-    modal_push((: shell_input :), what_prompt());
+    modal_push((
+                   : shell_input:),
+               what_prompt());
 
     prepare_shell();
 }
-
 
 nomask object query_owner()
 {
