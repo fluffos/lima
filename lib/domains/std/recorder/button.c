@@ -27,6 +27,7 @@ void setup( string button )
     set_getmsg( "#It's securely held by the recorder.");
 }
 
+int do_not_restore() { return 1; }
 
 mapping lpscript_attributes()
 {

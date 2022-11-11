@@ -13,6 +13,7 @@ void setup()
     set_gettable( "#It's securely bound to the recorder.");
 }
 
+int do_not_restore() { return 1; }
 
 mapping lpscript_attributes()
 {
