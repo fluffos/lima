@@ -33,12 +33,13 @@ nomask private void main(string *argv)
   if (fname[ < 2..] == ".c")
     fname = base_path(fname);
 
-  TBUG(fname);
   if (!is_directory(fname))
   {
     out("No such directory: " + fname + "\n");
     return;
   }
+  
+  //Never send / at the end to set_pwd().
   fname = strlen(fname) > 1 && fname[ < 1] == '/' ? fname[0.. < 2] : fname;
   this_user()->query_shell_ob()->set_pwd(fname);
   outf("New cwd: %s\n", fname);
