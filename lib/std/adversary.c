@@ -7,6 +7,7 @@
 
 inherit LIVING;
 inherit M_DAMAGE_SOURCE;
+inherit M_BODY_STATS;
 
 #define SUBDIR __DIR__ "adversary/"
 

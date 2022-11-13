@@ -1,137 +1,252 @@
-/* Do not remove the headers from this file! see /USAGE for more info. */
-
-/*
-** stats.c -- print out player stats
-**
-//### for now, these are numeric... eventually, we'll move to a system
-//### where they are "fuzzy" and use words
-//###
-//### Um, that sounds nifty, but players hate it worse than death itself ..
-//### -Beek
-//-- If it is done WELL (and it will be .. be assured of THAT :)
-//-- it's fairly painless ... problems arise when you have a set of terms
-//-- that are confusing - the prime example was ROM2's "mean" ranking
-//-- which either meant poor, average, or rather good <grin> noone
-//-- except a couple of people were sure, and they weren't giving out
-//-- info. And the advantages are overwhelming: By making things a series
-//-- of degrees, with enough underlying granularity, you put a damper on
-//-- stat hunters/munchkins.
-//-- --OH.
-**
-** 950813, Deathblade: Created.
-*/
+// Tsath
 
 //:PLAYERCOMMAND
-//$$ see: score
-//USAGE stats
+//USAGE: 	stats
+//$$ see: skills, hp, score, spells
 //
-//Shows you various details about yourself.
-//As you might guess from the name, these probably include stats like "strength".
-//Depending on how the mud works, it could also tell you things like level,
-//experience, guild membership.
-//Also it will probably tell you what race you are, in case you have forgotten.
+//Shows your scores in the base statistics:
+// 	Strength:	physical stature, power, melee attack damage
+// 	Agility:	body control, speed, flexibility, ranged attack damage
+// 	Intelligence:	inherent capability for learning, spell damage
+// 	Willpower:	drive, stamina, defense against spells, concentration regain
+//
+//Magic items also contribute to the base stats. They can be seen in the
+//"Bonus" row if applicable.
+//
+//As well as your three derived stats:
+//	Constitution:	stamina, carrying capacity, health regain
+//	Wisdom:		collected knowledge
+// 	Charisma:	natural attraction, leadership, persuasion
+//
+//Constitution is:  20% STR, 20% AGI and 60% WIL.
+//Wisdom is: 7% STR, 7% AGI, 31% INT, 25% WIL and 30% "misc/knowledge"
+//Charisma is: 15% STR, 10% AGI, 25% INT, 25% WIL and 25% "misc/converse"
+//Mana is: 10% STR, 50% INT, 20% WIL, 20% "spell" skill.
+//
+//Your derived stats automatically level up as your skills and base
+//stats do. You can see estimated contribution in the stats command,
+//but notice that rounding occurs so they may not match 100%.
+//
+//When you level up you gain points to increase your base stats
+//permanently. To do this, check 'stats' to see your available points,
+//and spend them by doing:
+//     stats raise str
+//     stats raise agi
+//     stats raise int
+//     stats raise wil
+//
+//These increase are permanent and cannot be undone, so choose with care.
 
-#include <config.h>
-
-#define SEP_MAJOR	(repeat_string("-=", 38) + "-\n")
-#define SEP_MINOR	(repeat_string("-", 77) + "\n")
+#include <hooks.h>
+#include <stats.h>
 
 inherit CMD;
+inherit M_WIDGETS;
 
-private void main(string arg)
+/*
+string decorate_bonus(int bonus)
 {
-    string name;
-    string e_info = 0;
-    string * guilds;
-    string g_info = 0;
-    string r_info = "";
-    string x_info = "";
-    string l_info = "";
-    string o_info;
-    string *curr;
-    int i;
+     if (!bonus)
+          return "";
+     if (bonus > 0)
+          return "+%^GREEN%^" + bonus + "%^RESET%^";
+     else
+          return "-%^RED%^" + bonus + "%^RESET%^";
+}
 
-    out(SEP_MAJOR);
+string decorate_mod(int bonus)
+{
+     if (!bonus)
+          return "";
+     if (bonus > 0)
+          return "+%^CYAN%^" + bonus + "%^RESET%^";
+     else
+          return "-%^RED%^" + bonus + "%^RESET%^";
+}
+*/
 
-#ifdef USE_TITLES
-    name = this_body()->query_title();
-#else
-    name = this_body()->query_name();
-#endif
-    outf("%s  (%s)\n", name, wizardp(this_user()) ? "Wizard" : "Mortal");
+string decorate_bonus(int bonus)
+{
+     if (!bonus)
+          return "";
+     if (bonus > 0)
+          return "+" + bonus;
+     else
+          return "-" + bonus;
+}
 
-    out(SEP_MAJOR);
+string decorate_mod(int bonus)
+{
+     if (!bonus)
+          return "";
+     if (bonus > 0)
+          return "+" + bonus;
+     else
+          return "-" + bonus;
+}
 
-#ifdef USE_SKILLS
-    e_info = sprintf("Eval: %d%%", this_body()->query_evaluation());
-#endif
+void usage()
+{
+     write("Usage:\n stats raise str\n stats raise agi\n stats raise int\n stats raise wil\n");
+}
 
-#ifdef USE_GUILDS
-    guilds = this_body()->guilds_belong();
-    if ( guilds )
-    {
-	if ( sizeof(guilds) > 1 )
-	    g_info = "Guilds: " + implode(guilds, ", ");
-	else if ( sizeof(guilds) == 0 )
-	    g_info = "Guilds: none";
-	else
-	    g_info = "Guild: " + guilds[0];
-    }
-#endif
+private
+void main(string arg)
+{
+     string *args;
+     int pts, total;
+     string rank = this_body()->refresh_stats(); //This doesn't return rank, but we need to call it first. *heh*
+     int str_mod = this_body()->query_mod_str();
+     int agi_mod = this_body()->query_mod_agi();
+     int int_mod = this_body()->query_mod_int();
+     int wil_mod = this_body()->query_mod_wil();
 
-    if ( e_info && g_info )
-	outf("%s  %s\n", e_info, g_info);
-    else if ( e_info )
-	out(e_info + "\n");
-    else if ( g_info )
-	out(g_info + "\n");
+     int str_bonus = this_body()->call_hooks("str_bonus", HOOK_SUM);
+     int agi_bonus = this_body()->call_hooks("agi_bonus", HOOK_SUM);
+     int int_bonus = this_body()->call_hooks("int_bonus", HOOK_SUM);
+     int wil_bonus = this_body()->call_hooks("wil_bonus", HOOK_SUM);
 
-    out(SEP_MINOR);
+     if (strlen(arg))
+          args = explode(arg, " ");
 
-#ifdef USE_RACES
-    r_info = "  Race: " + capitalize(this_body()->query_race());
-#endif
+     if (sizeof(args))
+     {
+          if (args[0] != "raise" || sizeof(args) != 2)
+               return usage();
 
-#ifdef USE_SIMPLE_EXP
-    x_info = "  Exp: "+this_body()->query_experience();
-#endif
+          if (!this_body()->spare_points())
+          {
+               write("You have no more points. Level up for more.\n");
+               return;
+          }
 
-#ifdef USE_SIMPLE_LEVEL
-    l_info = "  Level: "+this_body()->query_level();
-#endif
+          switch (lower_case(args[1]))
+          {
+          case "str":
+          case "strength":
+               this_body()->inc_mod_str();
+               write("Strength increased to " + this_body()->query_str() + ".\n");
+               break;
+          case "agi":
+          case "agility":
+               this_body()->inc_mod_agi();
+               write("Agility increased to " + this_body()->query_agi() + ".\n");
+               break;
+          case "int":
+          case "intelligence":
+               this_body()->inc_mod_int();
+               write("Intelligence increased to " + this_body()->query_int() + ".\n");
+               break;
+          case "wil":
+          case "willpower":
+               this_body()->inc_mod_wil();
+               write("Willpower increased to " + this_body()->query_wil() + ".\n");
+               break;
+          }
+          return;
+     }
 
-    outf("Sp: %d (%d) %s%s%s\n",
-	 1, 1,
-         r_info,l_info,x_info);
+     if (!i_simplify())
+     {
+          outf("%%^YELLOW%%^BASE STATS:%%^RESET%%^\n%%^BOLD%%^%15|s%15|s%15|s%14|s%%^RESET%%^\n"
+               "     .-\"\"-.      "
+               "   .-\"\"-.      "
+               "   .-\"\"-.      "
+               "   .-\"\"-.  \n"
+               "    /      \\     "
+               "  /      \\     "
+               "  /      \\     "
+               "  /      \\  \n"
+               "   ;  %%^GREEN%%^%4|s%%^RESET%%^  ;    "
+               " ;  %%^GREEN%%^%4|s%%^RESET%%^  ;    "
+               " ;  %%^GREEN%%^%4|s%%^RESET%%^  ;    "
+               " ;  %%^GREEN%%^%4|s%%^RESET%%^  ;  \n"
+               "    \\      /     "
+               "  \\      /     "
+               "  \\      /     "
+               "  \\      /  \n"
+               "     '-..-'      "
+               "   '-..-'      "
+               "   '-..-'      "
+               "   '-..-'    \n"
+               "%s%4|s      "
+               "     %4|s      "
+               "     %4|s      "
+               "     %4|s    %s"
+               "%s%4|s      "
+               "     %4|s      "
+               "     %4|s      "
+               "     %4|s    %s",
+               "STRENGTH", "AGILITY", "INTELLIGENCE", "WILLPOWER",
+               this_body()->query_str() + "",
+               this_body()->query_agi() + "",
+               this_body()->query_int() + "",
+               this_body()->query_wil() + "",
+               (str_mod != 0 || agi_mod != 0 || int_mod != 0 || wil_mod != 0 ? "Pts.: " : "       "),
+               decorate_mod(str_mod),
+               decorate_mod(agi_mod),
+               decorate_mod(int_mod),
+               decorate_mod(wil_mod),
+               (str_mod != 0 || agi_mod != 0 || int_mod != 0 || wil_mod != 0 ? "\n" : ""),
+               (str_bonus != 0 || agi_bonus != 0 || int_bonus != 0 || wil_bonus != 0 ? "Bonus:" : "      "),
+               decorate_bonus(str_bonus),
+               decorate_bonus(agi_bonus),
+               decorate_bonus(int_bonus),
+               decorate_bonus(wil_bonus),
+               (str_bonus != 0 || agi_bonus != 0 || int_bonus != 0 || wil_bonus != 0 ? "\n" : ""), );
 
-#ifdef USE_STATS
-    this_body()->refresh_stats();
+          outf("\n");
+          outf("%%^YELLOW%%^DERIVED STATS:%%^RESET%%^             %%^BOLD%%^%5-s %5-s %5-s %5-s %5-s%%^RESET%%^\n%%^BOLD%%^CONSTITUTION%%^RESET%%^"
+               "     %%^CYAN%%^%-10s%%^RESET%%^ %5-s %5-s %5-s %5-s  %5-s\n",
+               "STR", "AGI", "INT", "WIL", "Skill",
+               "" + this_body()->query_con(),
+               "" + this_body()->stat_component(CON, STR),
+               "" + this_body()->stat_component(CON, AGI),
+               "" + this_body()->stat_component(CON, INT),
+               "" + this_body()->stat_component(CON, WIL),
+               "-", );
+          outf("%%^BOLD%%^WISDOM%%^RESET%%^           %%^CYAN%%^%-10s%%^RESET%%^ %5-s %5-s %5-s %5-s  %5-s(Knowledge)\n",
+               "" + this_body()->query_wis(),
+               "" + this_body()->stat_component(WIS, STR),
+               "" + this_body()->stat_component(WIS, AGI),
+               "" + this_body()->stat_component(WIS, INT),
+               "" + this_body()->stat_component(WIS, WIL),
+               "" + (this_body()->skill_wis_sum()), );
 
-//### show pure stats here, too?
-    outf("Basic:   Str: %-3d   Agi: %-3d  Int: %-3d  Wil: %-3d\n",
-	   this_body()->query_str(), this_body()->query_agi(),
-	   this_body()->query_int(), this_body()->query_wil());
-    outf("Derived: Con: %-3d   Wis: %-3d  Cha: %-3d\n",
-	   this_body()->query_con(), this_body()->query_wis(),
-	   this_body()->query_cha());
-#endif
+          outf("%%^BOLD%%^CHARISMA%%^RESET%%^         %%^CYAN%%^%-10s%%^RESET%%^ %5-s %5-s %5-s %5-s  %5-s(Converse)\n",
+               "" + this_body()->query_cha(),
+               "" + this_body()->stat_component(CHA, STR),
+               "" + this_body()->stat_component(CHA, AGI),
+               "" + this_body()->stat_component(CHA, INT),
+               "" + this_body()->stat_component(CHA, WIL),
+               "" + this_body()->skill_cha_sum(), );
+          outf("%%^BOLD%%^MANA%%^RESET%%^             %%^CYAN%%^%-10s%%^RESET%%^ %5-s %5-s %5-s %5-s  %5-s(Magic)\n",
+               "" + this_body()->query_man(),
+               "" + this_body()->stat_component(MAN, STR),
+               "" + this_body()->stat_component(MAN, AGI),
+               "" + this_body()->stat_component(MAN, INT),
+               "" + this_body()->stat_component(MAN, WIL),
+               "" + this_body()->skill_man_sum(), );
+          if (this_body()->spare_points())
+          {
+               outf("You have %d points to spend on base stats.\n", this_body()->spare_points());
+               out("Hint: 'help stats' or 'help levels' for more info\n");
+               /*
+               */
+          }
+     }
+     else
+     {
+          outf("Base stats:\n");
+          outf("%s %d\n", "Strength", this_body()->query_str());
+          outf("%s %d\n", "Agility", this_body()->query_agi());
+          outf("%s %d\n", "Intellligence", this_body()->query_int());
+          outf("%s %d\n\n", "Willpower", this_body()->query_wil());
 
-    out(SEP_MINOR);
-
-    o_info = "";
-    curr = this_body()->query_currencies();
-    if (!sizeof(curr)) {
-      o_info += "You are broke.";
-    }
-    else {
-      for (i = 0; i < sizeof(curr); i++) {
-        o_info += sprintf("%s: %d  ",
-          capitalize(curr[i]),this_body()->query_amt_money(curr[i]));
-      }
-    }
-    outf("%s\n",o_info);
-//### other misc stats (e.g. sober, poison, wimpy, etc)
-    out("<< other misc data: sober, poison, cash, etc >>\n");
-
-    out(SEP_MAJOR);
+          outf("Derived stats:\n");
+          outf("%s %d\n", "Constitution", this_body()->query_con());
+          outf("%s %d\n", "Wisdom", this_body()->query_wis());
+          outf("%s %d\n", "Charisma", this_body()->query_cha());
+          outf("%s %d\n", "Mana", this_body()->query_man());
+     }
 }

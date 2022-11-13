@@ -2,6 +2,7 @@
 
 // body_d.c - Daemon for providing limbs to ADVERSARY objects.
 //   Iizuka@Lima Bean: Feb. 9, 1997
+//   Extended. <Tsath>
 
 #include <limbs.h>
 
@@ -16,6 +17,11 @@ mapping get_body(string type)
       return copy(body_types[type]);
    else
       return ([]);
+}
+
+int body_exist(string type)
+{
+   return !undefinedp(body_types[type]) ? 1 : 0;
 }
 
 void add_body(string body_name, mapping body_limbs)

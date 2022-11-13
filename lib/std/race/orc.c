@@ -8,7 +8,7 @@ string query_race() {
 string short_description() {
     return "Orcs get bonuses to constitution.  Their strength is very high, their agility is slightly above average, their intelligence is very low, and thier willpower is below average.  If this had been a real race instead of an example, this would have been much more interesting to read.\n";
 }
-#ifdef USE_STATS
+
 int racial_con_bonus() {
     return 30;
 }
@@ -38,4 +38,3 @@ class stat_roll_mods query_roll_mods() {
 
     return ret;
 }
-#endif

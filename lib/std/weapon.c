@@ -4,6 +4,7 @@
 inherit OBJ;
 inherit M_DAMAGE_SOURCE;
 inherit M_WIELDABLE;
+inherit M_SALVAGEABLE;
 inherit M_GETTABLE;
 inherit M_MESSAGES;
 

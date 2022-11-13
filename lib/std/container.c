@@ -240,9 +240,9 @@ string query_default_relation() { return default_relation; }
 
 //: FUNCTION query_capacity
 // Returns the amount of mass currently attached to a container
-varargs int query_capacity(string relation)
+varargs float query_capacity(string relation)
 {
-  int cap;
+  float cap=0.0;
   string aliased_to;
   /* Need a little special handling for #CLONE# */
   if (!relation || relation == "" || relation == "#CLONE#")

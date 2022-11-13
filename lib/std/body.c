@@ -34,7 +34,7 @@ inherit __DIR__ "body/quests";
 inherit __DIR__ "body/cmd";
 inherit __DIR__ "body/help";
 inherit __DIR__ "body/wizfuncs";
-inherit __DIR__ "body/money";
+inherit __DIR__ "body/pockets";
 inherit __DIR__ "body/start";
 inherit __DIR__ "body/time";
 inherit __DIR__ "body/naming";
@@ -57,9 +57,6 @@ inherit __DIR__ "body/wiz_position";
 #endif
 #ifdef USE_GUILDS
 inherit __DIR__ "body/guilds";
-#endif
-#ifdef USE_STATS
-inherit M_BODY_STATS;
 #endif
 
 void heal_all();
@@ -495,4 +492,20 @@ int allow(string what)
 	return 1;
     }
     return 0;
+}
+
+void flee()
+{
+    string direction = this_user()->query_shell_ob()->get_variable("wimpy");
+    receive_private_msg("You wimpy " + direction + "\n");
+    if (direction && strlen(direction) > 0)
+        this_object()->do_game_command("go " + direction);
+}
+
+//Overriden to add coins weight
+varargs int query_capacity(string relation)
+{
+    float cap = ::query_capacity(relation);
+    int coin_weight_kg = to_int(MONEY_D->coin_weight(query_money()));
+    return cap + coin_weight_kg;
 }

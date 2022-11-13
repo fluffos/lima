@@ -35,7 +35,6 @@ string short_description() {
  *     compressed).  For example, if your base stats go up by 10, then your
  *     con would only increase by 5.
  */
-#ifdef USE_STATS
 int racial_con_bonus() {
     return 0;
 }
@@ -83,4 +82,3 @@ class stat_roll_mods query_roll_mods() {
 
     return ret;
 }
-#endif

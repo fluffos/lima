@@ -128,9 +128,7 @@ nomask void incarnate(string name, int is_new, string new_fname)
 
    if (is_new)
    {
-#ifdef USE_STATS
       this_body()->init_stats();
-#endif
       body->save_me();
       /* This seems to me to be a poor place to put this, but fits with
        * the default login/new user creation sequence.  -- Tigran */

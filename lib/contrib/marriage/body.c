@@ -61,9 +61,6 @@ inherit __DIR__ "body/wiz_position";
 #ifdef USE_GUILDS
 inherit __DIR__ "body/guilds";
 #endif
-#ifdef USE_STATS
-inherit M_BODY_STATS;
-#endif
 
 // Global variables --
 private string reply;
@@ -466,9 +463,7 @@ private void create(string userid)
     messages = ([]);
 
     monster::create();
-#ifdef USE_STATS
     m_bodystats::create();
-#endif
 
     /*
     ** Make some of the flags non-persistent (they won't be saved).
@@ -596,8 +591,6 @@ void move_or_destruct(object suggested_dest) {
 }
 
 
-#ifdef USE_STATS
-
 int to_hit_base() {
     return 50 - query_agi();
 }
@@ -609,8 +602,6 @@ int damage_bonus() {
 void refresh_stats() {
     m_bodystats::refresh_stats();
 }
-
-#endif /* USE_STATS */
 
 #ifdef USE_SKILLS
 

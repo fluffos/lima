@@ -51,8 +51,6 @@
 /* This only implements races for PC's.*/
 #define USE_RACES
 
-#define USE_STATS
-
 #define USE_GUILDS
 
 #define USE_TITLES
@@ -74,7 +72,7 @@
 /* Size or Mass?
  * One or the other of these should be defined, but not both.  They should 
  * do essentially the same thing. */
-#define USE_SIZE
+#undef USE_SIZE
 #ifndef USE_SIZE
 # define USE_MASS
 #endif
@@ -242,7 +240,7 @@
  * NOTE: This is required to be changed in order to have a working
  * I3 system. Must be changed for anything to work! 
  */
-#define ADMIN_EMAIL		"billg@microsoft.com"
+#define ADMIN_EMAIL		"tsath@lima-rebean.themud.org"
 
 /* If this is undefined, anonymous ftp is allowed - undef it to prevent.
   Anon ftp users are limited to /ftp/pub.*/
