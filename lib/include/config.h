@@ -43,21 +43,17 @@
 
 /* The default level of light for a room. */
 #define DEFAULT_LIGHT_LEVEL	1
-
 #define PLAYERS_START_WHERE_THEY_QUIT
-
 #define USE_QUESTS
 
 /* This only implements races for PC's.*/
 #define USE_RACES
-
 #define USE_GUILDS
-
 #define USE_TITLES
 
 /* If you define this option, you should also look at <bodyslots.h> and decide
  * which body slots you want to support.*/
-#define USE_BODYSLOTS
+#undef USE_BODYSLOTS
 
 /* Parties support */
 #define USE_PARTIES
@@ -82,8 +78,9 @@
 */
 #define METRIC
 
-
+/* Use skills or not*/
 #define USE_SKILLS
+
 /*
  * This is the "maximum" skill level that players are compared against.
  * Their evaluation percentage will be computed as a total of all their
@@ -118,7 +115,6 @@
 
 /* The file displayed immediatly after login. */
 #define MOTD_FILE		"/data/config/MOTD"
-
 #define LOGIN_PROMPT		"What is your name? "
 
 /* Define where the obvious exits should appear if at all. 
@@ -142,7 +138,6 @@
 
 /* Define this to use an Infocom-like Status line. */
 #define USE_STATUS_LINE
-
 
 /*************************************************************************
  **                                                   									**
@@ -197,7 +192,6 @@
  * wizard does.  Define this if you want to use it. */
 #define USE_WIZ_POSITION
 
-
 /* Allow wizards to see hidden exits? */
 #define WIZARDS_SEE_HIDDEN_EXITS
 
@@ -218,8 +212,6 @@
 #define TODO_NEWSGROUP "reporter.todo"
 #define QUESTION_NEWSGROUP "reporter.question"
 #define FEEDBACK_NEWSGROUP "reporter.discussion"
-
-
 
 /*************************************************************************
  ** 									                                                  **
@@ -260,7 +252,6 @@
 /* Metric definitions */
 #define KG_TO_LBS 2.20462262
 #define LBS_TO_KG 0.453592
-
 
 /*************************************************************************
  ** 									                                                  **

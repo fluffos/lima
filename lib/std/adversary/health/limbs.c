@@ -20,7 +20,9 @@ int do_unwield(string);
 int query_asleep();
 int query_stunned();
 int xp_value();
+#ifdef USE_KARMA
 int karma_impact();
+#endif
 int query_wil();
 int query_con();
 varargs int query_capacity(string relation);
@@ -269,7 +271,7 @@ void slain_by(object slayer)
 // * Adds XP to the slayer
 // * calls slain_by(player) in this object.
 // * Updates the slayers BESTIARY
-// * Updates opponents Karma
+// * Updates opponents Karma (if USE_KARMA defined in combat_modules.h)
 // * and finally kills us. (die()).
 //
 // Yeah, sorry, we had to.
@@ -287,12 +289,16 @@ void kill_us()
       {
          //Player is in a team
          PARTY_D->award_experience(previous_object(), team, viable, query_level());
+#ifdef USE_KARMA
          PARTY_D->modify_karma(team, viable, karma_impact());
+#endif
          previous_object()->query_bestiary()->add_slain(this_object());
       }
       else
       {
+#ifdef USE_KARMA
          previous_object()->modify_karma(karma_impact());
+#endif
          previous_object()->add_experience(xp_value());
          if (previous_object()->query_bestiary())
             previous_object()->query_bestiary()->add_slain(this_object());

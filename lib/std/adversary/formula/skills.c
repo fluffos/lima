@@ -42,6 +42,11 @@ int chance_to_hit(object weapon, object target)
     defend_mod = 10;
   }
 
+#ifndef USE_SKILLS
+  write("*** CONFIG ERROR: "+mud_name()+" set to not define USE_SKILLS, but still defines FORMULA_SKILLS in combat_config.h. These two are incompatible. Please fix.\n");
+  return 1;
+#endif
+
   attack_value = to_int(aggregate_skill(attack_skill) / attack_mod);
   defend_value = target->aggregate_skill(defend_skill) * defend_mod;
 

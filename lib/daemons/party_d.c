@@ -100,6 +100,7 @@ nomask int award_experience(object slayer, string name, object *viable, int leve
    return 1;
 }
 
+#ifdef USE_KARMA
 nomask void modify_karma(string name, object *viable, int karma_impact)
 {
    class party tmp = parties[lower_case(name)];
@@ -113,6 +114,7 @@ nomask void modify_karma(string name, object *viable, int karma_impact)
          b->modify_karma(karma_impact);
    }
 }
+#endif
 
 nomask string *query_party_members(string pname)
 {

@@ -56,10 +56,9 @@
 
 inherit CMD;
 inherit M_ANSI;
+inherit M_WIDGETS;
 
 #define WIDTH this_user()->query_screen_width()
-
-#define DELIM (repeat_string("-", WIDTH - 7) + "\n")
 
 #define WHO_FORMAT "%s:  (Local Time is: %s) %28s\n%s"
 #define DEBUG(arg)                              \
@@ -107,7 +106,7 @@ string get_who_string(string arg)
 		args -= ({"S"});
 	}
 	if (!no_delim)
-		retval += DELIM;
+		retval += simple_divider(0);
 
 	if (member_array("W", args) != -1)
 	{
@@ -147,7 +146,7 @@ string get_who_string(string arg)
 		retval += colour_center(implode(explode(mud_name(), ""), " ")) + "\n";
 		retval += colour_center("(PST is: " + ctime(time()) + ")") + "\n";
 		retval += colour_center("There are " + sizeof(b) + " users connected.") + "\n";
-		retval += no_delim ? "" : DELIM;
+		retval += no_delim ? "" : simple_divider(0);
 	}
 	else if (member_array("H", args) != -1)
 	{
@@ -156,7 +155,7 @@ string get_who_string(string arg)
 		retval += sprintf("%s:  (Local Time is: %s)\n",
 						  mud_name(), ctime(time()));
 		if (!no_delim)
-			retval += DELIM;
+			retval += simple_divider(0);
 	}
 	foreach (object body in b)
 	{
@@ -166,7 +165,7 @@ string get_who_string(string arg)
 			{
 			case "l":
 				DEBUG("Delimiter");
-				retval += DELIM;
+				retval += simple_divider(0);
 				break;
 			case "n":
 				DEBUG("Names");
@@ -237,7 +236,7 @@ string get_who_string(string arg)
 		retval += "\n";
 	}
 	if (!no_delim)
-		retval += DELIM;
+		retval += simple_divider(0);
 	return retval;
 }
 

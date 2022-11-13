@@ -18,7 +18,9 @@ int experience = 0;
 private
 int level = 0;
 private
+#ifdef USE_KARMA
 int karma = 100; //Karma goes from -1000 to 1000.
+#endif
 
 string query_body_style();
 void update_body_style(string);
@@ -133,14 +135,18 @@ int xp_value()
    return xp;
 }
 
+#ifdef USE_KARMA
 //:FUNCTION query_karma
 // int query_karma()
 // Returns the raw karma between -1000 and 1000.
+// Only if USE_KARMA defined in combat_modules.h
 int query_karma()
 {
    return CLAMP(karma, -1000, 1000);
 }
 
+//:FUNCTION set_karma
+//Set karma to specific number rather than modifyind it.
 void set_karma(int k)
 {
    karma = k;
@@ -163,3 +169,4 @@ int modify_karma(int modifier)
    karma = CLAMP(karma, -1000, 1000);
    return karma;
 }
+#endif

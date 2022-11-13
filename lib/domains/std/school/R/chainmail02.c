@@ -14,7 +14,7 @@ Use set_resist() for strength adjustment against different damage types.
 
 #include <bodyslots.h>
 
-    set_resist("blade", 2); // a little better against blades
+    set_resist("slashing", 2); // a little better against blades
     set_wearmsg( "$N $vput on a $o." );
     set_slot(TORSO);
 }

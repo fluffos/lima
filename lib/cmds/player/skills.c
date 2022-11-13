@@ -42,7 +42,11 @@ void main(string arg)
 
   if (sizeof(skills) == 0)
   {
+#ifdef USE_SKILLS
     out("You have no skills yet.\n");
+#else
+    out(mud_name()+" does not use skills.\n");
+#endif
     return;
   }
   names = sort_array(keys(skills), 1);

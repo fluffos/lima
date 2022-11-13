@@ -14,7 +14,7 @@ void setup()
   set_in_room_desc("A simple club is lying on the ground.\n");
   set_weight(1);
   set_value(0.1);
-  set_skill_used("combat/club");
+  set_skill_used("combat/melee/club");
   set_combat_messages("combat-bludgeon");
   set_salvageable((["wood":95,"metal":5 ]));
 }

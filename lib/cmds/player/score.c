@@ -44,6 +44,9 @@ void main(string arg)
     string g_info = 0;
     string r_info = "";
     string x_info = "";
+#ifdef USE_KARMA
+    string k_info = "";
+#endif
     string l_info = "";
     string o_info;
     string FC = "%%^BOLD%%^%-10.10s%%^RESET%%^"; // First column all the way down
@@ -162,6 +165,69 @@ void main(string arg)
                   "Other",
                   (body->query_guild_xp_buff() ? "Guild buff " + body->query_guild_xp_buff() + "%" : "None")));
     write(simple_divider());
+
+#ifdef USE_KARMA
+    if (!i_simplify())
+    {
+        int karma = this_body()->query_karma();
+        int marker = 65 * ((karma + 1000) / 2000.0);
+        int marker2 = 0;
+        k_info = repeat_string("-", marker) + "X" + repeat_string("-", 65 - marker);
+        k_info = k_info[0..31] + "%^GREEN%^" + k_info[32..];
+        if (marker < 31)
+            k_info = replace_string(k_info, "X", "%^BOLD%^X%^RESET%^%^RED%^");
+        else
+            k_info = replace_string(k_info, "X", "%^BOLD%^X%^RESET%^%^GREEN%^");
+
+        out("Karma    " + slider_red_green(karma, 2000, width) + "\n");
+    }
+
+    if (1)
+    {
+        int karma = this_body()->query_karma();
+        string status = "";
+        switch (karma)
+        {
+        case 1000:
+            status = "Good incarnate.";
+            break;
+        case 901..999:
+            status = "Fantastic karma. <3 <3";
+            break;
+        case 501..900:
+            status = "Great karma. Everybody loves you.";
+            break;
+        case 201..500:
+            status = "Good karma. Flowers sprout where you walk.";
+            break;
+        case 0..200:
+            status = "Slightly good karma.";
+            break;
+        case -200.. - 1:
+            status = "Slightly bad karma.";
+            break;
+        case -500.. - 201:
+            status = "Quite Bad karma. You will soon provoke attacks from good people.";
+            break;
+        case -900.. - 501:
+            status = "Very Bad karma. You will likely provoke attacks.";
+            break;
+        case -999.. - 901:
+            status = "Extremely bad karma. You will be attacked on sight.";
+            break;
+        case -1000:
+            status = "Evil incarnate.";
+            break;
+        }
+
+        if (wizardp(this_body()))
+            outf("         %s (%d score)\n", status, karma);
+        else
+            outf("         %s\n", status);
+    }
+#endif
+
+
     if (1)
     {
         int capa = this_body()->query_capacity();
@@ -180,11 +246,11 @@ void main(string arg)
         else
             capa_string = "Unable to move";
 
-        write("Weight   " + slider_colours_sum(capa, ([enc_capa:"green",
-                                                         enc_heavy_capa:"yellow", no_move:"red", max:"blue"]),
-                                               width) +
+        write("Weight    " + slider_colours_sum(capa, ([enc_capa:"green",
+                                                          enc_heavy_capa:"yellow", no_move:"red", max:"blue"]),
+                                                width) +
               "\n");
-        write("         Carrying " + weight_to_string(capa, get_user_variable("metric") != 1) + " / " +
+        write("          Carrying " + weight_to_string(capa, get_user_variable("metric") != 1) + " / " +
               weight_to_string(enc_capa, get_user_variable("metric") != 1) +
               " - " + capa_string + ".\n");
         write(simple_divider());

@@ -58,7 +58,9 @@ private
 inherit CLASS_STATMODS;
 
 mixed call_hooks(string, int);
+#ifdef USE_SKILLS
 int aggregate_skill(string skill);
+#endif
 void recompute_derived();
 void refresh_stats();
 
@@ -380,17 +382,29 @@ nomask void set_wil(int stat)
 //### these should come from skills
 int skill_wis_sum()
 {
+#ifndef USE_SKILLS
+  return 10;
+#else
     return to_int(51 * (aggregate_skill("misc/knowledge") / 10000.0));
+#endif
 }
 
 int skill_cha_sum()
 {
+#ifndef USE_SKILLS
+  return 10;
+#else
     return to_int(44 * (aggregate_skill("misc/converse") / 10000.0));
+#endif
 }
 
 int skill_man_sum()
 {
+#ifndef USE_SKILLS
+  return 10;
+#else
     return to_int(48 * (aggregate_skill("magic") / 10000.0));
+#endif
 }
 
 nomask int query_con_pure()
@@ -400,17 +414,17 @@ nomask int query_con_pure()
 
 nomask int query_wis_pure()
 {
-    return stat_wis; // + (WIS_SKILL_FACTOR * skill_wis_sum()/100);
+    return stat_wis;
 }
 
 nomask int query_cha_pure()
 {
-    return stat_cha; // + (CHA_SKILL_FACTOR * skill_cha_sum()/100);
+    return stat_cha;
 }
 
 nomask int query_man_pure()
 {
-    return stat_man; // + (CHA_SKILL_FACTOR * skill_cha_sum()/100);
+    return stat_man;
 }
 
 nomask int query_con()
@@ -420,7 +434,6 @@ nomask int query_con()
 
 nomask int query_wis()
 {
-    //    TBUG("query_wis(): "+cur_wis+" + "+(WIS_SKILL_FACTOR * skill_wis_sum()/100));
     return cur_wis + skill_wis_sum();
 }
 

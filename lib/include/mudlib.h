@@ -236,6 +236,7 @@
 #define M_AGGRESSIVE      "/std/modules/m_aggressive"
 #define M_DAMAGE_SINK     "/std/modules/m_damage_sink"
 #define M_DAMAGE_SOURCE   "/std/modules/m_damage_source"
+#define M_CRAFTING        "/std/modules/m_crafting"
 #define M_DIGGABLE        "/std/modules/m_diggable"
 #define M_DECAY           "/std/modules/m_decay"
 #define M_DIGGER          "/std/modules/m_digger"

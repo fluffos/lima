@@ -79,6 +79,18 @@ int query_ghost()
   return HEALTH_MODULE::query_ghost();
 }
 
+
+#ifdef USE_KARMA
+//:FUNCTION karma_impact
+// int karma_impact();
+// Override and return a number between -5 and 5 to impact karma
+// when killed by someone
+int karma_impact()
+{
+  return 0;
+}
+#endif
+
 int event_damage(class event_info evt)
 {
   return BLOW_MODULE::event_damage(evt);
