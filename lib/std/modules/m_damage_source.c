@@ -33,7 +33,7 @@ nosave mapping def_combat_messages = ([]);
 private
 nosave mapping combat_messages = ([]);
 private
-nosave string skill_used = "combat/unarmed";
+nosave string skill_used = "combat/melee/unarmed";
 
 /* Restrictions */
 private

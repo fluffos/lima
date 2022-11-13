@@ -159,3 +159,13 @@ int percent_for_next_rank(object player, string skill_name)
 
     return (skill->skill_points - (rank == 0 ? 0 : SKILL_RANKS[rank - 1])) * 100 / next_rank;
 }
+
+void stat_me()
+{
+    write("SKILLS_D stats:\n");
+
+    foreach (string name in sort_array(keys(skills),1))
+    {
+        write("\t"+name+"\n");
+    }
+}

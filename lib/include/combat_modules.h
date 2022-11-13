@@ -133,7 +133,7 @@
 ** screw up your user data files.
 */
 #define DEATH_STYLE       DEATH_CORPSES
-#define HEALTH_STYLE      HEALTH_WOUNDS
+#define HEALTH_STYLE      HEALTH_LIMBS
 #define WIELD_STYLE       WIELD_MULTIPLE
 #define ARMOR_STYLE       ARMOR_LIMBS
 #define PULSE_STYLE       PULSE_HEART_BEAT

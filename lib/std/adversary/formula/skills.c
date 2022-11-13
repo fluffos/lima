@@ -23,7 +23,7 @@ int cached_skill_rank(string s);
 
 int chance_to_hit(object weapon, object target)
 {
-  string attack_skill = weapon ? weapon->query_skill_used() : "combat/unarmed";
+  string attack_skill = weapon ? weapon->query_skill_used() : "combat/melee/unarmed";
   string defend_skill = target->query_defend_skill_used();
   int skill_contrib = strsrch(attack_skill, "combat/ranged") != -1 ? (this_object()->query_agi() / 5) : (this_object()->query_str() / 5);
   int attack_value;
@@ -73,7 +73,7 @@ int chance_to_hit(object weapon, object target)
 
 int defend_chance(object weapon, object target)
 {
-  string attack_skill = weapon ? weapon->query_skill_used() : "combat/unarmed";
+  string attack_skill = weapon ? weapon->query_skill_used() : "combat/melee/unarmed";
   string defend_skill = target->query_defend_skill_used();
   int attack_value;
   int defend_value;
@@ -108,13 +108,13 @@ int disarm_chance(object target)
   int res;
   object weapon = this_object()->query_weapon();
   int chance_to_hit = chance_to_hit(weapon, target);
-  int defend_disarm_value = target->aggregate_skill("combat/disarm") * defend_mod;
+  int defend_disarm_value = target->aggregate_skill("combat/defense/disarm") * defend_mod;
   //Calculate anti_disarm chances from the target + her weapon.
   int disarm_prevention =
       (target ? target->query_anti_disarm() : 0) + (target->query_weapon() ? target->query_weapon()->query_anti_disarm() : 0);
 
-  //LOG_D->log(LOG_SKILLS, "disarm," + "combat/disarm" + "," + chance_to_hit + "\n");
-  target->test_skill("combat/disarm", chance_to_hit);
+  //LOG_D->log(LOG_SKILLS, "disarm," + "combat/defense/disarm" + "," + chance_to_hit + "\n");
+  target->test_skill("combat/defense/disarm", chance_to_hit);
 
   res = chance_to_hit - ((defend_disarm_value * 100) / MAX_SKILL_VALUE);
 
@@ -126,7 +126,7 @@ int disarm_chance(object target)
 
 int calculate_damage(object weapon, object target)
 {
-  string attack_skill = weapon ? weapon->query_skill_used() : "combat/unarmed";
+  string attack_skill = weapon ? weapon->query_skill_used() : "combat/melee/unarmed";
   int skill_contrib = strsrch(attack_skill, "combat/ranged") != -1 ? (this_object()->query_agi() / 5) : (this_object()->query_str() / 5);
 
   //If the weapon is set to restricted (happens when wielded in /std/adversary/wield/limbs)
