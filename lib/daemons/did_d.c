@@ -144,7 +144,7 @@ private string who_link(string name)
 string get_changelog_for_web(int dont_link_names)
 {
     int		index = 0;
-    string	output = "<DL>\n";
+    string	output = "======\nDidlog\n======\n\n";
     int		space;
     string	entry;
     string	name;
@@ -154,16 +154,16 @@ string get_changelog_for_web(int dont_link_names)
 	entry = did[index][1];
 	space = strsrch (entry, " ");
 	name = entry[0..space-1];
-	output += sprintf ("<DT><em>%s</em>: <strong>%s</strong>\n<DD>%s<p>\n",
+	output += sprintf ("- **%s**: *%s* %s\n",
 			   ctime(did[index][0]), 
 			   dont_link_names ? name : who_link(name), 
-			   entry[space..]);
+			   capitalize(entry[space..]));
     }
-    return output + "</DL>\n";
+    return output + "\n";
 }
 
 void print_weblog_to_file(string fname)
 {
-    write_file(fname, get_changelog_for_web(1));
+    write_file(fname, get_changelog_for_web(1),1);
 }
 

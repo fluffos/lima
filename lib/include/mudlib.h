@@ -325,6 +325,7 @@
 #define MONEY             "/std/money"
 #define BOOK              "/std/book"
 #define COINS             "/std/coins"
+#define ELEVATOR          "/std/elevator"
 #define HOLE              "/std/hole"
 #define MATERIAL          "/std/material"
 #define LADDER            "/std/ladder"

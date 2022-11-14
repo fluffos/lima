@@ -7,7 +7,7 @@ void setup()
 {
   set_spell_name("fireball");
   set_combat_messages("combat-torch");
-  set_damage_type("magic");
+  set_damage_type("fire");
 }
 
 int calculate_damage()

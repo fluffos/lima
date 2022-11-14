@@ -665,7 +665,7 @@ string dump_socket_status() {
 }
 
 
-string lima_version() { return "Lima 1.0b6"; }
+string lima_version() { return "Lima 1.1a1"; }
 
 varargs string identify( mixed a )
 {

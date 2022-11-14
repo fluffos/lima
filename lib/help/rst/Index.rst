@@ -7,6 +7,10 @@ Welcome to LIMA Mudlib Documentation
 Check out the `usage <Usage.html>`_ page for further information, including
 how to `install <Installation.html>`_ the project.
 
+Latest changes
+==============
+- `Changes in 1.0b6 <versions/10b6.html>`_
+
 Commands
 ========
 - `Player Commands <Player_Commands.html>`_ - commands for players

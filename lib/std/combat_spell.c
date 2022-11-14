@@ -17,7 +17,7 @@ void do_spell_damage(object target, function damage_func)
 
 void setup()
 {
-   set_damage_type("magic");
+   set_damage_type("force");
 #ifdef USE_SKILLS
    set_skill_used("spell");
 #endif

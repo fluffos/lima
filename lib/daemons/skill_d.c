@@ -15,9 +15,11 @@ inherit CLASS_SKILL;
 private
 mapping skills = ([]);
 private
-mixed SKILL_RANKS = ({100, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000});
+nosave
+    mixed SKILL_RANKS = ({100, 250, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 10000});
 private
-mixed SKILL_TITLES = ({"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"});
+nosave
+    mixed SKILL_TITLES = ({"", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
 
 #define PRIV_REQUIRED "Mudlib:daemons"
 
@@ -84,6 +86,19 @@ string *query_skills()
     return sort_array(keys(skills), 1);
 }
 
+int valid_skill(string s)
+{
+    return member_array(s, query_skills()) != -1;
+}
+
+int pts_for_rank(int rank)
+{
+    rank--;
+    if (rank < 0)
+        return 0;
+    return SKILL_RANKS[rank];
+}
+
 int skill_title_from_pts(int skill_pts)
 {
     int rank = 0;
@@ -112,7 +127,24 @@ int skill_rank(object player, string skill_name)
     int rank = 0;
 
     skill = player->get_skill(skill_name);
+    if (!skill)
+        return 0;
     while (skill->skill_points > SKILL_RANKS[rank])
+    {
+        rank++;
+    }
+    return rank;
+}
+
+int monster_skill_rank(object player, string skill_name)
+{
+    int skill_pts;
+    int rank = 0;
+
+    skill_pts = player->query_skill(skill_name);
+    if (!skill_pts)
+        return 0;
+    while (skill_pts > SKILL_RANKS[rank])
     {
         rank++;
     }
@@ -143,6 +175,14 @@ string skill_rank_pretty(object player, string skill_name)
     return capitalize(name) + (rank > 0 ? " [" + SKILL_TITLES[rank] + "]" : "");
 }
 
+string monster_skill_rank_pretty(object mob, string skill_name)
+{
+    int level = sizeof(explode(skill_name, "/"));
+    string name = explode(skill_name, "/")[ < 1];
+    int rank = monster_skill_rank(mob, skill_name);
+    return capitalize(name) + (rank > 0 ? " [" + SKILL_TITLES[rank] + "]" : "");
+}
+
 string skill_rank_simple(object player, string skill_name)
 {
     int rank = skill_rank(player, skill_name);
@@ -156,16 +196,22 @@ int percent_for_next_rank(object player, string skill_name)
     int rank = skill_rank(player, skill_name);
     int next_rank = SKILL_RANKS[rank] - (rank == 0 ? 0 : SKILL_RANKS[rank - 1]);
     skill = player->get_skill(skill_name);
+    if (!skill)
+        return 0;
 
     return (skill->skill_points - (rank == 0 ? 0 : SKILL_RANKS[rank - 1])) * 100 / next_rank;
 }
 
-void stat_me()
+int monster_percent_for_next_rank(object mob, string skill_name)
 {
-    write("SKILLS_D stats:\n");
+    int skill_pts;
+    int rank = monster_skill_rank(mob, skill_name);
+    int next_rank = SKILL_RANKS[rank] - (rank == 0 ? 0 : SKILL_RANKS[rank - 1]);
+    if (!next_rank)
+        next_rank = 1;
+    skill_pts = mob->query_skill(skill_name);
+    if (!skill_pts)
+        return 0;
 
-    foreach (string name in sort_array(keys(skills),1))
-    {
-        write("\t"+name+"\n");
-    }
+    return (skill_pts - (rank == 0 ? 0 : SKILL_RANKS[rank - 1])) * 100 / next_rank;
 }

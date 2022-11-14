@@ -9,7 +9,7 @@ void setup()
   set_long("It's a simple crossbow.");
 
   set_weapon_class(2); // It can be used to bash if it's not loaded
-  set_damage_type("blow");
+  set_damage_type("bludgeoning");
 #ifdef USE_SKILLS
   set_skill_used("combat/sword");
 #endif
