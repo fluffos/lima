@@ -9,9 +9,8 @@ mixed direct_press_obj();
 void do_press()
 {
     int state = 0;
-
     this_body()->simple_action("$N $vcall the elevator by pressing the $o.", this_object());
-    state = call_other(elevator, "call_elevator", where);
+    state = load_object(evaluate_path(elevator))->call_elevator(where);
 
     switch (state)
     {
