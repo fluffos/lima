@@ -36,7 +36,7 @@ void arrive()
     where = travelling_to;
     travelling_to = 0;
     remove_call_out("do_progress");
-    load_object(evaluate_path(dests[where]))->arrived(this_object());
+    load_object(evaluate_path(dests[where], 0, 1))->arrived(this_object());
 }
 
 void do_progress()
@@ -50,14 +50,14 @@ void move_to(string dest)
     int dist;
 
     if (!dests[dest])
-        error("Invalid destination '"+dest+"'.\n");
+        error("Invalid destination '" + dest + "'.\n");
     if (travelling_to)
         error("In motion.\n");
 
     if (where)
     {
         if (dests[where])
-            load_object(evaluate_path(dests[where]))->departed(this_object());
+            load_object(evaluate_path(dests[where], 0, 1))->departed(this_object());
         else
         {
             error("Destination '" + where + "' not found.");

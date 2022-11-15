@@ -103,29 +103,20 @@ string canonical_path(string path)
 }
 
 
-/*
- * string evaluate_path(string path);
- *
- * Given a path name with the usual . or .. operands, it will parse and
- * return a path based of callers current working directory.
- *
- * Justice@Pandora, ZorkMUD
- *
- * Sep 4, 1993
- *
- * Rewritten by Beek to be more efficient.
- * Extended by Tsath to support ^ domains syntax.
- * Extended further with no_interactive flag.
- */
-
+/* Stuff for evaluate path*/
 private
 string *wiz_dir_parts = explode(WIZ_DIR, "/") - ({"", "."});
 private
 string *domain_dir_parts = explode("/domains", "/") - ({"", "."});
 
-varargs
-    string
-    evaluate_path(string path, string prepend, int no_interactive)
+//:FUNCTION
+// Given a path name with the usual . or .. operands, it will parse and
+// return a path based of callers current working directory.
+//
+// If the no_interactive flag is set, the pwd of the current user is not
+// considered. This is useful for when the mudlib is trying to figure
+// out where to find a relative file.
+varargs string evaluate_path(string path, string prepend, int no_interactive)
 {
     string *tree;
     int idx;
