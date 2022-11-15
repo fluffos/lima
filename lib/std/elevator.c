@@ -85,7 +85,7 @@ void handle_press(string dest)
     {
         return;
     }
-    TBUG(sscanf(dest, "%s/%s", key, newdest));
+
     if (sscanf(dest, "%s/%s", key, newdest) == 2)
         this_body()->simple_action("$N $vpress the '" + (key ? "(" + key + ") " : "") +
                                    newdest + "' button.\n");

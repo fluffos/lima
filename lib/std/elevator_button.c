@@ -21,16 +21,18 @@ void setup(string d, string k)
   set_attached(1);
   set_adj("elevator");
   set_id("button");
-  set_id(k);
   dest = d;
   if (k)
+  {
+    set_id(k);
     key = k;
+  }
   add_adj(d);
 }
 
 mixed do_press()
 {
-  environment(this_object())->handle_press(key + "/" + dest);
+  environment(this_object())->handle_press((strlen(key)>0 ? key+ "/" : "") + dest);
   return 1;
 }
 
