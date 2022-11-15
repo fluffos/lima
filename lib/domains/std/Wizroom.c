@@ -30,7 +30,7 @@ void setup()
                  "large_oak_door":({"northeast", "Quiet_Room"}),
                          "portal":({"/domains/std/rooms/beach/Sandy_Beach"}),
              "/std/elevator_door":({"west", "/domains/std/2.4.5/elevator"}),
-      "/std/elevator_call_button":({"lima", "/domains/std/2.4.5/elevator"}),
+      "/std/elevator_call_button":({"1/lima", "/domains/std/2.4.5/elevator"}),
                         "greeter":1,
                             "map":1,
   ]));

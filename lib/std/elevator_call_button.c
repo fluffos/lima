@@ -10,19 +10,19 @@ void do_press()
 {
     int state = 0;
     this_body()->simple_action("$N $vcall the elevator by pressing the $o.", this_object());
-    state = load_object(evaluate_path(elevator,0,1))->call_elevator(where);
+    state = load_object(evaluate_path(elevator, 0, 1))->call_elevator(where);
 
     switch (state)
     {
-    case 1:
+    case 1: // We're coming ASAP, added to destination queue.
         tell_from_inside(environment(this_object()), "The lamp on the elevator button lights up.\n");
         environment(this_object())->set_room_state("lamp");
         break;
-    case 2:
+    case 2: // Elevator already here.
         tell_from_inside(environment(this_object()), "The lamp briefly blinks.\n");
         break;
-    case 0:
-        tell_from_inside(environment(this_object()), "The flashes red.\n");
+    case 0: // Elevator already moving to this location. Have patience.
+        tell_from_inside(environment(this_object()), "The lamp flashes red; it seems to heading here already.\n");
         break;
     }
 }

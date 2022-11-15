@@ -2,12 +2,13 @@
 inherit OBJ;
 
 string dest;
+string key = "";
 
 mixed do_press();
 mixed direct_press_obj();
 string long()
 {
-  return "The button is marked '" + dest + "'\n";
+  return "The button is marked '" + (key ? "(" + key + ") " : "") + dest + "'\n";
 }
 
 string query_destination()
@@ -15,18 +16,21 @@ string query_destination()
   return dest;
 }
 
-void setup(string d)
+void setup(string d, string k)
 {
   set_attached(1);
   set_adj("elevator");
   set_id("button");
+  set_id(k);
   dest = d;
+  if (k)
+    key = k;
   add_adj(d);
 }
 
 mixed do_press()
 {
-  environment(this_object())->handle_press(dest);
+  environment(this_object())->handle_press(key + "/" + dest);
   return 1;
 }
 

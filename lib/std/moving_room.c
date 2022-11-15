@@ -79,6 +79,12 @@ void move_to(string dest)
     }
 }
 
+//:FUNCTION set_destinations
+//Set a mapping between names and locations. The names can be in the format::
+// "church
+// or
+// "2/church" - this format allows the elevator user to use 'push 2' etc.
+//Make sure to use the same names when setting distances.
 void set_destinations(mapping m)
 {
     dests = m;
@@ -89,6 +95,8 @@ void set_default_distance(int x)
     default_distance = x;
 }
 
+//:FUNCTION set_distance
+//Set distance between destinations. 
 void set_distance(string d1, string d2, int dist)
 {
     distances[d1 + ":" + d2] = dist;

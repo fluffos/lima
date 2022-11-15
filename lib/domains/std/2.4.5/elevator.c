@@ -8,26 +8,27 @@ void setup()
     ::setup();
     // Description of the elevator make sure to mention the buttons you can press.
     // Cmds like 'look at cryo button' also works.
-    set_long("You are in the elevator.  There are four buttons, labeled 'church', 'attic', 'wiz hall' and 'lima'.$elevator_door");
+    set_long("You are in the elevator.  There are four buttons, labeled " +
+             "'(1) Lima', '(2) Church', '(3) Attic', '(4) Wiz hall'.$elevator_door");
     // Set destinations with filenames of where we can go and shorthands.
-    set_destinations((["lima":"/domains/std/Wizroom",
-                      "attic":"/domains/std/2.4.5/Attic",
-                     "church":"/domains/std/2.4.5/Church",
-                    "wizhall":"/domains/std/2.4.5/wiz_hall",
+    set_destinations((["1/lima":"^std/Wizroom",
+                     "2/church":"^std/2.4.5/Church",
+                      "3/attic":"^std/2.4.5/Attic",
+                    "4/wizhall":"^std/2.4.5/wiz_hall",
     ]));
 
     // Set start position for elevator
-    move_to("church");
+    move_to("2/church");
 
     // Set the distance from and to each destination in seconds
-    set_distance("church", "wizhall", 26);
-    set_distance("attic", "wizhall", 32);
-    set_distance("lima", "church", 16);
-    set_distance("lima", "attic", 10);
-    set_distance("lima", "wizhall", 42);
+    set_distance("2/church", "4/wizhall", 26);
+    set_distance("3/attic", "4/wizhall", 32);
+    set_distance("1/lima", "2/church", 16);
+    set_distance("1/lima", "3/attic", 10);
+    set_distance("1/lima", "4/wizhall", 42);
 
     // Set an elevator door direction and default location
-    set_objects((["/std/elevator_door":({"east", "/domains/std/2.4.5/Attic"})]));
+    set_objects((["/std/elevator_door":({"east", "^std/2.4.5/Attic"})]));
 
     // Spawn the buttons on the wall automatically.
     // This *must* be done after the set_destinations() cal.

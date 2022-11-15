@@ -13,7 +13,11 @@ void setup_buttons()
 {
     foreach (string dest in keys(dests))
     {
-        new ("/std/elevator_button", dest)->move(this_object());
+        string key;
+        if (sscanf(dest, "%s/%s", key, dest) == 2)
+            new ("/std/elevator_button", dest, key)->move(this_object());
+        else
+            new ("/std/elevator_button", dest, 0)->move(this_object());
     }
 }
 
@@ -76,11 +80,17 @@ void add_to_queue(string where)
 
 void handle_press(string dest)
 {
+    string key,newdest;
     if (!dest)
     {
         return;
     }
-    this_body()->simple_action("$N $vpress the '" + dest + "' button.\n");
+    TBUG(sscanf(dest, "%s/%s", key, newdest));
+    if (sscanf(dest, "%s/%s", key, newdest) == 2)
+        this_body()->simple_action("$N $vpress the '" + (key ? "(" + key + ") " : "") +
+                                   newdest + "' button.\n");
+    else
+        this_body()->simple_action("$N $vpress the '" + dest + "' button.\n");
 
     if (query_where() == dest)
     {
