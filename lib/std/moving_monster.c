@@ -16,3 +16,8 @@ inherit M_SMARTMOVE;
 /* Maybe something more should be here, but I couldn't think of anything
  * yet.  Mostly this was set up to allow triggers M_WANDER and M_FOLLOW
  * to use it w/ proper inhertance. -- Tigran.*/
+
+void mudlib_setup()
+{
+    adversary::mudlib_setup();
+}

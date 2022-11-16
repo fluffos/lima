@@ -10,7 +10,7 @@ inherit M_WANDER;
 
 void mudlib_setup()
 {
+  ::mudlib_setup();
   set_wander_time(10);
   set_max_moves(10);
-  moving_monster::mudlib_setup();
 }
