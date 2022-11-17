@@ -9,6 +9,23 @@ string door_direction = "nowhere";
 
 void hook_elevator_door_closed();
 
+private void generate_panel_item()
+{
+    mapping stuff = (["adjs":({"shining", "elevator"}), "get":"The panel seems fixed to the elevator."]);
+    string lookstr = "The panel has a number of buttons, all clearly marked:\n";
+    foreach (string dest in sort_array(keys(dests),1))
+    {
+        string key;
+        if (sscanf(dest, "%s/%s", key, dest) == 2)
+            lookstr += "\t(" + key + ") " + capitalize(dest) + "\n";
+        else
+            lookstr += "\t" + capitalize(dest) + "\n";
+    }
+    stuff["look"] = lookstr;
+
+    add_item("panel","buttons",stuff);
+}
+
 void setup_buttons()
 {
     foreach (string dest in keys(dests))
@@ -19,6 +36,7 @@ void setup_buttons()
         else
             new ("/std/elevator_button", dest, 0)->move(this_object());
     }
+    generate_panel_item();
 }
 
 void setup()
@@ -80,7 +98,7 @@ void add_to_queue(string where)
 
 void handle_press(string dest)
 {
-    string key,newdest;
+    string key, newdest;
     if (!dest)
     {
         return;
@@ -88,9 +106,9 @@ void handle_press(string dest)
 
     if (sscanf(dest, "%s/%s", key, newdest) == 2)
         this_body()->simple_action("$N $vpress the '" + (key ? "(" + key + ") " : "") +
-                                   newdest + "' button.\n");
+                                   capitalize(newdest) + "' button.\n");
     else
-        this_body()->simple_action("$N $vpress the '" + dest + "' button.\n");
+        this_body()->simple_action("$N $vpress the '" + capitalize(dest) + "' button.\n");
 
     if (query_where() == dest)
     {

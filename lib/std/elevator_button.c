@@ -6,9 +6,10 @@ string key = "";
 
 mixed do_press();
 mixed direct_press_obj();
+
 string long()
 {
-  return "The button is marked '" + (key ? "(" + key + ") " : "") + dest + "'\n";
+  return "The button is marked '" + (key ? "(" + key + ") " : "") + capitalize(dest) + "'\n";
 }
 
 string query_destination()
