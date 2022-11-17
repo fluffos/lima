@@ -292,16 +292,18 @@ void check_anybody_here()
   }
 }
 
-private void room_chat()
+private
+void room_chat()
 {
-  if (random(100) > chat_percentage_chance)
-    return;
-  if (stringp(chat_msg))
-    tell_from_outside(this_object(), punctuate(trim(chat_msg)) + "\n");
-  else if (arrayp(chat_msg))
-    tell_from_outside(this_object(), punctuate(trim(choice(chat_msg))) + "\n");
-  else if (functionp(chat_msg))
-    tell_from_outside(this_object(), punctuate(trim(evaluate(chat_msg))) + "\n");
+  if (random(100) <= chat_percentage_chance)
+  {
+    if (stringp(chat_msg))
+      tell_from_outside(this_object(), punctuate(trim(chat_msg)) + "\n");
+    else if (arrayp(chat_msg))
+      tell_from_outside(this_object(), punctuate(trim(choice(chat_msg))) + "\n");
+    else if (functionp(chat_msg))
+      tell_from_outside(this_object(), punctuate(trim(evaluate(chat_msg))) + "\n");
+  }
   check_anybody_here();
 }
 
