@@ -292,7 +292,6 @@ void check_anybody_here()
   }
 }
 
-private
 void room_chat()
 {
   if (random(100) <= chat_percentage_chance)
