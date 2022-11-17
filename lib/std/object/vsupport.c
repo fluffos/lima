@@ -226,8 +226,6 @@ mixed direct_look_str_obj(string prep, object ob) {
     return "There is nothing " + prep + " " + this_object()->the_short() + ".\n";
 }
 
-
-
 //:FUNCTION direct_sell_obj_to_liv
 //Handle parser checks for "sell OBJ to LIV"
 mixed direct_sell_obj_to_liv(object ob, object liv, mixed foo) {

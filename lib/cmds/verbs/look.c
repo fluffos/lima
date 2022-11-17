@@ -18,13 +18,17 @@ void create() {
     clear_flag(NEED_TO_BE_ALIVE);
 
     add_rules( ({ "", "STR OBJ","STR","WRD OBJ","at OBJ", "for OBS",
-		      "at OBS with OBJ", "at STR" }) );
+		      "at OBS with OBJ", "at OBJ on OBJ", "at STR" }) );
 
-    add_rules( ({ "OBS", "OBS with OBJ" }), ({ "examine" }) );
+    add_rules( ({ "OBJ","OBS", "OBS with OBJ" }), ({ "examine" }) );
 }
 
 
 mixed can_look_str(string str) {
+    return "That doesn't seem to be possible.\n";
+}
+
+mixed can_look_at_str(string str) {
     return "That doesn't seem to be possible.\n";
 }
 
@@ -47,10 +51,11 @@ void do_look_at_obj(object ob, string name) {
 
 void do_look_at_str(string prep)
 {
-    environment(this_body())->do_look_at_str(prep);
+    if (!environment(this_body())->do_look_at_str(prep))
+        write("You do not see that here.\n");
 }
 
-void do_look_at_obs(object *info, string name) {
+void do_look_at_obs(string *info, string name) {
     handle_obs(info, (: do_look_at_obj :), name);
 }
 
@@ -62,7 +67,7 @@ void do_look_obj(object ob, string name) {
     do_look_at_obj(ob, name);
 }
 
-void do_look_obs(object *info, string name) {
+void do_look_obs(string *info, string name) {
     handle_obs(info, (: do_look_at_obj :), name);
 }
 
@@ -71,7 +76,7 @@ void do_look_at_obj_with_obj(object o1, object o2) {
     o2->use("look", o1);
 }
 
-void do_look_at_obs_with_obj(object *info, object o2) {
+void do_look_at_obs_with_obj(string *info, object o2) {
     handle_obs(info, (: do_look_at_obj_with_obj :), o2);
 }
 
@@ -79,7 +84,7 @@ void do_look_obj_with_obj(object o1, object o2) {
     do_look_at_obj_with_obj(o1, o2);
 }
 
-void do_look_obs_with_obj(object *info, object o2) {
+void do_look_obs_with_obj(string *info, object o2) {
     handle_obs(info, (: do_look_at_obj_with_obj :), o2);
 }
 
@@ -124,7 +129,7 @@ string look_for_phrase(object ob) {
     return env->query_prep(ob) + " " + env->the_short();
 }
 
-void do_look_for_obs(object *info) {
+void do_look_for_obs(string *info) {
     mixed ua;
     int i, n;
     string res;

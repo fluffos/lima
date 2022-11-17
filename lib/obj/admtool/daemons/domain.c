@@ -61,7 +61,7 @@ nomask void add_spawn_control2(string dom, string basename, string max)
     return;
   }
 
-  DOMAIN_D->add_spawn_control(basename, to_int(max), dom);
+  DOMAIN_D->add_spawn_control(dom, basename, to_int(max));
   write("Spawn control added successfully.\n");
 }
 

@@ -11,7 +11,7 @@ void hook_elevator_door_closed();
 
 private void generate_panel_item()
 {
-    mapping stuff = (["adjs":({"shining", "elevator"}), "get":"The panel seems fixed to the elevator."]);
+    mapping stuff = (["adjs":({"elevator"}), "get":"The panel seems fixed to the elevator."]);
     string lookstr = "The panel has a number of buttons, all clearly marked:\n";
     foreach (string dest in sort_array(keys(dests),1))
     {

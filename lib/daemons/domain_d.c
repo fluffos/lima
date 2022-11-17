@@ -14,8 +14,7 @@ inherit M_DAEMON_DATA;
 private
 mapping spawn_control = ([]);
 
-
-void add_spawn_control(string basename, int max, string domain)
+void add_spawn_control(string domain, string basename, int max)
 {
     if (!check_privilege(PRIV_NEEDED))
         error("illegal attempt to add a spawn control\n");
@@ -30,6 +29,7 @@ void remove_spawn_control(string basename)
     save_me();
 }
 
+private
 string mob_name(string basename)
 {
     return explode(basename, "/")[ < 1];
