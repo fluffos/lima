@@ -38,12 +38,8 @@ void setup()
                     "direction.\n");
   set_exit_msg("east", ({"$N $vwomble east.", "$N $vfritter away."}));
   set_enter_msg("east", ({"$N $venter from the zoo.", "$N $vdecide to pop in for a visit."}));
-}
-
-void do_listen()
-{
-  write("This is an example sound.  Only you are getting this msg, so "
-        "I guess you're hearing voices.\n");
+  set_listen("This is an example sound.  Only you are getting this msg, so "
+             "I guess you're hearing voices.\n");
 }
 
 void arrived()

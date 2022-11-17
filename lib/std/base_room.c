@@ -240,18 +240,22 @@ string long_without_object(object o)
 #endif
 }
 
+//: FUNCTION set_smell
+// Set what the room sounds like.
 void set_listen(string str) { listen = str; }
 
-string query_listen() { return listen; }
+string query_listen() { return punctuate(trim(listen)); }
 
+//: FUNCTION set_smell
+// Set what the room smells like.
 void set_smell(string str) { smell = str; }
 
-string query_smell() { return smell; }
+string query_smell() { return punctuate(trim(smell)); }
 
 void do_listen()
 {
   if (listen)
-    write(listen);
+    write(listen) + "\n";
   else
     write("You hear nothing unusual.\n");
 }
@@ -266,7 +270,7 @@ void do_pray() { write("Nothing special happens.\n"); }
 void do_smell()
 {
   if (smell)
-    write(smell);
+    write(smell) + "\n";
   else
     write("You smell nothing unusual.\n");
 }
