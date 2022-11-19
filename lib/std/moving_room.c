@@ -50,7 +50,7 @@ void move_to(string dest)
     int dist;
 
     if (!dests[dest])
-        error("Invalid destination '" + dest + "'.\n");
+        error("Invalid destination '" + dest + "' in "+previous_object()+".\n");
     if (travelling_to)
         error("In motion.\n");
 

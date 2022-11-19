@@ -53,8 +53,8 @@ string pluralize(string str)
     return efun::pluralize(str);
 }
 
-//:FUNCTION punctuate
-//Adds a period to a sentence if needed.
+//: FUNCTION punctuate
+// Adds a period to a sentence if needed.
 string punctuate(string str)
 {
     int last_char;
@@ -67,9 +67,14 @@ string punctuate(string str)
     if (!strlen(str))
         return "";
 
+    //For the purposes of this, we consider '^' as a letter
+    //since the string may end in ANSI codes. Clearly a hack
+    //but very effective since punctuate() is widely used, and
+    //we do not want to enage the ANSI engine here.
     last_char = str[ < 1];
     if ((last_char >= 'a' && last_char <= 'z') ||
-        (last_char >= 'A' && last_char <= 'Z'))
+        (last_char >= 'A' && last_char <= 'Z') ||
+        (last_char == '^'))
         return str + ".";
 
     return str;
@@ -85,7 +90,7 @@ string number_of(int num, string what)
 }
 
 //: FUNCTION number_word
-// num == 1 returns "one", etc. If num > 9, the number is returned as a string 
+// num == 1 returns "one", etc. If num > 9, the number is returned as a string
 // (num == 10 returns "10", for example), which is consistent with most English
 // style guidelines
 string number_word(int num)

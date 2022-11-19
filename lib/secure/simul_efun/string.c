@@ -67,9 +67,14 @@ string punctuate(string str)
                                  url_detect[0..5] == "ftp://"))
     return str;
 
+  // For the purposes of this, we consider '^' as a letter
+  // since the string may end in ANSI codes. Clearly a hack
+  // but very effective since punctuate() is widely used, and
+  // we do not want to enage the ANSI engine here.
   last_char = str[ < 1];
   if ((last_char >= 'a' && last_char <= 'z') ||
-      (last_char >= 'A' && last_char <= 'Z'))
+      (last_char >= 'A' && last_char <= 'Z') ||
+      (last_char == '^'))
     return str + ".";
 
   return str;
@@ -300,7 +305,7 @@ string title_capitalize(string instring)
                      "a",   \
                      "an",  \
                      "the", \
-                     "is", \
+                     "is",  \
                      "and", \
                      "but", \
                      "or",  \

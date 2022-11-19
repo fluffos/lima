@@ -9,11 +9,12 @@ string door_direction = "nowhere";
 
 void hook_elevator_door_closed();
 
-private void generate_panel_item()
+private
+void generate_panel_item()
 {
     mapping stuff = (["adjs":({"elevator"}), "get":"The panel seems fixed to the elevator."]);
     string lookstr = "The panel has a number of buttons, all clearly marked:\n";
-    foreach (string dest in sort_array(keys(dests),1))
+    foreach (string dest in sort_array(keys(dests), 1))
     {
         string key;
         if (sscanf(dest, "%s/%s", key, dest) == 2)
@@ -23,7 +24,7 @@ private void generate_panel_item()
     }
     stuff["look"] = lookstr;
 
-    add_item("panel","buttons",stuff);
+    add_item("panel", "buttons", stuff);
 }
 
 void setup_buttons()
@@ -61,8 +62,16 @@ void set_door_direction(string d)
     set_state_description("elevator_door_off", "\nThere is a closed door to the " + door_direction + ".");
 }
 
+private
+int dest_exists(string dest)
+{
+    return member_array(dest, keys(dests)) != -1;
+}
+
 void move_to(string dest)
 {
+    if (!dest_exists(dest))
+        error("Trying to move to '" + dest + "' but it's unknown.");
     ::move_to(dest);
 }
 
@@ -91,7 +100,10 @@ string *queue()
 void add_to_queue(string where)
 {
     if (member_array(where, queue) != -1)
+    {
+        error("Trying to call elevator to destination '" + where + "' that is unknown.");
         return;
+    }
     queue += ({where});
     handle_queue();
 }
@@ -130,6 +142,13 @@ void arrive()
 
 int call_elevator(string where)
 {
+    if (!dest_exists(where))
+    {
+        error("Getting called to unknown '" + where + "' destination in " +
+              environment(previous_object())+".");
+        return 0;
+    }
+
     if (query_where() == where)
     {
         call_hooks("elevator_arrived", HOOK_IGNORE, 0, query_location());
