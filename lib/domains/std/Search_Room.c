@@ -13,7 +13,7 @@ void setup() {
 void do_search(object with, string item) {
     this_body()->simple_action("$N $vsearch around the room and $vfind a "
       "sword buried beneath the junk.\n");
-    give_new_obj( this_body(), "/domains/std/objects/sword", 0);
+    give_new_obj( this_body(), "/domains/std/weapon/sword", 0);
 }
 
 void reset()

@@ -15,5 +15,5 @@ void setup() {
     set_in_room_desc("Bill the Troll");
     set_long("Looking closely at a troll is something people usually try to avoid doing.");
     set_max_health(30);
-   set_wielding("/domains/std/objects/sword");
+   set_wielding("/domains/std/weapon/sword");
 }

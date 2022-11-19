@@ -9,6 +9,6 @@ void mudlib_setup()
   set_combat_messages("combat-sword");
   set_damage_type("slashing");
 #ifdef USE_SKILLS
-  set_skill_used("combat/sword");
+  set_skill_used("combat/melee/blade");
 #endif
 }

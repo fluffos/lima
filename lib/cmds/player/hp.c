@@ -114,14 +114,6 @@ void main(string arg)
          "" + ac_total,
          critical_bar(limb->health, limb->max_health, hp_bar));
   }
-
-  outf("\n%15s %6-s %5s/%5-s %5-s %s\n",
-       "Concentration",
-       "Pool",
-       "" + this_body()->query_concentration(),
-       "" + this_body()->max_concentration(),
-       "-",
-       green_bar(this_body()->query_concentration(), this_body()->max_concentration(), hp_bar));
 }
 #else
 private

@@ -22,8 +22,8 @@ void setup()
     set_max_health(10);
     set_which_guild( "fighter" );
 
-    set_wielding("/domains/std/objects/sword");
-    set_wearing("/domains/std/objects/platemail");
+    set_wielding("/domains/std/weapon/sword");
+    set_wearing("/domains/std/armor/platemail");
 }
 
 void receive_outside_msg(string str)

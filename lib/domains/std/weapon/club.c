@@ -9,7 +9,7 @@ void setup()
   set_adj("simple");
   set_id("club");
   set_weapon_class(4);
-  set_damage_type("bludgeoning");
+  set_damage_type("bludgeon");
   set_long("A rough club carved from a single piece of wood.");
   set_in_room_desc("A simple club is lying on the ground.\n");
   set_weight(1);

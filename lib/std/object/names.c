@@ -44,7 +44,7 @@ void create()
 //:FUNCTION set_proper_name
 //Set the proper name of an object.  Objects with proper names never have
 //adjectives added in front of their names.
-nomask void set_proper_name(string str)
+void set_proper_name(string str)
 {
     proper_name = str;
     resync();

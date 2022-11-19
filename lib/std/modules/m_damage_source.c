@@ -15,11 +15,10 @@
 
 inherit CLASS_EVENT_INFO;
 
-/* Stats for damaging things */
 private
-nosave int weapon_class = 1;
+int weapon_class = 1;
 private
-nosave int to_hit_bonus;
+int to_hit_bonus;
 private
 nosave int disarm_bonus;
 private
@@ -27,13 +26,15 @@ nosave int damage_bonus;
 private
 nosave int anti_disarm;
 private
-nosave string *damage_type = ({"blow"});
+string *damage_type = ({"blow"});
 private
 nosave mapping def_combat_messages = ([]);
 private
-nosave mapping combat_messages = ([]);
+mapping combat_messages = ([]);
 private
-nosave string skill_used = "combat/melee/unarmed";
+nosave int must_dual_wield = 0;
+private
+nosave int can_dual_wield = 0;
 
 /* Restrictions */
 private
@@ -46,55 +47,102 @@ private
 nosave int restriction_rank = 0;
 private
 nosave int restricted = 0;
+
+/* Train limits */
 private
-nosave mapping effects = ([]);
-private
-nosave int must_dual_wield = 0;
-private
-nosave int can_dual_wield = 0;
+nosave int train_limit;
+
+int query_train_limit() { return train_limit; }
+void set_train_limit(int l) { train_limit = l; }
+
+int query_must_dual_wield() { return must_dual_wield; }
+void set_must_dual_wield(int x)
+{
+  must_dual_wield = x;
+  if (x)
+    this_object()->add_property("2 hands");
+  else
+    this_object()->remove_property("2 hands");
+}
+
+int query_can_dual_wield() { return can_dual_wield; }
+void set_can_dual_wield(int x)
+{
+  can_dual_wield = x;
+  if (x)
+    this_object()->add_property("versatile");
+  else
+    this_object()->remove_property("versatile");
+}
 
 mixed adjust_my_result(mixed result) { return result; }
 
-void add_effect(string key, object eff)
-{
-  if (effects[key])
-    effects[key]->destroy_effect();
-
-  effects[key] = eff;
-}
-
-void clear_effects()
-{
-  foreach (object effect in values(effects))
-  {
-    effect->destroy_effect();
-  }
-}
-
-mapping query_effects()
-{
-  return effects;
-}
-
-int query_must_dual_wield() { return must_dual_wield; }
-void set_must_dual_wield(int x) { must_dual_wield = x; }
-
-int query_can_dual_wield() { return can_dual_wield; }
-void set_can_dual_wield(int x) { can_dual_wield = x; }
-
-int query_to_hit_bonus(object target) { return to_hit_bonus; }
-void set_to_hit_bonus(int x) { to_hit_bonus = x; }
-
-int query_disarm_bonus(object target) { return disarm_bonus; }
-void set_disarm_bonus(int x) { disarm_bonus = x; }
-
-int query_damage_bonus(object target) { return damage_bonus; }
-void set_damage_bonus(int x) { damage_bonus = x; }
-
-int query_anti_disarm(object target) { return anti_disarm; }
-void set_anti_disarm(int x) { anti_disarm = x; }
-
 string *query_damage_type() { return damage_type; }
+
+//:FUNCTION query_to_hit_bonus
+//Queries the direct bonus chance to hit adversaries.
+int query_to_hit_bonus(object target) { return to_hit_bonus; }
+int query_raw_hit_bonus() { return to_hit_bonus; }
+
+//:FUNCTION set_to_hit_bonus
+//Sets a direct bonus chance to hit adversaries.
+void set_to_hit_bonus(int x)
+{
+  to_hit_bonus = x;
+  if (x > 0)
+    this_object()->add_property("precise");
+  else
+    this_object()->add_property("imprecise");
+}
+
+//:FUNCTION query_diarm_bonus
+//Queries the direct bonus chance to disarm adversaries.
+int query_disarm_bonus(object target) { return disarm_bonus; }
+int query_raw_disarm_bonus() { return disarm_bonus; }
+
+//:FUNCTION set_disarm_bonus
+//Sets a direct bonus chance to disarm adversaries.
+void set_disarm_bonus(int x)
+{
+  disarm_bonus = x;
+  if (x > 0)
+    this_object()->add_property("disarming");
+  else
+    this_object()->add_property("arming");
+}
+
+//:FUNCTION query_damage_bonus
+//Queries the direct damage bonus on adversaries.
+int query_damage_bonus(object target) { return damage_bonus; }
+int query_raw_damage_bonus() { return damage_bonus; }
+
+//:FUNCTION query_damage_bonus
+//Queries the direct damage bonus on adversaries.
+void set_damage_bonus(int x)
+{
+  damage_bonus = x;
+  if (x > 0)
+    this_object()->add_property("keen");
+  else
+    this_object()->add_property("dull");
+}
+
+//:FUNCTION query_anti_disarm_bonus
+//Queries the direct bonus chance to AVOID disarm from adversaries.
+int query_anti_disarm(object target) { return anti_disarm; }
+
+int query_raw_anti_disarm() { return anti_disarm; }
+
+//:FUNCTION query_anti_disarm_bonus
+//Queries the direct bonus chance to AVOID disarm from adversaries.
+void set_anti_disarm(int x)
+{
+  anti_disarm = x;
+  if (x > 0)
+    this_object()->add_property("good grip");
+  else
+    this_object()->add_property("bad grip");
+}
 
 void set_damage_type(string *str...)
 {
@@ -106,31 +154,28 @@ void set_damage_type(string *str...)
 
 int is_weapon() { return 1; }
 
-//: FUNCTION secondary_weapon_part()
-// Override this to include it in messages when the weapon is used.
-object secondary_weapon_part()
-{
-  return 0;
-}
-
-//: FUNCTION set_combat_messages
-// Set the set of combat messages which are used by default
+//:FUNCTION set_combat_messages
+//Set the set of combat messages which are used by default
 void set_combat_messages(string type)
 {
-  // TBUG("Combat messages set to "+type+" for "+this_object());
   if (!(def_combat_messages = MESSAGES_D->query_messages(type)))
-    error("No messages of that type.\n");
+    error("No messages of that type '"+type+"'.\n");
 }
 
-//: FUNCTION set_combat_message
-// Set a single combat message, removing the existing one(s)
+//:FUNCTION set_combat_message
+//Set a single combat message, removing the existing one(s)
 void set_combat_message(string type, string msg)
 {
   combat_messages[type] = msg;
 }
 
-//: FUNCTION query_combat_message
-// Returns the combat message for a given type
+mapping query_combat_messages()
+{
+  return combat_messages;
+}
+
+//:FUNCTION query_combat_message
+//Returns the combat message for a given type
 mixed query_combat_message(string type)
 {
   return combat_messages[type] || def_combat_messages[type];
@@ -149,20 +194,20 @@ mixed merge_lists(mixed list, mixed item, mixed def)
     return item;
 }
 
-//: FUNCTION add_combat_message
-// Adds another combat message to the damage source.
+//:FUNCTION add_combat_message
+//Adds another combat message to the damage source.
 //
-// add_combat_message("miss","$N $vmiss completely, $n seems drunk.");
+//add_combat_message("miss","$N $vmiss completely, $n seems drunk.");
 void add_combat_message(string type, string msg)
 {
   combat_messages[type] = merge_lists(combat_messages[type], msg,
                                       def_combat_messages[type]);
 }
 
-//: FUNCTION replace_combat_message
-// Replace any other messages with this message
+//:FUNCTION replace_combat_message
+//Replace any other messages with this message
 //
-// replace_combat_message("miss","$N $vmiss completely, $n seems drunk.");
+//replace_combat_message("miss","$N $vmiss completely, $n seems drunk.");
 void replace_combat_message(string type, string msg)
 {
   combat_messages[type] = ({msg});
@@ -170,24 +215,23 @@ void replace_combat_message(string type, string msg)
 
 void set_weapon_class(int x)
 {
-  weapon_class = x;
-  this_object()->set_max_durability(100 * x);
+  weapon_class = CLAMP(x, 1, 100);
+  train_limit = 1 + (weapon_class / 10);
+    this_object()->set_max_durability(100 * x);
 }
 
-int query_weapon_class()
+int query_weapon_class() { return weapon_class; }
+
+private
+string skill_used = "combat/melee/unarmed";
+
+string query_skill_used()
 {
-  if (this_object()->durability_percent() > 40)
-    return weapon_class;
-  else
-  {
-    int p = (this_object()->durability_percent() * 2.5);
-    if (p < 20)
-      p = 20;
-    return (weapon_class * p / 100) || 1;
-  }
+  //Can be removed once all .o files are fixed
+  if (skill_used == "combat/unarmed")
+    skill_used = "combat/melee/unarmed";
+  return skill_used;
 }
-
-string query_skill_used() { return skill_used; }
 
 void set_restricted(int rest) { restricted = rest; }
 void set_skill_used(string new_skill_used) { skill_used = new_skill_used; }
@@ -220,7 +264,7 @@ string get_extra_long()
   return (restriction_level ? restricted_str : "") + durability_str;
 }
 
-// Set when wield has found that the weapon was restricted. You need to unwield and wield to clear this.
+//Set when wield has found that the weapon was restricted. You need to unwield and wield to clear this.
 int query_restricted()
 {
   return restricted;
@@ -241,37 +285,4 @@ int query_restriction_level()
   return restriction_level;
 }
 
-class event_info source_modify_event(class event_info evt)
-{
-  object *effs = values(effects);
-  effs -= ({0});
-
-  // Optimize for normal case
-  if (sizeof(effs) == 0)
-    return evt;
-
-  foreach (object eff in effs)
-  {
-    if (eff)
-      eff->effect_modify_event(evt);
-  }
-
-  return evt;
-}
-
-void remove_effects()
-{
-  // Remove any lingering effects when damage source is removed.
-  foreach (object eff in values(effects))
-  {
-    destruct(eff);
-  }
-}
-
-mapping lpscript_attributes()
-{
-  return (["weapon_class":({LPSCRIPT_INT, "setup", "set_weapon_class"}),
-             "skill_used":({LPSCRIPT_STRING, "setup", "set_skill_used"}),
-        "combat_messages":({LPSCRIPT_STRING, "setup", "set_combat_messages"}),
-  ]);
-}
+class event_info source_modify_event(class event_info evt) { return evt; }

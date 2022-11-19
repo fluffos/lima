@@ -10,7 +10,7 @@ void setup()
   set_combat_messages("combat-sword");
   set_damage_type("slashing");
 #ifdef USE_SKILLS
-  set_skill_used("combat/archery");
+  set_skill_used("combat/ranged");
 #endif
   set_weapon_class(10);
 }

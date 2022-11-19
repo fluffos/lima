@@ -2,13 +2,14 @@
 
 #include <combat_modules.h>
 
+#define STUN_FROM_PERCENT 40
+
 inherit __DIR__ "class_" STRINGIZE(BLOW_MODULE);
 
 private
 nosave int natural_armor = 0;
 nosave string *resistances = ({});
 nosave string *vulnerabilities = ({});
-
 varargs int hurt_us(int, string);
 varargs void attacked_by(object, int);
 string query_random_limb();
@@ -133,6 +134,7 @@ class event_info armors_modify_event(class event_info evt)
 {
   object *armors = event_get_armors(evt);
 
+  //TBUG(armors);
   if (armors)
     foreach (object ob in armors)
       if (ob)
@@ -155,15 +157,19 @@ int do_damage_event(class event_info evt)
   int x;
   if (evt->data != "miss")
   {
-#if HEALTH_STYLE == HEALTH_LIMBS
     x = hurt_us(event_damage(evt), evt->target_extra);
-#else
-    x = hurt_us(event_damage(evt));
-#endif
   }
   if (member_array(previous_object(), query_targets()) == -1)
     attacked_by(previous_object(), 0);
   return x;
+}
+
+void disarm_weapon(object w, object target)
+{
+  w->do_remove();
+  w->drop();
+  w->move(environment());
+  target->disarm(w);
 }
 
 void handle_result(class event_info evt)
@@ -172,18 +178,15 @@ void handle_result(class event_info evt)
 
   //Debug combat events
   //TBUG(event_to_str(evt));
+  if (evt->target && evt->target->query_ghost())
+    return;
 
   if (stringp(evt->data))
   {
     handle_message("!" + evt->data,
                    evt->target,
                    evt->weapon,
-#ifdef HEALTH_USES_LIMBS
-                   evt->target_extra
-#else
-                   0
-#endif
-                );
+                   evt->target_extra);
 
     switch (evt->data)
     {
@@ -192,9 +195,7 @@ void handle_result(class event_info evt)
       break;
     case "disarm":
       w = evt->target->query_weapon();
-      evt->target->unwield();
-      w->move(environment());
-      evt->target->disarm(w);
+      disarm_weapon(w,evt->target);
       break;
     case "miss":
       evt->target->do_damage_event(evt);
@@ -204,26 +205,27 @@ void handle_result(class event_info evt)
   else
   {
     int percent = event_damage(evt);
-    
-#ifdef HEALTH_USES_LIMBS
-if (evt->target->query_max_health(evt->target_extra)==0)
-  {
-    write("*Error: Cannot find max health of "+evt->target_extra+" limb.");
-  }
-  else
-    percent = to_int(percent / (1.0 * evt->target->query_max_health(evt->target_extra)) * 100);
-#else
-    percent = to_int(percent / (1.0 * evt->target->query_max_health()) * 100);
-#endif
 
-    if (evt->target)
+    //Do not message without a target or if the target is a ghost.
+    if (evt->target && !evt->target->query_ghost())
     {
-      handle_message(damage_message(percent), evt->target, evt->weapon, 
-#ifdef HEALTH_USES_LIMBS
-                   evt->target_extra);
-#else
-                   0);
-#endif
+      //TBUG(event_to_str(evt));
+      //TBUG("handle_message %" + percent + " Msg: " + damage_message(percent) + " Target: " + evt->target + " Weapon: " + evt->weapon + " Extra: " + evt->target_extra);
+      percent = to_int(percent / (1.0 * evt->target->query_max_health(evt->target_extra)) * 100);
+
+      //Stun code
+      if (percent >= STUN_FROM_PERCENT)
+      {
+        int stun_chance = percent - STUN_FROM_PERCENT;
+        //TBUG("Chance of stun is " + stun_chance + " percent!");
+        if (random(60) < stun_chance)
+        {
+          //TBUG("STUN happened!");
+          evt->target->stun(evt->target_extra, stun_chance);
+        }
+      }
+
+      handle_message(damage_message(percent), evt->target, evt->weapon, evt->target_extra);
       percent = evt->target->do_damage_event(evt);
     }
   }

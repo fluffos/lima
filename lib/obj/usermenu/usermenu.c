@@ -62,6 +62,11 @@ void enter_game()
         write("Select a character first.\n");
         return;
     }
+    if (autologin_tag)
+    {
+        remove_call_out(autologin_tag);
+        autologin_tag = 0;
+    }
     modal_pop();
     this_user()->enter_game(selected, fname);
 }
@@ -408,8 +413,12 @@ void create()
 
 void user_is_active()
 {
-    remove_call_out(autologin_tag);
-    write("(Cancelled autologin)\n");
+    if (autologin_tag)
+    {
+        remove_call_out(autologin_tag);
+        autologin_tag = 0;
+        write("(Cancelled autologin)\n");
+    }
 }
 
 void auto_login()
@@ -429,7 +438,7 @@ void start_menu()
 {
     string selected = this_user()->query_selected_body();
     if (selected)
-        write("\n(Auto login in "+AUTO_LOGIN_AFTER+" enabled, type anything to stop it)\n\n");
+        write("\n(Auto login in " + AUTO_LOGIN_AFTER + " enabled, type anything to stop it)\n\n");
     init_menu_application(toplevel);
     autologin_tag = call_out("auto_login", AUTO_LOGIN_AFTER);
 }

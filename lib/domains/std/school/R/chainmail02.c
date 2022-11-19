@@ -26,6 +26,6 @@ MAY
 	"backward" : "chainmail02",
       ]) );
     set_objects( ([
-    "/domains/std/chainmail" : 1,
+    "/domains/std/armor/chainmail" : 1,
       ]) );
 }

@@ -1,5 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
+#include <combat_config.h>
+
 void simple_action(string msg, mixed *obs...);
 varargs mixed *action(mixed *, mixed, object, object);
 void inform(mixed *, mixed, object);
@@ -32,6 +34,37 @@ string damage_message(int percent)
   default:
     return "!dam10";
   }
+}
+
+int message_filter(object who, mixed extra)
+{
+  //TBUG("Who: " + sprintf("%O", who) + " Extra: " + sprintf("%O", extra));
+  if (extra == "miss" && who->is_body())
+  {
+    return !who->combat_config(CC_HIDE_MISSES);
+  }
+  if (extra == "none" && who->is_body())
+  {
+    return !who->combat_config(CC_HIDE_NO_DAMAGE);
+  }
+  if ((extra == "dam1" || extra == "dam2") && who->is_body())
+  {
+    return !who->combat_config(CC_HIDE_LOW_DAMAGE);
+  }
+  if (extra == "disable_limb" && who->is_body())
+  {
+    return !who->combat_config(CC_HIDE_DISABLE_LIMB);
+  }
+  if (extra == "simple_stun" && who->is_body())
+  {
+    return !who->combat_config(CC_HIDE_SIMPLE_STUNS);
+  }
+  if (extra == "dodge" && who->is_body())
+  {
+    return !who->combat_config(CC_HIDE_DODGES);
+  }
+
+  return 1;
 }
 
 void handle_message(string mess, object target, object weapon, string limb)
