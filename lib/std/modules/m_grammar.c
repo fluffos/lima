@@ -41,43 +41,10 @@ string pluralize(string str)
 
     if (str[ < 2.. < 1] == "ff") /* e.g. "bluff" */
         return str + "s";
-    // Temporary fix for MudOS v22.2b13 pluralizing elf as eves
-    if (str[ < 1.. < 1] == "f")
-    {
-        LBUG(str);
-        return str[0.. < 2] + "ves";
-    }
     if (str[ < 5.. < 1] == "penis")
         return str + "es";
 
     return efun::pluralize(str);
-}
-
-//: FUNCTION punctuate
-// Adds a period to a sentence if needed.
-string punctuate(string str)
-{
-    int last_char;
-
-    if (!stringp(str) || !strlen(str))
-        return "";
-
-    while (strlen(str) && str[ < 1] == ' ')
-        str = str[0.. < 2];
-    if (!strlen(str))
-        return "";
-
-    //For the purposes of this, we consider '^' as a letter
-    //since the string may end in ANSI codes. Clearly a hack
-    //but very effective since punctuate() is widely used, and
-    //we do not want to enage the ANSI engine here.
-    last_char = str[ < 1];
-    if ((last_char >= 'a' && last_char <= 'z') ||
-        (last_char >= 'A' && last_char <= 'Z') ||
-        (last_char == '^'))
-        return str + ".";
-
-    return str;
 }
 
 //: FUNCTION number_of
@@ -87,6 +54,42 @@ string number_of(int num, string what)
     if (num == 1)
         return "1 " + what;
     return num + " " + pluralize(what);
+}
+
+//: FUNCTION punctuate
+// Adds a period to a sentence if needed.
+// Also not after URLs (http/https/ftp).
+// Original by Rust in M_GRAMMAR.
+string punctuate(string str)
+{
+  int last_char;
+  string url_detect;
+
+  if (!stringp(str) || !strlen(str))
+    return "";
+
+  while (strlen(str) && str[ < 1] == ' ')
+    str = str[0.. < 2];
+  if (!strlen(str))
+    return "";
+
+  url_detect = explode(str, " ")[ < 1];
+  if (strlen(url_detect) > 5 && (url_detect[0..7] == "https://" ||
+                                 url_detect[0..6] == "http://" ||
+                                 url_detect[0..5] == "ftp://"))
+    return str;
+
+  // For the purposes of this, we consider '^' as a letter
+  // since the string may end in ANSI codes. Clearly a hack
+  // but very effective since punctuate() is widely used, and
+  // we do not want to enage the ANSI engine here.
+  last_char = str[ < 1];
+  if ((last_char >= 'a' && last_char <= 'z') ||
+      (last_char >= 'A' && last_char <= 'Z') ||
+      (last_char == '^'))
+    return str + ".";
+
+  return str;
 }
 
 //: FUNCTION number_word

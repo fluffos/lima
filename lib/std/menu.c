@@ -213,6 +213,14 @@ set_menu_item_choice_name (MENU_ITEM item, string choice_name)
   item->choice_name = choice_name;
 }
 
+//:FUNCTION user_is_active
+//Called when the user is active in the menu. 
+//Can be overriden for your own purposes.
+void user_is_active()
+{
+  //Override me
+}
+
 protected void
 constrain_menu_item (MENU_ITEM item, function f)
 {
@@ -233,8 +241,8 @@ new_parse_menu_input(string input)
   int		i;
   MENU_ITEM	matched_item;
   MENU		completion_menu;
-
   input = trim(input);
+  user_is_active();
   if(input == "" && !current_menu->allow_enter)
     {
       return;
@@ -320,6 +328,8 @@ parse_menu_input(mixed input)
   int		counter;
   MENU_ITEM	item;
   mixed		action;
+  
+  user_is_active();
 
   if(input == -1)
     remove();

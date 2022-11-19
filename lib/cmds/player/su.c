@@ -58,6 +58,5 @@ void main(string arg)
     this_body()->save_me();
     this_body()->save_autoload();
   }
-  TBUG("Name: " + name + " race: " + race);
   this_user()->switch_user(name, race);
 }

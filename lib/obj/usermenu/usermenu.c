@@ -13,6 +13,7 @@
 
 // Move to config.h perhaps?
 #define MAX_CHRACTERS_PER_USER 10
+#define AUTO_LOGIN_AFTER 10 // seconds
 
 inherit MENUS;
 inherit M_ACCESS;
@@ -36,6 +37,8 @@ private
 string race;
 private
 string fname;
+private
+int autologin_tag;
 
 private
 int name_available(string name)
@@ -288,7 +291,7 @@ void input_gender(int inputgender)
 private
 void char_name(string inputname)
 {
-    inputname=lower_case(inputname);
+    inputname = lower_case(inputname);
     if (!strlen(inputname))
     {
         write("\nName is not optional ('quit' will abort).\n");
@@ -348,9 +351,10 @@ void input_remove(string name)
         name = sorted_bodies[indexname];
     }
     else
-        name=lower_case(name);
+        name = lower_case(name);
 
-    input_one_arg("Are you sure? (Yes/no) ", (: confirm_remove, name:));
+    input_one_arg("Are you sure? (Yes/no) ", (
+                                                 : confirm_remove, name:));
 }
 
 private
@@ -402,7 +406,30 @@ void create()
     add_menu_item(toplevel, quit_item);
 }
 
+void user_is_active()
+{
+    remove_call_out(autologin_tag);
+    write("(Cancelled autologin)\n");
+}
+
+void auto_login()
+{
+    string selected = this_user()->query_selected_body();
+    string fname = this_user()->query_body_fname(selected);
+    if (selected)
+    {
+        modal_pop();
+        write("(Auto login with " + capitalize(selected) + " after " +
+              AUTO_LOGIN_AFTER + " seconds ...)\n");
+        this_user()->enter_game(selected, fname);
+    }
+}
+
 void start_menu()
 {
+    string selected = this_user()->query_selected_body();
+    if (selected)
+        write("\n(Auto login in "+AUTO_LOGIN_AFTER+" enabled, type anything to stop it)\n\n");
     init_menu_application(toplevel);
+    autologin_tag = call_out("auto_login", AUTO_LOGIN_AFTER);
 }

@@ -188,7 +188,9 @@ string error_handler(mapping mp, int caught)
 // Strip trailing \n, and indent nicely
   what = replace_string(what[0..<2], "\n", "\n         *");
   CHANNEL_D->deliver_string("errors",
-      sprintf("[errors] (%s) Error logged to %s\n[errors] %s\n[errors] %s\n",
+      sprintf("%%^CHANNEL%%^[errors]%%^RESET%%^ (%s) Error logged to %s\n"+
+              "%%^CHANNEL%%^[errors]%%^RESET%%^ %s\n"+
+              "%%^CHANNEL%%^[errors]%%^RESET%%^ %s\n",
       capitalize(userid),
       logfile,
       what,
