@@ -44,6 +44,17 @@ void do_remove_obj(object ob) {
     ob->do_remove();
 }
 
+void do_remove_obs(object *obs) {
+    foreach(object ob in obs)
+    {
+//        TBUG("Remove: "+ob);
+        if (typeof(ob)=="string") continue;
+        //Do not attempt to remove things not in inventory.
+        if (environment(ob)!=this_body()) continue;
+        ob->do_remove();
+    }
+}
+
 void do_remove_wrd(string wrd) {
     object brd = 0;
     int id;
@@ -65,5 +76,5 @@ void do_remove_wrd_from_obj(string wrd, object ob) {
 }
 
 void create() {
-    add_rules( ({ "WRD", "WRD from OBJ", "OBJ" }), ({ "take off","unwield" }));
+    add_rules( ({ "WRD", "WRD from OBJ", "OBJ","OBS" }), ({ "take off"}));
 }

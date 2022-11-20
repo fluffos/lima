@@ -104,7 +104,7 @@ string diagnose()
 }
 
 #ifdef USE_SKILLS
-private string defend_skill_used = "combat/dodge";
+private string defend_skill_used = "combat/defense/dodge";
 
 string query_defend_skill_used(){ return defend_skill_used; }
 

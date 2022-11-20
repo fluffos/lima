@@ -119,7 +119,7 @@ mapping messages =
                           "dam4":"$N $vcatch $t in the $o2 with a quick shot.",
                           "dam5":"$N $vmaim $t with a well-aimed shot of $p $o.",
                           "dam6":"$N $vwound $t with a quick hit.",
-                          "dam7":"$N $vaim quickly, shoots and $vwithdraw, leaving $t wounded.",
+                          "dam7":"$N $vaim quickly, $vshoot and $vwithdraw, leaving $t wounded.",
                           "dam8":"$N $vaim perfectly!  $N1 $v1are hurt badly.",
                           "dam9":"$N $vhit bullseye with $p $o on $p1 $o2, injuring $t badly.",
                          "dam10":"$N $vshoot $p $o deep into $p1 $o2.  It looks serious, if not fatal.",
