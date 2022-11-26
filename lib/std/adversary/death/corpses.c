@@ -36,10 +36,7 @@ void set_corpse_filename(string str)
 // Replace us with a corpse.
 void drop_corpse()
 {
-   object corpse = new(corpse_filename, query_name(), corpse_long);
-   all_inventory()->set_worn(0);
-   all_inventory()->move(corpse);
-   corpse->move(environment());
+   LOOT_D->drop_corpse(this_object());
 }
 
 protected void die()

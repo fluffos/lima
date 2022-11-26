@@ -7,7 +7,7 @@ void setup()
   set_id("11mm AP bullet", "ammo", "clip");
   set_long("A clip of 11 mm armor piercing ammo.");
   set_combat_messages("combat-firearm");
-  set_damage_type("ballistic");
+  set_damage_type("force");
   set_skill_used("combat/ranged/pistol");
   set_charges(8);
   set_ammo_type("11mm bullets");

@@ -10,7 +10,21 @@ void do_wear_obj(object ob)
     ob->do_wear();
 }
 
+void do_wear_obs(object *obs)
+{
+    foreach(object ob in obs)
+    {
+        //TBUG("Wear: "+ob);
+        if (typeof(ob)=="string") continue;
+        
+        //Do not try to wear living things or things not in inventory.
+        if (ob->is_living() || environment(ob)!=this_body())
+	        continue;
+        ob->do_wear();
+    }
+}
+
 void create()
 {
-    add_rules( ({ "OBJ" }), ({ "put on" }) );
+    add_rules( ({ "OBJ","OBS" }), ({ "put on" }) );
 }

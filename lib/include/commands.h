@@ -31,7 +31,7 @@
 ** Command objects
 */
 #define CMD_OB_ADVERBS		CMD_DIR_PLAYER "/adverbs"
-#define CMD_OB_ANSI		CMD_DIR_PLAYER "/ansi"
+#define CMD_OB_MODE		CMD_DIR_PLAYER "/mode"
 #define CMD_OB_BIFF		CMD_DIR_PLAYER "/biff"
 #define CMD_OB_CHAN		CMD_DIR_PLAYER "/chan"
 #define CMD_OB_DESCRIBE		CMD_DIR_PLAYER "/describe"

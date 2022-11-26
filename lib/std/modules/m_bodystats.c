@@ -464,7 +464,7 @@ class stat_roll_mods query_roll_mods()
 mixed *query_transformation_matrix()
 {
     // should be overloaded
-    return ({allocate(4), allocate(4), allocate(4)});
+    return ({allocate(4), allocate(4), allocate(4), allocate(4)});
 }
 
 int *query_constant_vector()

@@ -7,7 +7,7 @@ void setup()
   set_id("13mm plasma rounds", "ammo", "rounds","magazine","13mm");
   set_long("A magazine of 13 mm plasma pistol ammo. The magazine contains 6 massive bullets of compressed plasma.");
   set_combat_messages("combat-firearm");
-  set_damage_type("force");
+  set_damage_type("fire");
   set_skill_used("combat/ranged/pistol");
   set_charges(6);
   set_ammo_type("13mm plasma");

@@ -6,28 +6,56 @@ inherit VERB_OB;
 
 void do_wield_obj(object ob)
 {
-   if(!try_to_acquire(ob))
+   if (!try_to_acquire(ob))
       return;
-
    this_body()->do_wield(ob);
 }
 
-#if WIELD_STYLE == WIELD_LIMBS
+void do_wield_obs(object *obs)
+{
+   foreach (object ob in obs)
+   {
+      int force_dual_wield = 0;
+      string limb;
+      if (typeof(ob) == "string")
+         continue;
+      if (ob->is_living() || environment(ob) != this_body())
+         continue;
+
+      limb = this_body()->find_an_open_limb();
+
+      if (ob->query_must_dual_wield())
+         force_dual_wield = 1;
+      //TBUG("Calling do_wield(" + ob->short() + "," + limb + "," + force_dual_wield + ")");
+      this_body()->do_wield(ob, limb, force_dual_wield);
+   }
+}
+
 void do_wield_obj_in_str(object ob, string limb)
 {
-   if(!try_to_acquire(ob))
+   //TBUG("do_wield_obj_in_str(" + ob + "," + limb + ")");
+
+   if (!try_to_acquire(ob))
       return;
 
-   this_body()->do_wield(ob, limb);
+   if (limb == "both arms" || limb == "both hands" || limb == "both")
+   {
+      this_body()->do_wield(ob, 0, 1);
+   }
+   else
+   {
+      limb = replace_string(limb, "hand", "arm");
+      //TBUG(limb);
+      this_body()->do_wield(ob, limb);
+   }
 }
-#endif
+
+void do_wield_obj_with_str(object ob, string limb)
+{
+   do_wield_obj_in_str(ob, limb);
+}
 
 void create()
 {
-   add_rules( ({ "OBJ",
-#if WIELD_STYLE == WIELD_LIMBS
-                 "OBJ in STR",
-#endif
-                 }) );
+   add_rules(({"OBJ", "OBJ in STR", "OBJ with STR", "OBS"}));
 }
- 

@@ -89,7 +89,7 @@ void main(string arg)
     if (sizeof(weapons))
     {
         string *props = ({});
-        printf("%%^YELLOW%%^%-20s  %-7s  %-5s %11-s   %s%%^RESET%%^\n", "Weapon", "WC", "Dura", "Damage Type", "Properties");
+        printf("%%^YELLOW%%^%-25s  %-7s  %-5s %11-s   %s%%^RESET%%^\n", "Weapon", "WC", "Dura", "Damage Type", "Properties");
         printf(divider);
         foreach (object w in weapons)
         {
@@ -99,7 +99,7 @@ void main(string arg)
                                          : short_names[$1]
                                          :));
             props += w->query_properties() || ({});
-            printf("%-20s  %-7s  %-5s  %11-s   %s\n",
+            printf("%-25s  %-7s  %-5s  %11-s   %s\n",
                    capitalize(w->short()),
                    "" + w->query_weapon_class(), // + (w->query_to_hit_bonus()>0 ? "(+" + w->query_to_hit_bonus() + ")" : (w->query_to_hit_bonus()<0 ? "(" + w->query_to_hit_bonus() + ")" : "")),
                    "" + w->durability_percent() + "%",
@@ -116,7 +116,7 @@ void main(string arg)
 
     if (sizeof(armors))
     {
-        printf("%%^YELLOW%%^%-20s  %-21s  %-3s  %-5s  %s%%^RESET%%^\n", "Item", "Worn on", "AC", "Dura", "Stat mod.");
+        printf("%%^YELLOW%%^%-25s  %-21s  %-3s  %-5s  %s%%^RESET%%^\n", "Item", "Worn on", "AC", "Dura", "Stat mod.");
         printf(divider);
         foreach (object a in armors)
         {
@@ -159,7 +159,7 @@ void main(string arg)
                                          : capitalize($1)
                                          :));
 
-            printf("%-20s  %-21s  %-3s  %s\n",
+            printf("%-25s  %-21s  %-3s  %s\n",
                    capitalize(a->short()),
                    format_list(slots),
                    "" + a->query_armor_class(),
