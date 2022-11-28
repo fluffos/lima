@@ -22,6 +22,7 @@ inherit SUBDIR "wield/wield_base";
 #ifdef USE_SKILLS
 inherit SUBDIR "skills";
 #endif
+inherit SUBDIR "monster";
 
 inherit MODULE("death", DEATH_MODULE);
 inherit MODULE("health", HEALTH_MODULE);
@@ -45,6 +46,7 @@ void mudlib_setup(mixed *args...)
 
 /* by pinging query_weapon(), we will default to self as a weapon */
   query_weapon();
+  call_out("setup_monster",0);
 }
 
 //:FUNCTION start_fight
@@ -57,6 +59,12 @@ int start_fight(object who)
     return 0;
   attacked_by(who, 1);
   return 1;
+}
+
+void setup_monster()
+{
+  if (!this_object()->is_body())
+    setup_monster_defaults();
 }
 
 //:FUNCTION attackable

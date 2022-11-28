@@ -165,7 +165,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
    restriction_level = ob->query_restriction_level();
    if (restriction_level > 0 && this_object()->is_body())
    {
-      skill_used = this_object()->get_skill(ob->query_restricted_skill());
+      skill_used = this_object()->query_skill(ob->query_restricted_skill());
       //Player or mob does not have the skill at all
       if (!skill_used)
       {

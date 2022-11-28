@@ -45,11 +45,11 @@ int cached_skill_rank(string s)
   return query_level();
 }
 
-int get_skill_pts(string skill)
+int query_skill_pts(string skill)
 {
   if (adversary_skills[skill])
     return adversary_skills[skill];
-  return -1;
+  return 0;
 }
 
 mapping query_skills()
@@ -59,7 +59,7 @@ mapping query_skills()
 
 int query_skill(string skill)
 {
-  return get_skill_pts(skill);
+  return query_skill_pts(skill);
 }
 
 //:FUNCTION base_test_skill

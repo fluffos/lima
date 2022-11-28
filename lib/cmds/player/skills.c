@@ -58,7 +58,7 @@ void main(string arg)
   if (!body)
     body = this_body();
 
-  skills = body->get_skills() || body->query_skills();
+  skills = body->query_skills();
 
   if (sizeof(skills) == 0)
   {
@@ -99,8 +99,10 @@ void main(string arg)
         continue;
 
       //If it's a special skill and not part of our guild_skills, skip it in the list.
+      /*
       if (strsrch(name, "/special/") != -1 && member_array(name, guild_skills) == -1)
         continue;
+        */
 
       if (level == 1)
       {
@@ -112,7 +114,7 @@ void main(string arg)
              repeat_string("  ", level - 2) + pretty_name,
              percentage + "%",
              repeat_string("=", green), repeat_string(".", red),
-             "" + skill->training_points,
+             ""// + skill->training_points,
         );
     }
     if (self_view)
