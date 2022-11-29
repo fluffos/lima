@@ -242,7 +242,7 @@ string query_default_relation() { return default_relation; }
 // Returns the amount of mass currently attached to a container
 varargs float query_capacity(string relation)
 {
-  float cap=0.0;
+  float cap = 0.0;
   string aliased_to;
   /* Need a little special handling for #CLONE# */
   if (!relation || relation == "" || relation == "#CLONE#")
@@ -307,7 +307,7 @@ varargs int query_max_capacity(string relation)
   return relations[relation]->max_capacity;
 }
 
-//### Yo! finish this -- Tigran
+// ### Yo! finish this -- Tigran
 //: FUNCTION query_total_capacity
 // Returns the capacity directly attributed to the container.  This should
 // normally include anything attached or within the container.
@@ -529,7 +529,7 @@ mixed ob_state()
   /* if we have an inventory, and it can be seen, we should be unique */
   if (first_inventory(this_object()) && inventory_visible())
     return -1;
-  //### hack
+  // ### hack
   if (this_object()->query_closed())
     return "#closed#";
   return ::ob_state();
@@ -552,7 +552,7 @@ int inventory_visible()
   if (!is_visible())
     return 0;
 
-  //### this should go!! short() should never return 0
+  // ### this should go!! short() should never return 0
   if (!short())
     return 0;
 
@@ -609,13 +609,28 @@ mixed *make_objects_if_needed()
       while (sizeof(matches) < num && DOMAIN_D->spawn_allowed(base_name(file)))
       {
         int ret;
-        object ob = new (absolute_path(file), rest...);
+        int doublear = 0;
+        object ob;
+        if (arrayp(rest) && sizeof(rest) > 0 && arrayp(rest[0]))
+          doublear = 1;
+        if (doublear)
+        {
+          ob = new (absolute_path(file), rest[0]);
+        }
+        else
+          ob = new (absolute_path(file), rest...);
         if (!ob)
           error("Couldn't find file '" + file + "' to clone!\n");
         ret = ob->move(this_object(), "#CLONE#");
         if (ret != MOVE_OK)
           error("Initial clone failed for '" + file + "': " + ret + "\n");
-        ob->on_clone(rest...);
+        if (doublear)
+        {
+          ob->on_clone(rest[0]);
+          rest = rest[1..];
+        }
+        else
+          ob->on_clone(rest...);
         matches += ({ob});
       }
       objs += matches;
