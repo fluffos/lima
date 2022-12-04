@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //:PLAYERCOMMAND
-//$$ see: colours, ansi, simplify, emoji
+//$$ see: colours, mode, simplify, emoji
 //USAGE metric
 //      metric on
 //      metric off

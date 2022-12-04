@@ -29,7 +29,7 @@ void set_variable(string name, mixed value)
     shell_vars = ([]);
   switch(name)
   {
-    case "ansi":
+    case "mode":
     case "emoji":
     case "status":
     case "MORE":
@@ -46,7 +46,7 @@ void unset_variable(string name, mixed value)
     shell_vars = ([]);
   switch(name)
   {
-    case "ansi":
+    case "mode":
     case "emoji":
     case "status":
     case "MORE":

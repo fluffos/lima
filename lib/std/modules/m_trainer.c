@@ -40,16 +40,17 @@ void set_train_restrict( string *restrictions )
 
 void do_training( object trainee, string skill )
 {
-    int trainee_skill = trainee->get_skill( skill );
-    int trainer_skill = this_object()->get_skill( skill );
+    int trainee_skill = trainee->query_skill( skill );
+    int trainer_skill = this_object()->query_skill( skill );
     string msg;
 
-    if( !member_array( skill, keys( skill_restrictions )) + 1 || member_array( skill , keys( this_object()->get_skills()))) 
+    if( !member_array( skill, keys( skill_restrictions )) + 1 || 
+	member_array( skill , keys( this_object()->query_skills()))) 
 	msg = trainer_msgs[ "unable_msg" ];
     else if( trainee_skill < trainer_skill )
     {
 	trainee->test_skill( skill, trainee_skill + 1 );
-	switch( trainee->get_skill(skill) - trainee_skill )
+	switch( trainee->query_skill(skill) - trainee_skill )
 	{
 	case 0..1:
 	    msg = trainer_msgs[ "fail_msg" ];

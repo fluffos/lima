@@ -2,7 +2,7 @@
 /* Tsath 2022 */
 
 //:PLAYERCOMMAND
-//$$ see: color, colours, ansi
+//$$ see: color, colours, mode
 //USAGE simplify
 //      simplify on
 //      simplify off

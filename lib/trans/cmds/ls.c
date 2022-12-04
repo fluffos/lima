@@ -95,7 +95,7 @@ int do_ls(mixed argv, mapping flags)
     // Changed because this is non-intuitive compared to the rest of the
     // uses of colour -- Tigran.
     //uses_ansi = get_user_variable("colour-ls");
-    uses_ansi=i_use_ansi();
+    uses_ansi=terminal_mode()!=0;
 
     if (uses_ansi || flags["l"] || flags["s"] || !flags["p"])
     {

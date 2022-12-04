@@ -171,14 +171,14 @@ void prompt_change_url()
     input_one_arg("Change your WWW homepage address to what? ", (: change_url :));
 }
 
-void set_ansi(string s)
+void set_mode(string s)
 {
-    CMD_OB_ANSI->player_menu_entry(s);
+    CMD_OB_MODE->player_menu_entry(s);
 }
    
-void prompt_change_ansi()
+void prompt_change_mode()
 {
-	input_one_arg("set ANSI 'on' or 'off': ", (: set_ansi :));
+	input_one_arg("set mode 'plain', 'vt100', 'ansi' or 'xterm': ", (: set_mode :));
 }
 
 void set_biff(string s)
@@ -321,8 +321,8 @@ void create()
 					     "snooped", snoopablemenu, "s"));
   add_menu_item (personalmenu, new_menu_item("Change your supplied real name",
                                               (: prompt_change_real_name :), "r"));
-  add_menu_item (personalmenu, new_menu_item("Set ANSI on/off",
-					      (: prompt_change_ansi :), "a"));
+  add_menu_item (personalmenu, new_menu_item("Set terminal mode",
+					      (: prompt_change_mode :), "a"));
   add_menu_item (personalmenu, quit_item);
   add_menu_item (personalmenu, goto_main_menu_item);
 

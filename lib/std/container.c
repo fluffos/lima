@@ -713,6 +713,14 @@ mixed *make_unique_objects_if_needed()
 // Note:  the number already present is determined by counting the number of
 // objects with the same first id, and objects are only cloned to bring the
 // count up to that number.
+//
+// set_objects((["torch"]:5)); - five torches
+// set_objects((["door"]:({"west","room2"}))); - Door with 2 arguments
+//                                               passed to setup.
+// set_objects((["door"]:({2,({"west","room2"}),
+//                       ({"east","room3"})
+//                       })));
+//
 varargs mixed *set_objects(mapping m, string relation)
 {
   if (!relation || relation == "")

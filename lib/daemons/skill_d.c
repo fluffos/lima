@@ -126,7 +126,7 @@ int skill_rank(object player, string skill_name)
     class skill skill;
     int rank = 0;
 
-    skill = player->get_skill(skill_name);
+    skill = player->query_skill(skill_name);
     if (!skill)
         return 0;
     while (skill->skill_points > SKILL_RANKS[rank])
@@ -195,7 +195,7 @@ int percent_for_next_rank(object player, string skill_name)
     class skill skill;
     int rank = skill_rank(player, skill_name);
     int next_rank = SKILL_RANKS[rank] - (rank == 0 ? 0 : SKILL_RANKS[rank - 1]);
-    skill = player->get_skill(skill_name);
+    skill = player->query_skill(skill_name);
     if (!skill)
         return 0;
 
