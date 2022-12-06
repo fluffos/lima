@@ -144,6 +144,20 @@ nomask void create()
     }
 
     restore_object(SAVE_FILE, 1);
+
+    if (sizeof(keys(data))==0)
+    {
+      string *groups=({BUG_NEWSGROUP,TYPO_NEWSGROUP,IDEA_NEWSGROUP,
+                       TODO_NEWSGROUP,QUESTION_NEWSGROUP,FEEDBACK_NEWSGROUP});
+
+      foreach(string group in groups)
+      {
+        data[group]=(["next_id":1,]);
+        removed[group]=({});
+      }
+    }
+    TBUG(data);
+
     if (rec = read_file(RECENT_FILE))
         recent_changes = restore_variable(rec);
     else
@@ -184,6 +198,7 @@ nomask void create()
             }
         }
     }
+
     update_all_threads();
     save_me();
     archive_posts();
