@@ -48,9 +48,9 @@ nomask void get_one(object ob, object with_ob, string rel)
   tmp = ob->move(this_body());
   if (tmp == MOVE_OK)
   {
-    write("Taken.\n");
     if (ob)
     {
+      write(capitalize(ob->short())+ ": Taken.\n");
       ob->set_flag(TOUCHED);
       this_body()->other_action("$N $vtake a $o.", ob);
       return;
@@ -76,13 +76,13 @@ void do_get_obs(object *info)
 
 void do_get_obj_from_obj(object ob1, object ob2)
 {
-  get_one(ob1, 0, 0);
+    get_one(ob1, 0, 0);
 }
 
 void do_get_obs_from_obj(object *info, object ob2)
 {
-  handle_obs(info, (
-                       : get_one:));
+    handle_obs(info, (
+                         : get_one:));
 }
 
 void do_get_obj_from_wrd_obj(object ob1, string rel, object ob2)
@@ -90,7 +90,7 @@ void do_get_obj_from_wrd_obj(object ob1, string rel, object ob2)
   get_one(ob1, 0, rel);
 }
 
-void do_get_obs_from_wrd_obj(object *info, string rel, object ob2)
+void do_get_obs_from_wrd_obj(string *info, string rel, object ob2)
 {
   handle_obs(info, (
                        : get_one:),
@@ -102,7 +102,7 @@ void do_get_obj_out_of_obj(object ob1, object ob2)
   get_one(ob1, 0, 0);
 }
 
-void do_get_obs_out_of_obj(object *info, object ob2)
+void do_get_obs_out_of_obj(string *info, object ob2)
 {
   handle_obs(info, (
                        : get_one:));
@@ -118,14 +118,10 @@ void do_get_wrd_obj(string prep, object ob)
   ob->do_verb_rule("get", "WRD OBJ", prep, ob);
 }
 
-//:TODO
-// Fix me gutted MONEY_D. Taking an amount from a stack
-// of coins no longer works.
 mixed can_get_wrd_str(string amount, string str)
 {
   int z;
   string s1, s2;
-
   sscanf(amount, "%d%s", z, s1);
   if (s1 != "" && amount != "all")
     return 0;
@@ -182,6 +178,7 @@ mixed can_get_wrd(string prep)
 
 void do_get_wrd(string prep)
 {
+  TBUG("get: do_get_wrd");
   environment(this_body())->do_get_wrd(prep);
 }
 

@@ -43,7 +43,15 @@
 
 /* The default level of light for a room. */
 #define DEFAULT_LIGHT_LEVEL	1
+
+/* Players start where they log off */
 #define PLAYERS_START_WHERE_THEY_QUIT
+
+/* Do players keep their equipment when they die, or does 
+** it drop to the corpse.
+*/
+#undef PLAYERS_DROP_EQUIPMENT_AT_DEATH
+
 #define USE_QUESTS
 
 /* This only implements races for PC's.*/

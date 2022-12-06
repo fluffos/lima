@@ -70,3 +70,8 @@ mixed indirect_get_obj_from_obj(object ob1, object ob2)
 {
   return 1;
 }
+
+mixed indirect_get_obs_from_obj(object ob1, object ob2)
+{
+  return 1;
+}

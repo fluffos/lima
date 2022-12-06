@@ -113,22 +113,28 @@ void drop_corpse(object adversary)
     string corpse_long = adversary->query_corpse_long();
     string in_room_singular = adversary->in_room_singular();
     string in_room_plural = adversary->in_room_plural();
-    //Handling of players dropping corpses
+    // Handling of players dropping corpses
     if (adversary->is_body())
     {
         string domain = explode(base_name(environment(adversary)), "/")[1];
         object stone_room = DOMAIN_D->find_soul_stone_in_domain(domain, adversary);
         object corpse = new (corpse_filename, adversary->query_name(), corpse_long);
 
-        //If we do not have a stone room, we give up and move to void.
+        // If we do not have a stone room, we give up and move to void.
         if (!objectp(stone_room))
             stone_room = load_object(VOID_ROOM);
 
         corpse->override_room_desc(in_room_singular, in_room_plural);
+#ifdef PLAYERS_DROP_EQUIPMENT_AT_DEATH
+        all_inventory(adversary)->set_worn(0);
+        all_inventory(adversary)->set_tattered();
+        all_inventory(adversary)->reduce_value_by(10);
+        all_inventory(adversary)->move(corpse);
+#endif
         corpse->move(environment(adversary));
         adversary->move(stone_room);
     }
-    else //everybody else
+    else // everybody else
     {
         object corpse = new (corpse_filename, adversary->query_name(), corpse_long);
         object death_location = environment(adversary);
@@ -185,14 +191,14 @@ object *loot_chest(int level)
     int roll = random(100);
     int count;
 
-    //Chest coins first
+    // Chest coins first
     switch (level)
     {
     case 0..16:
         loot += ({new (COINS, x_dice(6, 6) * 100 * (level / 16.0), "copper")});
         loot += ({new (COINS, x_dice(3, 6) * 100 * (level / 16.0), "silver")});
         loot += ({new (COINS, x_dice(2, 6) * 10 * (level / 16.0), "gold")});
-        //Gems
+        // Gems
         switch (roll)
         {
         case 1..6:
