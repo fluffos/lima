@@ -103,6 +103,7 @@ void resync()
                                                 :));
 
   save_me();
+  XTERM256_D->update_ansi();
   users()->update_translations();
 }
 

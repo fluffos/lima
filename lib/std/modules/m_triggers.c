@@ -66,7 +66,7 @@ varargs void check_msg(string str,int type) {
     mixed left, right;
     mixed ret;
     
-    str = terminal_colour(str, ANSI_D->query_translations()[1], sizeof(str));
+    str = XTERM256_D->substitute_colour(str, "plain");
     // strip trailing newline and whitespace
     while (str != "" && member_array(str[<1], " \t\n") != -1)
 	str = str[0..<2];

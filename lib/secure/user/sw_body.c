@@ -228,7 +228,7 @@ nomask void sw_body_handle_existing_logon(string name,int enter_now)
          }
          else
          {
-            write("\nYou are already logged in!\nThrow yourself off?  ");
+            write("\nYou are already logged in!\nThrow yourself off?\n");
             modal_simple((
                              : rcv_try_to_boot, the_user:),
                          0, 0, 1);

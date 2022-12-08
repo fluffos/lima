@@ -1,8 +1,8 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //:COMMAND
-//USAGE: findfile <target>
-//       findfile -u
+//USAGE: locate <target>
+//       locate -u
 //
 //Find any file containing the specified target within its name.
 //
@@ -14,8 +14,8 @@ inherit CMD;
 
 #define ITERS_PER_CALL	2
 
-#define DATA_FILE	"/data/find.codes"
-#define TMP_DATA_FILE	"/data/find.tmp"
+#define DATA_FILE	"/data/locate.codes"
+#define TMP_DATA_FILE	"/data/locate.tmp"
 
 mixed *stack;
 string path;
@@ -103,7 +103,8 @@ private void main(mixed * arg, mapping flags)
 
   if (!arg[0] && !flags["u"])
   {
-    out( "Syntax: findfile <string>\n");
+    out( "Syntax: locate <string>\n"+
+         "        locate -u (to update the database)");
     return;
   }
   if(flags["u"])

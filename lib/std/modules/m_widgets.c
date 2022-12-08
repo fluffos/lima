@@ -38,9 +38,9 @@ string on_off_widget(int on)
 	if (i_simplify())
 		return on ? "On " : "Off ";
 	if (on)
-		return sprintf("[%%^GREEN%%^On%%^RESET%%^ ]");
+		return sprintf("[<002>On<res> ]");
 	else
-		return sprintf("[%%^RED%%^Off%%^RESET%%^]");
+		return sprintf("[<001>Off<res>]>");
 }
 
 varargs string fancy_divider(int width)
@@ -73,7 +73,7 @@ string green_bar(int value, int max, int width)
 	green = (value * 1.00 / max) * (width)-1;
 	white = width - 2 - green;
 
-	return sprintf("[%%^" + (white == 0 ? "CYAN" : "GREEN") + "%%^%s%%^RESET%%^%%^WHITE%%^%s%%^RESET%%^]",
+	return sprintf("[" + (white == 0 ? "<006>" : "<002>") + "%s<res><007>%s<res>]",
 				   repeat_string("=", green),
 				   repeat_string(".", white));
 }
@@ -84,17 +84,17 @@ string critical_bar(int value, int max, int width)
 {
 	int green, white;
 	float p;
-	string bar_colour = "GREEN";
+	string bar_colour = "<002>";
 	if (i_simplify())
 		return "";
 	p = value / (max * 1.0);
 
 	if (p < 0.10)
-		bar_colour = "MAGENTA";
+		bar_colour = "<005>";
 	else if (p < 0.20)
-		bar_colour = "RED";
+		bar_colour = "<001>";
 	else if (p < 0.50)
-		bar_colour = "YELLOW";
+		bar_colour = "<003>";
 
 	if (value > max)
 		value = max;
@@ -103,7 +103,7 @@ string critical_bar(int value, int max, int width)
 	white = width - 1 - green;
 	//	TBUG("Green: "+green+" White: "+white+" value: "+value+" max: "+max+" width: "+width);
 
-	return sprintf("[%%^" + bar_colour + "%%^%s%%^RESET%%^%%^WHITE%%^%s%%^RESET%%^]",
+	return sprintf("[" + bar_colour + "%s<res><007>%s<res>]",
 				   repeat_string("=", green),
 				   repeat_string(".", white));
 }
@@ -114,7 +114,7 @@ string reverse_critical_bar(int value, int max, int width)
 {
 	int green, white;
 	float p;
-	string bar_colour = "MAGENTA";
+	string bar_colour = "<005>";
 	if (i_simplify())
 		return "";
 	if (!max)
@@ -122,20 +122,19 @@ string reverse_critical_bar(int value, int max, int width)
 	p = value / (max * 1.0);
 
 	if (p < 0.30)
-		bar_colour = "GREEN";
+		bar_colour = "<002>";
 	else if (p < 0.60)
-		bar_colour = "YELLOW";
+		bar_colour = "<003>";
 	else if (p < 0.80)
-		bar_colour = "RED";
+		bar_colour = "<001>";
 
 	if (value > max)
 		value = max;
 	green = (value * 1.00 / max) * (width)-1;
 	if (green<0) green=0;
 	white = width - 1 - green;
-	TBUG("White: "+white+" Green: "+green);
 
-	return sprintf("[%%^" + bar_colour + "%%^%s%%^RESET%%^%%^WHITE%%^%s%%^RESET%%^]",
+	return sprintf("[" + bar_colour + "%s<res><011>%s<res>]",
 				   repeat_string("=", green),
 				   repeat_string(".", white));
 }
@@ -153,12 +152,12 @@ string slider_red_green(int value, int max, int width)
 	marker = width * ((value + (max / 2.0)) / (max * 1.0));
 
 	return_string = repeat_string("-", marker) + "X" + repeat_string("-", width - marker);
-	return_string = return_string[0..(width / 2)] + "%^GREEN%^" + return_string[(width / 2)..];
+	return_string = return_string[0..(width / 2)] + "<002>" + return_string[(width / 2)..];
 	if (marker < (width / 2))
-		return_string = replace_string(return_string, "X", "%^BOLD%^X%^RESET%^%^RED%^");
+		return_string = replace_string(return_string, "X", "<bld>X<res><001>");
 	else
-		return_string = replace_string(return_string, "X", "%^BOLD%^X%^RESET%^%^GREEN%^");
-	return "[%^RED%^" + return_string + "%^RESET%^]";
+		return_string = replace_string(return_string, "X", "<bld>X<res><002>");
+	return "[<001>" + return_string + "<res>]";
 }
 
 //:FUNCTION slider_colours_sum
@@ -175,7 +174,7 @@ string slider_colours_sum(int value, mapping colours, int width)
 	int next_pos = 0;
 	if (i_simplify())
 		return "";
-	width = width - 2; // [ and ]
+	width = width - 3; // [ and ]
 	marker = width * (1.0 * value / max);
 	if (marker == 0)
 		return_string = "X" + repeat_string("-", width - 1);
@@ -188,12 +187,13 @@ string slider_colours_sum(int value, mapping colours, int width)
 	{
 		string col = colours[val];
 		if (!next_pos)
-			return_string = "%^" + upper_case(col) + "%^" + return_string;
+			return_string = upper_case(col)+ return_string;
 		if (next_pos)
-			return_string = return_string[0..(next_pos + pfish_add)] + "%^" + upper_case(col) + "%^" + return_string[((next_pos + pfish_add) + 1)..];
+			return_string = return_string[0..(next_pos + pfish_add)] + upper_case(col) 
+			+ return_string[((next_pos + pfish_add) + 1)..];
 		pfish_add += strlen(col) + 4;
 		next_pos = width * (1.0 * val / max);
 	}
 
-	return "[" + return_string + "%^RESET%^]";
+	return "[" + return_string + "<res>]";
 }

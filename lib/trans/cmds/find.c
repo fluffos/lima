@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //:COMMAND
-//$$ see: findfile, grep
+//$$ see: locate, grep
 //USAGE: find <pattern> <files>
 //
 //Display lines containing match to specified target pattern, within specified files.

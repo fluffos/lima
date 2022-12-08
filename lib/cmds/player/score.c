@@ -24,9 +24,9 @@ string pretty_bonus(int b)
 {
     string out = "      ";
     if (b > 0)
-        out = "(%^GREEN%^+" + b + "%^RESET%^)";
+        out = "(<002>+" + b + "<res>)";
     else if (b < 0)
-        out = "(%^RED%^" + b + "%^RESET%^)";
+        out = "(<001>" + b + "<res>)";
 
     if (colour_strlen(out) < 6)
         out += repeat_string(" ", 6 - colour_strlen(out));
@@ -49,7 +49,7 @@ void main(string arg)
 #endif
     string l_info = "";
     string o_info;
-    string FC = "%%^BOLD%%^%-10.10s%%^RESET%%^"; // First column all the way down
+    string FC = "<bld>%-10.10s<res>"; // First column all the way down
     string *curr;
     int xp = 1;
     mapping accounts;
@@ -173,11 +173,11 @@ void main(string arg)
         int marker = 65 * ((karma + 1000) / 2000.0);
         int marker2 = 0;
         k_info = repeat_string("-", marker) + "X" + repeat_string("-", 65 - marker);
-        k_info = k_info[0..31] + "%^GREEN%^" + k_info[32..];
+        k_info = k_info[0..31] + "<002>" + k_info[32..];
         if (marker < 31)
-            k_info = replace_string(k_info, "X", "%^BOLD%^X%^RESET%^%^RED%^");
+            k_info = replace_string(k_info, "X", "<bld>X<res><001>");
         else
-            k_info = replace_string(k_info, "X", "%^BOLD%^X%^RESET%^%^GREEN%^");
+            k_info = replace_string(k_info, "X", "<bld>X<res><002");
 
         out("Karma    " + slider_red_green(karma, 2000, width) + "\n");
     }
@@ -246,8 +246,8 @@ void main(string arg)
         else
             capa_string = "Unable to move";
 
-        write("Weight    " + slider_colours_sum(capa, ([enc_capa:"green",
-                                                          enc_heavy_capa:"yellow", no_move:"red", max:"blue"]),
+        write("Weight    " + slider_colours_sum(capa, ([enc_capa:"<002>",
+                                                          enc_heavy_capa:"<003>", no_move:"<001>", max:"<004>"]),
                                                 width) +
               "\n");
         write("          Carrying " + weight_to_string(capa, get_user_variable("metric") != 1) + " / " +

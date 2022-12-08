@@ -8,6 +8,7 @@ nomask string terminal_mode()
 	return get_user_variable("mode");
 }
 
+/*
 string ansi(string str)
 {
 	if (!terminal_mode())
@@ -15,6 +16,7 @@ string ansi(string str)
 	else
 		return terminal_colour(str, ANSI_D->query_translations()[1]);
 }
+*/
 
 //: FUNCTION colour_strlen
 // Gives the length of the visible portion of s.  Colour

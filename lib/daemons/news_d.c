@@ -156,7 +156,6 @@ nomask void create()
         removed[group]=({});
       }
     }
-    TBUG(data);
 
     if (rec = read_file(RECENT_FILE))
         recent_changes = restore_variable(rec);

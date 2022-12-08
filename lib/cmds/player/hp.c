@@ -69,7 +69,7 @@ void main(string arg)
 
   names = sort_by_value(keys(limbs), (: sortLimbs($1) :));
 
-  outf("%%^BOLD%%^%15s %6-s %5s/%5-s %5-s %s%%^RESET%%^\n",
+  outf("<bld>%15s %6-s %5s/%5-s %5-s %s<res>\n",
        "Limb",
        "Type",
        "HP",

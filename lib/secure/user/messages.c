@@ -82,6 +82,11 @@ mixed *query_colours()
     return keys(colours);
 }
 
+mapping query_colour_mapping()
+{
+    return colours;
+}
+
 void remove_colour(string which)
 {
     map_delete(colours, upper_case(which));
@@ -95,6 +100,7 @@ void remove_colour(string which)
 void do_receive(string msg, int msg_type)
 {
     int xterm = colourp(msg);
+    int ansi = ansip(msg);
 
     if (msg_type & NO_ANSI)
     {
@@ -113,14 +119,12 @@ void do_receive(string msg, int msg_type)
         int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
         string wrapped = msg;
 
-        // Only do XTERM parsing if needed.
-        if (xterm)
+        // Only do XTERM/ANSI parsing if needed.
+        if (xterm || ansi)
         {
             wrapped = XTERM256_D->xterm256_wrap(msg + "<res>", wrap, indent);
             wrapped = XTERM256_D->substitute_colour(wrapped, terminal_mode());
         }
-        else
-            wrapped = terminal_colour(wrapped + "%^RESET%^", translations, wrap, indent);
 
         receive(wrapped);
     }
