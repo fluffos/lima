@@ -626,7 +626,7 @@ mixed *make_objects_if_needed()
           error("Initial clone failed for '" + file + "': " + ret + "\n");
         if (doublear)
         {
-          ob->on_clone(rest[0]);
+          ob->on_clone(rest[0]...); // Expand array to arguments
           rest = rest[1..];
         }
         else
