@@ -29,10 +29,10 @@ mapping query_translations()
 
 string terminal_mode()
 {
-    string mode = query_shell_ob()->get_variable("mode");
-    if (!mode)
-        return "plain";
-    return mode;
+    string mode;
+    if (query_shell_ob())
+        mode = query_shell_ob()->get_variable("mode");
+    return mode || "plain";
 }
 
 void update_translations()
