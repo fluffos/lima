@@ -10,7 +10,7 @@
 //Typing "metric on" or "metric off" will turn on/off metric system.
 
 inherit CMD;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 private void main(string arg)
 {

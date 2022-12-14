@@ -18,7 +18,7 @@
 inherit CMD;
 inherit M_GRAMMAR;
 inherit M_COMPLETE;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 #define MAX_HISTORY 20
 

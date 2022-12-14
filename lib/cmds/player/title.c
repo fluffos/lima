@@ -13,7 +13,7 @@
 //  Rust rocks!
 
 inherit CMD;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 void create()
 {

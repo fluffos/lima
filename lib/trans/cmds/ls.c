@@ -21,7 +21,7 @@
 //You can use wildcards in the path - eg *.h.
 
 inherit M_GLOB;
-inherit M_ANSI;
+inherit M_COLOURS;
 inherit CMD;
 
 mapping		info;

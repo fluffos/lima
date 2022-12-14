@@ -14,7 +14,7 @@
 // from the mud(used to display colours).
 
 inherit CMD;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 private
 void main(string arg)

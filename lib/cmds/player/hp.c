@@ -46,7 +46,7 @@ void main(string arg)
   int mred;
   int mpercentage;
   string ansi_colour = "GREEN";
-  string m_ansi_colour = "CYAN";
+  string m_pinkfish_colour = "CYAN";
 
   if (strlen(arg) > 0 && wizardp(this_user()))
   {

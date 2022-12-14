@@ -21,7 +21,7 @@
 // from 001 to 255.
 
 inherit CMD;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 void do_print(string which)
 {

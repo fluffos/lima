@@ -100,7 +100,7 @@ string query_formatted_desc(int num_chars)
 	num_chars -= (i + 1);
 	idle_string = " " + idle_string;
     }
-    return M_ANSI->colour_truncate(base_in_room_desc(), num_chars) + idle_string;
+    return M_COLOURS->colour_truncate(base_in_room_desc(), num_chars) + idle_string;
 }
 
 string adjust_name(string name) {

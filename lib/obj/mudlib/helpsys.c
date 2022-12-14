@@ -17,7 +17,7 @@
 
 inherit M_ACCESS;
 inherit M_INPUT;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 private nosave string * topic_files;
 private nosave string *	lines;

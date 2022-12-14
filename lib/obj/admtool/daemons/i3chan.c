@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 inherit "/obj/admtool/internal/base.c";
-inherit M_ANSI;
+inherit M_COLOURS;
 
 nomask string module_name() {
     return "I3 channels";

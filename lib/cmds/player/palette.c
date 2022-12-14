@@ -6,7 +6,7 @@
 // Show even more possible colours you can use.
 
 inherit CMD;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 void do_print(string which)
 {

@@ -53,8 +53,7 @@
 ** M_INPUT	interface to the input system
 ** M_COMPLETE	name completion
 ** M_RECONNECT	functions for performing socket reconnects
-** M_ANSI	functions for using the %^ ansi protocol
-** M_ANSI       function for using the status line (Infocom style header)
+** M_COLOURS	functions for using colours
 ** M_SAVE	functions to abstract saveing and restoring objects
 **
 ** M_BODY_STATS	statistics (characteristics) for a body (player/NPC)
@@ -207,7 +206,7 @@
 /* used by the OBJ object */
 
 /* for mudlib objects */
-#define M_ANSI            "/std/modules/m_ansi"
+#define M_COLOURS         "/std/modules/m_colours"
 #define M_BODY_STATS      "/std/modules/m_bodystats"
 #define M_COMPLETE        "/std/modules/m_complete"
 #define M_GLOB            "/std/modules/m_glob"

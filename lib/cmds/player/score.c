@@ -17,7 +17,7 @@
 
 inherit CMD;
 inherit M_WIDGETS;
-inherit M_ANSI;
+inherit M_COLOURS;
 
 // Always returns a strlen 6.
 string pretty_bonus(int b)

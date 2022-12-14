@@ -8,28 +8,17 @@ nomask string terminal_mode()
 	return get_user_variable("mode");
 }
 
-/*
-string ansi(string str)
-{
-	if (!terminal_mode())
-		return terminal_colour(str, ANSI_D->query_translations()[0]);
-	else
-		return terminal_colour(str, ANSI_D->query_translations()[1]);
-}
-*/
-
 //: FUNCTION colour_strlen
 // Gives the length of the visible portion of s.  Colour
 // codes (e.g. %^GREEN%^) are ignored.
 int colour_strlen(string str)
 {
-	return strlen(terminal_colour(str, ANSI_D->query_translations()[1]));
+	return strlen(XTERM256_D->substitute_colour(str,"plain"));
 }
 
 string colour_center(string str)
 {
 	int len = colour_strlen(str);
-
 	return repeat_string(" ", (this_user()->query_screen_width() - len) / 2) + str;
 }
 
@@ -41,7 +30,7 @@ string colour_truncate(string str, int len)
 	string result;
 	int idx;
 
-	result = terminal_colour(str, ANSI_D->query_translations()[2], len);
+	result = XTERM256_D->xterm256_wrap(str,len);
 
 	if ((idx = member_array('\n', result)) == -1)
 		return result;
