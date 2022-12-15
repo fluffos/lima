@@ -55,7 +55,7 @@
 #include <playerflags.h>
 
 inherit CMD;
-inherit M_ANSI;
+inherit M_COLOURS;
 inherit M_WIDGETS;
 
 #define WIDTH this_user()->query_screen_width()
