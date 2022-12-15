@@ -30,7 +30,8 @@ string colour_truncate(string str, int len)
 	string result;
 	int idx;
 
-	result = XTERM256_D->xterm256_wrap(str,len);
+	//result = XTERM256_D->xterm256_wrap(str,len);
+	result = wrap(str,len);
 
 	if ((idx = member_array('\n', result)) == -1)
 		return result;

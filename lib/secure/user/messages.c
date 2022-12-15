@@ -119,13 +119,14 @@ void do_receive(string msg, int msg_type)
         int ansi = XTERM256_D->ansip(msg);
         string wrapped = msg;
 
-
         // Only do XTERM/ANSI parsing if needed.
         if (xterm || ansi)
         {
             wrapped = XTERM256_D->xterm256_wrap(msg + "<res>", wrap, indent);
             wrapped = XTERM256_D->substitute_colour(wrapped, terminal_mode());
         }
+        else if (wrap)
+            wrapped = wrap(msg, wrap, indent);
 
         receive(wrapped);
     }
