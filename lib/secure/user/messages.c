@@ -99,8 +99,6 @@ void remove_colour(string which)
 
 void do_receive(string msg, int msg_type)
 {
-    int xterm, ansi;
-    string debug;
 
     if (msg_type & NO_ANSI)
     {
@@ -117,9 +115,10 @@ void do_receive(string msg, int msg_type)
     {
         int indent = (msg_type & MSG_INDENT) ? 4 : 0;
         int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
+        int xterm = XTERM256_D->colourp(msg);
+        int ansi = XTERM256_D->ansip(msg);
         string wrapped = msg;
-        xterm = XTERM256_D->colourp(msg);
-        ansi = XTERM256_D->ansip(msg);
+
 
         // Only do XTERM/ANSI parsing if needed.
         if (xterm || ansi)

@@ -355,7 +355,7 @@ int ansip(string text)
     return pcre_match(text, PINKFISH_COLOURS);
 }
 
-int colorp(string text)
+int colourp(string text)
 {
     return pcre_match(text, XTERM256_COLOURS);
 }
