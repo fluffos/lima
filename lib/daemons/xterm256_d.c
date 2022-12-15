@@ -53,6 +53,11 @@ mapping query_alt()
     return alt_codes;
 }
 
+int colour_code(string s)
+{
+    return strlen(s) == 3 && to_int(s) > 0 && to_int(s) < 256;
+}
+
 private
 void load_all_colours()
 {
@@ -161,10 +166,18 @@ varargs string substitute_ansi(string text, string mode)
 
             if (user[part])
             {
-                // TBUG(part + " replaced with " + user[part]);
                 part = upper_case(user[part]);
             }
-            parts[sz] = ansi[part];
+            if (colour_code(part))
+            {
+                parts[sz] = "<" + part + ">";
+                //TBUG(part + " replaced with new style code '" + part+"'.");
+            }
+            else
+            {
+                parts[sz] = ansi[part];
+                //TBUG(part + " replaced with ANSI code " + user[part]);
+            }
         }
         break;
     default:
