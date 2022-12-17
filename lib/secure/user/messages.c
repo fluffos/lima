@@ -114,7 +114,7 @@ void do_receive(string msg, int msg_type)
     else
     {
         int indent = (msg_type & MSG_INDENT) ? 4 : 0;
-        int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
+        int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width()+8;
         int xterm = XTERM256_D->colourp(msg);
         int ansi = XTERM256_D->ansip(msg);
         string wrapped = msg;
@@ -122,15 +122,31 @@ void do_receive(string msg, int msg_type)
         // Only do XTERM/ANSI parsing if needed.
         if (xterm || ansi)
         {
-            wrapped = XTERM256_D->xterm256_wrap(msg + "<res>", wrap, indent);
+            if (wrap)
+                wrapped = XTERM256_D->xterm256_wrap(msg, wrap, indent);
             wrapped = XTERM256_D->substitute_colour(wrapped, terminal_mode());
         }
-        else if (wrap)
-            wrapped = wrap(msg, wrap, indent);
 
         receive(wrapped);
     }
 }
+
+/*
+void do_receive(string msg, int msg_type) {
+    if (msg_type & NO_ANSI) {
+	if (msg_type & NO_WRAP)
+	    receive(msg);
+	else
+	    receive(wrap(msg, query_screen_width()));
+    } else {
+	int indent = (msg_type & MSG_INDENT) ? 4 : 0;
+	int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
+
+	receive(terminal_colour(msg + "%^RESET%^", 
+	    translations, wrap, indent));
+    }
+}
+*/
 
 void receive_inside_msg(string msg, object *exclude, int message_type,
                         mixed other)

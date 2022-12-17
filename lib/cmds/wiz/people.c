@@ -58,8 +58,6 @@ inherit CMD;
 inherit M_COLOURS;
 inherit M_WIDGETS;
 
-#define WIDTH this_user()->query_screen_width()
-
 #define WHO_FORMAT "%s:  (Local Time is: %s) %28s\n%s"
 #define DEBUG(arg)                              \
 	if (debug && member_array(arg, msgs) == -1) \
@@ -157,6 +155,7 @@ string get_who_string(string arg)
 		if (!no_delim)
 			retval += simple_divider(0);
 	}
+
 	foreach (object body in b)
 	{
 		foreach (string arg2 in args)
