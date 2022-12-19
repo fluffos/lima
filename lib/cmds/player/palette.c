@@ -54,7 +54,7 @@ void do_print(string which)
     if ((i+1) % 8 == 0)
       line += "\n";
   }
-  this_body()->do_receive(XTERM256_D->substitute_colour(line, "xterm") + "\n", NO_WRAP);
+  out(line+"\n");
 }
 
 nomask private void main(string str)
