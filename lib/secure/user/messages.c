@@ -99,34 +99,45 @@ void remove_colour(string which)
 
 void do_receive(string msg, int msg_type)
 {
+    string *lines = explode(msg, "\n");
+    int ends_with_lf = strlen(msg) > 0 && msg[ < 1] == 10;
+
+    if (sizeof(lines) > 1)
+    {
+        foreach (string line in lines)
+        {
+            do_receive(line, msg_type);
+        }
+        return;
+    }
 
     if (msg_type & NO_ANSI)
     {
         if (msg_type & NO_WRAP)
         {
+            // msg = "[msg not wrapped]\n" + msg;
             receive(msg);
         }
         else
         {
+            // msg = "[msg wrap()]\n" + msg;
             receive(wrap(msg, query_screen_width()));
         }
     }
     else
     {
         int indent = (msg_type & MSG_INDENT) ? 4 : 0;
-        int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width()+8;
-        int xterm = XTERM256_D->colourp(msg);
-        int ansi = XTERM256_D->ansip(msg);
+        int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
         string wrapped = msg;
 
         // Only do XTERM/ANSI parsing if needed.
-        if (xterm || ansi)
+        if (wrap)
         {
-            if (wrap)
-                wrapped = XTERM256_D->xterm256_wrap(msg, wrap, indent);
-            wrapped = XTERM256_D->substitute_colour(wrapped, terminal_mode());
+            // msg = "[msg xterm256_wrap())]\n" + msg;
+            wrapped = XTERM256_D->xterm256_wrap(msg, wrap, indent) + "\n";
+            // wrapped += "[Length: " + strlen(msg) + "/"+strlen(wrapped)+"]\n";
         }
-
+        wrapped = XTERM256_D->substitute_colour(wrapped, terminal_mode());
         receive(wrapped);
     }
 }
@@ -134,16 +145,16 @@ void do_receive(string msg, int msg_type)
 /*
 void do_receive(string msg, int msg_type) {
     if (msg_type & NO_ANSI) {
-	if (msg_type & NO_WRAP)
-	    receive(msg);
-	else
-	    receive(wrap(msg, query_screen_width()));
+    if (msg_type & NO_WRAP)
+        receive(msg);
+    else
+        receive(wrap(msg, query_screen_width()));
     } else {
-	int indent = (msg_type & MSG_INDENT) ? 4 : 0;
-	int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
+    int indent = (msg_type & MSG_INDENT) ? 4 : 0;
+    int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
 
-	receive(terminal_colour(msg + "%^RESET%^", 
-	    translations, wrap, indent));
+    receive(terminal_colour(msg + "%^RESET%^",
+        translations, wrap, indent));
     }
 }
 */
