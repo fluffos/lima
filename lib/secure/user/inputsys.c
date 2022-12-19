@@ -217,7 +217,11 @@ protected nomask void modal_recapture()
     {
 	prompt = evaluate(info->prompt);
 	if ( prompt )
-	    write(prompt);
+        // commented out because write does not permit using message classes
+        // and therefore you may not tell it to not wrap prompts, which auto-
+        // matically appends \n
+	    // write(prompt); 
+        if(this_body()) this_body()->do_receive(prompt, NO_WRAP) ;
     }
     if ( info->input_type == INPUT_CHAR_MODE )
     {
