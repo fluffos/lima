@@ -100,46 +100,48 @@ void remove_colour(string which)
 void do_receive(string msg, int msg_type)
 {
     string *lines = explode(msg, "\n");
-    int ends_with_lf = strlen(msg) > 0 && msg[ < 1] == 10;
 
-    if (sizeof(lines) > 1)
-    {
-        foreach (string line in lines)
+    if(!(msg_type & TREAT_AS_BLOB)) {
+        if (sizeof(lines) > 1)
         {
-            do_receive(line, msg_type);
+            filter(lines, (: do_receive($1, $(msg_type)) :)) ;
+            return;
         }
-        return;
     }
 
     if (msg_type & NO_ANSI)
     {
         if (msg_type & NO_WRAP)
         {
-            // msg = "[msg not wrapped]\n" + msg;
-            receive(msg);
+            // do nothing
         }
         else
         {
-            // msg = "[msg wrap()]\n" + msg;
-            receive(wrap(msg, query_screen_width()));
+            lines = map(lines, (: wrap :), query_screen_width()) ;
         }
     }
     else
     {
         int indent = (msg_type & MSG_INDENT) ? 4 : 0;
         int wrap = (msg_type & NO_WRAP) ? 0 : query_screen_width();
-        string wrapped = msg;
 
         // Only do XTERM/ANSI parsing if needed.
         if (wrap)
         {
-            // msg = "[msg xterm256_wrap())]\n" + msg;
-            wrapped = XTERM256_D->xterm256_wrap(msg, wrap, indent) + "\n";
-            // wrapped += "[Length: " + strlen(msg) + "/"+strlen(wrapped)+"]\n";
+            lines = map(lines, (: XTERM256_D->xterm256_wrap($1, $(wrap), $(indent)) :)) ;
         }
-        wrapped = XTERM256_D->substitute_colour(wrapped, terminal_mode());
-        receive(wrapped);
+        lines = map(lines, (: XTERM256_D->substitute_colour($1, $2) :), terminal_mode()) ;
     }
+
+    msg = implode(lines, "\n") ;
+
+    if( !(msg_type & MSG_PROMPT) ) {
+        msg += "\n" ;
+    }
+
+    receive(msg) ;
+
+    if(msg_type & MSG_PROMPT) telnet_ga() ;
 }
 
 /*
