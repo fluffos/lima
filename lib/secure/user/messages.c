@@ -140,8 +140,6 @@ void do_receive(string msg, int msg_type)
     }
 
     receive(msg) ;
-
-    if(msg_type & MSG_PROMPT) telnet_ga() ;
 }
 
 /*
