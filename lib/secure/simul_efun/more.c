@@ -9,7 +9,7 @@ mixed get_user_variable(string varname);
 private nomask int default_num()
 {
     int t = get_user_variable("MORE");
-    int num = 20;
+    int num = 30;
 
     if ( stringp(t) )
 	t = to_int(t);
