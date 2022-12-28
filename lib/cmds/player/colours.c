@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //: PLAYERCOMMAND
-//$$see: ansi, palette
+//$$see: mode, palette
 // USAGE colours
 //      colours <name> <value>
 //      colours remove <value>

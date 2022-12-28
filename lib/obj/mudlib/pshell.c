@@ -31,6 +31,7 @@ void set_variable(string name, mixed value)
   {
     case "mode":
     case "emoji":
+    case "frames":
     case "status":
     case "MORE":
       shell_vars[name] = value;
@@ -48,6 +49,7 @@ void unset_variable(string name, mixed value)
   {
     case "mode":
     case "emoji":
+    case "frames":
     case "status":
     case "MORE":
       map_delete(shell_vars,name);

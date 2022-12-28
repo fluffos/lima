@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //: PLAYERCOMMAND
-//$$ see: color, colours, ansi,emoji
+//$$ see: color, colours, mode, frames
 // USAGE emoji
 //      emoji on
 //      emoji off
@@ -29,7 +29,7 @@ void main(string arg)
             simplestate = "%^RED%^off%^RESET%^";
 
         out("Emojis are " + simplestate +". "+
-            "Remember to set your client to UTF-8.\n" +
+            "Remember to set your client to support unicode.\n" +
             "Use 'emoji list' to see which are supported.\n");
         return;
     }
@@ -37,7 +37,7 @@ void main(string arg)
     if (arg == "on")
     {
         this_user()->query_shell_ob()->set_variable("emoji", 1);
-        out("Turning emojis on 🤩. Remember to set your client to UTF-8.\n");
+        out("Turning emojis on 🤩. Remember to set your client to support unicode.\n");
     }
     else if (arg == "off")
     {
@@ -54,13 +54,14 @@ void main(string arg)
         }
         else
         {
-            printf("%%^BOLD%%^%-30s %5|s %-10s%%^RESET%%^",
-                   "Emoji", "UTF8", "Replacement\n");
+            printf("%%^BOLD%%^%-30s %10|s %-10s%%^RESET%%^",
+                   "Emoji", "Unicode", "Replacement\n");
             foreach (string key, string * arr in emojis)
             {
-                printf("%-30s %-5s %-10s\n",
+                printf("%-30s %10|s %-10s\n",
                        key, arr[0], arr[1]);
             }
+            printf("\n");
         }
     }
     else

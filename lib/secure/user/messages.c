@@ -35,6 +35,19 @@ string terminal_mode()
     return mode || "plain";
 }
 
+string frames_theme()
+{
+    string mode;
+    if (query_shell_ob())
+    {
+        object shell = query_shell_ob();
+        int simplify = shell->get_variable("simplify") != 0;
+        if (simplify) return "none";
+        mode = shell->get_variable("frames");
+    }
+    return mode || "ascii";
+}
+
 void update_translations()
 {
     /* handle new people, old save files, or save files for which this
@@ -101,10 +114,13 @@ void do_receive(string msg, int msg_type)
 {
     string *lines = explode(msg, "\n");
 
-    if(!(msg_type & TREAT_AS_BLOB)) {
+    if (!(msg_type & TREAT_AS_BLOB))
+    {
         if (sizeof(lines) > 1)
         {
-            filter(lines, (: do_receive($1, $(msg_type)) :)) ;
+            filter(lines, (
+                              : do_receive($1, $(msg_type))
+                              :));
             return;
         }
     }
@@ -117,7 +133,9 @@ void do_receive(string msg, int msg_type)
         }
         else
         {
-            lines = map(lines, (: wrap :), query_screen_width()) ;
+            lines = map(lines, (
+                                   : wrap:),
+                        query_screen_width());
         }
     }
     else
@@ -128,18 +146,24 @@ void do_receive(string msg, int msg_type)
         // Only do XTERM/ANSI parsing if needed.
         if (wrap)
         {
-            lines = map(lines, (: XTERM256_D->xterm256_wrap($1, $(wrap), $(indent)) :)) ;
+            lines = map(lines, (
+                                   : XTERM256_D->xterm256_wrap($1, $(wrap), $(indent))
+                                   :));
         }
-        lines = map(lines, (: XTERM256_D->substitute_colour($1, $2) :), terminal_mode()) ;
+        lines = map(lines, (
+                               : XTERM256_D->substitute_colour($1, $2)
+                               :),
+                    terminal_mode());
     }
 
-    msg = implode(lines, "\n") ;
+    msg = implode(lines, "\n");
 
-    if( !(msg_type & MSG_PROMPT) ) {
-        msg += "\n" ;
+    if (!(msg_type & MSG_PROMPT))
+    {
+        msg += "\n";
     }
 
-    receive(msg) ;
+    receive(msg);
 }
 
 /*

@@ -29,6 +29,7 @@ MENU soulmenu;
 MENU reportmenu;
 MENU remotemenu;
 MENU personalmenu;
+MENU uxmenu;
 // submenus of personalmenu
 MENU biffmenu;  
 MENU snoopablemenu; 
@@ -178,7 +179,40 @@ void set_mode(string s)
    
 void prompt_change_mode()
 {
-	input_one_arg("set mode 'plain', 'vt100', 'ansi' or 'xterm': ", (: set_mode :));
+	input_one_arg("Set mode 'plain', 'vt100', 'ansi' or 'xterm': ", (: set_mode :));
+}
+
+void set_simplify(string s)
+{
+    CMD_OB_SIMPLIFY->player_menu_entry(s);
+}
+   
+void prompt_change_simplify()
+{
+	input_one_arg("Set simplify to reduce fancy UI for screenreaders.\n"+
+                  " 'on' or 'off': ", (: set_simplify :));
+}
+
+void set_emoji(string s)
+{
+    CMD_OB_EMOJI->player_menu_entry(s);
+}
+   
+void prompt_change_emoji()
+{
+	input_one_arg("Set emoji replacements. Requires unicode in your client.\n"+
+                  " 'on', 'off' or 'list': ", (: set_emoji :));
+}
+
+void set_frames(string s)
+{
+    CMD_OB_FRAMES->player_menu_entry(s);
+}
+   
+void prompt_change_frames()
+{
+	input_one_arg("Set frame style. Requires unicode for fancier ones.\n"+
+                  " <style> or 'list' for themes available: ", (: set_frames :));
 }
 
 void set_biff(string s)
@@ -226,6 +260,7 @@ void create()
   soulmenu 	= new_menu("Soul Menu");
   reportmenu 	= new_menu("Reporter Menu");
   personalmenu  = new_menu("Personal Menu");
+  uxmenu  = new_menu("User Interface Menu");
   biffmenu      = new_menu("Notify you when you receive new mail?");
   snoopablemenu = new_menu("Allow wizards to snoop you?");
   remotemenu    = new_menu("Other muds");
@@ -257,8 +292,10 @@ void create()
   add_menu_item (toplevel, new_menu_item("Soul/emote Menu", soulmenu, "s"));
   add_menu_item (toplevel, new_menu_item("Report a bug, typo or idea", 
 					 reportmenu, "r"));
+  add_menu_item (toplevel, new_menu_item("User Interface, colours, emojis, frames.",
+					 uxmenu, "i"));
   add_menu_item (toplevel, new_menu_item("Change or view your personal information. ",
-					 personalmenu, "i"));
+					 personalmenu, "p"));
   add_menu_item (toplevel, new_menu_item("Information on other muds",
 					 remotemenu, "o"));
   add_menu_item (toplevel, quit_item);
@@ -321,8 +358,15 @@ void create()
 					     "snooped", snoopablemenu, "s"));
   add_menu_item (personalmenu, new_menu_item("Change your supplied real name",
                                               (: prompt_change_real_name :), "r"));
-  add_menu_item (personalmenu, new_menu_item("Set terminal mode",
-					      (: prompt_change_mode :), "a"));
+  add_menu_item (uxmenu, new_menu_item("Set terminal mode",
+					      (: prompt_change_mode :), "t"));
+  add_menu_item (uxmenu, new_menu_item("Simpler UI for screen readers",
+					      (: prompt_change_simplify :), "s"));
+  add_menu_item (uxmenu, new_menu_item("Emoji replacements",
+					      (: prompt_change_emoji :), "e"));
+  add_menu_item (uxmenu, new_menu_item("Frame themes",
+					      (: prompt_change_frames :), "f"));
+  add_menu_item (uxmenu, goto_main_menu_item);
   add_menu_item (personalmenu, quit_item);
   add_menu_item (personalmenu, goto_main_menu_item);
 

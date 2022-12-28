@@ -2,7 +2,7 @@
 
 /*
  * Frame layout module for fancy frames.
- * Tsath 2022/2023
+ * Tsath 2022/2023. Heavily inspired by frame layouts done by Diavolo@Merentha.
  */
 
 #define RD 0
@@ -17,9 +17,13 @@
 #define HU 9
 #define LU 10
 
+#define FALLBACK_THEME "ascii"
+
 mapping themes = (["single":({"┌", "─", "┬", "┐", "│", "├", "┼", "┤", "└", "┴", "┘"}),
                    "double":({"╔", "═", "╦", "╗", "║", "╠", "╬", "╣", "╚", "╩", "╝"}),
-                   "ascii":({"+", "-", "-", "+", "|", "|", "|", "|", "+", "-", "+"})]);
+                    "ascii":({"+", "-", "-", "+", "|", "|", "|", "|", "+", "-", "+"}),
+                    "lines":({"-", "-", "-", "-", " ", " ", "-", " ", "-", "-", "-"}),
+                    "none":({" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "})]);
 string *bits;
 
 /* Strings */
@@ -33,18 +37,23 @@ private
 int add_header, add_footer;
 ;
 
+void select_theme(string theme)
+{
+    if (member_array(theme, keys(themes)) != -1)
+        bits = themes[theme];
+    else
+        bits = themes[FALLBACK_THEME];
+}
+
 void create()
 {
-    width = this_user() ? this_user()->query_screen_width() - 2 : 79;
+    object shell = this_user()->query_shell_ob();
+    width = (this_user()->query_screen_width() ? this_user()->query_screen_width() - 2 : 79);
+    select_theme(shell->get_variable("frames"));
     header_margin = 2;
     text_margin = 1;
     add_header = 0;
     add_footer = 0;
-}
-
-void select_theme(string theme)
-{
-    bits = themes[theme];
 }
 
 string *query_themes()
@@ -227,6 +236,12 @@ string h_colours(string output)
     return new_out;
 }
 
+string demo_string(string theme)
+{
+    return themes[theme][RD] + themes[theme][H] + themes[theme][H] +
+           themes[theme][HD] + themes[theme][H] + themes[theme][H] + themes[theme][LD];
+}
+
 string render()
 {
     string out = "";
@@ -246,7 +261,7 @@ string render()
     else
         out += end_frame();
 
-    if (hcolours)
+    if (hcolours && this_user()->terminal_mode() != "plain")
         out = h_colours(out);
     return out;
 }
