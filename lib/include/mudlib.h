@@ -293,6 +293,7 @@
 #define NEWSREADER        "/obj/mudlib/newsreader"
 #define NNTP_OB           "/obj/mudlib/nntp"
 #define PLAYER_MENU       "/obj/mudlib/plmenu"
+#define FRAME             "/obj/mudlib/frame"
 #define PLYR_SHELL        "/obj/mudlib/pshell"
 #define SIMPLE_OB         "/obj/mudlib/simple_ob"
 #define PARTY_MENU         "/obj/mudlib/party_menu"
