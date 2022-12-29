@@ -41,6 +41,12 @@ nomask string query_userid()
     */
     return userid;
 }
+
+int is_user()
+{
+    return 1;
+}
+
 protected nomask void set_userid(string new_userid)
 {
     userid = new_userid;

@@ -135,7 +135,14 @@ varargs string substitute_ansi(string text, string mode)
     if (nullp(text))
         return "";
 
-    user = this_user()->query_colour_mapping();
+    //If the previous object was a user, we will pick the custom colour 
+    //mapping from the previous object. Otherwise, we'll go for this_user().
+    //This should allow each user to receive their own colours, and not the
+    //colours someone else picked.
+    if (previous_object()->is_user())
+        user = previous_object()->query_colour_mapping();
+    else
+        user = this_user()->query_colour_mapping();
 
     assoc = pcre_assoc(text, ({PINKFISH_COLOURS}), ({1}));
     parts = assoc[0];
@@ -308,11 +315,10 @@ public
 string xterm256_wrap(string str, int wrap_at, int indent_at)
 {
     string *parts = explode(str, " ");
-    int ends_with_lf = strlen(str)>1 && str[<1]==10;
+    int ends_with_lf = strlen(str) > 1 && str[ < 1] == 10;
     mapping running = (["length":0]);
     if (!wrap_at)
         wrap_at = 79;
-
 
     // this routine strips out the first space, put it back into the
     // array if the original string had a leading space
@@ -323,7 +329,7 @@ string xterm256_wrap(string str, int wrap_at, int indent_at)
         parts, function(string part, mapping running, int max, int indent) {
             string plain;
             int len;
-            
+
             // new lines
             if (part[0..0] == "\n")
             {
@@ -349,7 +355,9 @@ string xterm256_wrap(string str, int wrap_at, int indent_at)
         },
         running, wrap_at, indent_at);
 
-    return implode(map(explode(implode(parts, " "), "\n"), (: rtrim:)),"\n");
+    return implode(map(explode(implode(parts, " "), "\n"), (
+                                                               : rtrim:)),
+                   "\n");
 }
 
 int ansip(string text)
