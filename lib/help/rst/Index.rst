@@ -9,6 +9,7 @@ how to `install <Installation.html>`_ the project.
 
 Latest changes
 ==============
+- `Changes in 1.1a1 (Currently Alpha version) <versions/11a1.html>`_
 - `Changes in 1.0b6 <versions/10b6.html>`_
 
 Commands

@@ -23,7 +23,20 @@ mapping themes = (["single":({"┌", "─", "┬", "┐", "│", "├", "┼", "
                    "double":({"╔", "═", "╦", "╗", "║", "╠", "╬", "╣", "╚", "╩", "╝"}),
                     "ascii":({"+", "-", "-", "+", "|", "|", "|", "|", "+", "-", "+"}),
                     "lines":({"-", "-", "-", "-", " ", " ", "-", " ", "-", "-", "-"}),
-                    "none":({" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "})]);
+                     "none":({" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "})]);
+
+mapping colours = (["fire":"160,166,172,178,184,190,226,220,214,208,202,196",
+                   "steel":"239,240,241,242,255,237,238,239,240,241",
+                   "fairy":"093,099,105,111,117,123,159,153,147,141,135,129",
+                    "cool":"021,027,033,039,045,051,087,081,075,069,063,057",
+                    "pink":"165,171,177,183,189,195,231,225,219,213,207,201",
+                   "blues":"058,059,060,061,062,063",
+                    "dusk":"130,131,132,133,134,135",
+                   "sunny":"226,227,228,229,230,231",
+                  "neon":"088,089,090,091,092,093",
+                  "nature":"022,028,034,040,046,083,077,071,065,059",
+                    "none":"",
+]);
 string *bits;
 
 /* Strings */
@@ -50,10 +63,16 @@ void create()
     object shell = this_user()->query_shell_ob();
     width = (this_user()->query_screen_width() ? this_user()->query_screen_width() - 2 : 79);
     select_theme(shell->get_variable("frames"));
+    hcolours = (this_user()->frames_colour() != "none" ? colours[this_user()->frames_colour()] : 0);
     header_margin = 2;
     text_margin = 1;
     add_header = 0;
     add_footer = 0;
+}
+
+string *query_colour_themes()
+{
+    return sort_array(keys(colours),1);
 }
 
 string *query_themes()
@@ -212,17 +231,18 @@ string use_colour(string *cols, int length)
     return "<" + cols[col_index] + ">";
 }
 
-private
-string h_colours(string output)
+varargs private string h_colours(string output, string colstring)
 {
-    string *colours = explode(hcolours, ",");
     string frames = implode(bits, "");
     mixed *pieces = pcre_assoc(output, ({"[" + frames + "]"}), ({1}));
     string *bits = pieces[0];
     string *matches = pieces[1];
     string new_out = "";
+    string *colours = explode(colstring || hcolours, ",");
     int i = 0;
     int position = 0;
+    if (!sizeof(colours))
+        return output;
     while (i < sizeof(bits))
     {
         if (strsrch(bits[i], "\n") != -1)
@@ -238,8 +258,19 @@ string h_colours(string output)
 
 string demo_string(string theme)
 {
-    return themes[theme][RD] + themes[theme][H] + themes[theme][H] +
-           themes[theme][HD] + themes[theme][H] + themes[theme][H] + themes[theme][LD];
+    int w = this_user()->query_screen_width();
+    return themes[theme][RD] + themes[theme][H] + themes[theme][H] + themes[theme][H] +
+           repeat_string(themes[theme][H], (w / 2) - 20) +
+           themes[theme][HD] + themes[theme][H] + themes[theme][H] + themes[theme][H] +
+           repeat_string(themes[theme][H], (w / 2) - 20) +
+           themes[theme][H] + themes[theme][H] + themes[theme][H] + themes[theme][LD];
+}
+
+string colour_demo(string theme, string colour)
+{
+    if (member_array(theme, keys(themes)) == -1)
+        theme = "single";
+    return h_colours(demo_string(theme), colours[colour]);
 }
 
 string render()

@@ -42,10 +42,25 @@ string frames_theme()
     {
         object shell = query_shell_ob();
         int simplify = shell->get_variable("simplify") != 0;
-        if (simplify) return "none";
+        if (simplify)
+            return "none";
         mode = shell->get_variable("frames");
     }
     return mode || "ascii";
+}
+
+string frames_colour()
+{
+    string mode;
+    if (query_shell_ob())
+    {
+        object shell = query_shell_ob();
+        int simplify = shell->get_variable("simplify") != 0;
+        if (simplify)
+            return "none";
+        mode = shell->get_variable("frame_colour");
+    }
+    return mode || "steel";
 }
 
 void update_translations()
@@ -162,6 +177,10 @@ void do_receive(string msg, int msg_type)
     {
         msg += "\n";
     }
+
+    //Handle Emoji replacement if turned on for this player.
+    if (query_shell_ob() && query_shell_ob()->get_variable("emoji") == 1)
+        msg = EMOJI_D->emoji_replace(msg);
 
     receive(msg);
 }

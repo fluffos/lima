@@ -107,8 +107,7 @@ nomask private void main(string str)
   }
 
   what_int = to_int(what);
-  if (strlen(what) == 3 && what != "red" && //Damn you, Red!
-      (what_int < 1 || what_int > 255))
+  if (XTERM256_D->colour_code(what)==0)
   {
     printf("Illlegal colour value %s, check colour 'palette' for options.\n", what);
     return;

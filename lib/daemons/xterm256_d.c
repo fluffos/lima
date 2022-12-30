@@ -135,10 +135,10 @@ varargs string substitute_ansi(string text, string mode)
     if (nullp(text))
         return "";
 
-    //If the previous object was a user, we will pick the custom colour 
-    //mapping from the previous object. Otherwise, we'll go for this_user().
-    //This should allow each user to receive their own colours, and not the
-    //colours someone else picked.
+    // If the previous object was a user, we will pick the custom colour
+    // mapping from the previous object. Otherwise, we'll go for this_user().
+    // This should allow each user to receive their own colours, and not the
+    // colours someone else picked.
     if (previous_object()->is_user())
         user = previous_object()->query_colour_mapping();
     else
@@ -272,9 +272,9 @@ varargs string substitute_colour(string text, string mode)
             }
 
             // Now, we have to be one of the colour codes!
-            if (sscanf(parts[sz], "<%d>", num) == 1)
+            if (sscanf(parts[sz], "<%d>", num) == 1 && num < 256 && num > 0)
                 parts[sz] = fg_codes[num];
-            else if (sscanf(parts[sz], "#%d#", num) == 1)
+            else if (sscanf(parts[sz], "#%d#", num) == 1 && num < 256 && num > 0)
                 parts[sz] = bg_codes[num];
         }
         break;
@@ -296,9 +296,9 @@ varargs string substitute_colour(string text, string mode)
             }
 
             // Now, we have to be one of the colour codes!
-            if (sscanf(parts[sz], "<%d>", num) == 1)
+            if (sscanf(parts[sz], "<%d>", num) == 1 && num < 256 && num > 0)
                 parts[sz] = x256_to_16_fg[fallback_codes[num]];
-            else if (sscanf(parts[sz], "#%d#", num) == 1)
+            else if (sscanf(parts[sz], "#%d#", num) == 1 && num < 256 && num > 0)
                 parts[sz] = x256_to_16_bg[fallback_codes[num]];
             else
                 parts[sz] = "";

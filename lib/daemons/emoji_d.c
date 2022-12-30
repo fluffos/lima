@@ -2,7 +2,7 @@
 
 //:MODULE
 // EMOJI_D by Tsath April 2020
-// (Had to do something while under Covid lockdown)
+// (Had to do something while under lockdown)
 // 
 // The EMOJI_D stores emoji names along with an array pair of
 //     ({  THE UTF char   , Replacement string  })

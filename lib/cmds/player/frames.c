@@ -12,19 +12,30 @@
 inherit CMD;
 inherit M_WIDGETS;
 
+string frames_help()
+{
+    return "'frames list' to see other options.\n" +
+           "'frames themes' to list the colour themes.\n" +
+           "'frames theme <theme>' to select a colour theme.\n" +
+           "\n";
+}
+
 private
 void main(string arg)
 {
     object frame = load_object(FRAME);
     string *themes = frame->query_themes();
+    string *colours = frame->query_colour_themes();
+    string col;
+    string usertheme = this_user()->frames_theme();
+    string usercoltheme = this_user()->frames_colour();
 
     if (!arg || arg == "")
     {
         string simplestate;
-        object shell = this_user()->query_shell_ob();
-        if (shell)
-            out("Frame style is: " + (this_user()->frames_theme() || "ascii") +
-                ".\nUse 'frames list' to see other options.\n");
+        out("Frame style is: " + (usertheme || "ascii") + ".\n" +
+            "Frame theme is: " + (usercoltheme || "none") + ".\n\n" +
+            frames_help());
 
         return;
     }
@@ -34,10 +45,31 @@ void main(string arg)
         this_user()->query_shell_ob()->set_variable("frames", arg);
         out("Frame style set to '" + arg + "'.\n");
     }
+    else if (sscanf(arg, "theme %s", col) == 1)
+    {
+        if (member_array(col, colours) == -1)
+        {
+            printf("Unknown theme colours.\n");
+            return;
+        }
+        this_user()->query_shell_ob()->set_variable("frame_colour", col);
+        out("Frame colours set to '" + col + "'.\n");
+    }
+    else if (arg == "themes")
+    {
+        printf("The following frame themes are supported:\n\n");
+        printf("\t<bld>%-15.15s %s<res>", "Name", "Example");
+
+        foreach (string c in colours)
+        {
+            printf("\t%-15.15s %s\n", c, c != "none" ? frame->colour_demo(usertheme, c) : "");
+        }
+        printf("\n\n");
+    }
     else if (arg == "list")
     {
         printf("The following frame styles are supported:\n\n");
-        printf("\t<bld>%-15.15s %s<res>", "Name","Example");
+        printf("\t<bld>%-15.15s %s<res>", "Name", "Example");
 
         foreach (string t in themes)
         {
@@ -47,7 +79,7 @@ void main(string arg)
     }
     else
     {
-        out("Usage: frames <style> or list.\n");
+        out("Usage:\n" + frames_help() + ".\n");
         return;
     }
 }
