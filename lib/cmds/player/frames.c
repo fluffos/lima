@@ -14,9 +14,10 @@ inherit M_WIDGETS;
 
 string frames_help()
 {
-    return "'frames list' to see other options.\n" +
-           "'frames themes' to list the colour themes.\n" +
-           "'frames theme <theme>' to select a colour theme.\n" +
+    return "Valid arguments:\n\n'styles' to see other style options.\n" +
+           "'style <style>' to see other options.\n" +
+           "'themes' to list the colour themes.\n" +
+           "'theme <theme>' to select a colour theme.\n" +
            "\n";
 }
 
@@ -33,27 +34,38 @@ void main(string arg)
     if (!arg || arg == "")
     {
         string simplestate;
-        out("Frame style is: " + (usertheme || "ascii") + ".\n" +
-            "Frame theme is: " + (usercoltheme || "none") + ".\n\n" +
-            frames_help());
+        object demoframe = new (FRAME);
+        demoframe->set_title("Frame settings");
+        demoframe->set_header_content("<bld>Frame style is:<res> " + (usertheme || "ascii") + ".\n" +
+                                      "<bld>Frame theme is:<res> " + (usercoltheme || "none") + ".\n"+
+                                      (i_simplify() ? "Frames are off, since you have simplify on.\n": ""));
 
+        demoframe->set_content(frames_help());
+        demoframe->set_footer_content("<bld>These settings will change most UI on "+mud_name()+" to this style.");
+        out(demoframe->render());
         return;
     }
 
-    if (member_array(arg, themes) != -1)
+    else if (sscanf(arg, "style %s", col) == 1)
     {
-        this_user()->query_shell_ob()->set_variable("frames", arg);
-        out("Frame style set to '" + arg + "'.\n");
+        if (member_array(col, themes) != -1)
+        {
+            this_user()->query_shell_ob()->set_variable("frames", col);
+            out("Frame style set to '" + col + "'.\n");
+        }
+        else
+            out("Unknown frame style.\n");
     }
     else if (sscanf(arg, "theme %s", col) == 1)
     {
-        if (member_array(col, colours) == -1)
+        if (member_array(col, colours) != -1)
         {
-            printf("Unknown theme colours.\n");
+            this_user()->query_shell_ob()->set_variable("frame_colour", col);
+            out("Frame colours set to '" + col + "'.\n");
             return;
         }
-        this_user()->query_shell_ob()->set_variable("frame_colour", col);
-        out("Frame colours set to '" + col + "'.\n");
+        else
+            out("Unknown theme colours.\n");
     }
     else if (arg == "themes")
     {
@@ -66,7 +78,7 @@ void main(string arg)
         }
         printf("\n\n");
     }
-    else if (arg == "list")
+    else if (arg == "styles")
     {
         printf("The following frame styles are supported:\n\n");
         printf("\t<bld>%-15.15s %s<res>", "Name", "Example");

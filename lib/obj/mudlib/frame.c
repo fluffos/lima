@@ -19,6 +19,8 @@
 
 #define FALLBACK_THEME "ascii"
 
+inherit M_COLOURS;
+
 mapping themes = (["single":({"┌", "─", "┬", "┐", "│", "├", "┼", "┤", "└", "┴", "┘"}),
                    "double":({"╔", "═", "╦", "╗", "║", "╠", "╬", "╣", "╚", "╩", "╝"}),
                     "ascii":({"+", "-", "-", "+", "|", "|", "|", "|", "+", "-", "+"}),
@@ -33,7 +35,7 @@ mapping colours = (["fire":"160,166,172,178,184,190,226,220,214,208,202,196",
                    "blues":"058,059,060,061,062,063",
                     "dusk":"130,131,132,133,134,135",
                    "sunny":"226,227,228,229,230,231",
-                  "neon":"088,089,090,091,092,093",
+                    "neon":"088,089,090,091,092,093",
                   "nature":"022,028,034,040,046,083,077,071,065,059",
                     "none":"",
 ]);
@@ -62,7 +64,7 @@ void create()
 {
     object shell = this_user()->query_shell_ob();
     width = (this_user()->query_screen_width() ? this_user()->query_screen_width() - 2 : 79);
-    select_theme(shell->get_variable("frames"));
+    select_theme(this_user()->frames_theme());
     hcolours = (this_user()->frames_colour() != "none" ? colours[this_user()->frames_colour()] : 0);
     header_margin = 2;
     text_margin = 1;
@@ -72,7 +74,7 @@ void create()
 
 string *query_colour_themes()
 {
-    return sort_array(keys(colours),1);
+    return sort_array(keys(colours), 1);
 }
 
 string *query_themes()
@@ -123,6 +125,14 @@ void set_hcolours(string hc)
 }
 
 private
+string simple_header()
+{
+    string out = "";
+    out += bits[RD] + repeat_string(bits[H], width - 2) + bits[LD]+"\n";
+    return out;
+}
+
+private
 string create_header()
 {
     string out = "";
@@ -131,7 +141,7 @@ string create_header()
     string *headers = explode(header_content || "", "\n");
 
     if (!title)
-        return "";
+        return simple_header();
 
     if (add_header)
         header_margin++;
@@ -160,9 +170,11 @@ string create_header()
 
     foreach (string h in headers)
     {
+        int col_lendiff = strlen(h) - colour_strlen(h);
+        int content_width = width - 6 + col_lendiff;
         if (header_margin > 0)
             out += bits[D] + (add_header ? bits[D] : "") + " " +
-                   sprintf("%-" + (width - 6) + "." + (width - 6) + "s", h) + " " +
+                   sprintf("%-" + content_width + "." + content_width + "s", h) + " " +
                    (add_header ? bits[D] : "") + bits[D] + "\n";
     }
 
@@ -187,8 +199,10 @@ string create_footer()
 
     foreach (string f in footers)
     {
+        int col_lendiff = strlen(f) - colour_strlen(f);
+        int content_width = width - 6 + col_lendiff;
         out += bits[D] + bits[D] + " " +
-               sprintf("%-" + (width - 6) + "." + (width - 6) + "s", f) + " " +
+               sprintf("%-" + content_width + "." + content_width + "s", f) + " " +
                bits[D] + bits[D] + "\n";
     }
 
@@ -206,8 +220,10 @@ string create_content()
 
     foreach (string c in contents)
     {
+        int col_lendiff = strlen(c) - colour_strlen(c);
+        int content_width = width - 4 + col_lendiff;
         out += bits[D] + " " +
-               sprintf("%-" + (width - 4) + "." + (width - 4) + "s", c) + " " +
+               sprintf("%-" + content_width + "." + content_width + "s", c) + " " +
                bits[D] + "\n";
     }
     return out;
@@ -281,8 +297,7 @@ string render()
         error("Need to set frame theme before render() using frame->set_theme().\n" +
               "Current themes: " + format_list(query_themes()) + ".");
 
-    if (title)
-        out = create_header();
+    out = create_header();
 
     if (content)
         out += create_content();
