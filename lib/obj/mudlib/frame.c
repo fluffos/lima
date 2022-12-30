@@ -54,6 +54,9 @@ int add_header, add_footer;
 
 void select_theme(string theme)
 {
+    if (hcolours == "none")
+        theme = "none";
+
     if (member_array(theme, keys(themes)) != -1)
         bits = themes[theme];
     else
@@ -64,8 +67,8 @@ void create()
 {
     object shell = this_user()->query_shell_ob();
     width = (this_user()->query_screen_width() ? this_user()->query_screen_width() - 2 : 79);
-    select_theme(this_user()->frames_theme());
     hcolours = (this_user()->frames_colour() != "none" ? colours[this_user()->frames_colour()] : 0);
+    select_theme(this_user()->frames_theme());
     header_margin = 2;
     text_margin = 1;
     add_header = 0;
@@ -128,7 +131,7 @@ private
 string simple_header()
 {
     string out = "";
-    out += bits[RD] + repeat_string(bits[H], width - 2) + bits[LD]+"\n";
+    out += bits[RD] + repeat_string(bits[H], width - 2) + bits[LD] + "\n";
     return out;
 }
 
@@ -296,6 +299,11 @@ string render()
     if (!bits)
         error("Need to set frame theme before render() using frame->set_theme().\n" +
               "Current themes: " + format_list(query_themes()) + ".");
+
+    if (!hcolours)
+    {
+        select_theme("none");
+    }
 
     out = create_header();
 
