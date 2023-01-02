@@ -18,6 +18,10 @@
 #define LU 10
 
 #define FALLBACK_THEME "ascii"
+#define COL_GRADIENT 0
+#define COL_TITLE 1
+#define COL_ACCENT 2
+#define COL_WARNING 3
 
 inherit M_COLOURS;
 
@@ -27,35 +31,35 @@ mapping themes = (["single":({"┌", "─", "┬", "┐", "│", "├", "┼", "
                     "lines":({"-", "-", "-", "-", " ", " ", "-", " ", "-", "-", "-"}),
                      "none":({" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "})]);
 
-mapping colours = (["fire":"160,166,172,178,184,190,226,220,214,208,202,196",
-                   "steel":"239,240,241,242,255,237,238,239,240,241",
-                   "fairy":"093,099,105,111,117,123,159,153,147,141,135,129",
-                    "cool":"021,027,033,039,045,051,087,081,075,069,063,057",
-                    "pink":"165,171,177,183,189,195,231,225,219,213,207,201",
-                   "blues":"058,059,060,061,062,063",
-                    "dusk":"130,131,132,133,134,135",
-                   "sunny":"226,227,228,229,230,231",
-                    "neon":"088,089,090,091,092,093",
-                  "nature":"022,028,034,040,046,083,077,071,065,059",
-                    "none":"",
+mapping colours = (["fire":({"160,166,172,178,184,190,226,220,214,208,202,196", "", "", ""}),
+                   "steel":({"239,240,241,242,255,237,238,239,240,241", "", "", ""}),
+                   "fairy":({"093,099,105,111,117,123,159,153,147,141,135,129", "", "", ""}),
+                    "cool":({"021,027,033,039,045,051,087,081,075,069,063,057", "", "", ""}),
+                    "pink":({"165,171,177,183,189,195,231,225,219,213,207,201", "", "", ""}),
+                   "blues":({"058,059,060,061,062,063", "", "", ""}),
+                    "dusk":({"130,131,132,133,134,135", "", "", ""}),
+                   "sunny":({"226,227,228,229,230,231", "", "", ""}),
+                    "neon":({"088,089,090,091,092,093", "228", "231", "197"}),
+                  "nature":({"022,028,034,040,046,083,077,071,065,059", "", "", ""}),
+                    "none":({""}),
 ]);
 string *bits;
 
 /* Strings */
 private
-string title, header_content, footer_content, content, hcolours;
+string title, header_content, footer_content, content, theme;
 /* Ints */
 private
 int width, header_margin, text_margin;
 /* Booleans*/
 private
 int add_header, add_footer;
-;
+private
+string *hcolours;
 
-void select_theme(string theme)
+void select_theme(string t)
 {
-    if (hcolours == "none")
-        theme = "none";
+    theme = t;
 
     if (member_array(theme, keys(themes)) != -1)
         bits = themes[theme];
@@ -87,7 +91,10 @@ string *query_themes()
 
 void set_title(string s)
 {
-    title = s;
+    if (XTERM256_D->colourp(s))
+        title = s;
+    else
+        title = "<" + hcolours[COL_TITLE] + ">" + s + "<res>";
 }
 
 void set_width(int w)
@@ -107,7 +114,10 @@ void set_text_margin(int tm)
 
 void set_header_content(string hc)
 {
-    header_content = hc;
+    if (XTERM256_D->colourp(hc))
+        header_content = hc;
+    else
+        header_content = "<" + hcolours[COL_ACCENT] + ">" + hc + "<res>";
     add_header = 1;
 }
 
@@ -122,7 +132,7 @@ void set_content(string c)
     content = c;
 }
 
-void set_hcolours(string hc)
+void set_hcolours(string *hc)
 {
     hcolours = hc;
 }
@@ -140,7 +150,8 @@ string create_header()
 {
     string out = "";
     int i = 0;
-    int header_width = strlen(title) + (text_margin * 2);
+    int simple_header = theme == "lines" || theme == "none";
+    int header_width = colour_strlen(title) + (text_margin * 2);
     string *headers = explode(header_content || "", "\n");
 
     if (!title)
@@ -149,39 +160,50 @@ string create_header()
     if (add_header)
         header_margin++;
 
-    out += repeat_string(" ", header_margin) + bits[RD];
-    while (i < header_width)
+    if (!simple_header)
     {
-        out += bits[H];
-        i++;
+
+        out += repeat_string(" ", header_margin) + bits[RD];
+        while (i < header_width)
+        {
+            out += bits[H];
+            i++;
+        }
+
+        out += bits[LD] + "\n";
     }
 
-    out += bits[LD] + "\n";
-    out += bits[RD] + (add_header ? bits[HD] : "") + repeat_string(bits[H], header_margin - (add_header ? 2 : 1)) + bits[DL] + sprintf("%|" + header_width + "s", title) + bits[DR] +
+    out += bits[RD] + (add_header ? bits[HD] : "") + repeat_string(bits[H], header_margin - (add_header ? 2 : 1)) + bits[DL] +
+           repeat_string(" ", text_margin) + title + repeat_string(" ", text_margin) + bits[DR] +
            repeat_string(bits[H], width - header_width - header_margin - (add_header ? 4 : 3)) + (add_header ? bits[HD] : "") + bits[LD] + "\n";
 
-    out += bits[D] + (add_header ? bits[D] : "") + repeat_string(" ", header_margin - (add_header ? 2 : 1)) + bits[RU];
-
-    i = 0;
-    while (i < header_width)
+    if (!simple_header)
     {
-        out += bits[H];
-        i++;
+        out += bits[D] + (add_header ? bits[D] : "") + repeat_string(" ", header_margin - (add_header ? 2 : 1)) + bits[RU];
+
+        i = 0;
+        while (i < header_width)
+        {
+            out += bits[H];
+            i++;
+        }
+        out += bits[LU] + repeat_string(" ", width - header_width - header_margin - (add_header ? 4 : 3)) +
+               (add_header ? bits[D] : "") + bits[D] + "\n"; // End of Title box section
     }
-    out += bits[LU] + repeat_string(" ", width - header_width - header_margin - (add_header ? 4 : 3)) +
-           (add_header ? bits[D] : "") + bits[D] + "\n"; // End of Title box section
 
     foreach (string h in headers)
     {
         int col_lendiff = strlen(h) - colour_strlen(h);
         int content_width = width - 6 + col_lendiff;
         if (header_margin > 0)
-            out += bits[D] + (add_header ? bits[D] : "") + " " +
+            out += bits[D] + (add_header && !simple_header ? bits[D] : "") + " " +
                    sprintf("%-" + content_width + "." + content_width + "s", h) + " " +
                    (add_header ? bits[D] : "") + bits[D] + "\n";
     }
 
-    if (add_header)
+    if (simple_header)
+        out += "";
+    else if (add_header)
         out += bits[D] + (add_header ? bits[RU] : "") +
                repeat_string(bits[H], width - 4) +
                (add_header ? bits[LU] : "") + bits[D] + "\n";
@@ -257,7 +279,7 @@ varargs private string h_colours(string output, string colstring)
     string *bits = pieces[0];
     string *matches = pieces[1];
     string new_out = "";
-    string *colours = explode(colstring || hcolours, ",");
+    string *colours = explode(colstring || hcolours[COL_GRADIENT], ",");
     int i = 0;
     int position = 0;
     if (!sizeof(colours))
@@ -299,11 +321,6 @@ string render()
     if (!bits)
         error("Need to set frame theme before render() using frame->set_theme().\n" +
               "Current themes: " + format_list(query_themes()) + ".");
-
-    if (!hcolours)
-    {
-        select_theme("none");
-    }
 
     out = create_header();
 

@@ -41,7 +41,7 @@ void main(string arg)
                                       (i_simplify() ? "Frames are off, since you have simplify on.\n": ""));
 
         demoframe->set_content(frames_help());
-        demoframe->set_footer_content("<bld>These settings will change most UI on "+mud_name()+" to this style.");
+        demoframe->set_footer_content("<bld>These settings will change most UI on "+mud_name()+" to this style.<res>");
         out(demoframe->render());
         return;
     }
