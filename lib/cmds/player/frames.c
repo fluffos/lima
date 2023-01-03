@@ -37,11 +37,11 @@ void main(string arg)
         object demoframe = new (FRAME);
         demoframe->set_title("Frame settings");
         demoframe->set_header_content("<bld>Frame style is:<res> " + (usertheme || "ascii") + ".\n" +
-                                      "<bld>Frame theme is:<res> " + (usercoltheme || "none") + ".\n"+
-                                      (i_simplify() ? "Frames are off, since you have simplify on.\n": ""));
+                                      "<bld>Frame theme is:<res> " + (usercoltheme || "none") + ".\n" +
+                                      (i_simplify() ? "Frames are off, since you have simplify on.\n" : ""));
 
         demoframe->set_content(frames_help());
-        demoframe->set_footer_content("<bld>These settings will change most UI on "+mud_name()+" to this style.<res>");
+        demoframe->set_footer_content("<bld>These settings will change most UI on " + mud_name() + " to this style.<res>");
         out(demoframe->render());
         return;
     }
@@ -70,11 +70,19 @@ void main(string arg)
     else if (arg == "themes")
     {
         printf("The following frame themes are supported:\n\n");
-        printf("\t<bld>%-15.15s %s<res>", "Name", "Example");
+        printf("<bld>  %-10.10s %s %s %s %s<res>", "Name", "Title", "Accent", "Warn", "Example");
 
         foreach (string c in colours)
         {
-            printf("\t%-15.15s %s\n", c, c != "none" ? frame->colour_demo(usertheme, c) : "");
+            string titlec = frame->query_title(c);
+            string accent = frame->query_accent(c);
+            string warning = frame->query_warning(c);
+
+            printf("  %-10.10s %s %s %s %s\n", c,
+                   (titlec != "" ? "#" + titlec + "#  <res>" : "  ") + "   ",
+                   (accent != "" ? "#" + accent + "#  <res>" : "  ") + "    ",
+                   (warning != "" ? "#" + warning + "#  <res>" : "  ") + "  ",
+                   (c != "none" ? frame->colour_demo(usertheme, c,67) : ""));
         }
         printf("\n\n");
     }

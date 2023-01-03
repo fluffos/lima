@@ -35,7 +35,7 @@ mapping colours = (["fire":({"160,166,172,178,184,190,226,220,214,208,202,196", 
                    "steel":({"239,240,241,242,255,237,238,239,240,241", "117", "015", "197"}),
                    "fairy":({"093,099,105,111,117,123,159,153,147,141,135,129", "175", "015", "197"}),
                     "cool":({"021,027,033,039,045,051,087,081,075,069,063,057", "159", "015", "197"}),
-                    "pink":({"165,171,177,183,189,195,231,225,219,213,207,201", "", "015", "197"}),
+                    "pink":({"165,171,177,183,189,195,231,225,219,213,207,201", "231", "015", "197"}),
                    "blues":({"058,059,060,061,062,063", "105", "229", "197"}),
                     "dusk":({"130,131,132,133,134,135", "220", "015", "197"}),
                    "sunny":({"226,227,228,229,230,231", "214", "015", "197"}),
@@ -276,7 +276,7 @@ string use_colour(string *cols, int length)
     return "<" + cols[col_index] + ">";
 }
 
-varargs private string h_colours(string output, string colstring)
+varargs private string h_colours(string output, mixed colstring)
 {
     string frames = implode(bits, "");
     mixed *pieces = pcre_assoc(output, ({"[" + frames + "]"}), ({1}));
@@ -287,7 +287,7 @@ varargs private string h_colours(string output, string colstring)
     int i = 0;
     int position = 0;
 
-    colours = explode( (arrayp(colstring) ? colstring[COL_GRADIENT] : colstring) || hcolours[COL_GRADIENT], ",");
+    colours = explode((arrayp(colstring) ? colstring[COL_GRADIENT] : colstring) || hcolours[COL_GRADIENT], ",");
 
     if (!sizeof(colours))
         return output;
@@ -304,21 +304,35 @@ varargs private string h_colours(string output, string colstring)
     return new_out;
 }
 
-string demo_string(string theme)
+string query_title(string theme)
 {
-    int w = this_user()->query_screen_width();
+    return colours[theme][COL_TITLE];
+}
+
+string query_accent(string theme)
+{
+    return colours[theme][COL_ACCENT];
+}
+
+string query_warning(string theme)
+{
+    return colours[theme][COL_WARNING];
+}
+
+string demo_string(string theme, int w)
+{
     return themes[theme][RD] + themes[theme][H] + themes[theme][H] + themes[theme][H] +
-           repeat_string(themes[theme][H], (w / 2) - 20) +
+           repeat_string(themes[theme][H], (w / 2)-6) +
            themes[theme][HD] + themes[theme][H] + themes[theme][H] + themes[theme][H] +
-           repeat_string(themes[theme][H], (w / 2) - 20) +
+           repeat_string(themes[theme][H], (w / 2)-6) +
            themes[theme][H] + themes[theme][H] + themes[theme][H] + themes[theme][LD];
 }
 
-string colour_demo(string theme, string colour)
+string colour_demo(string theme, string colour, int w)
 {
     if (member_array(theme, keys(themes)) == -1)
         theme = "single";
-    return h_colours(demo_string(theme), colours[colour]);
+    return h_colours(demo_string(theme, w), colours[colour]);
 }
 
 string render()
