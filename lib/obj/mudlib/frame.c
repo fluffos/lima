@@ -283,7 +283,7 @@ varargs private string h_colours(string output, string colstring)
     string *bits = pieces[0];
     string *matches = pieces[1];
     string new_out = "";
-    string *colours = explode(colstring || hcolours[COL_GRADIENT], ",");
+    string *colours = explode(colstring[COL_GRADIENT] || hcolours[COL_GRADIENT], ",");
     int i = 0;
     int position = 0;
     if (!sizeof(colours))
