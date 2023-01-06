@@ -81,7 +81,7 @@ string get_who_string(string arg)
   frame->set_title(sprintf("Who - %d user%s", i, (i != 1 ? "s" : "")));
   if (u[0]->query_level())
   {
-    frame->set_header_content("Level  Name");
+    frame->set_header_content("Level   Role     Name");
     frame->set_footer_content(sprintf(WHO_FORMAT, mud_name(), ctime(time()), extra,
                                       i));
   }
@@ -102,7 +102,10 @@ string get_who_string(string arg)
     if (body->test_flag(F_IN_EDIT))
       name = "*" + name;
     if (body->query_level())
-      retval += sprintf(" %-6.6s %-68s\n", "" + body->query_level(), name);
+      retval += sprintf(" %-5.5s   %-6.6s   %-68s\n",
+                        "" + body->query_level(),
+                        (wizardp(body) ? (adminp(body) ? "Admin" : "Wizard") : ""),
+                        name);
     else
       retval += sprintf("%-68s\n", name);
   }
