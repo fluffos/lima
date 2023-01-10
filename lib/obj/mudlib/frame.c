@@ -200,7 +200,7 @@ string create_header()
         int col_lendiff = strlen(h) - colour_strlen(h);
         int content_width = width - 6 + col_lendiff;
         if (header_margin > 0)
-            out += bits[D] + (add_header && !simple_header ? bits[D] : "") + " " +
+            out += bits[D] + (add_header && !simple_header ? bits[D] : " ") + " " +
                    sprintf("%-" + content_width + "." + content_width + "s", h) + " " +
                    (add_header ? bits[D] : "") + bits[D] + "\n";
     }
