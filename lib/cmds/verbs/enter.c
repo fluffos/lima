@@ -11,7 +11,7 @@ void do_enter()
   doors = filter(all_inventory(env), (: $1->is_exit() :));
   if (sizeof(doors) == 1 && doors[0])
   {
-    string cannot_go = doors[0]->direct_verb_rule("go", "WRD", doors[0]);
+    string cannot_go = doors[0]->direct_verb_rule("go", "OBJ", doors[0]);
     if (cannot_go)
     {
       write(cannot_go);

@@ -42,6 +42,7 @@ int default_object_checks()
 mixed direct_verb_rule(string verb,string rule,mixed args...)
 {
   mixed temp;
+  //TBUG("verb: "+verb+" rule: "+rule+" args: "+format_list(args));
   if(this_object()->is_container())
   {
     string aliased_to;
