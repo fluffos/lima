@@ -2,12 +2,35 @@
 
 inherit VERB_OB;
 
+void do_enter()
+{
+  string *doors;
+  object env = environment(this_body());
+
+  // Alternatively, if there's only one exit, take it.
+  doors = filter(all_inventory(env), (: $1->is_exit() :));
+  if (sizeof(doors) == 1 && doors[0])
+  {
+    string cannot_go = doors[0]->direct_verb_rule("go", "WRD", doors[0]);
+    if (cannot_go)
+    {
+      write(cannot_go);
+      return;
+    }
+
+    write("(You enter through " + doors[0]->the_short() + ")");
+    doors[0]->do_verb_rule("go");
+  }
+  else
+    write("Not sure what to enter?");
+}
+
 void do_enter_obj(object ob)
 {
-  ob->do_verb_rule("enter","OBJ",ob);
+  ob->do_verb_rule("enter", "OBJ", ob);
 }
 
 void create()
 {
-    add_rules( ({ "OBJ" }), ({}));
+  add_rules(({"OBJ", ""}), ({}));
 }

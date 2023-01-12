@@ -213,8 +213,11 @@ mixed *list_enter_msgs(string direction)
 //Return the exit messages of a given exit
 string query_exit_msg(string direction)
 {  
-  int i=sizeof(exits[direction]->exit_messages);
   object which=present(direction);
+  int i;
+
+  if (exits[direction])
+    i=sizeof(exits[direction]->exit_messages);
   if(which && which->is_exit())
     return which->query_method_exit_messages("go");
   if(i)

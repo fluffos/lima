@@ -18,7 +18,7 @@ void generate_panel_item()
     {
         string key;
         if (sscanf(dest, "%s/%s", key, dest) == 2)
-            lookstr += "\t(" + key + ") " + capitalize(dest) + "\n";
+            lookstr += "\t[" + key + "] " + capitalize(dest) + "\n";
         else
             lookstr += "\t" + capitalize(dest) + "\n";
     }

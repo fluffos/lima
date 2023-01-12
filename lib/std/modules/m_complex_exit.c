@@ -517,7 +517,6 @@ int complex_exit_do_verb_rule(string verb,string rule,mixed args...)
   string method;
   mixed dest;
   object sibling;
-
 /* For our purposes the rule should always be WRD OBJ or OBJ or no rule at 
    all.  -- Check for no rule first.*/
 
