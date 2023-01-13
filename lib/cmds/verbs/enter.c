@@ -12,7 +12,7 @@ void do_enter()
   if (sizeof(doors) == 1 && doors[0])
   {
     string cannot_go = doors[0]->direct_verb_rule("go", "OBJ", doors[0]);
-    if (cannot_go)
+    if (cannot_go && stringp(cannot_go))
     {
       write(cannot_go);
       return;
