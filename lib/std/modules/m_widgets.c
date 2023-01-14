@@ -9,6 +9,13 @@
 **
 */
 
+private
+int unicodetheme = member_array(this_user()->frames_theme(), ({"ascii", "lines", "none"})) == -1;
+private
+string barchar = unicodetheme ? "▅" : "=";
+private
+string nobarchar = unicodetheme ? "▅" : ".";
+
 //: FUNCTION i_simplify
 // Returns TRUE if the current user (not the object receiving the message!)
 // has simplify turned on.
@@ -73,9 +80,10 @@ string green_bar(int value, int max, int width)
 	green = (value * 1.00 / max) * (width)-1;
 	white = width - 2 - green;
 
-	return sprintf("[" + (white == 0 ? "<006>" : "<002>") + "%s<res><007>%s<res>]",
-				   repeat_string("=", green),
-				   repeat_string(".", white));
+	return sprintf("[" + (white == 0 ? "<006>" : "<002>") + "%s<res><" +
+					   (unicodetheme ? "238" : "007") + ">%s<res>]",
+				   repeat_string(barchar, green),
+				   repeat_string(nobarchar, white));
 }
 
 //: FUNCTION critical_bar
@@ -84,10 +92,6 @@ string critical_bar(int value, int max, int width)
 {
 	int green, white;
 	float p;
-	string *simple_themes = ({"ascii", "lines", "none"});
-	int unicodetheme = member_array(this_user()->frames_theme(), simple_themes) == -1;
-	string barchar = unicodetheme ? "▅" : "=";
-	string nobarchar = unicodetheme ? "▅" : ".";
 
 	string bar_colour = "<040>";
 	if (i_simplify())
@@ -109,7 +113,7 @@ string critical_bar(int value, int max, int width)
 	white = width - 1 - green;
 	//	TBUG("Green: "+green+" White: "+white+" value: "+value+" max: "+max+" width: "+width);
 
-	return sprintf("[" + bar_colour + "%s<res><"+(unicodetheme ? "238" : "007")+">%s<res>]",
+	return sprintf("[" + bar_colour + "%s<res><" + (unicodetheme ? "238" : "007") + ">%s<res>]",
 				   repeat_string(barchar, green),
 				   repeat_string(nobarchar, white));
 }
@@ -153,17 +157,27 @@ string slider_red_green(int value, int max, int width)
 {
 	string return_string;
 	int marker;
+	string x_char = "X";
+	string line_char = "-";
+	if (unicodetheme)
+	{
+		x_char = "●";
+		line_char = "▬";
+	}
+
 	if (i_simplify())
 		return "";
-	width = width - 3; // [, X and ]
+	width = width - 2; // [, X and ]
 	marker = width * ((value + (max / 2.0)) / (max * 1.0));
 
-	return_string = repeat_string("-", marker) + "X" + repeat_string("-", width - marker);
-	return_string = return_string[0..(width / 2)] + "<002>" + return_string[(width / 2)..];
+	return_string = repeat_string(line_char, marker) + x_char + repeat_string(line_char, width - marker);
+	return_string = return_string[0..(width / 2)] + "<002>" + return_string[(width / 2+1)..];
+	TBUG(return_string);
 	if (marker < (width / 2))
-		return_string = replace_string(return_string, "X", "<bld>X<res><001>");
+		return_string = replace_string(return_string, x_char, "<bld>" + x_char + "<res><001>");
 	else
-		return_string = replace_string(return_string, "X", "<bld>X<res><002>");
+		return_string = replace_string(return_string, x_char, "<bld>" + x_char + "<res><002>");
+	TBUG(return_string);
 	return "[<001>" + return_string + "<res>]";
 }
 
@@ -179,16 +193,23 @@ string slider_colours_sum(int value, mapping colours, int width)
 	string return_string;
 	int pfish_add = 0;
 	int next_pos = 0;
+	string x_char = "X";
+	string line_char = "-";
+	if (unicodetheme)
+	{
+		x_char = "●";
+		line_char = "▬";
+	}
 	if (i_simplify())
 		return "";
 	width = width - 3; // [ and ]
 	marker = width * (1.0 * value / max);
 	if (marker == 0)
-		return_string = "X" + repeat_string("-", width - 1);
+		return_string = x_char + repeat_string(line_char, width - 1);
 	else if (marker == (width - 1))
-		return_string = repeat_string("-", width) + "X";
+		return_string = repeat_string(line_char, width) + x_char;
 	else
-		return_string = repeat_string("-", marker) + "X" + repeat_string("-", width - marker);
+		return_string = repeat_string(line_char, marker) + x_char + repeat_string(line_char, width - marker);
 
 	foreach (int val in sort_array(keys(colours), 1))
 	{

@@ -19,6 +19,8 @@ inherit CMD;
 inherit M_WIDGETS;
 inherit M_COLOURS;
 
+#define FC "<bld>%-10.10s<res>"
+
 // Always returns a strlen 6.
 string pretty_bonus(int b)
 {
@@ -38,6 +40,7 @@ private
 void main(string arg)
 {
     string name;
+    object frame = new (FRAME);
     object body;
     string e_info = 0;
     string *guilds;
@@ -49,13 +52,15 @@ void main(string arg)
 #endif
     string l_info = "";
     string o_info;
-    string FC = "<bld>%-10.10s<res>"; // First column all the way down
+    string content;
     string *curr;
     int xp = 1;
     mapping accounts;
     int i;
     int width = default_user_width() - 11;
     body = this_body();
+    frame->set_left_header();
+    frame->set_title("Score");
 
     if (strlen(arg) > 0 && wizardp(this_user()))
     {
@@ -65,34 +70,29 @@ void main(string arg)
             out("Cannot find '" + arg + "'.\n");
             return;
         }
-        write("Score for " + capitalize(arg) + ":\n");
+        frame->set_title("Score for " + capitalize(arg));
     }
 
     xp = body->query_experience();
-    write(simple_divider());
 
 #ifdef USE_TITLES
     name = body->query_title();
 #else
     name = body->query_name();
 #endif
-    write(sprintf("%s  (%s) - Level %d\n", name, wizardp(body->query_link()) ? "Wizard" : "Mortal", body->query_level()));
+    content = sprintf("%s  (%s) - Level %d\n", name, wizardp(body->query_link()) ? "Wizard" : "Mortal", body->query_level());
 
-    write(simple_divider());
-
-    e_info = sprintf(FC, "Exp");
-    write(e_info + green_bar(xp - body->xp_for_level(body->query_level()), body->query_next_xp() - body->query_xp_for_level(body->query_level()), width) + "\n");
+    content += green_bar(xp - body->xp_for_level(body->query_level()), body->query_next_xp() - body->query_xp_for_level(body->query_level()), width - 2) + "\n";
     if (body->query_next_xp() - body->query_experience() > 0)
-        write(sprintf(FC + "%d XP - Level %d in %d more points.\n", "",
-                      body->query_experience(),
-                      (body->query_level() + 1),
-                      (body->query_next_xp() - body->query_experience())));
+        content += sprintf("%d XP - Level %d in %d more points.\n",
+                           body->query_experience(),
+                           (body->query_level() + 1),
+                           (body->query_next_xp() - body->query_experience()));
     else
-        write(sprintf(FC + "%d XP - You could be level %d.\n", "",
-                      body->query_experience(),
-                      body->query_could_be_level()));
-
-    write(simple_divider());
+        content += sprintf(FC + "%d XP - You could be level %d.\n", "",
+                           body->query_experience(),
+                           body->query_could_be_level());
+    content += "\n";
 
     o_info = "";
     curr = body->query_currencies();
@@ -109,13 +109,12 @@ void main(string arg)
             foreach (string denom, int count in money)
                 money_str += ({count + " " + denom + (count == 1 ? "" : "s")});
 
-            o_info += sprintf(FC + "%s",
-                              i == 0 ? "Money" : "",
-                              //(curr[i] == "dollar" ? "$" : capitalize(curr[i])),
-                              format_list(money_str));
+            o_info += sprintf("%s", format_list(money_str));
         }
     }
-    write(o_info + "\n");
+
+    content += o_info + "\n\n";
+
     o_info = "";
     accounts = ACCOUNT_D->query_accounts(body);
     if (!sizeof(accounts))
@@ -136,7 +135,6 @@ void main(string arg)
     }
     if (strlen(o_info))
         write(o_info + "\n");
-    write(simple_divider());
 
 #ifdef USE_RACES
     r_info = "  Race: " + capitalize(body->query_race());
@@ -146,25 +144,21 @@ void main(string arg)
 
     l_info = "  Level: " + body->query_level();
 
-    write(sprintf("" +
-                      FC + "Strength     %-4d%s  Agility   %-4d%s  Intelligence %-4d%s\n" +
-                      FC + "Constitution %-4d%s  Charisma  %-4d%s\n",
-                  "Stats",
-                  body->query_str(), (pretty_bonus(body->query_str() - body->query_str_pure())),
-                  body->query_agi(), (pretty_bonus(body->query_agi() - body->query_agi_pure())),
-                  body->query_int(), (pretty_bonus(body->query_int() - body->query_int_pure())), "",
-                  body->query_con(), (pretty_bonus(body->query_con() - body->query_con_pure())),
-                  body->query_cha(), (pretty_bonus(body->query_cha() - body->query_cha_pure()))));
+    content += sprintf("Strength     %-4d%s  Agility   %-4d%s  Intelligence %-4d%s\n" +
+                           "Constitution %-4d%s  Charisma  %-4d%s\n",
+                       body->query_str(), (pretty_bonus(body->query_str() - body->query_str_pure())),
+                       body->query_agi(), (pretty_bonus(body->query_agi() - body->query_agi_pure())),
+                       body->query_int(), (pretty_bonus(body->query_int() - body->query_int_pure())),
+                       body->query_con(), (pretty_bonus(body->query_con() - body->query_con_pure())),
+                       body->query_cha(), (pretty_bonus(body->query_cha() - body->query_cha_pure()))) +
+               "\n";
 
-    write(sprintf(FC + "%d of %d used %s\n", "Points",
-                  body->query_stat_points(),
-                  body->query_stat_points_max(),
-                  (body->query_stat_points() < body->query_stat_points_max() ? "- visit a trainer!" : "")));
-    write(simple_divider());
-    write(sprintf(FC + "XP Buff: %s\n",
-                  "Other",
-                  (body->query_guild_xp_buff() ? "Guild buff " + body->query_guild_xp_buff() + "%" : "None")));
-    write(simple_divider());
+    content += sprintf("%d of %d used %s\n\n",
+                       body->query_stat_points(),
+                       body->query_stat_points_max(),
+                       (body->query_stat_points() < body->query_stat_points_max() ? "- visit a trainer!" : ""));
+    content += sprintf("XP Buff: %s\n\n",
+                       (body->query_guild_xp_buff() ? "Guild buff " + body->query_guild_xp_buff() + "%" : "None"));
 
 #ifdef USE_KARMA
     if (!i_simplify())
@@ -179,7 +173,7 @@ void main(string arg)
         else
             k_info = replace_string(k_info, "X", "<bld>X<res><002");
 
-        out("Karma    " + slider_red_green(karma, 2000, width) + "\n");
+        content += slider_red_green(karma, 2000, width - 3) + "\n";
     }
 
     if (1)
@@ -221,12 +215,11 @@ void main(string arg)
         }
 
         if (wizardp(this_body()))
-            outf("         %s (%d score)\n", status, karma);
+            content += sprintf("%s (%d score)\n\n", status, karma);
         else
-            outf("         %s\n", status);
+            content += sprintf("%s\n\n", status);
     }
 #endif
-
 
     if (1)
     {
@@ -246,13 +239,20 @@ void main(string arg)
         else
             capa_string = "Unable to move";
 
-        write("Weight    " + slider_colours_sum(capa, ([enc_capa:"<002>",
-                                                          enc_heavy_capa:"<003>", no_move:"<001>", max:"<004>"]),
-                                                width) +
-              "\n");
-        write("          Carrying " + weight_to_string(capa, get_user_variable("metric") != 1) + " / " +
-              weight_to_string(enc_capa, get_user_variable("metric") != 1) +
-              " - " + capa_string + ".\n");
-        write(simple_divider());
+        content += slider_colours_sum(capa, ([enc_capa:"<002>",
+                                                               enc_heavy_capa:"<003>", no_move:"<001>", max:"<004>"]),
+                                                     width-2) +
+                   "\n";
+        content += "Carrying " + weight_to_string(capa, get_user_variable("metric") != 1) + " / " +
+                   weight_to_string(enc_capa, get_user_variable("metric") != 1) +
+                   " - " + capa_string + ".";
     }
+
+    frame->set_header_content(" \nExp\n\n\nMoney\n\nStats\n\n\nPoints\n\nOther\n\n" +
+#ifdef USE_KARMA
+                              "Karma\n\n" +
+#endif
+                              "\nWeight");
+    frame->set_content(content);
+    write(frame->render());
 }

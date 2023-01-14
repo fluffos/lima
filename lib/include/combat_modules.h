@@ -140,7 +140,7 @@
 #define BLOW_STYLE        BLOW_TYPES
 #define FORMULA_STYLE     FORMULA_SKILLS
 #define ADVANCEMENT_STYLE ADVANCEMENT_SIMPLE
-#undef USE_KARMA
+#define USE_KARMA
 
 /* #define or #undef these. Modify them without fear of messing anything
    up in your .o files. */
