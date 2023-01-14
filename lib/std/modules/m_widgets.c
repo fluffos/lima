@@ -172,12 +172,10 @@ string slider_red_green(int value, int max, int width)
 
 	return_string = repeat_string(line_char, marker) + x_char + repeat_string(line_char, width - marker);
 	return_string = return_string[0..(width / 2)] + "<002>" + return_string[(width / 2+1)..];
-	TBUG(return_string);
 	if (marker < (width / 2))
 		return_string = replace_string(return_string, x_char, "<bld>" + x_char + "<res><001>");
 	else
 		return_string = replace_string(return_string, x_char, "<bld>" + x_char + "<res><002>");
-	TBUG(return_string);
 	return "[<001>" + return_string + "<res>]";
 }
 
