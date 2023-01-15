@@ -27,8 +27,11 @@ private
 void main(string arg)
 {
   mapping skills = this_body()->query_skills();
-  int width = this_user()->query_screen_width() - 7;
-  int skill_bar = width - 39;
+  int width = this_user()->query_screen_width() - 6;
+  int skill_bar = width - 25;
+  string barchar = is_unicodetheme() ? "▅" : "=";
+  string nobarchar = is_unicodetheme() ? "▅" : ".";
+  string bend = is_unicodetheme() ? "└" : " ";
   string content;
   string *names;
   object frame = new (FRAME);
@@ -73,10 +76,10 @@ void main(string arg)
         frame->set_title(pretty_name);
       }
       else
-        content += sprintf("%-25s %4s [<040>%s<res>%s<res>] %%^YELLOW%%^%-5s<res>\n",
-                           repeat_string("  ", level - 2) + pretty_name,
+        content += sprintf("%-15s %4s [<040>%s<238>%s<res>] %%^YELLOW%%^%-5s\n",
+                           repeat_string(" " + bend, level - 2) + pretty_name,
                            percentage + "%",
-                           repeat_string("=", green), repeat_string(".", red),
+                           repeat_string(barchar, green), repeat_string(nobarchar, red),
                            "" + skill->training_points, );
     }
     if (content)

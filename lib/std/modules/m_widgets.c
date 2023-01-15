@@ -39,6 +39,11 @@ int default_user_width()
 	return this_user()->query_screen_width() - 2;
 }
 
+int is_unicodetheme()
+{
+	return unicodetheme;
+}
+
 //: FUNCTION on_off_widget
 // [On ] (green) or [Off] (red) depending on int on.
 // "On " or "Off" for simplified view.
@@ -148,7 +153,7 @@ string reverse_critical_bar(int value, int max, int width)
 		green = 0;
 	white = width - 1 - green;
 
-	return sprintf("[" + bar_colour + "%s<res><"+(unicodetheme ? "238" : "007")+">%s<res>]",
+	return sprintf("[" + bar_colour + "%s<res><" + (unicodetheme ? "238" : "007") + ">%s<res>]",
 				   repeat_string(barchar, green),
 				   repeat_string(nobarchar, white));
 }

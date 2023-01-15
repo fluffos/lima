@@ -58,9 +58,89 @@ inherit CLASS_SKILL;
 
 private
 mapping skills = ([]);
+private
+nosave mapping skill_ranks = ([]);
+private
+nosave mixed ranks = SKILL_D->ranks();
 
 int base_test_skill(string skill, int opposing_skill);
 
+//: FUNCTION initiate_ranks
+// int initiate_ranks();
+// Function to build our cache of current skill ranks.
+//
+// This allows us to track whenever we move up a rank without
+// recalculating them all the time. This is called on first call to
+// query_skill_ranks().
+int initiate_ranks()
+{
+	if (sizeof(keys(skill_ranks)) == 0)
+	{
+		foreach (string skill_name in keys(skills))
+		{
+			skill_ranks[skill_name] = SKILL_D->rank_name_from_pts(skills[skill_name]->skill_points);
+		}
+		return 1;
+	}
+	return -1;
+}
+
+int cached_skill_rank(string s)
+{
+	if (!sizeof(keys(skill_ranks)))
+		initiate_ranks();
+	return skill_ranks[s];
+}
+
+//: FUNCTION banner_rankup
+// void banner_rankup(string skill, int rank);
+// Tell this_object() that we just ranked up in a nice and colourful way.
+void banner_rankup(string skill, int rank)
+{
+	tell(this_object(), "\n>>>>> %^B_YELLOW%^RANK UP!%^RESET%^ You're now rank " + rank + " in " + capitalize(skill) + " <<<<<\n");
+}
+
+//: FUNCTION check_rank
+// int check_rank(string skill_name,int sp);
+// The actual check for whether or not we ranked up happens here.
+// If we did rank up banner_rankup() is called and rank cache is updated.
+int check_rank(string skill_name, int sp)
+{
+	int rank = 0;
+	int rankUp = 0;
+
+	while (rank < (sizeof(ranks) - 1) && sp > ranks[rank])
+	{
+		rank++;
+	}
+	// TBUG(this_object()+"Name: "+skill_name+" Cached rank: "+skill_ranks[skill_name]+" calc rank: "+rank+" Skillpoints: "+sp);
+
+	rankUp = rank > skill_ranks[skill_name] ? 1 : 0;
+	if (rankUp)
+	{
+		banner_rankup(skill_name, rank);
+		skill_ranks[skill_name] = rank;
+	}
+
+	return rankUp;
+}
+
+//: FUNCTION query_skill_ranks
+// mapping query_skill_ranks() ;
+// Returns the skill_ranks mapping.
+mapping query_skill_ranks()
+{
+	initiate_ranks();
+	return skill_ranks;
+}
+
+//: FUNCTION set_skill
+// class skill set_skill(string skill, int skill_points, int training_points);
+// Function for creating class skill and settings them directly into the player.
+// Mostly called internally in BODY, but can be used for testing by wizards.
+//
+// i.e. give me 100 skill_points and 20 training_points in combat/sword:
+// @.me->set_skill("combat/sword",100,20)
 class skill set_skill(string skill, int skill_points, int training_points)
 {
 	class skill cs = skills[skill];
@@ -85,14 +165,69 @@ class skill set_skill(string skill, int skill_points, int training_points)
 	return cs;
 }
 
+//: FUNCTION clear_training_points
+// class skill clear_training_points(string skill);
+// Sets a skill to 0 training points. Typically used by
+// M_TRAINER. Checks if the skill exists for the player.
+// Returns the class skill after the modification.
+class skill clear_training_points(string skill)
+{
+	class skill cs = skills[skill];
+	if (!cs)
+		error("Cannot clear training points in non-existing skill " + skill + ".\n");
+
+	cs->training_points = 0;
+
+	return cs;
+}
+
+//: FUNCTION query_skills
+// mapping query_skills();
+// Returns the underlying skills mapping with skill classes from the player.
 mapping query_skills()
 {
 	return skills;
 }
 
-class skill get_skill(string skill)
+//: FUNCTION zero_skills
+// void zero_skills();
+// Delete all skills for a body.
+void zero_skills()
+{
+	skills = ([]);
+}
+
+//: FUNCTION clean_skills
+// void clean_skills();
+// Removes skills from the player that doesn't exist anymore.
+void clean_skills()
+{
+	foreach (string skill in keys(skills))
+	{
+		if (member_array(skill, SKILL_D->query_skills()) == -1)
+			map_delete(skills, skill);
+	}
+}
+
+//: FUNCTION query_skill
+// class skill query_skill(string skill);
+// Returns a single class skill by name.
+class skill query_skill(string skill)
 {
 	return skills[skill];
+}
+
+//: FUNCTION query_skill_pts
+// int query_skill_pts(string skill);
+// Returns the current skill points for a skill.
+// This is not the aggregated points, but the real number
+// of points at this spot of the skill tree.
+// Returns -1 if the skill doesn't exist for the player.
+int query_skill_pts(string skill)
+{
+	if (skills[skill])
+		return skills[skill]->skill_points;
+	return -1;
 }
 
 //: FUNCTION aggregate_skill
@@ -132,6 +267,7 @@ int aggregate_skill(string skill)
 // as appropriate.
 void learn_skill(string skill, int value)
 {
+	initiate_ranks();
 	while (1)
 	{
 		class skill my_skill;
@@ -152,13 +288,16 @@ void learn_skill(string skill, int value)
 		/* as a person's skill increases, the amount they learn decreases */
 		divisor = ((LEARNING_FACTOR - 1) * s * s) / (MAX_SKILL_VALUE * MAX_SKILL_VALUE / 4) + 1;
 		my_skill->skill_points += fuzzy_divide(value, divisor);
+		check_rank(skill, my_skill->skill_points);
+		// TBUG("Skill: "+skill+" s: "+s+" Divisor: "+divisor+" Value: "+value+" Points gained: "+fuzzy_divide(value, divisor)+" Prop: "+fuzzy_divide(value, PROPAGATION_FACTOR));
+
 		if (my_skill->skill_points > MAX_SKILL_VALUE)
 			my_skill->skill_points = MAX_SKILL_VALUE;
 
 		/* accum training points */
 		my_skill->training_points += fuzzy_divide(value, divisor * TRAINING_FACTOR);
 
-		/* as skill moves up tree, it decreases */
+		/* as skill moves up (<-) the tree, it decreases */
 		value = fuzzy_divide(value, PROPAGATION_FACTOR);
 		if (!value)
 			break;
@@ -173,7 +312,7 @@ void learn_skill(string skill, int value)
 //: FUNCTION test_skill
 // This replaces the basic adversary test_skill function,
 // adding an attempt to improve the skill
-int test_skill(string skill, int opposing_skill)
+varargs int test_skill(string skill, int opposing_skill, int no_learn)
 {
 	int total_skill;
 	int amount;
@@ -182,25 +321,28 @@ int test_skill(string skill, int opposing_skill)
 
 	total_skill = aggregate_skill(skill);
 	combined_total = total_skill + opposing_skill;
-
 	res = base_test_skill(skill, opposing_skill);
+	if (combined_total < 0)
+		combined_total = 0;
 
-	if (res)
+	// If we cannot learn here, don't learn
+	if (!no_learn)
 	{
 		/*
-		 ** Successful skill attempts win a number of skill points based on
-		 ** the ratio between the total_skill and opposing_skill.
-		 **
-		 ** The range is MIN to MAX, centered between the two for evenly matched
-		 ** skills.  As the opposing skill increases, so does the amount learned.
-		 */
-		amount = (((SKILL_MAX_ON_WIN - SKILL_MIN_ON_WIN) * opposing_skill + (combined_total / 2)) / 
-			(combined_total + SKILL_MIN_ON_WIN) || 1 // Division by 0 protection
-		);
-		learn_skill(skill, amount);
+		** Successful skill attempts win a number of skill points based on
+		** the ratio between the total_skill and opposing_skill.
+		**
+		** The range is MIN to MAX, centered between the two for evenly matched
+		** skills.  As the opposing skill increases, so does the amount learned.
+		*/
+		if (res)
+		{
+			amount = (((SKILL_MAX_ON_WIN - SKILL_MIN_ON_WIN) * opposing_skill + (combined_total / 2)) / (combined_total + SKILL_MIN_ON_WIN));
+			learn_skill(skill, amount);
+		}
+		else
+			learn_skill(skill, SKILL_ON_FAILURE);
 	}
-	else
-		learn_skill(skill, SKILL_ON_FAILURE);
 	return res;
 }
 
