@@ -85,7 +85,7 @@ class skill set_skill(string skill, int skill_points, int training_points)
 	return cs;
 }
 
-mapping get_skills()
+mapping query_skills()
 {
 	return skills;
 }

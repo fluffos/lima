@@ -119,6 +119,28 @@ void main(string arg)
                            "" + ac_total,
                            critical_bar(limb->health, limb->max_health, hp_bar));
     }
+    content += sprintf("\n%15s %6-s %5s/%5-s %5-s %s\n",
+                       "Reflex",
+                       "Pool",
+                       "" + body->query_reflex(),
+                       "" + body->max_reflex(),
+                       "-",
+                       green_bar(body->query_reflex(), body->max_reflex(), hp_bar));
+
+    content += sprintf("\n%15s %6-s %8.8s    %5-s %s\n",
+                       "Intoxication",
+                       "%",
+                       "" + body->query_drunk_percent() + "%",
+                       "-",
+                       reverse_critical_bar(body->query_drunk(), body->query_max_drunk(), hp_bar));
+
+    content += sprintf("%15s %6-s %8.8s    %5-s %s\n",
+                       "System Abuse",
+                       "%",
+                       "" + body->query_abuse_percent() + "%",
+                       "-",
+                       reverse_critical_bar(body->query_abuse(), body->query_max_abuse(), hp_bar));
+
     frame->set_content(content);
     out(frame->render());
 }
