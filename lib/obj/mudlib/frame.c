@@ -37,9 +37,9 @@ mapping colours = (["fire":({"160,166,172,178,184,190,226,220,214,208,202,196", 
                     "cool":({"021,027,033,039,045,051,087,081,075,069,063,057", "159", "015", "197"}),
                     "pink":({"165,171,177,183,189,195,231,225,219,213,207,201", "231", "015", "197"}),
                    "blues":({"058,059,060,061,062,063", "105", "229", "197"}),
-                    "dusk":({"130,131,132,133,134,135", "220", "015", "197"}),
+                    "dusk":({"130,131,132,133,134,135", "220", "223", "197"}),
                    "sunny":({"226,227,228,229,230,231", "214", "015", "197"}),
-                    "neon":({"088,089,090,091,092,093", "228", "231", "197"}),
+                    "neon":({"088,089,090,091,092,093", "228", "045", "197"}),
                   "nature":({"022,028,034,040,046,083,077,071,065,059", "192", "015", "197"}),
                     "none":({"", "", "", ""}),
 ]);
@@ -56,6 +56,8 @@ int width,        // Width of the frame, default user screen width
 /* Booleans*/
 private
 int add_header, add_footer, left_header;
+
+//Colour configuration storage.
 private
 string *hcolours;
 
@@ -95,6 +97,27 @@ string *query_themes()
 void set_left_header()
 {
     left_header = 1;
+}
+
+private
+string colour_str(string t, string col)
+{
+    return "<" + col + ">" + t + "<res>";
+}
+
+string title(string t)
+{
+    return colour_str(t, hcolours[COL_TITLE]);
+}
+
+string accent(string t)
+{
+    return colour_str(t, hcolours[COL_ACCENT]);
+}
+
+string warning(string t)
+{
+    return colour_str(t, hcolours[COL_WARNING]);
 }
 
 void set_title(string s)
@@ -375,15 +398,6 @@ string end_frame()
     return out;
 }
 
-private
-string use_colour(string *cols, int length)
-{
-    int col_index = floor(sizeof(cols) * ((0.0 + length) / width));
-
-    col_index = CLAMP(col_index, 0, sizeof(cols) - 1);
-    return "<" + cols[col_index] + ">";
-}
-
 varargs private string h_colours(string output, mixed colstring)
 {
     string frames = implode(bits, "");
@@ -404,7 +418,7 @@ varargs private string h_colours(string output, mixed colstring)
         if (strsrch(bits[i], "\n") != -1)
             position = 0;
 
-        new_out += (matches[i] ? use_colour(colours, position) + bits[i] + "<res>" : bits[i]);
+        new_out += (matches[i] ? use_colour(colours, position, width) + bits[i] + "<res>" : bits[i]);
         position += strlen(bits[i]);
         i++;
     }

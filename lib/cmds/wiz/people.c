@@ -55,7 +55,6 @@
 #include <playerflags.h>
 
 inherit CMD;
-inherit M_COLOURS;
 inherit M_WIDGETS;
 
 #define WHO_FORMAT "%s:  (Local Time is: %s) %28s\n%s"

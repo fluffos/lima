@@ -21,7 +21,7 @@
 inherit CMD;
 
 #define USER_DESC "(PLAYERS ONLY)"
-#define WHO_FORMAT "%s:  (Local Time is: %s) %s"
+#define WHO_FORMAT "%s: %s %s"
 
 string get_who_string(string arg)
 {
@@ -29,6 +29,7 @@ string get_who_string(string arg)
   int i;
   string name, extra, retval;
   object frame = new (FRAME);
+  int use_levels_guess=sizeof(bodies()) ? bodies()[0]->query_level()>0 : 0;
 
   extra = retval = "\n";
   if (this_user())
@@ -40,13 +41,17 @@ string get_who_string(string arg)
       u = filter_array(bodies(), (
                                      : !wizardp($1)
                                      :));
-      extra = USER_DESC + "\n";
+      extra = frame->accent(USER_DESC);
       break;
     case "-w":
+      u = filter_array(bodies(), (
+                                     : wizardp:));
+      extra = frame->accent("(Wizards only)");
+      break;
     case "-i":
       u = filter_array(bodies(), (
                                      : wizardp:));
-      extra = "(IMPLEMENTORS ONLY)\n";
+      extra = frame->accent("(Implementors only)");
       break;
     case "-m":
       if (wizardp(this_user()))
@@ -56,13 +61,13 @@ string get_who_string(string arg)
                              : !interactive($1)
                              :))
                 ->query_body();
-        extra = "(NON-INTERACTIVES)\n";
+        extra = frame->accent("(Non-interactives)");
         break;
       }
       /* FALLTHRU */
     default:
       if (arg)
-        write("Who: Unknown flag '" + arg + "'.\n");
+        extra=frame->warning("Unknown flag"+(sizeof(arg)==2 ? "":"s")+" '" + arg + "'");
       u = bodies();
       break;
     }
@@ -79,7 +84,7 @@ string get_who_string(string arg)
   u -= ({0});
   i = sizeof(u);
   frame->set_title(sprintf("Who - %d user%s", i, (i != 1 ? "s" : "")));
-  if (u[0]->query_level())
+  if (use_levels_guess)
   {
     frame->set_header_content("Level   Role     Name");
     frame->set_footer_content(sprintf(WHO_FORMAT, mud_name(), ctime(time()), extra,

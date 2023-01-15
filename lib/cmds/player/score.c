@@ -17,7 +17,6 @@
 
 inherit CMD;
 inherit M_WIDGETS;
-inherit M_COLOURS;
 
 #define FC "<bld>%-10.10s<res>"
 
@@ -229,6 +228,10 @@ void main(string arg)
         int no_move = this_body()->query_no_move_capacity();
         int max = this_body()->query_max_capacity();
         string capa_string;
+        mapping colours = ([0.0 +
+                  enc_capa:"057", 0.0 + ((enc_heavy_capa *0.8) ):"056", 0.0 + ((enc_heavy_capa * 0.9)):"055",
+                           0.0 +
+            enc_heavy_capa:"054", (1.0 * no_move):"053",  (0.9 * no_move):"052", 0.0 + no_move:"088",0.0 + max:"126"]);
 
         if (capa < enc_capa)
             capa_string = "Unencumbered";
@@ -239,9 +242,8 @@ void main(string arg)
         else
             capa_string = "Unable to move";
 
-        content += slider_colours_sum(capa, ([enc_capa:"<002>",
-                                                               enc_heavy_capa:"<003>", no_move:"<001>", max:"<004>"]),
-                                                     width-2) +
+        //"058","064","070","076","076","082","190","226","220","214","208","202","196",
+        content += slider_colours_sum(0.0 + capa, colours, width - 2) +
                    "\n";
         content += "Carrying " + weight_to_string(capa, get_user_variable("metric") != 1) + " / " +
                    weight_to_string(enc_capa, get_user_variable("metric") != 1) +

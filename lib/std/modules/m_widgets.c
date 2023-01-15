@@ -9,6 +9,8 @@
 **
 */
 
+inherit M_COLOURS;
+
 private
 int unicodetheme = member_array(this_user()->frames_theme(), ({"ascii", "lines", "none"})) == -1;
 private
@@ -118,13 +120,13 @@ string critical_bar(int value, int max, int width)
 				   repeat_string(nobarchar, white));
 }
 
-//: FUNCTION critical_bar
+//: FUNCTION reverse_critical_bar
 // A bar that change colour the lower it gets
 string reverse_critical_bar(int value, int max, int width)
 {
 	int green, white;
 	float p;
-	string bar_colour = "<005>";
+	string bar_colour = "<129>";
 	if (i_simplify())
 		return "";
 	if (!max)
@@ -132,11 +134,11 @@ string reverse_critical_bar(int value, int max, int width)
 	p = value / (max * 1.0);
 
 	if (p < 0.30)
-		bar_colour = "<002>";
+		bar_colour = "<040>";
 	else if (p < 0.60)
-		bar_colour = "<003>";
+		bar_colour = "<226>";
 	else if (p < 0.80)
-		bar_colour = "<001>";
+		bar_colour = "<196>";
 
 	if (value > max)
 		value = max;
@@ -145,9 +147,9 @@ string reverse_critical_bar(int value, int max, int width)
 		green = 0;
 	white = width - 1 - green;
 
-	return sprintf("[" + bar_colour + "%s<res><011>%s<res>]",
-				   repeat_string("=", green),
-				   repeat_string(".", white));
+	return sprintf("[" + bar_colour + "%s<res><"+(unicodetheme ? "238" : "007")+">%s<res>]",
+				   repeat_string(barchar, green),
+				   repeat_string(nobarchar, white));
 }
 
 //: FUNCTION slider_red_green
@@ -171,28 +173,42 @@ string slider_red_green(int value, int max, int width)
 	marker = width * ((value + (max / 2.0)) / (max * 1.0));
 
 	return_string = repeat_string(line_char, marker) + x_char + repeat_string(line_char, width - marker);
-	return_string = return_string[0..(width / 2)] + "<002>" + return_string[(width / 2+1)..];
-	if (marker < (width / 2))
-		return_string = replace_string(return_string, x_char, "<bld>" + x_char + "<res><001>");
-	else
-		return_string = replace_string(return_string, x_char, "<bld>" + x_char + "<res><002>");
-	return "[<001>" + return_string + "<res>]";
+	return_string = return_string[0..(width / 2)] + return_string[(width / 2 + 1)..];
+	return_string = gradient_string(return_string, ({
+													   "058",
+													   "064",
+													   "070",
+													   "076",
+													   "076",
+													   "082",
+													   "190",
+													   "226",
+													   "220",
+													   "214",
+													   "208",
+													   "202",
+													   "196",
+												   }));
+	return_string = replace_string(return_string, x_char, "<015>" + x_char + "<res>");
+	return "[" + return_string + "<res>]";
 }
 
 //: FUNCTION slider_colours_sum
 // A slider with multiple colours and cumulative ranges and a marker.
 // The colours mapping should be on the format:
-//   ([20:"red",50:"yellow",100:"green"])
+//   ([20:"040",50:"041",100:"042"])
 // where each number is bigger and strings are ANSI colours.
 string slider_colours_sum(int value, mapping colours, int width)
 {
 	int marker;
 	int max = sort_array(keys(colours), -1)[0];
 	string return_string;
-	int pfish_add = 0;
+	int colour_add = 0;
 	int next_pos = 0;
 	string x_char = "X";
 	string line_char = "-";
+	string colour_after_marker; // Save this colour to make things easier later.
+
 	if (unicodetheme)
 	{
 		x_char = "●";
@@ -213,12 +229,17 @@ string slider_colours_sum(int value, mapping colours, int width)
 	{
 		string col = colours[val];
 		if (!next_pos)
-			return_string = upper_case(col) + return_string;
+			return_string = "<" + upper_case(col) + ">" + return_string;
 		if (next_pos)
-			return_string = return_string[0..(next_pos + pfish_add)] + upper_case(col) + return_string[((next_pos + pfish_add) + 1)..];
-		pfish_add += strlen(col) + 4;
+			return_string = return_string[0..(next_pos + colour_add)] +
+							"<" + upper_case(col) + ">" + return_string[((next_pos + colour_add) + 1)..];
+		colour_add += strlen(col) + 2;
 		next_pos = width * (1.0 * val / max);
+		if (next_pos > marker && !colour_after_marker)
+			colour_after_marker = col;
 	}
+
+	return_string = replace_string(return_string, x_char, "<015>" + x_char + "<" + colour_after_marker + ">");
 
 	return "[" + return_string + "<res>]";
 }
