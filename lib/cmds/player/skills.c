@@ -59,7 +59,7 @@ void main(string arg)
       class skill skill = skills[name];
       string *parts = explode(name, "/");
       int level = sizeof(parts);
-      int next_level = (i+1)<sizeof(names) ? sizeof(explode(names[i+1],"/")) : 0;
+      int next_level = (i + 1) < sizeof(names) ? sizeof(explode(names[i + 1], "/")) : 0;
       string name2 = repeat_string("   ", sizeof(parts) - 1) + parts[ < 1];
       string pretty_name = SKILL_D->skill_rank_pretty(this_body(), name);
       int percentage = SKILL_D->percent_for_next_rank(this_body(), name);
@@ -80,11 +80,12 @@ void main(string arg)
         frame->set_title(pretty_name);
       }
       else
-        content += sprintf("%-15s %4s [<040>%s<238>%s<res>] %%^YELLOW%%^%-5s\n",
-                           repeat_string(" " + (level==next_level ? contbend : bend), level - 2) + pretty_name,
+        content += sprintf("%-15s %4s [<040>%s<238>%s<res>] %-5s\n",
+                           repeat_string(" " + (level == next_level ? contbend : bend), level - 2) +
+                               pretty_name,
                            percentage + "%",
                            repeat_string(barchar, green), repeat_string(nobarchar, red),
-                           "" + skill->training_points, );
+                           frame->accent(skill->training_points), );
       i++;
     }
     if (content)
