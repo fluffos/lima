@@ -9,7 +9,9 @@
 //:PLAYERCOMMAND
 //$$ see: feelings, adverbs, semote
 //
-//USAGE: random
+//USAGE:: 
+//    random
+//    random <name>
 //
 //This command will randomly select a feeling to execute.
 
@@ -20,7 +22,7 @@ inherit CMD;
 private void main(string str)
 {
   string * emotes = SOUL_D->list_emotes();
-  string name = lower_case(trim(str));
+  string name = lower_case(trim(str||""));
   string rule;
   string extra;
 
