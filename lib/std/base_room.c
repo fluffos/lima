@@ -35,29 +35,52 @@ nosave mixed chat_msg;
 private
 nosave int chat_period = 15;
 private
-nosave int chat_percentage_chance = 20;
-private
 nosave int tag;
+private
+nosave int no_combat;
 
-//: FUNCTION stat_me
-// Returns some debugging info about the object.  Shows the container info,
-// as well as the short and exits.
+//:FUNCTION combat_forbidden
+//Called in rooms where set_combat_forbidden(1).
+//to prevent combat. This is your chance to explain to the player wanting
+//to fight why she cannot. You can use this_body() in this function.
+void combat_forbidden() {}
+
+//:FUNCTION stat_me
+//Returns some debugging info about the object.  Shows the container info,
+//as well as the short and exits.
 string stat_me()
 {
   return sprintf("Room: %s [ %s ]\n\n",
                  short(), implode(query_exit_directions(1), ", ")) +
+         (no_combat ? "*No Combat allowed*\n" : "") +
          container::stat_me();
 }
 
-//: FUNCTION set_brief
-// Set the name of the room seen at the top of the description and in brief mode
+//:FUNCTION set_combat_forbidden
+//void set_combat_forbidden(int x)
+//Use set_combat_forbidden(1) to prevent combat in the room.
+void set_combat_forbidden(int x)
+{
+  no_combat = x;
+}
+
+//:FUNCTION query_combat_forbidden
+//void query_combat_forbidden(int x)
+//Returns 1 if combat is forbidden or 0 if it's allowed.
+int query_combat_forbidden()
+{
+  return no_combat;
+}
+
+//:FUNCTION set_brief
+//Set the name of the room seen at the top of the description and in brief mode
 void set_brief(string str)
 {
   set_proper_name(str);
 }
 
-//: FUNCTION can_hold_water
-// Return 1 if the object can hold water.
+//:FUNCTION can_hold_water
+//Return 1 if the object can hold water.
 /* by default, rooms can hold water */
 int can_hold_water()
 {
@@ -72,13 +95,13 @@ void create(mixed *args...)
   // because setup() is the way people configure mudlib objects.
   // Almost always, except in the case of rooms, game objects are clones.
 
-  // ### Small problem here; some rooms are clones, and this bails for them.
-  // ### We really need a better way to test if we should call setup().
-  // ###
-  // ### Virtual grids, for example, usually depend on cloned rooms working
-  // ### properly.
-  // ###
-  // ### BTW, contrary to the above, it appears this is *NOT* already done for cloned rooms
+  //### Small problem here; some rooms are clones, and this bails for them.
+  //### We really need a better way to test if we should call setup().
+  //###
+  //### Virtual grids, for example, usually depend on cloned rooms working
+  //### properly.
+  //###
+  //### BTW, contrary to the above, it appears this is *NOT* already done for cloned rooms
 
 #if 0
     if( !clonep() )
@@ -108,16 +131,16 @@ void mudlib_setup()
   set_flag(ATTACHED);
 }
 
-//: FUNCTION set_area
-// Used by m_wander to prevent monsters from wandering to far.
-// Can either be a string, or an array of strings
+//:FUNCTION set_area
+//Used by m_wander to prevent monsters from wandering to far.
+//Can either be a string, or an *of strings
 void set_area(string *names...)
 {
   area_names = names;
 }
 
-//: FUNCTION query_area
-// Find out what 'areas' the room belongs to.  See set_area.
+//:FUNCTION query_area
+//Find out what 'areas' the room belongs to.  See set_area.
 string *query_area()
 {
   return area_names;
@@ -206,63 +229,52 @@ string get_base_long()
   return base;
 }
 
+string fancy_long()
+{
+  return "\n   "+trim(replace_string(simple_long(),"\n","\n\n   "))+"\n\n";
+}
+
 string long()
 {
-#ifdef OBVIOUS_EXITS_BOTTOM
   string objtally = show_objects();
-  if (sizeof(objtally))
-    objtally = "You also see:\n" + objtally;
+  if (show_fancy_long())
+  {
+    return sprintf("%sObvious exits are: %%^ROOM_EXIT%%^%s%%^RESET%%^\n%s",
+                   (dont_show_long() ? "" : fancy_long()),
+                   show_exits()+"\n",
+                   objtally);
+  }
   return sprintf("%sObvious Exits: %%^ROOM_EXIT%%^%s%%^RESET%%^\n%s",
                  (dont_show_long() ? "" : simple_long()),
                  show_exits(),
                  objtally);
-#else
-  return sprintf("%s%s",
-                 (dont_show_long() ? "" : simple_long()),
-                 show_objects());
-#endif
 }
 
-//: FUNCTION long_without_object
-// This is used by things like furniture, so the furniture can use the
-// same long as the room, but not see itself in the description.
+//:FUNCTION long_without_object
+//This is used by things like furniture, so the furniture can use the
+//same long as the room, but not see itself in the description.
 string long_without_object(object o)
 {
-#ifdef OBVIOUS_EXITS_BOTTOM
   return sprintf("%sObvious Exits: %%^ROOM_EXIT%%^%s%%^RESET%%^\n%s",
                  simple_long(),
                  show_exits(),
                  show_objects(o));
-#else
-  return sprintf("%s%s",
-                 simple_long(),
-                 show_objects(o));
-#endif
 }
 
-//: FUNCTION set_smell
-// Set what the room sounds like.
-void set_listen(string str) { listen = punctuate(trim(str)); }
+void set_listen(string str) { listen = str; }
 
 string query_listen() { return listen; }
 
-//: FUNCTION set_smell
-// Set what the room smells like.
-void set_smell(string str) { smell = punctuate(trim(str)); }
+void set_smell(string str) { smell = str; }
 
 string query_smell() { return smell; }
 
 void do_listen()
 {
   if (listen)
-    write(listen + "\n");
+    write(listen);
   else
     write("You hear nothing unusual.\n");
-}
-
-void do_look_at_str()
-{
-  write("You do not see that here.\n");
 }
 
 void do_pray() { write("Nothing special happens.\n"); }
@@ -270,7 +282,7 @@ void do_pray() { write("Nothing special happens.\n"); }
 void do_smell()
 {
   if (smell)
-    write(smell + "\n");
+    write(smell);
   else
     write("You smell nothing unusual.\n");
 }
@@ -298,15 +310,12 @@ void check_anybody_here()
 
 void room_chat()
 {
-  if (random(100) <= chat_percentage_chance)
-  {
-    if (stringp(chat_msg))
-      tell_from_outside(this_object(), punctuate(trim(chat_msg)) + "\n");
-    else if (arrayp(chat_msg))
-      tell_from_outside(this_object(), punctuate(trim(choice(chat_msg))) + "\n");
-    else if (functionp(chat_msg))
-      tell_from_outside(this_object(), punctuate(trim(evaluate(chat_msg))) + "\n");
-  }
+  if (stringp(chat_msg))
+    tell_from_outside(this_object(), chat_msg + "\n");
+  else if (arrayp(chat_msg))
+    tell_from_outside(this_object(), choice(chat_msg) + "\n");
+  else if (functionp(chat_msg))
+    tell_from_outside(this_object(), evaluate(chat_msg) + "\n");
   check_anybody_here();
 }
 
@@ -321,19 +330,10 @@ void arrival(object who)
     tag = call_out("room_chat", chat_period, chat_msg);
 }
 
-//: FUNCTION set_room_chat
-// Sets random chats for a room along with an interval in seconds,
-// and a % chance the chat will be shown (default 20). The chat
-// argument can either be a string, an array of strings or a function
-// that will be evaluated to create a string.
-// The call_out() in the room is only called if players are in the room,
-// so using this will be okay even for many rooms.
-varargs void set_room_chat(mixed chat, int interval, int chance)
+void set_room_chat(mixed chat, int interval)
 {
   chat_msg = chat;
   chat_period = interval;
-  if (chance > 0)
-    chat_percentage_chance = chance;
 
   add_hook("object_arrived", (
                                  : arrival:));
