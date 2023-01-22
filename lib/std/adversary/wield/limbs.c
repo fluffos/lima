@@ -56,7 +56,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
    if (ob->query_must_dual_wield())
       force_dual_wield = 1;
 
-   TBUG("Wield: " + ob + " limb: " + limb + " force dual: " + force_dual_wield);
+   //TBUG("Wield: " + ob + " limb: " + limb + " force dual: " + force_dual_wield);
 
    // if limb is zero, we use an open limb, or a random one if we are "full"
    if (!limb)
@@ -64,7 +64,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
       mixed *limbs = filter(query_wielding_limbs(), (
                                                         : query_health($1) > 0 && can_wield($1, 0)
                                                         :));
-      TBUG(limbs);
+      //TBUG(limbs);
       if (sizeof(limbs))
          limb = choice(limbs);
 
@@ -92,7 +92,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
          return;
       }
 
-      TBUG("Select new limb: " + limb);
+      //TBUG("Select new limb: " + limb);
    }
    else
    {
@@ -116,7 +116,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
 
    if (weapons[limb] == ob)
    {
-      TBUG(weapons);
+      //TBUG(weapons);
       printf("You are already wielding %s in your %s.\n", ob->the_short(), limb);
       return;
    }
@@ -124,7 +124,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
    if (ob->query_must_dual_wield() || force_dual_wield)
    {
       limb2 = opposite_limb(limb);
-      TBUG("Must dual wield: " + force_dual_wield + " in limb " + limb2);
+      //TBUG("Must dual wield: " + force_dual_wield + " in limb " + limb2);
       if (weapons[limb2])
       {
          if (weapons[limb2] != ob)
@@ -205,13 +205,13 @@ varargs void wield(object ob, string limb, int force_dual_wield)
 varargs void unwield(string limb)
 {
    string limb2;
-   TBUG("ADV unwield(" + limb + ")");
+   //TBUG("ADV unwield(" + limb + ")");
    if (!limb)
    {
       foreach (limb in query_wielding_limbs())
       {
          unwield(limb);
-         TBUG("No limb found, unwielding in " + limb);
+         //TBUG("No limb found, unwielding in " + limb);
       }
       return;
    }
@@ -220,19 +220,19 @@ varargs void unwield(string limb)
    {
       int dual_wielded = weapons[limb]->query_dual_wielded();
       weapons[limb]->mark_wielded_by(0);
-      TBUG("mark_wielded_by(0) on " + limb);
+      //TBUG("mark_wielded_by(0) on " + limb);
       if (dual_wielded)
       {
          limb2 = opposite_limb(limb);
          weapons[limb2]->mark_wielded_by(0);
-         TBUG("Removing seconds limb "+limb2);
+         //TBUG("Removing seconds limb "+limb2);
       }
    }
    map_delete(weapons, limb);
    if (limb2)
       map_delete(weapons, limb2);
    call_hooks("on_unwield", HOOK_IGNORE);
-   TBUG("Hooks and clean-up done.");
+   //TBUG("Hooks and clean-up done.");
 }
 
 varargs object query_weapon(string limb)
@@ -256,8 +256,8 @@ varargs int do_wield(object ob, string limb, int force_dual_wield)
    if (!(ob->valid_wield()))
       return 0;
    //Oject already wielded by me, force dual and already dual_wielded
-   TBUG("Ob: " + ob + " limb: " + limb + " force: " + force_dual_wield + " dual wielded: " + ob->query_dual_wielded());
-   TBUG("Wielded by: " + ob->query_wielded_by());
+   //TBUG("Ob: " + ob + " limb: " + limb + " force: " + force_dual_wield + " dual wielded: " + ob->query_dual_wielded());
+   //TBUG("Wielded by: " + ob->query_wielded_by());
    if (ob->query_wielded_by() == this_object() && force_dual_wield && ob->query_dual_wielded())
       return 0;
    wield(ob, limb, force_dual_wield);
@@ -268,7 +268,7 @@ varargs int do_wield(object ob, string limb, int force_dual_wield)
 int do_unwield(mixed limb)
 {
    string limb2;
-   TBUG("ADV do_unwield(" + limb + ");");
+   //TBUG("ADV do_unwield(" + limb + ");");
    if (objectp(limb))
    {
       mixed *limbs = filter(query_wielding_limbs(),
@@ -276,8 +276,8 @@ int do_unwield(mixed limb)
                                 : weapons[$1] == $(limb)
                                 :));
 
-      TBUG(weapons);
-      TBUG(limbs);
+      //TBUG(weapons);
+      //TBUG(limbs);
 
       switch (sizeof(limbs))
       {
@@ -297,7 +297,7 @@ int do_unwield(mixed limb)
    if (limb2)
    {
       int skip = 0;
-      TBUG("limb2: " + limb2);
+      //TBUG("limb2: " + limb2);
       if (!weapons[limb2] || weapons[limb2] == this_object())
          skip = 1;
       if (!weapons[limb2]->valid_unwield())
@@ -305,7 +305,7 @@ int do_unwield(mixed limb)
 
       if (!skip)
       {
-         TBUG("!skip: unwield(" + limb2 + ")");
+         //TBUG("!skip: unwield(" + limb2 + ")");
          simple_action(weapons[limb2]->query_unwield_message(), weapons[limb2]);
          unwield(limb2);
          return 1;
@@ -314,13 +314,13 @@ int do_unwield(mixed limb)
 
    if (!weapons[limb] || weapons[limb] == this_object())
    {
-      TBUG("Not found 2: " + limb);
+      //TBUG("Not found 2: " + limb);
       return 0;
    }
 
    if (!(weapons[limb]->valid_unwield()))
    {
-      TBUG("Not valid unwield");
+      //TBUG("Not valid unwield");
       return 0;
    }
 
@@ -331,8 +331,8 @@ int do_unwield(mixed limb)
       simple_action(weapons[limb]->query_unwield_message(), weapons[limb]);
       foreach (string l in limbs)
          unwield(l);
-      TBUG("Action and unwield on " + format_list(limbs));
-      TBUG(weapons);
+      //TBUG("Action and unwield on " + format_list(limbs));
+      //TBUG(weapons);
    }
    return 1;
 }
@@ -343,8 +343,8 @@ string get_wield_attributes()
 {
    string ret = " (wielded with ";
    string *wielding_limbs = previous_object()->query_wielding();
-   TBUG(previous_object());
-   TBUG(wielding_limbs);
+   //TBUG(previous_object());
+   //TBUG(wielding_limbs);
 
    //Sorry, but you do not wield stuff in "arms", hence a string replace here.
    if (sizeof(wielding_limbs) == 1)
@@ -373,7 +373,7 @@ string get_wield_attributes()
          int count = 0;
          foreach (string limbs in wielding_limbs)
          {
-            TBUG("Wielded in [" + count + "]: " + limbs);
+            //TBUG("Wielded in [" + count + "]: " + limbs);
             count++;
          }
          ret += "(Uh... wielded somewhere)";
