@@ -7,18 +7,22 @@
 #define PERCENT_TO_TAKE_DMG_ENCUMBERED 10
 
 int query_con();                               // From M_BODYSTATS
+int query_str();                               // From M_BODYSTATS
 varargs float query_capacity(string relation); // From CONTAINER
 
 private
-mapping money = ([]);
+mapping money = (["dollar":100]);
 private
 mapping materials = ([]);
 
 mapping query_materials()
 {
-    if (!mapp(materials))
-        materials = ([]);
     return materials;
+}
+
+void empty_materials()
+{
+    materials = ([]);
 }
 
 //: FUNCTION add_material
@@ -55,13 +59,21 @@ varargs int add_material(mixed m, int c)
 //: FUNCTION has_material
 // int has_material(string m, int count)
 // Checks for count material from the pouch if available (return 1),
-// otherwise return 0.
+// otherwise return 0. Material could also be in inventory, which is
+// also checked.
 int has_material(string m, int count)
 {
+    object ims;
     if (materials[m] >= count)
     {
         return 1;
     }
+
+    ims = filter_array(all_inventory(), (
+                                            : $1->id($(m)) && ($1->is_material() || $1->is_junk())
+                                            :));
+    if (sizeof(ims) >= count)
+        return 1;
     return 0;
 }
 
@@ -71,6 +83,24 @@ int has_material(string m, int count)
 // otherwise it does nothing (return 0).
 int remove_material(string m, int count)
 {
+    object *ims;
+
+    ims = filter_array(all_inventory(), (
+                                            : $1->id($(m)) && ($1->is_material() || $1->is_junk())
+                                            :));
+
+    if (sizeof(ims) >= count)
+    {
+        count--;
+        ims = ims[0..count];
+        ims->remove();
+        return 1;
+    }
+    else if (sizeof(ims) < count && sizeof(ims))
+    {
+        return 0;
+    }
+
     if (!CRAFTING_D->valid_material(m))
     {
         map_delete(materials, m);
@@ -112,12 +142,14 @@ float query_amt_currency(string currency)
 
 //: FUNCTION add_money
 // This is the function to call to add money to a person
-void add_money(string type, int amount)
+void add_money(string type, float amount)
 {
     type = MONEY_D->singular_name(type);
-    money[type] += amount;
-
-    if (money[type] <= 0)
+    if (!strlen(type))
+        return;
+    money[type] = money[type] + amount;
+    
+    if ((float)money[type] <= 0.0)
         map_delete(money, type);
 }
 
@@ -145,6 +177,11 @@ mapping query_money()
     if (!mapp(money))
         money = ([]);
     return money;
+}
+
+void reset_money()
+{
+    money = ([]);
 }
 
 /*
@@ -187,22 +224,27 @@ varargs string query_money_string(int short)
 }
 */
 
+int base_carry()
+{
+    return 10 + to_int(0.66 * query_con()) + to_int(0.33 * query_str());
+}
+
 /* Override max_capacity from container to make it constitution based */
 varargs int query_max_capacity(string relation)
 {
-    return to_int(query_con() * 4);
+    return to_int(base_carry() * 4);
 }
 
 /* Override max_capacity from container to make it constitution based */
 
 int query_heavy_capacity()
 {
-    return query_con() * 2;
+    return base_carry() * 2;
 }
 
 int query_encumbered_capacity()
 {
-    return query_con();
+    return base_carry();
 }
 
 varargs int query_no_move_capacity(string relation)

@@ -1,25 +1,53 @@
-/* Do not remove the headers from this file! see /USAGE for more info. */
-
 /*
-** loot_d.c -- Controls spawns in the domains
-** This daemon manages materials, loot, salvage, upgrade and crafting.
+** loot_d.c -- Controls loot drops mud-wide
 **
-** Parts inspired by https://www.dndbeyond.com/sources/dmg/treasure#RandomTreasure
+** Tsath 2020-06-10 Doles out loot for monster level 1-100.
 **
-** Tsath 2019-10-14
-**
-** Could perhaps be split into LOOT_D and CRAFTING_D ...
 */
 
-inherit M_DAEMON_DATA;
-inherit M_DICE;
-#define PRIV_NEEDED "Mudlib:daemons"
-
 string currency_type = "gold";
-object *coins_treasure(int level)
+
+//:FUNCTION roll_dice
+// Roll x number of dice with y sides.
+// Not all gaming systems use just the total of the dice, so each result is
+// returned in an array.
+int *roll_dice(int num_dice, int num_sides)
 {
-    object *coins = ({});
+    int i;
+    int *results = ({});
+
+    for (i = 0; i < num_dice; i++)
+    {
+        results += ({random(num_sides) + 1});
+    }
+    return results;
+}
+
+//:FUNCTION dice
+// int dice(int d)
+// Roll a single die and return the result
+int dice(int d)
+{
+    return random(d) + 1;
+}
+
+//:FUNCTION x_dice
+// int x_dice(int n, int d)
+// Return the sum of n dice with d sides .
+int x_dice(int n, int d)
+{
+    int total = 0;
+
+    for (int i = 0; i < n; i++)
+        total += dice(d);
+    return total;
+}
+
+object *money_treasure(int level)
+{
+    object *money = ({});
     int p = random(100) + 1;
+    level += 5; //Up the drops a bit.
 
     switch (level)
     {
@@ -27,19 +55,19 @@ object *coins_treasure(int level)
         switch (p)
         {
         case 1..30:
-            coins += ({new (COINS, x_dice(5, 6) * (level / 16.0), "copper")});
+            money += ({new (MONEY, x_dice(1, 6) * (level / 16.0), currency_type)});
             break;
         case 31..60:
-            coins += ({new (COINS, x_dice(4, 6) * (level / 16.0), "electrum")});
+            money += ({new (MONEY, x_dice(2, 6) * (level / 16.0), currency_type)});
             break;
         case 61..70:
-            coins += ({new (COINS, x_dice(3, 6) * (level / 16.0), "silver")});
+            money += ({new (MONEY, x_dice(3, 6) * (level / 16.0), currency_type)});
             break;
         case 71..95:
-            coins += ({new (COINS, x_dice(3, 6) * (level / 16.0), "gold")});
+            money += ({new (MONEY, x_dice(4, 6) * (level / 16.0), currency_type)});
             break;
         case 96..100:
-            coins += ({new (COINS, x_dice(1, 6) * (level / 16.0), "platinum")});
+            money += ({new (MONEY, x_dice(6, 6) * (level / 16.0), currency_type)});
             break;
         }
         break;
@@ -47,22 +75,19 @@ object *coins_treasure(int level)
         switch (p)
         {
         case 1..30:
-            coins += ({new (COINS, x_dice(4, 6) * ((level - 16) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(1, 6) * ((level - 16) / 23.0), "electrum")});
+            money += ({new (MONEY, x_dice(5, 6) * ((level - 16) / 23.0), currency_type)});
             break;
         case 31..60:
-            coins += ({new (COINS, x_dice(6, 6) * ((level - 16) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(2, 6) * ((level - 16) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(6, 6) * ((level - 16) / 23.0), currency_type)});
             break;
         case 61..70:
-            coins += ({new (COINS, x_dice(1, 6) * ((level - 16) / 23.0), "electrum")});
-            coins += ({new (COINS, x_dice(2, 6) * ((level - 16) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(7, 6) * ((level - 16) / 23.0), currency_type)});
             break;
         case 71..95:
-            coins += ({new (COINS, x_dice(4, 6) * ((level - 16) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(8, 6) * ((level - 16) / 23.0), currency_type)});
             break;
         case 96..100:
-            coins += ({new (COINS, x_dice(5, 6) * ((level - 16) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(10, 6) * ((level - 16) / 23.0), currency_type)});
             break;
         }
         break;
@@ -70,19 +95,16 @@ object *coins_treasure(int level)
         switch (p)
         {
         case 1..20:
-            coins += ({new (COINS, x_dice(4, 6) * 10 * ((level - 40) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(1, 6) * 10 * ((level - 40) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(4, 6) * 10 * ((level - 40) / 23.0), currency_type)});
             break;
         case 21..35:
-            coins += ({new (COINS, x_dice(4, 6) * 20 * ((level - 40) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(1, 6) * 10 * ((level - 40) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(8, 6) * 20 * ((level - 40) / 23.0), currency_type)});
             break;
         case 36..75:
-            coins += ({new (COINS, x_dice(2, 6) * 100 * ((level - 40) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(1, 6) * 10 * ((level - 40) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(12, 6) * 100 * ((level - 40) / 23.0), currency_type)});
             break;
         case 76..100:
-            coins += ({new (COINS, x_dice(4, 6) * 10 * ((level - 40) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(16, 6) * 10 * ((level - 40) / 23.0), currency_type)});
             break;
         }
         break;
@@ -90,218 +112,73 @@ object *coins_treasure(int level)
         switch (p)
         {
         case 1..15:
-            coins += ({new (COINS, x_dice(2, 6) * 200 * ((level - 40) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(8, 6) * 10 * ((level - 40) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(2, 6) * 200 * ((level - 40) / 23.0), currency_type)});
             break;
         case 16..55:
-            coins += ({new (COINS, x_dice(2, 6) * 1000 * ((level - 40) / 23.0), "gold")});
+            money += ({new (MONEY, x_dice(3, 6) * 1000 * ((level - 40) / 23.0), currency_type)});
             break;
         case 56..100:
-            coins += ({new (COINS, x_dice(2, 6) * 1000 * ((level - 40) / 23.0), "gold")});
-            coins += ({new (COINS, x_dice(1, 6) * 100 * ((level - 40) / 23.0), "platinum")});
+            money += ({new (MONEY, x_dice(4, 6) * 1000 * ((level - 40) / 23.0), currency_type)});
+            break;
+        }
+        break;
+    case 81..100:
+        switch (p)
+        {
+        case 1..15:
+            money += ({new (MONEY, x_dice(2, 6) * 400 * ((level - 40) / 23.0), currency_type)});
+            break;
+        case 16..55:
+            money += ({new (MONEY, x_dice(3, 6) * 2000 * ((level - 40) / 23.0), currency_type)});
+            break;
+        case 56..100:
+            money += ({new (MONEY, x_dice(4, 6) * 4000 * ((level - 40) / 23.0), currency_type)});
             break;
         }
         break;
     }
 
-    return coins;
+    if (!money[0]->query_amt_money("dollars"))
+        return 0;
+
+    return money;
 }
 
 void drop_corpse(object adversary)
 {
-    string corpse_filename = adversary->query_corpse_filename();
+    string corpse_filename = CORPSE;
     string corpse_long = adversary->query_corpse_long();
     string in_room_singular = adversary->in_room_singular();
     string in_room_plural = adversary->in_room_plural();
-    // Handling of players dropping corpses
+    //Handling of players dropping corpses
     if (adversary->is_body())
     {
-        string domain = explode(base_name(environment(adversary)), "/")[1];
-        object stone_room = DOMAIN_D->find_soul_stone_in_domain(domain, adversary);
         object corpse = new (corpse_filename, adversary->query_name(), corpse_long);
 
-        // If we do not have a stone room, we give up and move to void.
-        if (!objectp(stone_room))
-            stone_room = load_object(VOID_ROOM);
-
         corpse->override_room_desc(in_room_singular, in_room_plural);
-#ifdef PLAYERS_DROP_EQUIPMENT_AT_DEATH
-        all_inventory(adversary)->set_worn(0);
-        all_inventory(adversary)->set_tattered();
-        all_inventory(adversary)->reduce_value_by(10);
-        all_inventory(adversary)->move(corpse);
-#endif
         corpse->move(environment(adversary));
-        adversary->move(stone_room);
     }
-    else // everybody else
+    else //everybody else
     {
         object corpse = new (corpse_filename, adversary->query_name(), corpse_long);
         object death_location = environment(adversary);
+        string meaty = adversary->query_drops_meat();
         adversary->move(HEAVEN);
         corpse->override_room_desc(in_room_singular, in_room_plural);
         if (sizeof(all_inventory(adversary)))
         {
+            object *moneys = money_treasure(adversary->query_level());
             all_inventory(adversary)->set_worn(0);
-            all_inventory(adversary)->set_tattered();
-            all_inventory(adversary)->reduce_value_by(10);
             all_inventory(adversary)->move(corpse);
-            coins_treasure(adversary->query_level())->move(corpse);
+            if (moneys)
+                moneys->move(corpse);
         }
-        if (adversary->query_drops_pelt())
+        if (meaty)
         {
-            object pelt = new (PELT);
-            pelt->set_pelt_size(adversary->query_level());
-            pelt->set_pelt_type(adversary->query_drops_pelt());
-            pelt->move(corpse);
+            object meat = new (MEAT, meaty, adversary->query_level());
+            meat->move(corpse);
         }
+
         corpse->move(death_location);
     }
-}
-
-object *create_gems(int num, int cap)
-{
-    object *gems = ({});
-    int c = 0;
-    while (c < num)
-    {
-        gems += ({new (GEM, cap)});
-        c++;
-    }
-    return gems;
-}
-
-object *create_art(int num, int value)
-{
-    object *art = ({});
-    int c = 0;
-    while (c < num)
-    {
-        art += ({new (ART_OBJECT, value)});
-        c++;
-    }
-    return art;
-}
-
-object *loot_chest(int level)
-{
-    object *loot = ({});
-    object t;
-    object *t_ar = ({});
-    int roll = random(100);
-    int count;
-
-    // Chest coins first
-    switch (level)
-    {
-    case 0..16:
-        loot += ({new (COINS, x_dice(6, 6) * 100 * (level / 16.0), "copper")});
-        loot += ({new (COINS, x_dice(3, 6) * 100 * (level / 16.0), "silver")});
-        loot += ({new (COINS, x_dice(2, 6) * 10 * (level / 16.0), "gold")});
-        // Gems
-        switch (roll)
-        {
-        case 1..6:
-            break;
-        case 7..16:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 10);
-            break;
-        case 17..26:
-            count = x_dice(2, 4);
-            count *= level / 16.0;
-            loot += create_art(count, 25);
-            break;
-        case 27..36:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 50);
-            break;
-        case 37..44:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 10);
-            break;
-        case 45..52:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_art(x_dice(2, 4), 25);
-            break;
-        case 53..60:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 50);
-            break;
-        case 61..65:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 10);
-            break;
-        case 66..70:
-            count = x_dice(2, 4);
-            count *= level / 16.0;
-            loot += create_art(count, 25);
-            break;
-        case 71..75:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 50);
-            break;
-        case 76..78:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 10);
-            break;
-        case 79..80:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_art(count, 25);
-            break;
-        case 81..85:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 50);
-            break;
-        case 86..92:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_art(count, 25);
-            break;
-        case 93..97:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 64);
-            break;
-        case 98..99:
-            count = x_dice(2, 4);
-            count *= level / 16.0;
-            loot += create_art(count, 25);
-            break;
-        case 0:
-            count = x_dice(2, 6);
-            count *= level / 16.0;
-            loot += create_gems(count, 64);
-            break;
-        }
-    }
-
-    return loot;
-}
-
-void drop_chest(object slayer, int level)
-{
-    object chest;
-    object *loot = loot_chest(level);
-    if (!slayer || !slayer->is_body())
-        slayer = this_body();
-    chest = new ("/std/loot_chest", slayer);
-    TBUG("drop chest for " + slayer->query_name());
-    TBUG(chest->move(environment(slayer)));
-    loot->move(chest);
-}
-
-void create()
-{
-    ::create();
 }

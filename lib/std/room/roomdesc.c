@@ -65,12 +65,11 @@ varargs string show_objects(object except)
             str += sprintf(" (outside %s)", except->the_short());
           obj_show += str + "\n";
         }
-        // Tsath: Don't show inventory of objects in rooms said Stanach
-        // Alright, we do not do that any more.
-        /*
+        
+        //Comment out the two lines below to hide contents of things in rooms.
+        //Stanach likes that.
         if(obs[n]->inventory_visible() && !obs[n]->query_hide_contents()) 
           obj_show += obs[n]->show_contents();
-          */
       }
     }
   }

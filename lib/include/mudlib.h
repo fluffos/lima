@@ -228,6 +228,7 @@
 #define M_FLUID_CONTAINER "/std/modules/m_fluid_container"
 #define M_CONVERSATION    "/std/modules/m_conversation"
 #define M_WIDGETS         "/std/modules/m_widgets"
+#define M_STATEFUL        "/std/modules/m_stateful"
 
 /* for area objects */
 #define M_ACCOUNTANT      "/std/modules/m_accountant"
@@ -324,6 +325,8 @@
 // These next few are 'high level' inheritables and probably should have
 // their own dir.
 #define ACCOUNTANT        "/std/accountant"
+#define MEAT              "/std/meat"
+#define JUNK              "/std/junk"
 #define BED               "/std/bed"
 #define MONEY             "/std/money"
 #define BOOK              "/std/book"

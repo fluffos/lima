@@ -7,22 +7,39 @@
 //amount of time. You may also have an object decay in stages.
 /*
 ** Coded by Kinison@Private Idaho - June 18, 1996
+** Rewritten by Tsath, 2020, to use STATE_D.
 */
 
-private int num_decays, decay_time;
-private mixed decay_action;
-private mixed last_decay_action;
-private int tag;
-private int auto_remove;
+inherit M_STATEFUL;
+
+private
+int num_decays, decay_time;
+private
+mixed decay_action;
+private
+mixed last_decay_action;
+private
+int tag;
+private
+int auto_remove;
+private
+int decays = 1;
+int decay_begun;
 
 void remove();
 
 //:FUNCTION set_decay_action
-//string argument - causes 'string' to be printed this object decays.  
-//function argument -  causes the function to be called instead.
+//set_decay_action(string) causes 'string' to be printed this
+//object decays.  set_decay_action(function) causes the function
+//to be called instead.
 void set_decay_action(mixed action)
 {
    decay_action = action;
+}
+
+int decays()
+{
+   return 1;
 }
 
 //:FUNCTION set_last_decay_action
@@ -32,13 +49,17 @@ void set_last_decay_action(mixed action)
    last_decay_action = action;
 }
 
+int decay_begun()
+{
+   return decay_begun;
+}
+
 //:FUNCTION set_num_decays
 //This sets the number of stages to decay in.
 int set_num_decays(int num)
 {
    return (num_decays = num);
 }
-
 
 void set_decay_auto_remove(int i)
 {
@@ -50,49 +71,58 @@ int query_num_decays()
    return num_decays;
 }
 
-void start_decay()
-{
-   tag = call_out("decay_it", decay_time);
-}
-
-//:FUNCTION set_decay_time 
+//:FUNCTION set_decay_time
+//void set_decay_time(int num)
 //Set the length of time that it takes to decay this item.
 //setting this makes the item decayable, not setting this varriable will not
 //make it decay.
-varargs void set_decay_time(int num, int dont_autostart)
+void set_decay_time(int num)
 {
-   if(num)
-   {
-      decay_time = num;
-      if(!dont_autostart)
-         start_decay();
-   }
+   set_call_interval(num);
 }
 
 //Decay at this time and remove the object if at the last decay.
-void decay_it()
+int decay_it()
 {
    mixed action;
+   decay_begun=1;
 
-   if(num_decays == 1 && last_decay_action)
+   if (num_decays == 1 && last_decay_action)
       action = last_decay_action;
    else
       action = decay_action;
 
-   if(stringp(action))
-      object_event(action);
+   if (stringp(action))
+      if (environment() && environment()->is_body())
+         tell(environment(), action + "\n");
+      else
+         object_event(action);
    else
       evaluate(action);
 
    num_decays--;
 
-   if(num_decays)
-      tag = call_out("decay_it", decay_time);
-   else if(auto_remove)
+   if (!num_decays && auto_remove)
       remove();
+   if (!num_decays)
+      return 0;
+   return 1;
+}
+
+int state_update()
+{
+   if (decays)
+      if (decay_it())
+         return 1;
+   return 0;
 }
 
 void stop_decay()
 {
-   remove_call_out(tag);
+   decays = 0;
+}
+
+void mudlib_setup()
+{
+   m_stateful::mudlib_setup();
 }

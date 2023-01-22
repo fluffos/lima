@@ -43,6 +43,7 @@
 #define WEATHER_D     "/daemons/weather_d"
 #define EMOJI_D       "/daemons/emoji_d"
 #define CRAFTING_D    "/daemons/crafting_d"
+#define STATE_D       "/daemons/state_d"
 
 #define DOMAIN_D      "/daemons/domain_d"
 #define LOOT_D        "/daemons/loot_d"

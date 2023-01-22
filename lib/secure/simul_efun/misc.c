@@ -389,6 +389,7 @@ mixed* decompose( mixed* org )
 
 mixed choice( mixed f ){
     mixed *k;
+    /*
   switch(typeof(f)){
     case STRING: return f[random(strlen(f))];
     case ARRAY: return f[random(sizeof(f))];
@@ -396,12 +397,13 @@ mixed choice( mixed f ){
     default:
       error("choice of non-sequential type");
   }
+  */
 }
 
 mixed sum(mixed *numbers...)
 {
     mixed number, result = 0;
-
+/*
     foreach (number in numbers)
     {
         switch (typeof(number))
@@ -416,7 +418,7 @@ mixed sum(mixed *numbers...)
             error("Argument must be an array of int or float: "+typeof(number)+".\n");
         }
     }
-
+*/
     return result;
 }
 

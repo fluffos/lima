@@ -108,10 +108,10 @@ void main(string arg)
             foreach (string denom, int count in money)
                 money_str += ({count + " " + denom + (count == 1 ? "" : "s")});
 
-            o_info += sprintf("%s", format_list(money_str));
+            o_info += sprintf("%s",
+                              format_list(money_str));
         }
     }
-
     content += o_info + "\n\n";
 
     o_info = "";
@@ -229,9 +229,9 @@ void main(string arg)
         int max = this_body()->query_max_capacity();
         string capa_string;
         mapping colours = ([0.0 +
-                  enc_capa:"057", 0.0 + ((enc_heavy_capa *0.8) ):"056", 0.0 + ((enc_heavy_capa * 0.9)):"055",
+                  enc_capa:"057", 0.0 + ((enc_heavy_capa * 0.8)):"056", 0.0 + ((enc_heavy_capa * 0.9)):"055",
                            0.0 +
-            enc_heavy_capa:"054", (1.0 * no_move):"053",  (0.9 * no_move):"052", 0.0 + no_move:"088",0.0 + max:"126"]);
+            enc_heavy_capa:"054", (1.0 * no_move):"053", (0.9 * no_move):"052", 0.0 + no_move:"088", 0.0 + max:"126"]);
 
         if (capa < enc_capa)
             capa_string = "Unencumbered";

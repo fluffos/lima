@@ -69,7 +69,10 @@ void setup_monster()
 
 //:FUNCTION attackable
 // return 1 if we can be attacked.
-int attackable(){ return 1; }
+int attackable()
+{
+  return environment() && !environment()->query_combat_forbidden();
+}
 
 mixed direct_diagnose_liv(object ob){ return 1; }
 
@@ -114,7 +117,13 @@ string diagnose()
 #ifdef USE_SKILLS
 private string defend_skill_used = "combat/defense/dodge";
 
-string query_defend_skill_used(){ return defend_skill_used; }
+string query_defend_skill_used()
+{
+  //Can be removed once gone from all .o files
+  if (defend_skill_used == "combat/dodge")
+    defend_skill_used = "combat/defense/dodge";
+  return defend_skill_used;
+}
 
 void set_defend_skill_used(string skill){ defend_skill_used = skill; }
 #endif

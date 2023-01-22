@@ -86,7 +86,6 @@ string green_bar(int value, int max, int width)
 		value = max;
 	green = (value * 1.00 / max) * (width)-1;
 	white = width - 2 - green;
-	TBUG(white);
 
 	return sprintf("[" + (white <= 0 ? "<040>" : "<024>") + "%s<res><" +
 					   (unicodetheme ? "238" : "007") + ">%s<res>]",

@@ -75,9 +75,9 @@ inherit CLASS_ALIAS;
 ** our search (That is, the side list is an optimization).
 */
 private nosave mapping aliases = ([]);
-private nosave string * xaliases = ({});
+private nosave string *xaliases = ({});
 private nosave mapping alias_save = ([]);
-private nosave string* xalias_save = ({});
+private nosave string *xalias_save = ({});
 
 protected void init_alias_editor()
 {
