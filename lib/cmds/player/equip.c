@@ -4,29 +4,29 @@
 ** Tsath, 2020
 */
 
-//:PLAYERCOMMAND
+//: PLAYERCOMMAND
 //$$ see: skills, hp, stats, score, pouch
-//USAGE equip
+// USAGE equip
 //
-//Shows your wielded and worn weapons and armors, their durability
-//and some primary stats. The command also shows your spell failure chance
-//which increases with the more medium and heavy armor you wear, the latter
-//having a greater impact.
+// Shows your wielded and worn weapons and armors, their durability
+// and some primary stats. The command also shows your spell failure chance
+// which increases with the more medium and heavy armor you wear, the latter
+// having a greater impact.
 //
-//Reparing and salvaging
+// Reparing and salvaging
 //---
-//You can repair your gear using the 'repair' verb using components from
+// You can repair your gear using the 'repair' verb using components from
 //'salvage' if you are next to a crafting bench. The components can be
-//seen in your 'pouch'.
+// seen in your 'pouch'.
 //
-//You can easily salvage by using 'salvage all' which will salvage all
-//your tattered equipment. You can salvage other things by salvaging
-//them one by one, i.e. 'salvage mace' to salvage your non-tattered mace.
+// You can easily salvage by using 'salvage all' which will salvage all
+// your tattered equipment. You can salvage other things by salvaging
+// them one by one, i.e. 'salvage mace' to salvage your non-tattered mace.
 //
-//Use 'repair all' to repair all your equipment. The command will give you
-//an estimate of the cost in materials and coins (if needed) before you
-//decide to repair or not. Be careful not to repair things you do not want
-//to keep. It does not pay to repair things you want to sell.
+// Use 'repair all' to repair all your equipment. The command will give you
+// an estimate of the cost in materials and coins (if needed) before you
+// decide to repair or not. Be careful not to repair things you do not want
+// to keep. It does not pay to repair things you want to sell.
 
 #include <config.h>
 
@@ -54,8 +54,10 @@ void main(string arg)
     int width = this_user()->query_screen_width() - 7;
     object *weapons = ({});
     object *armors = ({});
+    object frame = new (FRAME);
     object body = this_body();
-    string divider = repeat_string("-", width) + "\n";
+    int nothing_worn = 1;
+    int nothing_wielded = 1;
 
     if (strlen(arg) > 0 && wizardp(this_user()))
     {
@@ -74,7 +76,7 @@ void main(string arg)
             weapons += ({body->query_weapon(limb)});
     }
 
-    //foreach (string limb in body->query_armor_slots())
+    // foreach (string limb in body->query_armor_slots())
     foreach (string limb in body->query_limbs())
     {
         if (body->find_wi(limb) && member_array(body->find_wi(limb), armors) == -1)
@@ -89,8 +91,9 @@ void main(string arg)
     if (sizeof(weapons))
     {
         string *props = ({});
-        printf("%%^YELLOW%%^%-25s  %-7s  %-5s %11-s   %s%%^RESET%%^\n", "Weapon", "WC", "Dura", "Damage Type", "Properties");
-        printf(divider);
+        string content = "";
+        frame->set_title("Weapons");
+        frame->set_header_content(sprintf("%-24s  %-7s  %-5s %-11s   %s", "Weapon", "WC", "Dura", "Damage Type", "Properties"));
         foreach (object w in weapons)
         {
             string *types = w->query_loadable() && w->loaded_with() ? w->loaded_with()->query_damage_type() : w->query_damage_type();
@@ -99,25 +102,24 @@ void main(string arg)
                                          : short_names[$1]
                                          :));
             props += w->query_properties() || ({});
-            printf("%-25s  %-7s  %-5s  %11-s   %s\n",
-                   capitalize(w->short()),
-                   "" + w->query_weapon_class(), // + (w->query_to_hit_bonus()>0 ? "(+" + w->query_to_hit_bonus() + ")" : (w->query_to_hit_bonus()<0 ? "(" + w->query_to_hit_bonus() + ")" : "")),
-                   "" + w->durability_percent() + "%",
-                   implode(types, ","),
-                   format_list(props));
+            content += sprintf(" %-24s  %-7s  %-5s  %11-s  %s\n",
+                               capitalize(w->short()),
+                               "" + w->query_weapon_class() + (w->query_to_hit_bonus() > 0 ? "(+" + w->query_to_hit_bonus() + ")" : (w->query_to_hit_bonus() < 0 ? "(" + w->query_to_hit_bonus() + ")" : "")),
+                               "" + w->durability_percent() + "%",
+                               implode(types, ","),
+                               format_list(props));
         }
+        frame->set_content(content);
+        write(frame->render());
+        nothing_wielded = 0;
     }
-    else
-    {
-        printf("No weapons wielded.\n");
-    }
-
-    printf("\n");
 
     if (sizeof(armors))
     {
-        printf("%%^YELLOW%%^%-25s  %-21s  %-3s  %-5s  %s%%^RESET%%^\n", "Item", "Worn on", "AC", "Dura", "Stat mod.");
-        printf(divider);
+        string content = "";
+        frame = new (FRAME);
+        frame->set_title("Armours");
+        frame->set_header_content(sprintf("%-25s %-21s  %-3s  %-5s  %s", "Item", "Worn on", "AC", "Dura", "Stat mod."));
         foreach (object a in armors)
         {
             string *slots = ({a->query_slot()});
@@ -159,18 +161,23 @@ void main(string arg)
                                          : capitalize($1)
                                          :));
 
-            printf("%-25s  %-21s  %-3s  %s\n",
-                   capitalize(a->short()),
-                   format_list(slots),
-                   "" + a->query_armor_class(),
-                   "" + a->durability_percent() + "%",
-                   (a->query_stat_bonus() ? capitalize(a->query_stat_bonus()) + " " + (a->query_stat_mod() >= 0 ? "+" : "") + a->query_stat_mod() : a->stat_mods_string(1) ? a->stat_mods_string(1) : ""), );
+            content += sprintf(" %-24s  %-21s  %-3s  %-5s  %s\n",
+                               capitalize(a->short()),
+                               format_list(slots),
+                               "" + a->query_armor_class(),
+                               "" + a->durability_percent() + "%",
+                               (a->query_stat_bonus() ? capitalize(a->query_stat_bonus()) + " " + (a->query_stat_mod() >= 0 ? "+" : "") + a->query_stat_mod() : a->stat_mods_string(1) ? a->stat_mods_string(1)
+                                                                                                                                                                                       : ""), );
         }
-    }
-    else
-    {
-        printf("No armors worn.");
+        frame->set_content(content);
+        write(frame->render());
+        nothing_worn = 0;
     }
 
-    printf("\n");
+    if (nothing_worn & nothing_wielded)
+        printf("You are wielding and wearing nothing.\n");
+    else if (nothing_worn)
+        printf("\n\n(You are wearing nothing)\n");
+    else if (nothing_wielded)
+        printf("\n\n(You are wielding nothing)\n");
 }
