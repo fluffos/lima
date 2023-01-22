@@ -13,6 +13,8 @@ inherit M_DAEMON_DATA;
 
 private
 mapping spawn_control = ([]);
+private
+mapping currency = ([]);
 
 void add_spawn_control(string domain, string basename, int max)
 {
@@ -27,6 +29,40 @@ void remove_spawn_control(string basename)
 {
     map_delete(spawn_control, basename);
     save_me();
+}
+
+void set_currency(string domain, string coin)
+{
+    if (!check_privilege(PRIV_NEEDED))
+        error("illegal attempt to add currency for " + domain + "\n");
+
+    currency[domain] = coin;
+    save_me();
+}
+
+void remove_currency(string domain)
+{
+    map_delete(currency, domain);
+    save_me();
+}
+
+string query_currency(string domain)
+{
+    return currency[domain] || currency["std"];
+}
+
+mapping query_currencies()
+{
+    return currency;
+}
+
+void print_currencies()
+{
+  write(sprintf("<bld>%15.15s %15.15s<res>\n","Domain","Currency"));
+  foreach (string domain, string cur in currency)
+  {
+    write(sprintf("%15.15s %15.15s\n",domain,cur));
+  }
 }
 
 private
@@ -80,4 +116,9 @@ create()
 void clean_up()
 {
     destruct();
+}
+
+void stat_me()
+{
+    print_currencies();
 }

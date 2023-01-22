@@ -1,27 +1,26 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-/*
-** money_d.c -- money daemon
-**
-** This daemon manages the legal types of money within the game and their
-** exchange rates.
-**
-** Objects have an inherent "value".  This is then translated into a
-** particular currency via that currency's value -> actual exchange rate.
-**
-** Currencies have different denomiations, e.g. dollar have dollar and cent.
-** Calculation is always based on the lowest denomination. Functions for
-** displaying a currency with denominations are provided
-**
-** Created Wed Jul  3 20:28:42 MET DST 1996 <Valentino>
-**
-** 961209, Deathblade: Revised extensively and installed into Lima.
-**                     Kept Valentino's per-area currencies, but tossed
-**                        the materials concept.
-**
-** rewritten 10 Feb 98 by MonicaS, removed per-area currencies, added
-**        denominations
-*/
+//:MODULE
+//The money daemon manages the legal types of money within the game and their
+//exchange rates.
+//
+//Objects have an inherent "value".  This is then translated into a
+//particular currency via that currency's value -> actual exchange rate.
+//
+//Currencies have different denomiations, e.g. dollar have dollar and cent.
+//Calculation is always based on the lowest denomination. Functions for
+//displaying a currency with denominations are provided
+//
+//Created Wed Jul  3 20:28:42 MET DST 1996 <Valentino>
+//
+//961209, Deathblade: Revised extensively and installed into Lima.
+//                    Kept Valentino's per-area currencies, but tossed
+//                    the materials concept.
+//
+//Rewritten 10 Feb 98 by MonicaS, removed per-area currencies, added denominations
+//
+//Tsath 2023: Modifed to handle floating currencies, so base currency doesn't have 
+//to be pennies, but pennies can be 0.01 dollar, e.g.
 
 inherit M_DAEMON_DATA;
 
@@ -38,7 +37,7 @@ private mapping rates = ([ ]);
 //Mapping of currency names to plural of the names
 private mapping plurals = ([ ]);
 
-//Mapping of currency names to sorted *of denomination names
+//Mapping of currency names to sorted array of denomination names
 private mapping denominations = ([ ]);
 
 //Mapping of denomination name to class denomination
@@ -72,7 +71,7 @@ nomask string *query_currency_types() {
 }
 
 //:FUNCTION query_denominations
-//Returns the *of denominations of a currency 
+//Returns the array of denominations of a currency 
 //or all available denominations
 varargs nomask string *query_denominations(string type) {
   if (type) {
@@ -248,6 +247,7 @@ void remove_denomination(string name) {
 //create a string with correct use of plural from an amount of a denomination.
 nomask string denomination_to_string(int amount, string type) {
   type = singular_name(type);
+  amount = to_int(amount);
   if (!denomination[type])
     error("illegal denomination: "+type+"\n");
   if (amount > 1)
@@ -319,7 +319,7 @@ varargs nomask string currency_to_string(mixed money, string currency) {
 
 //:FUNCTION handle_subtract_money
 //substracts an amount of currency from a player and adds change.
-//returns an *of two mappings: substract and change, which
+//returns an array of two mappings: substract and change, which
 //consist of the denominations which were used.
 mapping *handle_subtract_money(object player, float f_amount, 
 				     string type) {

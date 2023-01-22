@@ -92,6 +92,52 @@ nomask void remove_spawn_control(string basename)
   write("Removed spawn control for '" + basename + "' if it existed.\n");
 }
 
+private
+nomask void add_currency2(string dom, string cur)
+{
+  string *currencies = MONEY_D->query_currency_types();
+  if (dom == "list" || member_array(cur, currencies) == -1)
+  {
+    write("Possible currencies are:\n" + format_list(currencies) + ".\n");
+    input_one_arg("What default currency do you want? ('list') ", (
+                                                                      : add_currency2, dom:));
+    return;
+  }
+
+  DOMAIN_D->set_currency(dom, cur);
+  write("Currency set to '" + cur + "' for '" + dom + "'.\n");
+}
+
+private
+nomask void add_currency(string dom)
+{
+  if (file_size("/domains/" + dom + "/") != -2)
+  {
+    write("Error: Non-existant folder, '/domains/" + dom + "/'.\n");
+    return;
+  }
+  input_one_arg("What default currency do you want? ('list') ", (
+                                                                    : add_currency2, dom:));
+}
+
+private
+nomask void clear_currency(string dom)
+{
+  if (file_size("/domains/" + dom + "/") != -2)
+  {
+    write("Error: Non-existant folder, '/domains/" + dom + "/'.\n");
+    return;
+  }
+  DOMAIN_D->remove_currency(dom);
+  write("Domain currency cleared.\n");
+}
+
+private
+nomask void list_currencies()
+{
+  DOMAIN_D->print_currencies();
+}
+
 nomask class command_info *module_commands()
 {
   return ({
@@ -123,9 +169,42 @@ nomask class command_info *module_commands()
              desc
            : "remove spawn control",
              args
-           : ({"Which basname (without .c)? "}),
+           : ({"Which basename (without .c)? "}),
              action
            : (
                : remove_spawn_control:)),
+      new (class command_info,
+           key
+           : "c",
+             proto
+           : "[domain]",
+             desc
+           : "add domain currency",
+             args
+           : ({"Which domain do you want? "}),
+             action
+           : (
+               : add_currency:)),
+      new (class command_info,
+           key
+           : "d",
+             proto
+           : "[domain]",
+             desc
+           : "clear domain currency",
+             args
+           : ({"Which domain do you want? "}),
+             action
+           : (
+               : clear_currency:)),
+      new (class command_info,
+           key
+           : "L",
+             proto
+           : "[domain]",
+             desc
+           : "list currencies",
+             action
+           : (: list_currencies:)),
   });
 }

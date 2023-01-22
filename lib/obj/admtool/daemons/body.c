@@ -150,7 +150,7 @@ private nomask void list_body_types() {
   }
   printf("\nBODY TYPES:\n");
   foreach ( string type in types ) {
-    write(capitalize(type) + "\n");
+    write(type + "\n");
   }
 }
 

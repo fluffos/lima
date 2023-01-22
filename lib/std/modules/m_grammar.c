@@ -122,3 +122,19 @@ string number_word(int num)
         return num + "";
     }
 }
+
+string genetive(mixed o)
+{
+    string s;
+    if (objectp(o))
+        s = o->query_name();
+    else
+        s = o;
+
+    if (!s) return "Nobody's";
+
+    if (s[ < 1] == 's' || s[ < 1] == 'x')
+        return s + "'";
+    else
+        return s + "'s";
+}
