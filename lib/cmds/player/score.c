@@ -104,16 +104,24 @@ void main(string arg)
         for (i = 0; i < sizeof(curr); i++)
         {
             mapping money = MONEY_D->calculate_denominations(body->query_amt_money(curr[i]), curr[i]);
+            string *denom_order= MONEY_D->query_denominations(curr[i]);
             string *money_str = ({});
-            foreach (string denom, int count in money)
+            int j=0;
+            while(j<sizeof(denom_order))
+            {
+                string denom=denom_order[j];
+                int count = money[denom];
                 money_str += ({count + " " + denom + (count == 1 ? "" : "s")});
+                j++;
+            }
 
-            o_info += sprintf("%s",
-                              format_list(money_str));
+            o_info += sprintf("%s", format_list(money_str));
         }
     }
+
     content += o_info + "\n\n";
 
+    /*
     o_info = "";
     accounts = ACCOUNT_D->query_accounts(body);
     if (!sizeof(accounts))
@@ -125,16 +133,15 @@ void main(string arg)
         i = 0;
         foreach (string bank, float val in accounts)
         {
-            o_info += sprintf(FC + "$ %d (in %s Bank)",
-                              "",
+            o_info += sprintf("%d (in %s Bank)\n",
                               to_int(val),
                               capitalize(bank));
             i++;
         }
     }
     if (strlen(o_info))
-        write(o_info + "\n");
-
+        content += o_info;
+*/
 #ifdef USE_RACES
     r_info = "  Race: " + capitalize(body->query_race());
 #endif
@@ -229,9 +236,9 @@ void main(string arg)
         int max = this_body()->query_max_capacity();
         string capa_string;
         mapping colours = ([0.0 +
-                  enc_capa:"057", 0.0 + ((enc_heavy_capa * 0.8)):"056", 0.0 + ((enc_heavy_capa * 0.9)):"055",
+                  enc_capa:"057", 0.0 + ((enc_heavy_capa *0.8) ):"056", 0.0 + ((enc_heavy_capa * 0.9)):"055",
                            0.0 +
-            enc_heavy_capa:"054", (1.0 * no_move):"053", (0.9 * no_move):"052", 0.0 + no_move:"088", 0.0 + max:"126"]);
+            enc_heavy_capa:"054", (1.0 * no_move):"053",  (0.9 * no_move):"052", 0.0 + no_move:"088",0.0 + max:"126"]);
 
         if (capa < enc_capa)
             capa_string = "Unencumbered";
