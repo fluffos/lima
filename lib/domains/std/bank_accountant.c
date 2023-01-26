@@ -13,8 +13,8 @@ void setup() {
   set_in_room_desc("Samuel the Bank Accountant stands behind the counter.");
   set_long("Samuel is a boring looking balding man. Perfectly clothed of "
 	   "course.");
-  set_bank_id("lima");
+  set_bank_id("Bean");
   set_bank_name("The Imperial Bank of the Bean");
-  set_currency_type("dollar");
+  set_currency_type("gold");
   set_exchange_fee(5);
 }

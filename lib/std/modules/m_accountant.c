@@ -64,7 +64,6 @@ void set_bank_name(string name)
 
 void show_money()
 {
-   string *currencies = ({});
    mapping money = this_body()->query_money();
 
    if (sizeof(money) == 0)
@@ -73,21 +72,19 @@ void show_money()
    }
    else
    {
-      write("You have the following types of money:\n");
-      foreach (string type in keys(money))
+      write("You are carrying:\n");
+      foreach (string currency, float amount in money)
       {
-         currencies |= ({MONEY_D->query_currency(type)});
+         printf("   %-13s%s\n", capitalize(currency)+":",
+                MONEY_D->currency_to_string(amount, currency));
       }
-      foreach (string currency in currencies)
-      {
-         printf("   %-13s%s\n", capitalize(currency) + ":",
-                MONEY_D->currency_to_string(money, currency));
-      }
+      write("\n");
    }
 
-   printf("Your account balance is %s.\n\n",
+   printf("\nYour account balance is:\n");
+   printf("   %-13s%s\n\n\n", capitalize(deposit_currency)+":",
           MONEY_D->currency_to_string(
-              ACCOUNT_D->query_account(bank_id, player), deposit_currency));
+              ACCOUNT_D->query_account(bank_id, player, deposit_currency), deposit_currency));
 }
 
 void show_rates()
@@ -321,10 +318,10 @@ void withdraw3(string denomination, mixed answer)
    int amount = to_int(answer);
    if (amount > 0)
    {
-      if (ACCOUNT_D->query_account(bank_id, player) >= amount * MONEY_D->query_factor(denomination))
+      if (ACCOUNT_D->query_account(bank_id, player, deposit_currency, ) >= amount * MONEY_D->query_factor(denomination))
       {
          ACCOUNT_D->withdraw(bank_id, player,
-                             amount * MONEY_D->query_factor(denomination));
+                             amount * MONEY_D->query_factor(denomination), deposit_currency);
          player->add_money(denomination, amount);
          printf("You withdraw %s.\n",
                 MONEY_D->denomination_to_string(amount, denomination));

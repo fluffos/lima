@@ -115,8 +115,10 @@ void main(string arg)
                     money_str += ({count + " " + denom + (count == 1 ? "" : "s")});
                 j++;
             }
-
-            o_info += sprintf("%s", format_list(money_str));
+            if (sizeof(curr) > 1)
+                o_info += sprintf("%s: %s", frame->accent(capitalize(curr[i])), format_list(money_str) + "\n");
+            else
+                o_info += sprintf("%s", format_list(money_str) + "\n");
         }
     }
 
@@ -258,7 +260,8 @@ void main(string arg)
                    " - " + capa_string + ".";
     }
 
-    frame->set_header_content(" \nExp\n\n\nMoney\n\nStats\n\n\nPoints\n\nOther\n\n" +
+    frame->set_header_content(" \nExp\n\n\nMoney" +
+                              repeat_string("\n", sizeof(curr)) + "\nStats\n\n\nPoints\n\nOther\n\n" +
 #ifdef USE_KARMA
                               "Karma\n\n" +
 #endif
