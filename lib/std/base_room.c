@@ -224,19 +224,23 @@ string get_base_long()
   return base;
 }
 
+string fancy_long()
+{
+  return rtrim("\n   "+replace_string(simple_long(),"\n","\n\n   "))+"\n\n";
+}
+
+
 string long()
 {
 #ifdef OBVIOUS_EXITS_BOTTOM
   string objtally = show_objects();
-  if (sizeof(objtally))
-    objtally = "You also see:\n" + objtally;
   return sprintf("%sObvious Exits: %%^ROOM_EXIT%%^%s%%^RESET%%^\n%s",
-                 (dont_show_long() ? "" : simple_long()),
-                 show_exits(),
+                 (dont_show_long() ? "" : fancy_long()),
+                 show_exits()+"\n",
                  objtally);
 #else
   return sprintf("%s%s",
-                 (dont_show_long() ? "" : simple_long()),
+                 (dont_show_long() ? "" : rtrim(fancy_long())+"\n"),
                  show_objects());
 #endif
 }
