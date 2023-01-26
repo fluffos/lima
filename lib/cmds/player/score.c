@@ -97,7 +97,7 @@ void main(string arg)
     curr = body->query_currencies();
     if (!sizeof(curr))
     {
-        o_info += "You are carrying no money.";
+        o_info += "You are carrying no money.\n";
     }
     else
     {
@@ -122,7 +122,7 @@ void main(string arg)
         }
     }
 
-    content += o_info + "\n\n";
+    content += o_info + "\n";
 
     /*
     o_info = "";
@@ -261,7 +261,7 @@ void main(string arg)
     }
 
     frame->set_header_content(" \nExp\n\n\nMoney" +
-                              repeat_string("\n", sizeof(curr)) + "\nStats\n\n\nPoints\n\nOther\n\n" +
+                              repeat_string("\n", sizeof(curr) || 1) + "\nStats\n\n\nPoints\n\nOther\n\n" +
 #ifdef USE_KARMA
                               "Karma\n\n" +
 #endif
