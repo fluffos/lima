@@ -38,6 +38,8 @@ private
 nosave int chat_percentage_chance = 20;
 private
 nosave int tag;
+private
+nosave int no_combat;
 
 //: FUNCTION stat_me
 // Returns some debugging info about the object.  Shows the container info,
@@ -47,6 +49,22 @@ string stat_me()
   return sprintf("Room: %s [ %s ]\n\n",
                  short(), implode(query_exit_directions(1), ", ")) +
          container::stat_me();
+}
+
+//:FUNCTION set_combat_forbidden
+//void set_combat_forbidden(int x)
+//Use set_combat_forbidden(1) to prevent combat in the room.
+void set_combat_forbidden(int x)
+{
+  no_combat = x;
+}
+
+//:FUNCTION query_combat_forbidden
+//void query_combat_forbidden(int x)
+//Returns 1 if combat is forbidden or 0 if it's allowed.
+int query_combat_forbidden()
+{
+  return no_combat;
 }
 
 //: FUNCTION set_brief
