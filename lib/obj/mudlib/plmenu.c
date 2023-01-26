@@ -221,6 +221,16 @@ void prompt_change_frames()
                   "'theme <theme>' to select a colour theme.\n", (: set_frames :));
 }
 
+void set_metric(string s)
+{
+    CMD_OB_METRIC->player_menu_entry(s);
+}
+
+void prompt_change_metric()
+{
+    input_one_arg("Use the metric system? (on/off)\n", (: set_metric :));
+}
+
 void set_biff(string s)
 {
     if (s == "y")
@@ -410,6 +420,10 @@ void create()
                                         (
                                             : prompt_change_emoji:),
                                         "e"));
+    add_menu_item(uxmenu, new_menu_item("Metric vs Imperial",
+                                        (
+                                            : prompt_change_metric:),
+                                        "i"));
     add_menu_item(uxmenu, new_menu_item("Frame themes",
                                         (
                                             : prompt_change_frames:),

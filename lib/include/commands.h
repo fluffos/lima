@@ -35,6 +35,7 @@
 #define CMD_OB_SIMPLIFY     CMD_DIR_PLAYER "/simplify"
 #define CMD_OB_EMOJI        CMD_DIR_PLAYER "/emoji"
 #define CMD_OB_FRAMES       CMD_DIR_PLAYER "/frames"
+#define CMD_OB_METRIC       CMD_DIR_PLAYER "/metric"
 #define CMD_OB_BIFF		    CMD_DIR_PLAYER "/biff"
 #define CMD_OB_CHAN		    CMD_DIR_PLAYER "/chan"
 #define CMD_OB_DESCRIBE		CMD_DIR_PLAYER "/describe"
