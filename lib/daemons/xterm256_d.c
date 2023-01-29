@@ -272,9 +272,9 @@ varargs string substitute_colour(string text, string mode)
             }
 
             // Now, we have to be one of the colour codes!
-            if (sscanf(parts[sz], "<%d>", num) == 1 && num < 256 && num > 0)
+            if (sscanf(parts[sz], "<%d>", num) == 1 && num < 256 && num >= 0)
                 parts[sz] = fg_codes[num];
-            else if (sscanf(parts[sz], "#%d#", num) == 1 && num < 256 && num > 0)
+            else if (sscanf(parts[sz], "#%d#", num) == 1 && num < 256 && num >= 0)
                 parts[sz] = bg_codes[num];
         }
         break;
@@ -296,9 +296,9 @@ varargs string substitute_colour(string text, string mode)
             }
 
             // Now, we have to be one of the colour codes!
-            if (sscanf(parts[sz], "<%d>", num) == 1 && num < 256 && num > 0)
+            if (sscanf(parts[sz], "<%d>", num) == 1 && num < 256 && num >= 0)
                 parts[sz] = x256_to_16_fg[fallback_codes[num]];
-            else if (sscanf(parts[sz], "#%d#", num) == 1 && num < 256 && num > 0)
+            else if (sscanf(parts[sz], "#%d#", num) == 1 && num < 256 && num >= 0)
                 parts[sz] = x256_to_16_bg[fallback_codes[num]];
             else
                 parts[sz] = "";

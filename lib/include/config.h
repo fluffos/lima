@@ -52,6 +52,13 @@
 */
 #undef PLAYERS_DROP_EQUIPMENT_AT_DEATH
 
+/* The default frame style and theme for new players
+** can be defined here. See /obj/mudlib/frame.c for the
+** entire list of themes.
+*/
+#define DEFAULT_FRAMES_THEME "dusk"
+#define DEFAULT_FRAMES_STYLE "single"
+
 #define USE_QUESTS
 
 /* This only implements races for PC's.*/

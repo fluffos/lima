@@ -19,15 +19,30 @@ inherit M_COLOURS;
 private
 void main(string arg)
 {
+  string *modes = ({"plain", "vt100", "ansi", "xterm"});
+  int suggestion = member_array(this_user()->query_suggested_mode(), modes);
   if (!arg)
   {
-    string ansistate;
+    string termmode;
+    int mode_index;
     if (terminal_mode())
-      ansistate = terminal_mode();
+      termmode = terminal_mode();
     else
-      ansistate = "plain";
+      termmode = "plain";
 
-    out("Terminal mode is '" + ansistate + "'.\n");
+    mode_index = member_array(termmode, modes);
+
+    out("Terminal mode is '" + termmode + "'.\n");
+    if (mode_index == -1 || suggestion == -1)
+      return;
+    if (mode_index < suggestion)
+      out("Your " + capitalize(this_user()->query_terminal_type()) + " client is even capable of '" +
+          modes[suggestion] + "'. Consider switching.\n");
+    else if (mode_index > suggestion)
+      out("Your " + capitalize(this_user()->query_terminal_type()) + " client only capable of '" + modes[suggestion] +
+          "'. Switch if you have issues.\nTry the 'palette' command and verify you can see 256 colours.\n");
+    else
+      out("Your " + capitalize(this_user()->query_terminal_type()) + " client fully supports this mode.\n");
     return;
   }
 

@@ -10,7 +10,7 @@
 ** 95-May-20.  Rust.        Added char mode support.
 ** 95-Jul-20.  Rust. 	Added clear_input_stack for sw_user.c 's benefit.
 ** 95-Jul-20.  Beek.    Modified clear_input_stack to be more robust and
-			to allow objects to clean up
+            to allow objects to clean up
 ** 95-Jul-20.  Beek.    Prompts can be strings as well as functions
 */
 
@@ -20,97 +20,184 @@ string query_userid();
 void start_shell();
 mixed query_privilege();
 
-
-#define INPUT_NORMAL	0
-#define INPUT_AUTO_POP	1
-#define INPUT_CHAR_MODE	2
+#define INPUT_NORMAL 0
+#define INPUT_AUTO_POP 1
+#define INPUT_CHAR_MODE 2
 
 class input_info
 {
-    function	input_func;
-    mixed	prompt;
-    int		secure;
-    function	return_to_func;
-    int		input_type;
-    int         lock;
+    function input_func;
+    mixed prompt;
+    int secure;
+    function return_to_func;
+    int input_type;
+    int lock;
 }
-private nosave class input_info *	modal_stack = ({ });
 
-private nosave int	dispatching_to;
+private nosave class input_info *modal_stack = ({});
+private
+nosave int dispatching_to;
+private
+nomask void dispatch_modal_input(string str);
+private
+nosave
+    string *suboptions = ({});
+private
+nosave int utf8 = 0;
+private
+nosave string terminal_type;
+private
+nosave string suggested_mode;
 
-private nomask void dispatch_modal_input(string str);
+void terminal_type(string term)
+{
+    //Don't allow direct calls of this function from other places.
+    //The apply will not have a previous_object().
+    if (previous_object())
+        return;
 
+    if (!term || term == "")
+    {
+        terminal_type = "unknown";
+        return;
+    }
 
-private nomask int create_handler()
+    terminal_type = explode(lower_case(term), " ")[0];
+
+    //Update this if you have new clients.
+    switch(terminal_type) {
+        case "beip" :
+        case "mudlet" :
+        case "mushclient" :
+        case "cmud" :
+        case "duckclient" :
+        case "blowtorch" :
+        case "grapevine" :
+        case "blightmud" :
+        case "tintin++" :
+        case "thresholdwebclient" :
+        case "potato" :
+        case "xterm" : 
+        case "xterm-256color" :
+            suggested_mode = "xterm" ;
+            break ;
+        case "zmud" :
+            suggested_mode = "ansi" ;
+            break ;
+        case "dumb" :
+            suggested_mode = "vt100" ;
+            break ;
+        case "unknown" :
+            suggested_mode = "plain" ;
+            break ;
+        default:
+            suggested_mode = "ansi" ;
+            break ;
+    }
+}
+
+//:FUNCTION query_suggested_mode
+//The suggested mode for the client used.
+string query_suggested_mode()
+{
+    return suggested_mode;
+}
+
+string query_terminal_type()
+{
+    return terminal_type;
+}
+
+int utf8()
+{
+    return utf8;
+}
+
+void telnet_suboption(string buff)
+{
+    buff = buff[1..];
+    suboptions += ({buff});
+
+    switch (buff)
+    {
+    case "UTF-8":
+        utf8 = 1;
+        break;
+    }
+}
+
+private
+nomask int create_handler()
 {
     /*
     ** Attempt to create a handler (the user has none!)
     */
     start_shell();
 
-    if ( !sizeof(modal_stack) )
+    if (!sizeof(modal_stack))
     {
-	write("Sorry, but I can't process your typing for some reason.\n"
-	  "Please log in and try again or send mail to " ADMIN_EMAIL "\n"
-	  "if you continue to have problems.\n");
-	destruct(this_object());
-	return 1;
+        write("Sorry, but I can't process your typing for some reason.\n"
+              "Please log in and try again or send mail to " ADMIN_EMAIL "\n"
+              "if you continue to have problems.\n");
+        destruct(this_object());
+        return 1;
     }
 
     return 0;
 }
 
-private nomask class input_info get_top_handler(int require_handler)
+private
+nomask class input_info get_top_handler(int require_handler)
 {
     int some_popped = 0;
 
-    while ( sizeof(modal_stack) )
+    while (sizeof(modal_stack))
     {
-	class input_info info;
+        class input_info info;
 
-	/*
-	** Get the top of the stack and make sure the func is valid
-	*/
-	info = modal_stack[<1];
-	if ( !(functionp(info->input_func) & FP_OWNER_DESTED) )
-	{
-	    if ( some_popped && info->return_to_func )
-		evaluate(info->return_to_func);
-	    return info;
-	}
+        /*
+        ** Get the top of the stack and make sure the func is valid
+        */
+        info = modal_stack[ < 1];
+        if (!(functionp(info->input_func) & FP_OWNER_DESTED))
+        {
+            if (some_popped && info->return_to_func)
+                evaluate(info->return_to_func);
+            return info;
+        }
 
-	modal_stack = modal_stack[0..<2];
-	some_popped = 1;
+        modal_stack = modal_stack[0.. < 2];
+        some_popped = 1;
     }
 
-    if ( !require_handler || create_handler() )
-	return 0;
+    if (!require_handler || create_handler())
+        return 0;
 
-    return modal_stack[<1];
+    return modal_stack[ < 1];
 }
 
-private nomask class input_info get_bottom_handler()
+private
+nomask class input_info get_bottom_handler()
 {
-    while ( sizeof(modal_stack) )
+    while (sizeof(modal_stack))
     {
-	class input_info info;
+        class input_info info;
 
-	/*
-	** Get the bottom of the stack and make sure the func is valid
-	*/
-	info = modal_stack[0];
-	if ( !(functionp(info->input_func) & FP_OWNER_DESTED) )
-	    return info;
+        /*
+        ** Get the bottom of the stack and make sure the func is valid
+        */
+        info = modal_stack[0];
+        if (!(functionp(info->input_func) & FP_OWNER_DESTED))
+            return info;
 
-	modal_stack = modal_stack[1..];
+        modal_stack = modal_stack[1..];
     }
 
-    if ( create_handler() )
-	return 0;
+    if (create_handler())
+        return 0;
 
     return modal_stack[0];
 }
-
 
 /*
 ** push_handler()
@@ -118,33 +205,37 @@ private nomask class input_info get_bottom_handler()
 ** Push a handler onto the modal stack.  The stack is grown as
 ** necessary to accomodate the new element.
 */
-private nomask void push_handler(function input_func,
-				 mixed prompt,
-				 int secure,
-				 function return_to_func,
-				 int input_type,
-				 int lock
-				 )
+private
+nomask void push_handler(function input_func,
+                         mixed prompt,
+                         int secure,
+                         function return_to_func,
+                         int input_type,
+                         int lock)
 {
     class input_info info;
 
-    info = new(class input_info);
-    info->input_func		= input_func;
-    info->prompt		= prompt;
-    info->secure		= secure;
-    info->return_to_func	= return_to_func;
-    info->input_type		= input_type;
-    info->lock                  = lock;
+    info = new (class input_info);
+    info->input_func = input_func;
+    info->prompt = prompt;
+    info->secure = secure;
+    info->return_to_func = return_to_func;
+    info->input_type = input_type;
+    info->lock = lock;
 
-    modal_stack += ({ info });
+    modal_stack += ({info});
 
-    if ( info->input_type == INPUT_CHAR_MODE )
+    if (info->input_type == INPUT_CHAR_MODE)
     {
-	efun::get_char((: dispatch_modal_input :), info->secure | 2);
+        efun::get_char((
+                           : dispatch_modal_input:),
+                       info->secure | 2);
     }
-    else	
+    else
     {
-	efun::input_to((: dispatch_modal_input :), info->secure | 2);
+        efun::input_to((
+                           : dispatch_modal_input:),
+                       info->secure | 2);
     }
 }
 
@@ -157,15 +248,15 @@ private nomask void push_handler(function input_func,
 ** on the stack.
 */
 varargs nomask void modal_push(function input_func,
-			       mixed prompt,
-			       int secure,
-			       function return_to_func,
-			       int lock
-  
+                               mixed prompt,
+                               int secure,
+                               function return_to_func,
+                               int lock
+
 )
 {
-  push_handler(input_func, prompt, secure, return_to_func,
-	       INPUT_NORMAL,lock);
+    push_handler(input_func, prompt, secure, return_to_func,
+                 INPUT_NORMAL, lock);
 }
 
 nomask void modal_pop()
@@ -175,10 +266,12 @@ nomask void modal_pop()
     /*
     ** Erase/pop the handler at the top level
     */
-    //### work around driver bug with [0..<2] on alphas. it doesn't
-    //### work for the last element
-    if (sizeof(modal_stack)==1) modal_stack=({ }); else
-	modal_stack = modal_stack[0..<2];
+    // ### work around driver bug with [0..<2] on alphas. it doesn't
+    // ### work for the last element
+    if (sizeof(modal_stack) == 1)
+        modal_stack = ({});
+    else
+        modal_stack = modal_stack[0.. < 2];
 
     /*
     ** If there is something in the stack, then execute its return_to_func
@@ -188,48 +281,54 @@ nomask void modal_pop()
     ** we need to use get_top_handler() carefully -- tell it not to require
     ** a handler.  We want it for validating any TOS that may be there.
     */
-    if ( (info = get_top_handler(0)) && info->return_to_func )
-	evaluate(info->return_to_func);
+    if ((info = get_top_handler(0)) && info->return_to_func)
+        evaluate(info->return_to_func);
 }
 
 varargs nomask void modal_func(function input_func,
-			       mixed prompt,
-			       int secure,
-			       int lock)
+                               mixed prompt,
+                               int secure,
+                               int lock)
 {
-    modal_stack[<1]->input_func = input_func;
-    if ( prompt )
-	modal_stack[<1]->prompt = prompt;
-    modal_stack[<1]->secure = secure;
-    modal_stack[<1]->lock=lock;
+    modal_stack[ < 1]->input_func = input_func;
+    if (prompt)
+        modal_stack[ < 1]->prompt = prompt;
+    modal_stack[ < 1]->secure = secure;
+    modal_stack[ < 1]->lock = lock;
 }
 
-protected nomask void modal_recapture()
+protected
+nomask void modal_recapture()
 {
     class input_info info;
     string prompt;
 
-    if ( !(info = get_top_handler(1)) )
-	return;
+    if (!(info = get_top_handler(1)))
+        return;
 
     /* char handlers don't have prompts */
-    if ( info->input_type != INPUT_CHAR_MODE && info->prompt )
+    if (info->input_type != INPUT_CHAR_MODE && info->prompt)
     {
-	prompt = evaluate(info->prompt);
-	if ( prompt )
-        // commented out because write does not permit using message classes
-        // and therefore you may not tell it to not wrap prompts, which auto-
-        // matically appends \n
-	    // write(prompt); 
-        if(this_object()) this_object()->do_receive(prompt, MSG_PROMPT) ;
+        prompt = evaluate(info->prompt);
+        if (prompt)
+            // commented out because write does not permit using message classes
+            // and therefore you may not tell it to not wrap prompts, which auto-
+            // matically appends \n
+            // write(prompt);
+            if (this_object())
+                this_object()->do_receive(prompt, MSG_PROMPT);
     }
-    if ( info->input_type == INPUT_CHAR_MODE )
+    if (info->input_type == INPUT_CHAR_MODE)
     {
-	efun::get_char((: dispatch_modal_input :), info->secure | 2);
+        efun::get_char((
+                           : dispatch_modal_input:),
+                       info->secure | 2);
     }
     else
     {
-	efun::input_to((: dispatch_modal_input :), info->secure | 2);
+        efun::input_to((
+                           : dispatch_modal_input:),
+                       info->secure | 2);
     }
 }
 
@@ -246,12 +345,12 @@ protected nomask void modal_recapture()
 ** NOTE: for multiple inputs, the standard push/pop is encouraged
 ** for efficiency reasons.
 */
-varargs nomask void modal_simple(function input_func, 
-				 mixed prompt,
-				 int secure,
-				 int lock)
+varargs nomask void modal_simple(function input_func,
+                                 mixed prompt,
+                                 int secure,
+                                 int lock)
 {
-  push_handler(input_func, prompt, secure, 0, INPUT_AUTO_POP,lock);
+    push_handler(input_func, prompt, secure, 0, INPUT_AUTO_POP, lock);
 }
 
 /*
@@ -265,22 +364,24 @@ nomask void modal_pass(string str)
 {
     class input_info info;
 
-    if ( !dispatching_to )
-	error("no handlers to bubble to");
+    if (!dispatching_to)
+        error("no handlers to bubble to");
 
     info = modal_stack[--dispatching_to - 1];
-    //### how to indicate passed?
+    // ### how to indicate passed?
     evaluate(info->input_func, str);
 }
 
 /*
 ** Send a command to the 'shell'.  (The bottom handler)
 */
-private nomask void dispatch_to_bottom(mixed str) {
+private
+nomask void dispatch_to_bottom(mixed str)
+{
     class input_info info;
 
     if (!(info = get_bottom_handler()))
-	return;
+        return;
 
     dispatching_to = 0;
 
@@ -292,51 +393,54 @@ private nomask void dispatch_to_bottom(mixed str) {
 **
 ** Dispatch the command as appropriate.
 */
-private nomask void dispatch_modal_input(mixed str)
+private
+nomask void dispatch_modal_input(mixed str)
 {
     class input_info info;
-    if( str[0] == '!'&& ! modal_stack[<1]->lock)
+    if (str[0] == '!' && !modal_stack[ < 1]->lock)
     {
-	/* Dispatch ! escapes */
-	dispatch_to_bottom(str[1..]);
-    } else {
-	/*
-	 ** Get the top handler, or fail if none are present/can be created.
-	 */
-	if ( !(info = get_top_handler(1)) )
-	    return;
+        /* Dispatch ! escapes */
+        dispatch_to_bottom(str[1..]);
+    }
+    else
+    {
+        /*
+         ** Get the top handler, or fail if none are present/can be created.
+         */
+        if (!(info = get_top_handler(1)))
+            return;
 
-	/* auto-pop _before_ dispatching, so we pop the correct handler */
-	if ( info->input_type == INPUT_AUTO_POP )
-	    modal_pop();
+        /* auto-pop _before_ dispatching, so we pop the correct handler */
+        if (info->input_type == INPUT_AUTO_POP)
+            modal_pop();
 
-	dispatching_to = sizeof(modal_stack);
+        dispatching_to = sizeof(modal_stack);
 
-	evaluate(info->input_func, str);
+        evaluate(info->input_func, str);
     }
 
-    if ( this_object() )
-	modal_recapture();
+    if (this_object())
+        modal_recapture();
 }
 
 nomask void modal_push_char(function input_func)
 {
-    push_handler(input_func, 0, 1, 0, INPUT_CHAR_MODE,0);
+    push_handler(input_func, 0, 1, 0, INPUT_CHAR_MODE, 0);
 }
-
 
 /*
 ** process_input()
 **
 ** In the absence of an input_to() (happens when an uncaught error occurs),
-** then the driver will call this apply with the input.  
+** then the driver will call this apply with the input.
 **
 ** Note that we retain the use of input_to() so that we can use its
 ** "secure" setting.
 **
 ** maybe we should only use input_to if we need it now.  -Beek
 */
-private nomask string process_input(string str)
+private
+nomask string process_input(string str)
 {
     dispatch_modal_input(str);
 }
@@ -355,45 +459,46 @@ nomask void force_me(string str)
     ** an admin.
     */
     if (SECURE_D->valid_privilege(query_userid() + ":"))
-	if ( query_privilege() && !check_privilege(query_userid() + ":") )
-	    error("Illegal force attempt.\n");
-	//### prevents an admin from forcing themselves. need to think...
-	//    if ( adminp(this_object()) )
-	//        error("illegal force attempt.\n");
+        if (query_privilege() && !check_privilege(query_userid() + ":"))
+            error("Illegal force attempt.\n");
+    // ### prevents an admin from forcing themselves. need to think...
+    //     if ( adminp(this_object()) )
+    //         error("illegal force attempt.\n");
 
     set_this_player(this_object());
     dispatch_to_bottom(str);
     set_this_player(save_this_user);
 }
 
-
 string stat_me()
 {
-  //    if ( check_previous_privilege(1) )
-  //    {
-	return sprintf("INPUT STACK:\n%O\n", modal_stack);
-	//   }
+    //    if ( check_previous_privilege(1) )
+    //    {
+    return sprintf("INPUT STACK:\n%O\n", modal_stack);
+    //   }
     return "";
 }
 
-protected nomask void clear_input_stack()
+protected
+nomask void clear_input_stack()
 {
     class input_info top;
 
     while (sizeof(modal_stack))
     {
-	if (catch {
-	      top = get_top_handler(1);
-	      modal_pop();
-	      evaluate(top->input_func, -1);
-	}) {
-	  write_file("/tmp/bad_handler",
-	  sprintf("Error in input_func(-1):\n\tinput_func: %O\n\tprompt: %O\n", top->input_func, top->prompt));
-	}
+        if (catch {
+                top = get_top_handler(1);
+                modal_pop();
+                evaluate(top->input_func, -1);
+            })
+        {
+            write_file("/tmp/bad_handler",
+                       sprintf("Error in input_func(-1):\n\tinput_func: %O\n\tprompt: %O\n", top->input_func, top->prompt));
+        }
     }
 }
 
 nomask int modal_stack_size()
 {
-  return sizeof(modal_stack);
+    return sizeof(modal_stack);
 }
