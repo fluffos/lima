@@ -233,6 +233,7 @@ void exchange2(string denomination)
       {
          if (player->query_amt_money(denomination) > 0)
          {
+            denomination = MONEY_D->query_currency(denomination);
             write("You have " + MONEY_D->currency_to_string(player->query_amt_money(denomination), denomination) + " .\n");
             input_one_arg("How many " + MONEY_D->query_plural(denomination) +
                               " do you want to exchange? ",
@@ -251,6 +252,8 @@ void exchange2(string denomination)
 
 void exchange1()
 {
+   write("\n\nNotice: The " + bank_name + " applies an exchange fee of " +
+         exchange_fee + "% for all transactions.\n\n");
    input_one_arg("Which currency or denomination do you want to exchange? ",
                  (
                      : exchange2:));
@@ -265,12 +268,11 @@ void deposit3(string denomination, mixed answer)
       if (player->query_amt_money(denomination) >= amount)
       {
          player->subtract_money(denomination, amount);
-         ACCOUNT_D->deposit(bank_id, player,
-                            amount * MONEY_D->query_factor(denomination));
+         ACCOUNT_D->deposit(bank_id, player, amount, denomination);
          printf("You deposit %s.\n",
                 MONEY_D->denomination_to_string(amount, denomination));
          printf("Your new account balance is %s.\n\n",
-                MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player),
+                MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency),
                                             deposit_currency));
       }
       else
@@ -304,10 +306,10 @@ void deposit2(string denomination)
 
 void deposit1()
 {
-   mapping money = player->query_money();
+   float money = player->query_money()[deposit_currency];
 
    write("You have " + MONEY_D->currency_to_string(money, deposit_currency) + ".\n");
-   input_one_arg("Which denomination do you want to deposit? ",
+   input_one_arg("Which denomination would you like to deposit? ",
                  (
                      : deposit2:));
 }
@@ -358,7 +360,7 @@ void withdraw2(string denomination)
 void withdraw1()
 {
    printf("Your current account balance is %s.\n\n",
-          MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player),
+          MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency),
                                       deposit_currency));
    input_one_arg("Which denomination do you want to withdraw? ",
                  (

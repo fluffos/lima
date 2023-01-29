@@ -24,7 +24,7 @@ mapping query_materials()
 private
 int valid_currency(string currency)
 {
-  return member_array(currency, MONEY_D->query_currency_types()) != -1;
+    return member_array(currency, MONEY_D->query_currency_types()) != -1;
 }
 
 //: FUNCTION add_material
@@ -98,9 +98,12 @@ int remove_material(string m, int count)
 // of currency you have.
 int query_amt_money(string type)
 {
-
+    string currency;
+    float factor;
     type = MONEY_D->singular_name(type);
-    return money[type];
+    currency = MONEY_D->query_currency(type);
+    factor = MONEY_D->query_factor(type);
+    return round(money[currency] / factor);
 }
 
 //: FUNCTION query_amt_currency
@@ -122,8 +125,15 @@ float query_amt_currency(string currency)
 
 //: FUNCTION add_money
 // This is the function to call to add money to a person
-void add_money(string currency, float amount)
+void add_money(string type, float amount)
 {
+    string currency;
+    float factor;
+    type = MONEY_D->singular_name(type);
+    currency = MONEY_D->query_currency(type);
+    factor = MONEY_D->query_factor(type);
+    amount = amount * factor;
+
     if (!valid_currency(currency))
         error("Unknown currency '" + currency + "'.");
 
@@ -138,7 +148,13 @@ void add_money(string currency, float amount)
 // This is the function to call to substract money from a person
 void subtract_money(string type, int amount)
 {
-    add_money(type, -amount);
+    string currency;
+    float factor;
+    type = MONEY_D->singular_name(type);
+    currency = MONEY_D->query_currency(type);
+    factor = MONEY_D->query_factor(type);
+    amount = amount * factor;
+    add_money(currency, -amount);
 }
 
 //: FUNCTION query_currencies
@@ -159,46 +175,6 @@ mapping query_money()
         money = ([]);
     return money;
 }
-
-/*
-//:FUNCTION add_money
-//This is the function to call to add money to a person
-void add_money(float amount)
-{
-    money += amount;
-}
-
-
-
-//:FUNCTION subtract_money
-//This is the function to call to substract money from a person
-int subtract_money(float amount)
-{
-    if (amount > money)
-        return 0;
-    money -= amount;
-    return 1;
-}
-
-//:FUNCTION query_money
-//This function will return the money float
-float query_money()
-{
-    if (mapp(money))
-        money = 0.0;
-    return money;
-}
-
-varargs string money_to_string(float m, int short)
-{
-    return implode(MONEY_D->money_to_array(m, short), ", ");
-}
-
-varargs string query_money_string(int short)
-{
-    return money_to_string(money, short);
-}
-*/
 
 /* Override max_capacity from container to make it constitution based */
 varargs int query_max_capacity(string relation)

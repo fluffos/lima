@@ -58,6 +58,8 @@ varargs mixed query_account(string bank, mixed player, string currency)
   else
     name = player;
 
+  if (!accounts[bank])
+    accounts[bank] = ([]);
   if (!accounts[bank][name])
     accounts[bank][name] = ([]);
 
@@ -157,9 +159,16 @@ mapping query_accounts(object player)
   return acm;
 }
 
-varargs void deposit(string bank, mixed player, float amount, string currency, string what)
+varargs void deposit(string bank, mixed player, float amount, string type, string what)
 {
   string name;
+  string currency;
+  float factor;
+  type = MONEY_D->singular_name(type);
+  currency = MONEY_D->query_currency(type);
+  factor = MONEY_D->query_factor(type);
+  amount = amount*factor;
+
   if (!valid_currency(currency))
     error("Unknown currency '" + currency + "'.");
 
