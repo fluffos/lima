@@ -20,16 +20,16 @@
 
 inherit CMD;
 
-#define USER_DESC "(PLAYERS ONLY)"
-#define WHO_FORMAT "%s: %s %s"
-
 string get_who_string(string arg)
 {
   object *u;
   int i;
   string name, extra, retval;
   object frame = new (FRAME);
-  int use_levels_guess=sizeof(bodies()) ? bodies()[0]->query_level()>0 : 0;
+
+  //If we have bodies() and they have a level>1, the MUD must use levels.
+  //This is not set by a DEFINE but a result of implementation in adversary/body.
+  int use_levels_guess = sizeof(bodies()) ? bodies()[0]->query_level() > 0 : 0;
 
   extra = retval = "\n";
   if (this_user())
@@ -41,7 +41,7 @@ string get_who_string(string arg)
       u = filter_array(bodies(), (
                                      : !wizardp($1)
                                      :));
-      extra = frame->accent(USER_DESC);
+      extra = frame->accent("(PLAYERS ONLY)");
       break;
     case "-w":
       u = filter_array(bodies(), (
@@ -67,7 +67,7 @@ string get_who_string(string arg)
       /* FALLTHRU */
     default:
       if (arg)
-        extra=frame->warning("Unknown flag"+(sizeof(arg)==2 ? "":"s")+" '" + arg + "'");
+        extra = frame->warning("Unknown flag" + (sizeof(arg) == 2 ? "" : "s") + " '" + arg + "'");
       u = bodies();
       break;
     }
@@ -87,13 +87,8 @@ string get_who_string(string arg)
   if (use_levels_guess)
   {
     frame->set_header_content("Level   Role     Name");
-    frame->set_footer_content(sprintf(WHO_FORMAT, mud_name(), ctime(time()), extra,
-                                      i));
   }
-  else
-    frame->set_header_content(sprintf(WHO_FORMAT, mud_name(), ctime(time()), extra,
-                                      i));
-
+  frame->set_footer_content(sprintf("%s has been up for %s.", mud_name(), (time_to_string(uptime() - (uptime() % 3600)))));
   if (!i)
     retval += "Sorry, no one fits that bill.";
   foreach (object body in u)

@@ -75,14 +75,14 @@ void show_money()
       write("You are carrying:\n");
       foreach (string currency, float amount in money)
       {
-         printf("   %-13s%s\n", capitalize(currency)+":",
+         printf("   %-13s%s\n", capitalize(currency) + ":",
                 MONEY_D->currency_to_string(amount, currency));
       }
       write("\n");
    }
 
    printf("\nYour account balance is:\n");
-   printf("   %-13s%s\n\n\n", capitalize(deposit_currency)+":",
+   printf("   %-13s%s\n\n\n", capitalize(deposit_currency) + ":",
           MONEY_D->currency_to_string(
               ACCOUNT_D->query_account(bank_id, player, deposit_currency), deposit_currency));
 }
@@ -158,7 +158,7 @@ void exchange3b(string currency1, string denomination2)
       else
          factor = 1.0 - (exchange_fee / 100.0);
       amount2 = to_int(player->query_amt_currency(currency1) * rate1 * factor / rate2);
-      write("You can get upto " + MONEY_D->denomination_to_string(amount2, denomination2) + ".\n");
+      write("You can get up to " + MONEY_D->denomination_to_string(amount2, denomination2) + ".\n");
       input_one_arg("How many " + MONEY_D->query_plural(denomination2) + " do you want? ",
                     (
                         : exchange4b, currency1, denomination2:));
@@ -186,12 +186,11 @@ void exchange4(string denomination1, int amount1, string currency2)
       else
          factor = 1.0 - (exchange_fee / 100.0);
       amount2 = amount1 * rate1 * factor / rate2;
+      player->subtract_money(denomination1, amount1);
+      player->add_money(currency2, amount2);
       money = MONEY_D->calculate_denominations(amount2, currency2);
       if (sizeof(money))
       {
-         player->subtract_money(denomination1, amount1);
-         foreach (string denomination, int amount in money)
-            player->add_money(denomination, amount);
          write("You exchange " + MONEY_D->denomination_to_string(amount1, denomination1) + " into " + MONEY_D->currency_to_string(money, currency2) + ".\n");
       }
       else
@@ -224,7 +223,7 @@ void exchange2(string denomination)
       if (denomination == deposit_currency || (!MONEY_D->is_denomination(denomination) && MONEY_D->is_currency(denomination)))
       {
          printf("You have %s.\n",
-                MONEY_D->currency_to_string(player->query_money(),
+                MONEY_D->currency_to_string(player->query_money(denomination),
                                             denomination));
          input_one_arg("Which denomination do you want? ",
                        (
@@ -234,7 +233,7 @@ void exchange2(string denomination)
       {
          if (player->query_amt_money(denomination) > 0)
          {
-            write("You have " + MONEY_D->denomination_to_string(player->query_amt_money(denomination), denomination) + ".\n");
+            write("You have " + MONEY_D->currency_to_string(player->query_amt_money(denomination), denomination) + " .\n");
             input_one_arg("How many " + MONEY_D->query_plural(denomination) +
                               " do you want to exchange? ",
                           (
