@@ -47,7 +47,6 @@ nosave int utf8 = 0;
 private
 nosave string terminal_type;
 private
-nosave string suggested_mode;
 
 void terminal_type(string term)
 {
@@ -63,44 +62,6 @@ void terminal_type(string term)
     }
 
     terminal_type = explode(lower_case(term), " ")[0];
-
-    //Update this if you have new clients.
-    switch(terminal_type) {
-        case "beip" :
-        case "mudlet" :
-        case "mushclient" :
-        case "cmud" :
-        case "duckclient" :
-        case "blowtorch" :
-        case "grapevine" :
-        case "blightmud" :
-        case "tintin++" :
-        case "thresholdwebclient" :
-        case "potato" :
-        case "xterm" : 
-        case "xterm-256color" :
-            suggested_mode = "xterm" ;
-            break ;
-        case "zmud" :
-            suggested_mode = "ansi" ;
-            break ;
-        case "dumb" :
-            suggested_mode = "vt100" ;
-            break ;
-        case "unknown" :
-            suggested_mode = "plain" ;
-            break ;
-        default:
-            suggested_mode = "ansi" ;
-            break ;
-    }
-}
-
-//:FUNCTION query_suggested_mode
-//The suggested mode for the client used.
-string query_suggested_mode()
-{
-    return suggested_mode;
 }
 
 string query_terminal_type()

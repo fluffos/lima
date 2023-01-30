@@ -24,9 +24,13 @@ private
 nosave mapping x256_to_16_bg = ([]);
 private
 nosave mapping ansi;
+private
+nosave mapping client_compat = ([]);
 
 private
 void load_all_colours();
+private
+void load_client_compat();
 public
 string xterm256_wrap(string, int, int);
 public
@@ -39,6 +43,7 @@ void create()
 {
     ::create();
     load_all_colours();
+    load_client_compat();
     update_ansi();
 }
 
@@ -56,6 +61,29 @@ mapping query_alt()
 int colour_code(string s)
 {
     return strlen(s) == 3 && to_int(s) > 0 && to_int(s) < 256;
+}
+
+private
+void load_client_compat()
+{
+    string *clients = explode(read_file("/data/xterm256/client_data"), "\n");
+    foreach (string line in clients)
+    {
+        string *data = explode(line, ":");
+        string client;
+        string compat;
+
+        sscanf(line, "%s:%s", client, compat);
+        if (client && compat)
+        {
+            client_compat[client] = compat;
+        }
+    }
+}
+
+string client_compatibility(string client)
+{
+    return client_compat[client] ? client_compat[client] : client_compat["default"];
 }
 
 private

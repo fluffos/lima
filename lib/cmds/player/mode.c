@@ -20,7 +20,8 @@ private
 void main(string arg)
 {
   string *modes = ({"plain", "vt100", "ansi", "xterm"});
-  int suggestion = member_array(this_user()->query_suggested_mode(), modes);
+  string term_type = this_user()->query_terminal_type();
+  int suggestion = member_array(XTERM256_D->client_compatibility(term_type), modes);
   if (!arg)
   {
     string termmode;
@@ -36,13 +37,13 @@ void main(string arg)
     if (mode_index == -1 || suggestion == -1)
       return;
     if (mode_index < suggestion)
-      out("Your " + capitalize(this_user()->query_terminal_type()) + " client is even capable of '" +
+      out("Your " + capitalize(term_type) + " client is even capable of '" +
           modes[suggestion] + "'. Consider switching.\n");
     else if (mode_index > suggestion)
-      out("Your " + capitalize(this_user()->query_terminal_type()) + " client only capable of '" + modes[suggestion] +
+      out("Your " + capitalize(term_type) + " client only capable of '" + modes[suggestion] +
           "'. Switch if you have issues.\nTry the 'palette' command and verify you can see 256 colours.\n");
     else
-      out("Your " + capitalize(this_user()->query_terminal_type()) + " client fully supports this mode.\n");
+      out("Your " + capitalize(term_type) + " client fully supports this mode.\n");
     return;
   }
 
