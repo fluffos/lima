@@ -121,16 +121,19 @@
  * the login promopt is displayed.
  * If WELCOME_DIR is defined it is assumed that there is a directory of 
  * welcome screens and WELCOME_FILE will be ignored. */
-#define WELCOME_FILE             "/data/config/WELCOME"
-#undef WELCOME_DIR		"/data/config/welcome_files"
+#define WELCOME_FILE "/data/config/WELCOME"
+#undef WELCOME_DIR "/data/config/welcome_files"
 
 /* The file displayed to new players before the character generation process
  * starts.*/
-#define NEW_PLAYER		"/data/config/NEW_PLAYER"
+#define NEW_PLAYER "/data/config/NEW_PLAYER"
 
 /* The file displayed immediatly after login. */
-#define MOTD_FILE		"/data/config/MOTD"
-#define LOGIN_PROMPT		"What is your name? "
+#define MOTD_FILE "/data/config/MOTD"
+#define LOGIN_PROMPT "What is your name? "
+
+/* File player referrals are written into */
+#define REFERRALS_LOG "/data/referrals"
 
 /* Define where the obvious exits should appear if at all. 
  * OBVIOUS_EXITS displays the exits above the long description, 
