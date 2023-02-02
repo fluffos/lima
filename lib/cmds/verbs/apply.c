@@ -1,3 +1,5 @@
+/* Do not remove the headers from this file! see /USAGE for more info. */
+
 /*
 ** apply.c
 ** Tsath 2020-02-05

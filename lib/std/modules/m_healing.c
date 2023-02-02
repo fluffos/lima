@@ -1,3 +1,5 @@
+/* Do not remove the headers from this file! see /USAGE for more info. */
+
 /*
 ** M_HEALING
 **
@@ -8,6 +10,11 @@
 
 
 private int heal_value=0;
+
+private object find_whom_to_heal()
+{
+    return environment()->is_living() ? environment() : this_body();
+}
 
 //:FUNCTION set_heal_value
 //Sets the number of HP returned by one hit from this
@@ -27,30 +34,30 @@ int query_heal_value()
 
 void heal_limb(string limb)
 {
-    if (this_body())
-        this_body()->heal_us(heal_value,limb);
+    if (find_whom_to_heal())
+        find_whom_to_heal()->heal_us(heal_value,limb);
 }
 
 void heal_from_food()
 {
-    if (this_body())
-        this_body()->heal_us(heal_value);
+    if (find_whom_to_heal())
+        find_whom_to_heal()->heal_us(heal_value);
 }
 
 void heal_from_slowheal()
 {
-    if (this_body())
-        this_body()->heal_us(heal_value);
+    if (find_whom_to_heal())
+        find_whom_to_heal()->heal_us(heal_value);
 }
 
 void heal_from_drink()
 {
-    if (this_body())
-        this_body()->heal_us(heal_value);
+    if (find_whom_to_heal())
+        find_whom_to_heal()->heal_us(heal_value);
 }
 
 void heal_from_bandage(string limb)
 {
-    if (this_body())
-        this_body()->heal_us(heal_value,limb);
+    if (find_whom_to_heal())
+        find_whom_to_heal()->heal_us(heal_value,limb);
 }

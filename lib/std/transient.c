@@ -4,7 +4,7 @@
  * 
  *  Transient effects inheritable for diseases, intoxication, etc...
  *  Midhir@Mutants and Machinery <July 15 1997>
- *  Tsath@NUKE2 extended and enhanced, July 2020.
+ *  Tsath@LIMA Rebean extended and enhanced, July 2023.
  */
 
 #include <hooks.h>

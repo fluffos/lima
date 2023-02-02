@@ -1,13 +1,12 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-/* Do not remove these headers see /USAGE for more info */
-
-//:MODULE
-//This module can be used to make objects decay after a set
-//amount of time. You may also have an object decay in stages.
+//: MODULE
+// This module can be used to make objects decay after a set
+// amount of time. You may also have an object decay in stages.
 /*
 ** Coded by Kinison@Private Idaho - June 18, 1996
-** Rewritten by Tsath, 2020, to use STATE_D.
+** Rewritten by Tsath, 2020, to use STATE_D and to function for 
+** mobs as well as players.
 */
 
 inherit M_STATEFUL;
@@ -28,10 +27,10 @@ int decay_begun;
 
 void remove();
 
-//:FUNCTION set_decay_action
-//set_decay_action(string) causes 'string' to be printed this
-//object decays.  set_decay_action(function) causes the function
-//to be called instead.
+//: FUNCTION set_decay_action
+// set_decay_action(string) causes 'string' to be printed this
+// object decays.  set_decay_action(function) causes the function
+// to be called instead.
 void set_decay_action(mixed action)
 {
    decay_action = action;
@@ -42,8 +41,8 @@ int decays()
    return 1;
 }
 
-//:FUNCTION set_last_decay_action
-//same as set_decay_action but only on the last decay.
+//: FUNCTION set_last_decay_action
+// same as set_decay_action but only on the last decay.
 void set_last_decay_action(mixed action)
 {
    last_decay_action = action;
@@ -54,8 +53,8 @@ int decay_begun()
    return decay_begun;
 }
 
-//:FUNCTION set_num_decays
-//This sets the number of stages to decay in.
+//: FUNCTION set_num_decays
+// This sets the number of stages to decay in.
 int set_num_decays(int num)
 {
    return (num_decays = num);
@@ -71,21 +70,21 @@ int query_num_decays()
    return num_decays;
 }
 
-//:FUNCTION set_decay_time
-//void set_decay_time(int num)
-//Set the length of time that it takes to decay this item.
-//setting this makes the item decayable, not setting this varriable will not
-//make it decay.
+//: FUNCTION set_decay_time
+// void set_decay_time(int num)
+// Set the length of time that it takes to decay this item.
+// setting this makes the item decayable, not setting this varriable will not
+// make it decay.
 void set_decay_time(int num)
 {
    set_call_interval(num);
 }
 
-//Decay at this time and remove the object if at the last decay.
+// Decay at this time and remove the object if at the last decay.
 int decay_it()
 {
    mixed action;
-   decay_begun=1;
+   decay_begun = 1;
 
    if (num_decays == 1 && last_decay_action)
       action = last_decay_action;
@@ -93,10 +92,14 @@ int decay_it()
       action = decay_action;
 
    if (stringp(action))
-      if (environment() && environment()->is_body())
+      if (environment() && environment()->is_living())
+      {
          tell(environment(), action + "\n");
+      }
       else
+      {
          object_event(action);
+      }
    else
       evaluate(action);
 

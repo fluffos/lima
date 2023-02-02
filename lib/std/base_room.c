@@ -1,4 +1,5 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
+
 //  a room.c
 // Rust@ZorkMUD,   Jan 12, 1994
 // Nevyn@GUE       1-14-94
