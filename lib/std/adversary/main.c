@@ -14,8 +14,8 @@ int chance_to_hit(object, object);
 int defend_chance(object, object);
 int disarm_chance(object);
 int calculate_damage(object, object);
-int badly_wounded();
-int very_wounded();
+string badly_wounded();
+string very_wounded();
 int panic();
 void try_heal();
 varargs void stop_fight(object);
@@ -63,7 +63,7 @@ void take_a_swing(object target)
 
   if (badly_wounded())
     panic();
-  else if (very_wounded() && random(10)<3)
+  else if (very_wounded() && random(10)<4)
   {
     try_heal();
   }

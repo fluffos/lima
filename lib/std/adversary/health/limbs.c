@@ -827,9 +827,8 @@ void banner_wounded(string limb, int hp)
 }
 
 //:FUNCTION badly_wounded
-// int badly_wounded();
 // Returns 1 if we're near death.
-int badly_wounded()
+string badly_wounded()
 {
    int wimpy_at = 20;
 
@@ -851,16 +850,15 @@ int badly_wounded()
       if ((lb->flags & LIMB_VITAL) && (lb->health < ((lb->max_health * wimpy_at) / 100)))
       {
          banner_wounded(limb, lb->health);
-         return 1;
+         return limb;
       }
    }
 }
 
-//:FUNCTION badly_wounded
-// int very_wounded();
+//:FUNCTION very_wounded
 // Returns 1 if we're very wounded (50% hp on vital limbs). Mobs will start drinking and
 //eating when they hit this level of damage.
-int very_wounded()
+string very_wounded()
 {
    foreach (string limb in keys(health))
    {
@@ -869,7 +867,7 @@ int very_wounded()
       if ((lb->flags & LIMB_VITAL) && (lb->health < ((lb->max_health * 50) / 100)))
       {
          banner_wounded(limb, lb->health);
-         return 1;
+         return limb;
       }
    }
 }

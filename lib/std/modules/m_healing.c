@@ -11,6 +11,11 @@
 
 private int heal_value=0;
 
+int is_healing()
+{
+    return 1;
+}
+
 private object find_whom_to_heal()
 {
     return environment()->is_living() ? environment() : this_body();

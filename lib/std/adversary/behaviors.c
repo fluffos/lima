@@ -21,6 +21,8 @@ void dispatch_opponent();
 void do_game_command(string str);
 void behavior_hooks();
 int query_level();
+string badly_wounded();
+string very_wounded();
 varargs void targetted_action();
 void add_hook(string tag, function hook);
 void remove_hook(string tag, function hook);
@@ -191,9 +193,7 @@ void surrender()
 // consumes food and alchohol from inventory to stay alive.
 void try_heal()
 {
-  object *consumables = filter_array(all_inventory(this_object()), (
-                                                                       : $1->is_food() || $1->is_drink()
-                                                                       :));
+  object *consumables = filter_array(all_inventory(this_object()), (: $1->is_healing() :));
   object pick;
   if (sizeof(consumables))
     pick = choice(consumables);
@@ -213,6 +213,11 @@ void try_heal()
   else if (pick->is_drink())
   {
     pick->drink_it(this_object());
+  }
+  else if(pick->is_bandage())
+  {
+    string limb = very_wounded() || badly_wounded();
+    this_object()->do_game_command("apply bandage to "+limb);
   }
 }
 

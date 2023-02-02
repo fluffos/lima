@@ -4,6 +4,11 @@ inherit OBJ;
 inherit M_GETTABLE;
 inherit M_HEALING;
 
+int is_bandage()
+{
+    return 1;
+}
+
 float query_value()
 {
     return (float)(query_heal_value() );
