@@ -506,6 +506,6 @@ void flee()
 varargs int query_capacity(string relation)
 {
     float cap = ::query_capacity(relation);
-    int coin_weight_kg = to_int(MONEY_D->coin_weight(query_money()));
-    return cap + coin_weight_kg;
+    //int coin_weight_kg = to_int(MONEY_D->coin_weight(query_money()));
+    return cap; // + coin_weight_kg;
 }

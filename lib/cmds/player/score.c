@@ -88,7 +88,7 @@ void main(string arg)
                            (body->query_level() + 1),
                            (body->query_next_xp() - body->query_experience()));
     else
-        content += sprintf(FC + "%d XP - You could be level %d.\n", "",
+        content += sprintf("%d XP - You could be level %d.\n",
                            body->query_experience(),
                            body->query_could_be_level());
     content += "\n";
