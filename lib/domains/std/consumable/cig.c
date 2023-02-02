@@ -33,3 +33,5 @@ void do_smoke()
 }
 
 mixed direct_consume_obj() { return "#Don't eat cigarettes, light them!"; }
+
+mixed direct_use_obj() { return "#Tobacco like this needs to be lit first.";}

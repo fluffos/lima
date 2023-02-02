@@ -4,8 +4,8 @@ void setup()
 {
     set_id("joint");
     add_adj("small");
-    set_in_room_desc("A tight little home-rolled joined.");
-    set_long("You can try to light it.");
+    set_in_room_desc("A tight little home-rolled joint");
+    set_long("You can try to light it. It looks like a nice herb trumpet.");
     set_fuel(15);
     set_heal_value(5);
     set_consume_message("$N $vlight $p joint.");
@@ -34,3 +34,5 @@ void do_smoke()
 }
 
 mixed direct_consume_obj() { return "#Don't eat joints, light them!"; }
+
+mixed direct_use_obj() { return "#Tobacco like this needs to be lit first.";}
