@@ -227,7 +227,7 @@ string get_base_long()
 
 string fancy_long()
 {
-  return rtrim("\n   "+replace_string(simple_long(),"\n","\n\n   "))+"\n\n";
+  return rtrim("\n   "+replace_string(simple_long(),"\n","\n\n   "))+"\n";
 }
 
 
