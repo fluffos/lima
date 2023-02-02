@@ -113,8 +113,8 @@ int abuse_body(int a)
 
 int remove_abuse(int a)
 {
-   int cap_skill = should_cap_skill("misc/life/encodrines");
-   if (test_skill("misc/life/encodrines", a, cap_skill))
+   int cap_skill = should_cap_skill("misc/life/endocrines");
+   if (test_skill("misc/life/endocrines", a, cap_skill))
       abuse += to_int(a * 2);
    else
       abuse -= a;
