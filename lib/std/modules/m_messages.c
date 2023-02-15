@@ -619,3 +619,24 @@ varargs void targetted_action(mixed msg, object target, mixed *obs...)
   tell_from_outside(all_inventory(target), others, MSG_INDENT);
   tell_environment(this_object(), others, MSG_INDENT, who);
 }
+
+//: FUNCTION targetted_other_action
+// Generate a message involving the doer and a target (and possibly
+// other objects), but do not SEND to doer.
+varargs void targetted_other_action(mixed msg, object target, mixed *obs...)
+{
+  string them, others;
+  object *who;
+
+  if (!sizeof(msg))
+    return;
+  who = ({this_object(), target});
+  if (arrayp(msg))
+    msg = msg[random(sizeof(msg))];
+  them = compose_message(target, msg, who, obs...);
+  others = compose_message(0, msg, who, obs...);
+  tell(target, them, MSG_INDENT);
+  tell_from_outside(all_inventory(this_object()), others, MSG_INDENT);
+  tell_from_outside(all_inventory(target), others, MSG_INDENT);
+  tell_environment(this_object(), others, MSG_INDENT, who);
+}

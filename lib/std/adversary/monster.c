@@ -19,6 +19,7 @@ void update_max_health();
 void heal_all();
 void set_natural_armor(int na);
 void set_damage_bonus(int x);
+varargs int query_max_capacity(string relation);
 
 private
 nosave int max_skill;
@@ -43,6 +44,12 @@ int skill_for_level()
     max_skill=(((0.0+query_level())/5-floor(query_level()/5))*(current-below))+below;
 
     return max_skill || (query_level()*10);
+}
+
+//Overwritten by BODY if a player.
+varargs int query_no_move_capacity(string relation)
+{
+    return to_int(query_max_capacity() * 0.9);
 }
 
 void setup_monster_defaults()

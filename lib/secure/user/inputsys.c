@@ -48,10 +48,13 @@ private
 nosave string terminal_type;
 private
 
+private
+nosave int width, height;
+
 void terminal_type(string term)
 {
-    //Don't allow direct calls of this function from other places.
-    //The apply will not have a previous_object().
+    // Don't allow direct calls of this function from other places.
+    // The apply will not have a previous_object().
     if (previous_object())
         return;
 
@@ -62,6 +65,17 @@ void terminal_type(string term)
     }
 
     terminal_type = explode(lower_case(term), " ")[0];
+}
+
+void window_size(int w, int h)
+{
+    width = w;
+    height = h;
+}
+
+int *query_window_size()
+{
+    return ({width || 79, height || 40});
 }
 
 string query_terminal_type()

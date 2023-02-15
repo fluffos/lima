@@ -66,8 +66,12 @@ void main(string arg)
         body = find_body(arg);
         if (!body)
         {
-            out("Cannot find '" + arg + "'.\n");
-            return;
+            body = present(arg,environment(this_body()));
+            if (!body || !body->is_living())
+            {
+                out("Cannot find '" + arg + "'.\n");
+                return;
+            }
         }
         frame->set_title("Score for " + capitalize(arg));
     }
@@ -146,7 +150,7 @@ void main(string arg)
         content += o_info;
 */
 #ifdef USE_RACES
-    r_info = "  Race: " + capitalize(body->query_race());
+    r_info = "  Race: " + capitalize(body->query_race() || "Raceless");
 #endif
 
     x_info = "  Exp: " + body->query_experience();
@@ -172,7 +176,7 @@ void main(string arg)
 #ifdef USE_KARMA
     if (!i_simplify())
     {
-        int karma = this_body()->query_karma();
+        int karma = body->query_karma();
         int marker = 65 * ((karma + 1000) / 2000.0);
         int marker2 = 0;
         k_info = repeat_string("-", marker) + "X" + repeat_string("-", 65 - marker);
@@ -187,7 +191,7 @@ void main(string arg)
 
     if (1)
     {
-        int karma = this_body()->query_karma();
+        int karma = body->query_karma();
         string status = "";
         switch (karma)
         {
@@ -232,11 +236,11 @@ void main(string arg)
 
     if (1)
     {
-        int capa = this_body()->query_capacity();
-        int enc_capa = this_body()->query_encumbered_capacity();
-        int enc_heavy_capa = this_body()->query_heavy_capacity();
-        int no_move = this_body()->query_no_move_capacity();
-        int max = this_body()->query_max_capacity();
+        int capa = body->query_capacity();
+        int enc_capa = body->query_encumbered_capacity();
+        int enc_heavy_capa = body->query_heavy_capacity();
+        int no_move = body->query_no_move_capacity();
+        int max = body->query_max_capacity();
         string capa_string;
         mapping colours = ([0.0 +
                   enc_capa:"057", 0.0 + ((enc_heavy_capa * 0.8)):"056", 0.0 + ((enc_heavy_capa * 0.9)):"055",

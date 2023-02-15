@@ -25,11 +25,14 @@ string get_who_string(string arg)
   object *u;
   int i;
   string name, extra, retval;
+  string uptime = time_to_string(uptime() - (uptime() % 3600));
   object frame = new (FRAME);
-
-  //If we have bodies() and they have a level>1, the MUD must use levels.
-  //This is not set by a DEFINE but a result of implementation in adversary/body.
+  // If we have bodies() and they have a level>1, the MUD must use levels.
+  // This is not set by a DEFINE but a result of implementation in adversary/body.
   int use_levels_guess = sizeof(bodies()) ? bodies()[0]->query_level() > 0 : 0;
+
+  if (uptime == "")
+    uptime = "less then an hour";
 
   extra = retval = "\n";
   if (this_user())
@@ -88,7 +91,7 @@ string get_who_string(string arg)
   {
     frame->set_header_content("Level   Role     Name");
   }
-  frame->set_footer_content(sprintf("%s has been up for %s.", mud_name(), (time_to_string(uptime() - (uptime() % 3600)))));
+  frame->set_footer_content(sprintf("%s has been up for %s.", mud_name(), uptime));
   if (!i)
     retval += "Sorry, no one fits that bill.";
   foreach (object body in u)

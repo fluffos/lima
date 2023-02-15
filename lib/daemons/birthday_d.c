@@ -114,7 +114,7 @@ void create() {
 //    }
 
     refresh();
-    call_out((: repeat_refresh :), time() + 86400);
+    call_out((: repeat_refresh :), 86400);
 }
 
     

@@ -8,6 +8,7 @@ mapping colours;
 
 void save_me();
 object query_shell_ob();
+int *query_window_size();
 
 int screen_width;
 
@@ -19,7 +20,12 @@ void set_screen_width(int width)
 
 int query_screen_width()
 {
-    return screen_width ? screen_width : 79;
+    return screen_width ? screen_width : query_window_size()[0];
+}
+
+int is_width_auto()
+{
+    return screen_width == 0;
 }
 
 mapping query_translations()
@@ -178,7 +184,7 @@ void do_receive(string msg, int msg_type)
         msg += "\n";
     }
 
-    //Handle Emoji replacement if turned on for this player.
+    // Handle Emoji replacement if turned on for this player.
     if (query_shell_ob() && query_shell_ob()->get_variable("emoji") == 1)
         msg = EMOJI_D->emoji_replace(msg);
 

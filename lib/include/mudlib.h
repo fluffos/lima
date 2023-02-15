@@ -312,6 +312,7 @@
 #define MAILER_DIR        "/obj/secure/mailers"
 #define MAILER            MAILER_DIR "/mailer"
 #define SOCKET            "/obj/secure/socket"
+#define BEHAVIOUR_TREE    "/std/behaviour/behaviour_tree"
 
 #define SHELL             "/obj/secure/shell"
 #define M_ALIAS           "/obj/secure/shell/alias"
