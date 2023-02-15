@@ -231,6 +231,16 @@ void prompt_change_metric()
     input_one_arg("Use the metric system? (on/off)\n", (: set_metric :));
 }
 
+void set_width(string s)
+{
+    CMD_OB_WIDTH->player_menu_entry(s);
+}
+
+void prompt_change_width()
+{
+    input_one_arg("Set to a number or 'auto' for automatic detection? \n", (: set_width :));
+}
+
 void set_biff(string s)
 {
     if (s == "y")
@@ -420,6 +430,9 @@ void create()
                                         (
                                             : prompt_change_emoji:),
                                         "e"));
+    add_menu_item(uxmenu, new_menu_item("Terminal width",
+                                        (: prompt_change_width:),
+                                        "w"));
     add_menu_item(uxmenu, new_menu_item("Metric vs Imperial",
                                         (
                                             : prompt_change_metric:),

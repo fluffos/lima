@@ -15,25 +15,39 @@ inherit CMD;
 
 void main(mixed width)
 {
-  int wi = to_int(width);
-  TBUG(width != "auto");
-  TBUG(!intp(wi));
-  if (!intp(wi) || (strlen(width) > 0 && width != "auto"))
+  if (width == "auto")
+  {
+    this_user()->set_screen_width(0);
+    out("Screen width set to automatic detection.\n");
+    return;
+  }
+
+  width = to_int(width);
+  if (!intp(width))
   {
     out("Must set screen width to an integer or 'auto'.\n");
     return;
   }
-  if (!wi && width != "auto")
+
+  if (!width)
   {
     out("Your current screen width is " + this_user()->query_screen_width() +
         (this_user()->is_width_auto() ? " (auto)" : "") + ".\n");
     return;
   }
-  if (wi < 10 && width != "auto")
+
+  if (width < 10)
   {
     out("Screen width must be 10 or greater.\n");
     return;
   }
-  this_user()->set_screen_width(width == "auto" ? 0 : wi);
-  out("Screen width set to " + (width == "auto" ? "auto" : wi) + ".\n");
+  this_user()->set_screen_width(width);
+  out("Screen widthdth set to " + (width == "auto" ? "auto" : width) + ".\n");
+}
+
+void player_menu_entry(string str)
+{
+  bare_init();
+  main(str);
+  done_outputing();
 }
