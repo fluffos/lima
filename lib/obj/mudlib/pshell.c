@@ -36,6 +36,9 @@ void default_variables()
                 "emoji":utf8,
                "frames":(utf8 ? DEFAULT_FRAMES_STYLE : "ascii"),
          "frame_colour":(suggest_mode == "xterm" ? DEFAULT_FRAMES_THEME : "none")]);
+  if (suggest_mode == "xterm")
+    query_owner()->set_screen_width(0);
+  write("[Defaults have been set for '" + query_owner()->query_terminal_type() + "'. Use 'menu' to modify]\n");
 }
 
 void set_variable(string name, mixed value)

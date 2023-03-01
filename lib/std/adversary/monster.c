@@ -19,20 +19,33 @@ void update_max_health();
 void heal_all();
 void set_natural_armor(int na);
 void set_damage_bonus(int x);
+void add_id( string *id... );
 varargs int query_max_capacity(string relation);
 
 private
 nosave int max_skill;
+private
+nosave string monster_race;
 
 int stats_for_Level()
 {
     return 4 + (query_level() * 4);
 }
 
+void set_race(string r)
+{
+    add_id(r);
+    monster_race=r;
+}
 
-//Tricky function! Basically, this scales the monsters
-//skills like the player skills. They do not reach the next rank
-//right before they can.
+string query_race()
+{
+    return monster_race;
+}
+
+// Tricky function! Basically, this scales the monsters
+// skills like the player skills. They do not reach the next rank
+// right before they can.
 private
 int skill_for_level()
 {
@@ -40,13 +53,13 @@ int skill_for_level()
     if (max_skill)
         return max_skill;
     current = SKILL_D->pts_for_rank(query_level() / 5);
-    below = SKILL_D->pts_for_rank((query_level() / 5)-1);
-    max_skill=(((0.0+query_level())/5-floor(query_level()/5))*(current-below))+below;
+    below = SKILL_D->pts_for_rank((query_level() / 5) - 1);
+    max_skill = (((0.0 + query_level()) / 5 - floor(query_level() / 5)) * (current - below)) + below;
 
-    return max_skill || (query_level()*10);
+    return max_skill || (query_level() * 10);
 }
 
-//Overwritten by BODY if a player.
+// Overwritten by BODY if a player.
 varargs int query_no_move_capacity(string relation)
 {
     return to_int(query_max_capacity() * 0.9);

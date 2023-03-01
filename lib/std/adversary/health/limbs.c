@@ -801,6 +801,8 @@ void update_health()
 int query_health(string limb)
 {
    update_health();
+   if (!limb)
+      limb = "head";
    return ((class limb)health[limb])->health;
 }
 
@@ -826,9 +828,9 @@ void banner_wounded(string limb, int hp)
    tell(this_object(), "\n[%^RED%^WOUNDED!%^RESET%^] Your " + limb + " has " + hp + " hp!\n");
 }
 
-//:FUNCTION query_worst_vital_limb
-//Returns an array of a limb and a percentage of health that is
-//the worst hurt vital limb if vital=1, otherwise from all limbs.
+//: FUNCTION query_worst_limb
+// Returns an array of a limb and a percentage of health that is
+// the worst hurt vital limb if vital=1, otherwise from all limbs.
 varargs mixed *query_worst_limb(int vital)
 {
    mixed ret = ({});
@@ -838,15 +840,14 @@ varargs mixed *query_worst_limb(int vital)
    foreach (string limb in keys(health))
    {
       class limb lb = health[limb];
-      if (vital &&  !(lb->flags & LIMB_VITAL))
+      if (vital && !(lb->flags & LIMB_VITAL))
          continue;
 
-      hp_percent = to_int(((0.0 + lb->health) / lb->max_health) * 100.0);
+      hp_percent = (100 * lb->health) / lb->max_health;
       if (hp_percent < min)
       {
          min = hp_percent;
          l = limb;
-         TBUG("Limb: " + limb + " %:" + hp_percent);
       }
    }
    return ({l, min});

@@ -7,14 +7,25 @@ inherit NODE_CLASS;
 inherit CLUSTERS "base";
 
 // Optional ones as per behaviour.h
+#ifdef CLUSTER_ASSOCIATION
+inherit CLUSTERS "association";
+#endif
 #ifdef CLUSTER_NAVIGATION
 inherit CLUSTERS "navigation";
 #endif
 
 int *q = ({});
-
+/*
+ * PROTOTYPES
+ */
+string emotion_string();
 string discover_parent(string node);
 void debug(mixed s);
+
+string get_extra_long()
+{
+    return this_object()->short() + " radiates " + emotion_string() + ".\n";
+}
 
 varargs int evaluate_node()
 {
@@ -25,7 +36,7 @@ varargs int evaluate_node()
     if (!node)
     {
         debug("<161>Queue empty - missing node? Restarting from <069>ROOT<res>.");
-        queue = ({"root"});
+        frontpush("root");
         return;
     }
 
@@ -35,14 +46,14 @@ varargs int evaluate_node()
     case NODE_ROOT:
         debug(blackboard);
         debug("<069>ROOT<res> node.");
-        queue = ({});
         reset_tree(); // Reset tree when we see the root node.
         backpush(node->children[0]);
+        evaluate_node();
         return;
         break;
     case NODE_SEQUENCE:
         // We're done in the sequence
-        debug("<154>SEQUENCE, node: <043>" + node->name + "<res> child: " + node->node_num + "<res>");
+        debug("<154>SEQUENCE, node: <043>" + node->name + "<res> child: " + node->node_num + " status: " + status(node->status) + "<res>");
 
         // Did child fail or are we done? Then stop.
         if (node->status == EVAL_FAILURE || (node->node_num >= sizeof(node->children) && parent))
@@ -52,7 +63,7 @@ varargs int evaluate_node()
         }
         else
         { // Run sequence
-            debug("<154>SEQUENCE CONTINUE node: <043>" + node->name + "<res>");
+            debug("<154>SEQUENCE CONTINUE node: <043>" + node->name + " status: " + status(node->status) + "<res>");
             frontpush(node->children[node->node_num]);
             node->status = EVAL_RUNNING;
             node->node_num++;
@@ -75,13 +86,13 @@ varargs int evaluate_node()
         { // Run sequence
             if (node->status == EVAL_SUCCESS)
             {
-                debug("<154>SELECTOR STOPPED node: <043>" + node->name + "<res> ");
+                debug("<154>SELECTOR STOPPED node: <043>" + node->name + " status: " + status(node->status) + "<res> ");
                 parent->status = node->status;
                 frontpush(parent->name);
             }
             else
             {
-                debug("<154>SELECTOR CONTINUES node: <043>" + node->name + "<res> ");
+                debug("<154>SELECTOR CONTINUES node: <043>" + node->name + " status: " + status(node->status) + "<res> ");
                 frontpush(node->children[node->node_num]);
                 node->status = EVAL_RUNNING;
                 node->node_num++;
@@ -134,10 +145,16 @@ varargs int evaluate_node()
     if (node->delay > 0)
     {
         debug("<077>Queue delay: " + node->delay + " seconds.<res>");
-        call_out("evaluate_node", node->delay, parent);
+        if (find_call_out("evaluate_node") == -1)
+            call_out("evaluate_node", node->delay);
     }
     else
         evaluate_node(parent);
+}
+
+int is_smart()
+{
+    return 1;
 }
 
 void start_behaviour()

@@ -18,7 +18,9 @@ void main(mixed width)
   if (width == "auto")
   {
     this_user()->set_screen_width(0);
-    out("Screen width set to automatic detection.\n");
+    out("Screen width set to <120>automatic detection<res>.\n\n" +
+        "Set your client to not wrap or wrap at 5000 or more chars - " +
+        mud_name() + " will take it from here.\n\n");
     return;
   }
 
@@ -42,7 +44,7 @@ void main(mixed width)
     return;
   }
   this_user()->set_screen_width(width);
-  out("Screen widthdth set to " + (width == "auto" ? "auto" : width) + ".\n");
+  out("Screen width set to " +width + ".\nConsider using 'width auto' if your client supports it.\n");
 }
 
 void player_menu_entry(string str)

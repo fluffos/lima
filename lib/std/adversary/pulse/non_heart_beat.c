@@ -79,3 +79,8 @@ void stop_attacking()
 {
    attacking = 0;
 }
+
+int is_attacking()
+{
+   return attacking;
+}

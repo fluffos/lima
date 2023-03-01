@@ -1,12 +1,17 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 // Base functionality for behavior_tree
+// Emotions inspired by Plitchik's Wheel of Emotions
+// https://en.wikipedia.org/wiki/Robert_Plutchik
 
 #include <commands.h>
 #include <behaviour.h>
 
 inherit NODE_CLASS;
 
+#ifdef CLUSTER_ASSOCIATION
+void init_association_cluster();
+#endif
 #ifdef CLUSTER_NAVIGATION
 void init_navigation_cluster();
 #endif
@@ -16,19 +21,20 @@ void remove_hook(string, function);
 object query_target();
 object query_link();
 varargs int evaluate_node();
+void calm_emotions();
 
 void action_arrival(object);
 void action_departure(object);
 
-mapping desires = ([]);
+mapping emotions = ([0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0]);
 mapping blackboard = ([]);
 mapping node_list, parents;
 
 private
-nosave function arrival_fn = (
+function arrival_fn = (
     : action_arrival:);
 private
-nosave function departure_fn = (
+function departure_fn = (
     : action_departure:);
 
 private
@@ -40,8 +46,14 @@ object env;
 private
 int delay_time = 5; // Default delay time for leaves.
 private
-object debugee = 0;   // The body of the person debugging us.
+object debugee = 0; // The body of the person debugging us.
+private
 string *queue = ({}); // Queue of nodes that must be processed.
+
+private
+object *arrived = ({});
+private
+object *left = ({});
 
 private
 int room_has_changed = 1;
@@ -73,13 +85,13 @@ string status(int s)
     switch (s)
     {
     case -1:
-        return "NONE";
+        return "<135>NONE<res>";
     case 0:
-        return "FAILURE";
+        return "<135>FAILURE<res>";
     case 1:
-        return "SUCCESS";
+        return "<135>SUCCESS<res>";
     case 2:
-        return "RUNNING";
+        return "<135>RUNNING<res>";
     }
 }
 
@@ -113,6 +125,7 @@ mapping query_parents()
     return parents;
 }
 
+// Reset the tree states as well as the queue.
 void reset_tree()
 {
     foreach (string name, class node node in node_list)
@@ -120,6 +133,7 @@ void reset_tree()
         node->status = EVAL_NONE;
         node->node_num = 0;
     }
+    queue = ({});
 }
 
 class node front()
@@ -214,14 +228,45 @@ void behaviour_call()
     evaluate_node();
 }
 
+object *arrived()
+{
+    return arrived;
+}
+
+object *left()
+{
+    return left;
+}
+
+void something_arrived(object ob)
+{
+    // Ignore if I spot myself arriving.
+    if (ob == this_object())
+        return;
+    left -= ({ob});
+    arrived += ({ob});
+}
+
+void something_left(object ob)
+{
+    // Ignore if I spot myself leaving.
+    if (ob == this_object())
+        return;
+    left += ({ob});
+    arrived -= ({ob});
+}
+
 // If last player leaves, remove call_out
 void action_departure(object who)
 {
     room_has_changed = 1;
+    something_left(who);
     if (who->query_link())
     {
         if (!query_observers())
+        {
             remove_call_out("behaviour_call");
+        }
     }
 }
 
@@ -229,6 +274,7 @@ void action_departure(object who)
 void action_arrival(object who)
 {
     room_has_changed = 1;
+    something_arrived(who);
     if (who->query_link())
     {
         if (query_observers() == 1)
@@ -270,6 +316,11 @@ void set_blackboard(string key, mixed value)
     blackboard[key] = value;
 }
 
+void del_blackboard(string key)
+{
+    map_delete(blackboard, key);
+}
+
 mixed blackboard(string key)
 {
     return blackboard[key];
@@ -280,16 +331,120 @@ mapping query_blackboard()
     return blackboard;
 }
 
-mapping query_desires()
+mapping query_emotions()
 {
-    return desires;
+    return emotions;
 }
 
-void mod_desire(string desire, int mod)
+string emotion_string()
 {
-    if (!desires[desire])
-        desires[desire] = 50;
-    desires[desire] = CLAMP(desires[desire] + mod, 0, 100);
+    string *ems = ({});
+    foreach (int emotion, int level in emotions)
+    {
+        if (level > 0)
+            ems += ({EMOTION_NAMES[emotion][level - 1]});
+    }
+    if (!sizeof(ems))
+        ems = ({"indifference"});
+    return (sizeof(ems) > 1 ? "a mixture of " : "") + format_list(ems);
+}
+
+mapping emotion_names()
+{
+    return EMOTION_NAMES;
+}
+
+private
+void raw_mod_emotion(int emotion, int mod)
+{
+    emotions[emotion] = CLAMP(emotions[emotion] + mod, 0, 3);
+}
+
+int emotion_to_int(string s)
+{
+    s = lower_case(s)[0..2];
+    switch (s)
+    {
+    case "ecs":
+        return 0;
+    case "adm":
+        return 1;
+    case "ter":
+        return 2;
+    case "amu":
+        return 3;
+    case "gri":
+        return 4;
+    case "loa":
+        return 5;
+    case "rag":
+        return 6;
+    case "vig":
+        return 7;
+    default:
+        return -1;
+    }
+}
+
+//: FUNCTION mod_emotion
+// Function for modifying the behavior of the brainee.
+// Examples::
+//    orc->mod_emotion("rage",3);
+//    orc->mod_emotion("ter",2);
+//
+// Are valid examples. Emotion names can be abbreviated to first 3 letters, or you
+// can use integers as per defined in behaviour.h.
+void mod_emotion(mixed emotion, int mod)
+{
+    if (stringp(emotion))
+        emotion = emotion_to_int(emotion);
+    // Just a block.
+    {
+        int opposite_emotion = (emotion + 4) % 8;
+        int opposite_left = (opposite_emotion + 9) % 8;
+        int opposite_right = (opposite_emotion + 7) % 8;
+        // Some guard rails
+        if (emotion < 0 || emotion > 7)
+            error("Unknown emotion state '" + emotion + "'. States defined in /include/behaviour.h.\n" +
+                  "ecstasy 0, admiration 1, terror 2, amuzement 3, grief 4, loathing 5, rage 6, vigilance 7");
+        if (mod < -3 || mod > 3)
+            error("Can only modify emotions -3 - 3 points.");
+
+        raw_mod_emotion(emotion, mod);
+        raw_mod_emotion(opposite_emotion, -mod);
+
+        if (mod > 1 || mod < -1)
+        {
+            raw_mod_emotion(opposite_right, -1 * (mod - 1));
+            raw_mod_emotion(opposite_left, -1 * (mod - 1));
+        }
+    }
+}
+
+//: FUNCTION set_emotion
+// Function for setting a specific emotion. This sets the emotion to this value and doesn't raise it above
+// the given value.
+// Examples::
+//    orc->set_emotion("rage",3);
+//    orc->set_emotion("ter",2);
+//
+// Are valid examples. Emotion names can be abbreviated to first 3 letters, or you
+// can use integers as per defined in behaviour.h.
+void set_emotion(mixed emotion, int value)
+{
+    if (stringp(emotion))
+        emotion = emotion_to_int(emotion);
+    {
+        int current_val = emotions[emotion];
+        value = value - current_val;
+        mod_emotion(emotion, value);
+    }
+}
+
+void calm_emotions()
+{
+    for (int i = 0; i < 8; i++)
+        raw_mod_emotion(i, -1);
 }
 
 void add_child(string node, string child)
@@ -310,6 +465,9 @@ void init_tree()
     parents = ([]);
     create_node(NODE_ROOT, "root", "root_sequence");
     create_node(NODE_SEQUENCE, "root_sequence");
+#ifdef CLUSTER_ASSOCIATION
+    init_association_cluster();
+#endif
 #ifdef CLUSTER_NAVIGATION
     init_navigation_cluster();
 #endif

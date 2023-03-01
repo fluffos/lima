@@ -52,9 +52,9 @@ string on_off_widget(int on)
 	if (i_simplify())
 		return on ? "On " : "Off ";
 	if (on)
-		return sprintf("[<002>On<res> ]");
+		return sprintf("[<046>On<res> ]");
 	else
-		return sprintf("[<001>Off<res>]>");
+		return sprintf("[<124>Off<res>]");
 }
 
 varargs string fancy_divider(int width)

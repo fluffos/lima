@@ -14,7 +14,6 @@ void call_command(string str);
 int has_room_changed();
 void room_checked();
 void do_wander();
-int query_attacking();
 int player_did_arrive(string dir);
 void moving();
 
@@ -24,58 +23,9 @@ string *wander_area = ({});
 void init_navigation_cluster()
 {
     // Add nodes
-    create_node(NODE_SEQUENCE, "navigation_seq", ({"look_around", "study_beings","do_wander"}));
-    add_child("root_sequence", "navigation_seq");
-    create_node(NODE_LEAF, "look_around");
-    create_node(NODE_LEAF, "study_beings");
-    create_node(NODE_LEAF,"do_wander");
+    // create_node(NODE_LEAF,"do_wander");
 }
 
-varargs int study_beings(int ready)
-{
-    object *things = all_inventory(environment()) - ({this_object()});
-    object *beings, *tmp_beings;
-    if (!has_room_changed())
-        return EVAL_SUCCESS;
-    if (!blackboard("environment"))
-        return EVAL_FAILURE;
-    this_object()->simple_action("$N $vstudy the people in the room.");
-    beings = filter_array(things, (
-                                      : $1->is_living() && environment($1) == environment()
-                                      :));
-    // Did someone arrive?
-    if (arrayp(blackboard("beings")))
-        tmp_beings = beings - blackboard("beings");
-
-    if (sizeof(tmp_beings) == 1)
-        call_command("look at " + tmp_beings[0]->query_id()[0]);
-
-    set_blackboard("beings", beings);
-    set_blackboard("environment", things - blackboard("exits") - blackboard("gettable") - blackboard("beings"));
-    room_checked();
-
-    return EVAL_SUCCESS;
-}
-
-int look_around()
-{
-    object *things = all_inventory(environment()) - ({this_object()});
-    if (!environment())
-        return EVAL_FAILURE;
-    if (!has_room_changed())
-        return EVAL_SUCCESS;
-    if (!blackboard("beings"))
-        set_blackboard("beings", ({}));
-
-    set_blackboard("gettable", filter_array(things, (
-                                                        : $1->is_gettable()
-                                                        :)));
-    set_blackboard("exits", filter_array(things, (
-                                                     : $1->id("door")
-                                                     :)));
-    set_blackboard("environment", things - blackboard("exits") - blackboard("gettable") - blackboard("beings"));
-    return EVAL_SUCCESS;
-}
 
 //: FUNCTION set_wander_area
 // Set the area(s) that an NPC can wander in.  If this is not set
