@@ -840,7 +840,7 @@ varargs mixed *query_worst_limb(int vital)
    foreach (string limb in keys(health))
    {
       class limb lb = health[limb];
-      if (vital && !(lb->flags & LIMB_VITAL) || lb->max_health)
+      if (vital && !(lb->flags & LIMB_VITAL) || !lb->max_health)
          continue;
 
       hp_percent = (100 * lb->health) / lb->max_health;
