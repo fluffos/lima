@@ -33,6 +33,9 @@ void main()
     call_out_stuff = filter_array(call_out_info(), (
                                                        : sizeof:));
 
+    //We do not have any ANSI here, but also don't want emojis.
+    set_output_flags(NO_ANSI);
+    
     outf("%-45s%-25s%-10s\n", "Object", "Function", "Delay");
     outf("%82'-'s\n", "");
 

@@ -46,7 +46,10 @@ main(string str) {
     string who;
     int num;
     int before;
-    	
+
+    //We do not have any ANSI here, but also don't want emojis.
+    set_output_flags(NO_ANSI);
+
     if (!str || (sscanf(str, "%d", num)==0 && sscanf(str, "%s %d", who, num)==0)) {
         out("dbxframe [<who>] <frame>\n");
 	return;

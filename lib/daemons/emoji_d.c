@@ -1,20 +1,20 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-//:MODULE
+//: MODULE
 // EMOJI_D by Tsath April 2020
 // (Had to do something while under lockdown)
-// 
+//
 // The EMOJI_D stores emoji names along with an array pair of
 //     ({  THE UTF char   , Replacement string  })
 //
-// It also has a supporting function called 
+// It also has a supporting function called
 //  string emoji_replace(string s);
 //
 // This function replaces the replacements in whatever string it is
 // given. You can use the emoji_replace to add emoji support to specific
 // things like channels or say.
 //
-// The daemon is controlled via the admtool. 
+// The daemon is controlled via the admtool.
 
 #include <mudlib.h>
 #include <security.h>
@@ -94,9 +94,16 @@ nomask mixed get_emoji_data()
     return copy(emoji_map);
 }
 
-string emoji_replace(string input)
+string emoji_replace(string input, int msg_type)
 {
     int replacements = -1;
+
+    if (msg_type & NO_WRAP ||
+        msg_type & NO_ANSI ||
+        msg_type & TREAT_AS_BLOB ||
+        msg_type & MSG_PROMPT)
+        return input;
+
     if (keys(emoji_map) == 0)
         return input;
 
@@ -105,7 +112,7 @@ string emoji_replace(string input)
         replacements = 0;
         foreach (string key, string * arr in emoji_map)
         {
-            if (strlen(arr[1]) && strsrch(input,arr[1])!=-1)
+            if (strlen(arr[1]) && strsrch(input, arr[1]) != -1)
             {
                 input = replace_string(input, arr[1], arr[0]);
                 replacements++;

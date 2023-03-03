@@ -21,6 +21,7 @@ int *q = ({});
 string emotion_string();
 string discover_parent(string node);
 void debug(mixed s);
+int query_observers();
 
 string get_extra_long()
 {
@@ -48,7 +49,8 @@ varargs int evaluate_node()
         debug("<069>ROOT<res> node.");
         reset_tree(); // Reset tree when we see the root node.
         backpush(node->children[0]);
-        evaluate_node();
+        if (query_observers())
+            evaluate_node();
         return;
         break;
     case NODE_SEQUENCE:

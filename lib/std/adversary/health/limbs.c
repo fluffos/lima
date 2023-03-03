@@ -807,7 +807,7 @@ int query_health(string limb)
 }
 
 //: FUNCTION get_health
-// mapping query_health();
+// mapping get_health();
 // Return the health mapping for adversary.
 mapping get_health()
 {
@@ -840,7 +840,7 @@ varargs mixed *query_worst_limb(int vital)
    foreach (string limb in keys(health))
    {
       class limb lb = health[limb];
-      if (vital && !(lb->flags & LIMB_VITAL) || !lb->max_health)
+      if (vital && !(lb->flags & LIMB_VITAL) || lb->max_health)
          continue;
 
       hp_percent = (100 * lb->health) / lb->max_health;
@@ -864,9 +864,7 @@ string badly_wounded()
       object link = this_object()->query_link();
       if (link)
       {
-         wimpy_at = this_user()->query_shell_ob()->get_variable("wimpy_percent");
-         if (!wimpy_at)
-            wimpy_at = 20;
+         wimpy_at = this_user()->query_shell_ob()->get_variable("wimpy_percent") || 20;
       }
    }
 

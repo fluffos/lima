@@ -8,7 +8,7 @@ inherit BEHAVIOUR_TREE;
 void setup()
 {
     set_name("George");
-    set_id("george", "geo", "gobbo");
+    set_id("george", "geo");
     set_race("goblin");
     set_gender(1);
     set_proper_name("George the Goblin");

@@ -16,6 +16,7 @@ private
 nomask void list_emojis()
 {
   mapping emojis;
+  string out;
 
   emojis = EMOJI_D->get_emoji_data();
 
@@ -25,13 +26,14 @@ nomask void list_emojis()
   }
   else
   {
-    printf("%-30s %5|s %-10s",
-           "Emoji", "UTF8", "Replacement\n");
+    out = sprintf("%-30s %5|s %-10s",
+                  "Emoji", "UTF8/16", "Replacement\n");
     foreach (string key, string * arr in emojis)
     {
-      printf("%-30s %-5s %-10s\n",
-             key, arr[0], arr[1]);
+      out += sprintf("%-30s %-5s %-10s\n",
+                     key, arr[0], arr[1]);
     }
+    this_user()->do_receive(out,NO_ANSI);
   }
 }
 

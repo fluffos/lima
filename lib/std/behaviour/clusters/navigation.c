@@ -16,21 +16,34 @@ void room_checked();
 void do_wander();
 int player_did_arrive(string dir);
 void moving();
+int query_emotion(mixed emotion);
+void mod_emotion(mixed emotion, int mod);
+object *worst_threats_present();
 
 private
 string *wander_area = ({});
+private
+int
+    move_allowed = 0;
 
 void init_navigation_cluster()
 {
-    // Add nodes
-    // create_node(NODE_LEAF,"do_wander");
+    // If any of these ones return true we stop here, and navigate somewhere else
+    create_node(NODE_SELECTOR, "navigation_seq", ({"wimpy", "bored"}));
+    add_child("root_sequence", "navigation_seq");
+    create_node(NODE_LEAF, "wimpy");
+    create_node(NODE_LEAF, "bored");
 }
 
+void set_can_move()
+{
+    move_allowed = 1;
+}
 
 //: FUNCTION set_wander_area
 // Set the area(s) that an NPC can wander in.  If this is not set
-// it is assumed that the NPC can wander anywhere without area
-// restrictions.
+// the NPC cannot move. Use set_can_move() to make the NPC move
+// across all areas.
 void set_wander_area(mixed areas)
 {
     if (arrayp(areas))
@@ -45,7 +58,8 @@ void set_wander_area(mixed areas)
 }
 
 //: FUNCTION add_wander_area
-// Add area(s) which an NPC can wander in.  See set_wander_area()
+// Add area(s) which an NPC can wander in.  See set_wander_area(),
+// and set_can_move().
 void add_wander_area(mixed areas)
 {
     if (arrayp(areas))
@@ -108,24 +122,62 @@ int do_wander()
     file = environment(this_object())->query_exit_destination(chosen_dir);
     /* If the destination is not loaded, do so */
     dest = find_object(file);
- 
+
     if (!dest)
         dest = load_object(file);
 
     /* Check if the npc has wander restrictions */
-    if (sizeof(wander_area))
+    if (dest && sizeof(wander_area))
     {
         if (arrayp(wander_area) && arrayp(dest->query_area()))
         {
             if (sizeof(wander_area & dest->query_area()))
             {
                 move_me(chosen_dir);
+                return EVAL_SUCCESS;
             }
+            return EVAL_FAILURE;
         }
     }
-    else
+    else if (move_allowed)
     {
         move_me(chosen_dir);
+        return EVAL_SUCCESS;
     }
-    return EVAL_SUCCESS;
+    return EVAL_FAILURE;
+}
+
+int wimpy()
+{
+    string badly_wounded = this_object()->badly_wounded();
+    int threats = sizeof(worst_threats_present());
+    int result = EVAL_FAILURE;
+
+    if (threats && badly_wounded)
+    {
+        result = do_wander();
+        // Two attempts to find an exit.
+        if (result == EVAL_FAILURE)
+            result = do_wander();
+        if (result == EVAL_SUCCESS)
+            this_object()->try_heal();
+    }
+    return result;
+}
+
+int bored()
+{
+    string wounded = this_object()->badly_wounded() || this_object()->very_wounded();
+    int threats = sizeof(worst_threats_present());
+
+    if (!threats && random(4) == 0)
+        this_object()->try_heal();
+
+    if (!wounded && query_emotion(LOATHING))
+        if (do_wander() == EVAL_SUCCESS)
+        {
+            mod_emotion(LOATHING, -1);
+            return EVAL_SUCCESS;
+        }
+    return EVAL_FAILURE;
 }

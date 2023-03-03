@@ -68,9 +68,15 @@ void recalc_threat_level(object ob)
 
 object *worst_threats()
 {
+    if (!sizeof(keys(assoc))) return ({});
     return sort_array(keys(assoc), (
                                        : assoc[$1]["threat_level"]
                                        :));
+}
+
+object *worst_threats_present()
+{
+    return filter(worst_threats(),(: present($1,environment()):));
 }
 
 void register_beings(object *obs)

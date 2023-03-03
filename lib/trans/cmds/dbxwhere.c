@@ -17,6 +17,9 @@ private void
 main(string str) {
     mapping error;
 
+    //We do not have any ANSI here, but also don't want emojis.
+    set_output_flags(NO_ANSI);
+
     if (!str || str == "") {
         error = get_the_error(this_user()->query_userid());
     } else {

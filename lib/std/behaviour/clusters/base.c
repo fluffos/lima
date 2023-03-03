@@ -54,6 +54,8 @@ private
 object *arrived = ({});
 private
 object *left = ({});
+private
+int behaviour_call_out;
 
 private
 int room_has_changed = 1;
@@ -223,9 +225,10 @@ int query_observers()
 // The periodic action call_out
 void behaviour_call()
 {
-    if (query_observers())
-        call_out("behaviour_call", delay_time);
+    if (query_observers() && behaviour_call_out == 0)
+        behaviour_call_out = call_out("behaviour_call", delay_time);
     evaluate_node();
+    behaviour_call_out = 0;
 }
 
 object *arrived()
@@ -261,13 +264,6 @@ void action_departure(object who)
 {
     room_has_changed = 1;
     something_left(who);
-    if (who->query_link())
-    {
-        if (!query_observers())
-        {
-            remove_call_out("behaviour_call");
-        }
-    }
 }
 
 // If first player arrives, add call_out
@@ -277,8 +273,8 @@ void action_arrival(object who)
     something_arrived(who);
     if (who->query_link())
     {
-        if (query_observers() == 1)
-            call_out("behaviour_call", delay_time);
+        if (query_observers() == 1 && behaviour_call_out == 0)
+            behaviour_call_out = call_out("behaviour_call", delay_time);
     }
 }
 
@@ -295,9 +291,8 @@ void action_movement()
     env = environment();
     env->add_hook("object_arrived", arrival_fn);
     env->add_hook("object_left", departure_fn);
-    if (find_call_out("behaviour_call") < 0)
-        if (query_observers())
-            call_out("behaviour_call", delay_time);
+    if (behaviour_call_out == 0 && query_observers())
+        behaviour_call_out = call_out("behaviour_call", delay_time);
 }
 
 void debug(mixed s)
@@ -441,6 +436,13 @@ void set_emotion(mixed emotion, int value)
     }
 }
 
+int query_emotion(mixed emotion)
+{
+    if (stringp(emotion))
+        emotion = emotion_to_int(emotion);
+    return emotions[emotion];
+}
+
 void calm_emotions()
 {
     for (int i = 0; i < 8; i++)
@@ -486,10 +488,10 @@ void start_behaviour()
     }
 
     if (query_observers())
-        call_out("behaviour_call", delay_time);
+        behaviour_call_out = call_out("behaviour_call", delay_time);
 }
 
 void stop_behaviour_call()
 {
-    remove_call_out("behaviour_call");
+    remove_call_out(behaviour_call_out);
 }
