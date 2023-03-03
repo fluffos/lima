@@ -1,8 +1,8 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-//Default busy for 4 seconds
+// Default busy for 4 seconds
 #define BUSY_LENGTH 4
-//If we're somehow busy for more than 10 seconds, ignore it
+// If we're somehow busy for more than 10 seconds, ignore it
 #define MAX_BUSY 10
 
 nosave object *hunted = ({});
@@ -61,24 +61,24 @@ void end_busy(mixed *args)
   not_busy();
 }
 
-//:FUNCTION busy_with
-//int busy_with(object ob, string action, string function, mixed *args)
-//Add a call back to a function and keep the player busy in the mean
-//time. It's not possible to be busy with more than one thing at a time
-//The action string is used for messaging like
-// You begin <action> ...
-// You are busy <action>!
-//The function is called in the object given after BUSY_LENGTH with
-//arguments args.
-//BUSY_LENGTH is defined in /std/adversary/behaviors.
+//: FUNCTION busy_with
+// int busy_with(object ob, string action, string function, mixed *args)
+// Add a call back to a function and keep the player busy in the mean
+// time. It's not possible to be busy with more than one thing at a time
+// The action string is used for messaging like
+//  You begin <action> ...
+//  You are busy <action>!
+// The function is called in the object given after BUSY_LENGTH with
+// arguments args.
+// BUSY_LENGTH is defined in /std/adversary/behaviors.
 //
-//This function returns 1 if the player was successfully set busy or
-//0 if it failed.
+// This function returns 1 if the player was successfully set busy or
+// 0 if it failed.
 //
-//The function is the object is called and if it returns 1, everything
-//is assumed well, but on 0 a message of:
-// You fail at <action>.
-//is sent to the adversary.
+// The function is the object is called and if it returns 1, everything
+// is assumed well, but on 0 a message of:
+//  You fail at <action>.
+// is sent to the adversary.
 varargs int busy_with(object ob, string action, string bf, mixed args)
 {
   if (time() - busy_at > MAX_BUSY || !busy_with)
@@ -121,29 +121,29 @@ void is_hunted_call(object who)
 
 void i_met(object who)
 {
-  //Override me
+  // Override me
 }
 
-//:FUNCTION adversary_met
-//Function is called when this adversary meets someone or something.
-//You can override it to add your own things when it meets things,
-//but remember to call
-// ::adversary_met(who);.
-//This function is only called for ADVERSARY, not if you are a player.
+//: FUNCTION adversary_met
+// Function is called when this adversary meets someone or something.
+// You can override it to add your own things when it meets things,
+// but remember to call
+//  ::adversary_met(who);.
+// This function is only called for ADVERSARY, not if you are a player.
 void adversary_met(object who)
 {
-  if (find_call_out("is_hunted_call")==-1)
+  if (find_call_out("is_hunted_call") == -1)
   {
     call_out("is_hunted_call", 1 + random(2), who);
     i_met(who);
   }
 }
 
-//:FUNCTION adversary_moved
-//Function is called when this adversary moves. You can override
-//it to add your own things when it moves, but remember to call
-// ::adversary_moved();
-//This function is only called for ADVERSARY, not if you are a player.
+//: FUNCTION adversary_moved
+// Function is called when this adversary moves. You can override
+// it to add your own things when it moves, but remember to call
+//  ::adversary_moved();
+// This function is only called for ADVERSARY, not if you are a player.
 void adversary_moved()
 {
   if (my_env)
@@ -173,7 +173,7 @@ object *query_hunts()
 
 void do_move_away();
 
-//:FUNCTION flee
+//: FUNCTION flee
 // Try to run away. Does nothing by default. Overload this function to
 // modify the behavior of your monster when it panics.
 void flee()
@@ -181,20 +181,24 @@ void flee()
   //  do_move_away();
 }
 
-//:FUNCTION surrender
+//: FUNCTION surrender
 // Try to surrender. Does nothing by default. Overload this function to
 // modify the behavior of your monster when it panicss.
 void surrender()
 {
 }
 
-//:FUNCTION try_heal
+//: FUNCTION try_heal
 // Called when the adversary is in combat and under pressure. This function
 // consumes food and alchohol from inventory to stay alive.
 void try_heal()
 {
-  object *consumables = filter_array(all_inventory(this_object()), (: $1->is_healing() :));
+  object *consumables = filter_array(all_inventory(this_object()), (
+                                                                       : $1->is_healing()
+                                                                       :));
   object pick;
+  string limb = very_wounded() || badly_wounded();
+
   if (sizeof(consumables))
     pick = choice(consumables);
 
@@ -204,9 +208,13 @@ void try_heal()
     return;
   }
 
-  //Bit defensive code here since things are very interactive and can disappear
-  //quickly.
-  if (pick->is_food())
+  // Bit defensive code here since things are very interactive and can disappear
+  // quickly.
+  if (pick->is_bandage() && limb)
+  {
+    this_object()->do_game_command("apply bandage to " + limb);
+  }
+  else if (pick->is_food())
   {
     pick->do_eat(this_object());
   }
@@ -214,14 +222,9 @@ void try_heal()
   {
     pick->drink_it(this_object());
   }
-  else if(pick->is_bandage())
-  {
-    string limb = very_wounded() || badly_wounded();
-    this_object()->do_game_command("apply bandage to "+limb);
-  }
 }
 
-//:FUNCTION panic
+//: FUNCTION panic
 // Do something intelligent when we are about to die. Overload this
 // to have your monster do something else when it's hp's get low.
 // The default behavior is to randomly flee or surrender.
@@ -235,7 +238,7 @@ void panic()
     surrender();
 }
 
-//:FUNCTION target_is_asleep
+//: FUNCTION target_is_asleep
 // Called with the person we are attacking is asleep or unconscious.
 // Default behavior is to finish them off. Overload this function if you
 // want your monster to do something other than killing its victims.
@@ -245,8 +248,8 @@ void target_is_asleep()
   dispatch_opponent();
 }
 
-//:FUNCTION do_move_away
-//Moves through a random exit. Probable implementation of "flee"
+//: FUNCTION do_move_away
+// Moves through a random exit. Probable implementation of "flee"
 void do_move_away()
 {
   string *directions;

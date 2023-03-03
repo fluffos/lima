@@ -183,7 +183,7 @@ varargs void create_node(int type, string name, mixed offspring)
     parents[name] = discover_parent(name);
 }
 
-void call_command(string str)
+void do_game_command(string str)
 {
     object save_tu;
     mixed *winner;

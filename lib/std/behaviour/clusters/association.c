@@ -9,7 +9,7 @@ varargs void create_node(int type, string name, mixed offspring);
 void set_blackboard(string key, mixed value);
 void del_blackboard(string key);
 mixed blackboard(string key);
-void call_command(string str);
+void do_game_command(string str);
 int has_room_changed();
 void room_checked();
 void mod_emotion(mixed emotion, int mod);
@@ -270,7 +270,7 @@ int study_beings()
 
     // Tell them that we noticed that they arrived.
     if (sizeof(new_people) == 1)
-        call_command("look at " + new_people[0]->query_id()[0]);
+        do_game_command("look at " + new_people[0]->query_id()[0]);
 
     register_beings(beings);
     set_blackboard("environment", things - blackboard("exits") - blackboard("gettable") - beings);

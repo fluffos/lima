@@ -10,7 +10,7 @@ void add_child(string node, string child);
 varargs void create_node(int type, string name, mixed offspring);
 void set_blackboard(string key, mixed value);
 mixed blackboard(string key);
-void call_command(string str);
+void do_game_command(string str);
 int has_room_changed();
 void room_checked();
 void do_wander();
@@ -99,7 +99,7 @@ string *query_wander_area()
 
 void move_me(string direction)
 {
-    call_command(sprintf("go %s", direction));
+    do_game_command(sprintf("go %s", direction));
 }
 
 int do_wander()
