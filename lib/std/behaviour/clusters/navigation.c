@@ -179,5 +179,5 @@ int bored()
             mod_emotion(LOATHING, -1);
             return EVAL_SUCCESS;
         }
-    return EVAL_FAILURE;
+    return EVAL_SUCCESS;
 }

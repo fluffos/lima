@@ -11,6 +11,10 @@
 //Ability to move and navigate 
 #define CLUSTER_NAVIGATION
 
+//Ability to find, and replace equipment with better equipment
+//Ability to use healing items in case of need.
+#define CLUSTER_EQUIPMENT
+
 //Ability to fight and flee
 #undef CLUSTER_COMBAT
 

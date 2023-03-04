@@ -13,6 +13,9 @@ inherit CLUSTERS "association";
 #ifdef CLUSTER_NAVIGATION
 inherit CLUSTERS "navigation";
 #endif
+#ifdef CLUSTER_EQUIPMENT
+inherit CLUSTERS "equipment";
+#endif
 
 int *q = ({});
 /*

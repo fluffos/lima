@@ -15,6 +15,9 @@ void init_association_cluster();
 #ifdef CLUSTER_NAVIGATION
 void init_navigation_cluster();
 #endif
+#ifdef CLUSTER_EQUIPMENT
+void init_equipment_cluster();
+#endif
 
 void add_hook(string, function);
 void remove_hook(string, function);
@@ -472,6 +475,9 @@ void init_tree()
 #endif
 #ifdef CLUSTER_NAVIGATION
     init_navigation_cluster();
+#endif
+#ifdef CLUSTER_EQUIPMENT
+    init_equipment_cluster();
 #endif
 }
 
