@@ -181,3 +181,10 @@ int bored()
         }
     return EVAL_SUCCESS;
 }
+
+string navigation_features()
+{
+    return "<039>Navigation:\n<res>" +
+           "\t- Leave room if badly injured\n" +
+           "\t- Leave the room if bored\n\n";
+}

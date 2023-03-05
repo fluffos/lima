@@ -200,3 +200,12 @@ int find_armor_in_room()
     }
     return worn ? EVAL_SUCCESS : EVAL_FAILURE;
 }
+
+string equipment_features()
+{
+    return "<033>Equipment:\n<res>" +
+           "\t- Heal from inventory\n"
+           "\t- Find healing from rooms and claim\n"
+           "\t- Wear better armors\n"
+           "\t- Find better armors and wear them\n";
+}

@@ -11,12 +11,15 @@ inherit NODE_CLASS;
 
 #ifdef CLUSTER_ASSOCIATION
 void init_association_cluster();
+string association_features();
 #endif
 #ifdef CLUSTER_NAVIGATION
 void init_navigation_cluster();
+string navigation_features();
 #endif
 #ifdef CLUSTER_EQUIPMENT
 void init_equipment_cluster();
+string equipment_features();
 #endif
 
 void add_hook(string, function);
@@ -184,7 +187,6 @@ varargs void create_node(int type, string name, mixed offspring)
                              delay
                            : type == NODE_LEAF ? LEAF_NODE_PAUSE : 0);
     parents[name] = discover_parent(name);
-    TBUG(node_list[name]->delay);
 }
 
 void do_game_command(string str)
@@ -506,4 +508,28 @@ void start_behaviour()
 void stop_behaviour_call()
 {
     remove_call_out(behaviour_call_out);
+}
+
+string base_features()
+{
+    return "<051>Base functionality: \n<res>" +
+           "\t- Emotions\n" +
+           "\t- Basic call out\n" +
+           "\t- Establish root sequence\n\n";
+}
+
+string features()
+{
+    return "<bld>Behaviour tree functionality loaded.<res>\n\n" +
+           base_features() +
+#ifdef CLUSTER_ASSOCIATION
+           association_features() +
+#endif
+#ifdef CLUSTER_NAVIGATION
+           navigation_features() +
+#endif
+#ifdef CLUSTER_EQUIPMENT
+           equipment_features() +
+#endif
+           "";
 }

@@ -68,7 +68,8 @@ void recalc_threat_level(object ob)
 
 object *worst_threats()
 {
-    if (!sizeof(keys(assoc))) return ({});
+    if (!sizeof(keys(assoc)))
+        return ({});
     return sort_array(keys(assoc), (
                                        : assoc[$1]["threat_level"]
                                        :));
@@ -76,7 +77,9 @@ object *worst_threats()
 
 object *worst_threats_present()
 {
-    return filter(worst_threats(),(: present($1,environment()):));
+    return filter(worst_threats(), (
+                                       : present($1, environment())
+                                       :));
 }
 
 void register_beings(object *obs)
@@ -296,4 +299,13 @@ int look_around()
                                                      :)));
     set_blackboard("environment", things - blackboard("exits") - blackboard("gettable") - blackboard("beings"));
     return EVAL_SUCCESS;
+}
+
+string association_features()
+{
+    return "<045>Association:\n<res>" +
+           "\t- Relations to other beings\n" +
+           "\t- Basic emotion settings\n" +
+           "\t- Assessing threats\n" +
+           "\t- Assess own status\n\n";
 }
