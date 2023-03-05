@@ -54,11 +54,11 @@ mixed ob_state()
    return slot;
 }
 
-//:FUNCTION set_stat_mods
-//Sets the scores to modify a stat with for this wearable.
-//function.
+//: FUNCTION set_stat_mods
+// Sets the scores to modify a stat with for this wearable.
+// function.
 //
-// set_stat_mods((["int":2,"dex":-2]));
+//  set_stat_mods((["int":2,"dex":-2]));
 void set_stat_mods(mapping m)
 {
    stat_mods = m;
@@ -95,31 +95,31 @@ varargs string stat_mods_string(int compact)
    return mods || "";
 }
 
-//:FUNCTION set_stat_mod
-//Sets the score to modify a stat with for this wearable.
-//See also set_stat_bonus which is needed in tandem with this
-//function.
+//: FUNCTION set_stat_mod
+// Sets the score to modify a stat with for this wearable.
+// See also set_stat_bonus which is needed in tandem with this
+// function.
 //
-// set_stat_mod(2);
-// set_stat_bonus("int");
+//  set_stat_mod(2);
+//  set_stat_bonus("int");
 void set_stat_mod(int b)
 {
    stat_mod = b;
 }
 
-//:FUNCTION query_stat_mod
-//Query the stat modification set on this wearable. See also
-//set_stat_mod() and set_stat_bonus().
+//: FUNCTION query_stat_mod
+// Query the stat modification set on this wearable. See also
+// set_stat_mod() and set_stat_bonus().
 int query_stat_mod()
 {
    return stat_mod;
 }
 
-//:FUNCTION set_stat_bonus
-//Set the stat that the bonus should applied to. On nuke
-//the following stats are supported:
-// - str, dex, int, con, cha.
-//See also query_stat_bonus and set_stat_mod.
+//: FUNCTION set_stat_bonus
+// Set the stat that the bonus should applied to. On nuke
+// the following stats are supported:
+//  - str, dex, int, con, cha.
+// See also query_stat_bonus and set_stat_mod.
 void set_stat_bonus(string s)
 {
    if (s)
@@ -129,55 +129,55 @@ void set_stat_bonus(string s)
    stat_bonus = s;
 }
 
-//:FUNCTION query_stat_bonus
-//Returns the stat that this wearable provides a bonus to.
-//See also set_stat_bonus for legal stats and set_stat_mod
-//which is required in tandom with set_stat_bonus() calls.
+//: FUNCTION query_stat_bonus
+// Returns the stat that this wearable provides a bonus to.
+// See also set_stat_bonus for legal stats and set_stat_mod
+// which is required in tandom with set_stat_bonus() calls.
 //
-// set_stat_mod(2);
-// set_stat_bonus("int");
+//  set_stat_mod(2);
+//  set_stat_bonus("int");
 string query_stat_bonus()
 {
    return stat_bonus;
 }
 
-//:FUNCTION set_wearmsg
-//Set the message used when an object is worn.
+//: FUNCTION set_wearmsg
+// Set the message used when an object is worn.
 void set_wearmsg(string s)
 {
    wearmsg = s;
 }
 
-//:FUNCTION query_wearmsg
-//Return the message given when an object is used.
+//: FUNCTION query_wearmsg
+// Return the message given when an object is used.
 string query_wearmsg()
 {
    return wearmsg;
 }
 
-//:FUNCTION set_wearmsg
-//Set the message used when an object is worn.
+//: FUNCTION set_wearmsg
+// Set the message used when an object is worn.
 void set_removemsg(string s)
 {
    removemsg = s;
 }
 
-//:FUNCTION query_wearmsg
-//Return the message given when an object is used.
+//: FUNCTION query_wearmsg
+// Return the message given when an object is used.
 string query_removemsg()
 {
    return removemsg;
 }
 
-//:FUNCTION set_slot
-//Set the bodyslot that the wearable object takes up.
+//: FUNCTION set_slot
+// Set the bodyslot that the wearable object takes up.
 void set_slot(string which)
 {
    slot = which;
 }
 
-//:FUNCTION query_slot
-//Return the bodyslot the wearable object takes up.
+//: FUNCTION query_slot
+// Return the bodyslot the wearable object takes up.
 string query_slot()
 {
    return slot;
@@ -188,12 +188,12 @@ string *also_covers()
    return also_covering;
 }
 
-//:FUNCTION set_also_covers
-//Set string or an an array of other limbs that this armor piece
-//also covers.
+//: FUNCTION set_also_covers
+// Set string or an an array of other limbs that this armor piece
+// also covers.
 //
-// set_also_covers("left foot");
-// (If you're doing a pair of boots)
+//  set_also_covers("left foot");
+//  (If you're doing a pair of boots)
 void set_also_covers(string *s...)
 {
    also_covering = s;
@@ -213,8 +213,8 @@ string worn_attributes()
       worn_str = "(worn " + (query_worn_under() ? "underneath " : "") +
                  "on " + all[0] + ")";
 
-   //Some better grammar for humanoid limbs
-   //TODO: Should also handle paws, claws and other things.
+   // Some better grammar for humanoid limbs
+   // TODO: Should also handle paws, claws and other things.
    worn_str = replace_string(worn_str, "left foot, and right foot", "feet");
    worn_str = replace_string(worn_str, "right foot, and left foot", "feet");
    worn_str = replace_string(worn_str, "left hand, and right hand", "hands");
@@ -227,8 +227,8 @@ string worn_attributes()
    return worn_str;
 }
 
-//:FUNCTION set_worn
-//set_worn(1) causes an object to become worn.  set_worn(0) removes it.
+//: FUNCTION set_worn
+// set_worn(1) causes an object to become worn.  set_worn(0) removes it.
 void set_worn(int g)
 {
    assign_flag(F_WORN, g);
@@ -287,7 +287,7 @@ void do_remove()
    environment()->remove_item(this_object(), slot);
    set_worn(0);
    environment()->simple_action(query_removemsg(), this_object());
-   //this_body()->simple_action("$N $vremove $p $o.", this_object());
+   // this_body()->simple_action("$N $vremove $p $o.", this_object());
    if (stat_mods)
    {
       foreach (string stat, int bonus in stat_mods)
@@ -321,6 +321,13 @@ mixed direct_remove_obj()
       return 0;
    if (environment() != this_body() || !test_flag(F_WORN))
       return "But you aren't wearing it!\n";
+   return 1;
+}
+
+//:FUNCTION is_wearable
+//Returns 1 for wearables.
+int is_wearable()
+{
    return 1;
 }
 

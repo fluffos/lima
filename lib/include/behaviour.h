@@ -18,6 +18,9 @@
 //Ability to fight and flee
 #undef CLUSTER_COMBAT
 
+//The pause when handling a leaf node. Recommended between 2-5.
+#define LEAF_NODE_PAUSE 2
+
 /* Do not touch anything below this point*/
 
 #define CLUSTERS "/std/behaviour/clusters/"

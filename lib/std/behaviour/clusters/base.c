@@ -182,8 +182,9 @@ varargs void create_node(int type, string name, mixed offspring)
                            : arrayp(offspring) ? offspring : offspring ? ({offspring})
                                                                        : ({}),
                              delay
-                           : type == NODE_LEAF ? 3 : 0);
+                           : type == NODE_LEAF ? LEAF_NODE_PAUSE : 0);
     parents[name] = discover_parent(name);
+    TBUG(node_list[name]->delay);
 }
 
 void do_game_command(string str)
@@ -296,6 +297,11 @@ void action_movement()
     env->add_hook("object_left", departure_fn);
     if (behaviour_call_out == 0 && query_observers())
         behaviour_call_out = call_out("behaviour_call", delay_time);
+}
+
+int debugging()
+{
+    return objectp(debugee);
 }
 
 void debug(mixed s)

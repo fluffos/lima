@@ -33,6 +33,7 @@ void do_salvage_obj(object ob)
   }
 
   CRAFTING_D->salvage_obj(ob);
+  this_body()->simple_action("$N $vsalvage materials from something.");
 }
 
 void do_salvage_obs(object *obs)
@@ -78,7 +79,7 @@ void do_salvage_str(string str)
       return do_salvage_str_on_obj(str, ob);
     }
   }
-  write ("That cannot be salvaged.\n");
+  write("That cannot be salvaged.\n");
 }
 
 void do_salvage()
@@ -88,5 +89,5 @@ void do_salvage()
 
 void create()
 {
-  add_rules(({"", "OBJ", "OBS", "STR on OBJ","STR"}), ({"scrap"}));
+  add_rules(({"", "OBJ", "OBS", "STR on OBJ", "STR"}), ({"scrap"}));
 }

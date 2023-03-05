@@ -240,7 +240,6 @@ int study_beings()
     if (!has_room_changed() && !this_object()->is_attacking())
         return EVAL_SUCCESS;
 
-    this_object()->simple_action("$N $vstudy the people in the room.");
     beings = filter_array(things, (
                                       : $1->is_living() && environment($1) == environment()
                                       :));

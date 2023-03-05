@@ -18,13 +18,17 @@ int no_heals = 0;
 void init_equipment_cluster()
 {
     // If any of these ones return true we stop here, and navigate somewhere else
-    create_node(NODE_SELECTOR, "equipment_seq", ({"hurt", "find_heal"}));
+    create_node(NODE_SELECTOR, "equipment_seq", ({"upgrade_true", "hurt", "find_heal"}));
     add_child("root_sequence", "equipment_seq");
+    create_node(NODE_SUCCEEDER, "upgrade_true", ({"upgrade_seq"}));
+    create_node(NODE_SELECTOR, "upgrade_seq", ({"find_armor_in_inventory", "find_armor_in_room"}));
     create_node(NODE_SEQUENCE, "hurt", ({"safe_to_heal", "use_heal"}));
     create_node(NODE_SEQUENCE, "find_heal", ({"take_from_room", "use_heal"}));
     create_node(NODE_LEAF, "safe_to_heal");
     create_node(NODE_LEAF, "use_heal");
     create_node(NODE_LEAF, "take_from_room");
+    create_node(NODE_LEAF, "find_armor_in_inventory");
+    create_node(NODE_LEAF, "find_armor_in_room");
 }
 
 int use_heal()
@@ -103,4 +107,96 @@ int take_from_room()
         return EVAL_SUCCESS;
     }
     return EVAL_FAILURE;
+}
+
+int find_armor_in_inventory()
+{
+    object *armors = filter(all_inventory(this_object()), (
+                                                              : $1->is_wearable()
+                                                              :));
+    object *not_worn = filter(armors, (
+                                          : !$1->ob_state()
+                                          :));
+    int worn = 0;
+
+    foreach (object nwa in not_worn)
+    {
+        object *armor_obs;
+        int armor_cnt;
+        string slot = nwa ? nwa->query_slot() : 0;
+        if (!slot)
+            continue;
+        armor_obs = this_object()->query_armors(slot);
+        armor_cnt = sizeof(armor_obs);
+
+        if (!armor_cnt)
+        {
+            do_game_command("wear " + nwa->short());
+            worn++;
+        }
+
+        // There can be more armors in same slot, but that's too much hassle.
+        if (armor_cnt == 1)
+        {
+            // Defensive, but they can disappear...
+            int current_ac = sizeof(armor_obs) ? armor_obs[0]->query_armor_class() : 0;
+
+            // We found a better armor
+            if (current_ac < nwa->query_armor_class())
+            {
+                do_game_command("remove " + armor_obs[0]->short());
+                do_game_command("wear " + nwa->short());
+                do_game_command("salvage " + armor_obs[0]->short());
+                worn++;
+            }
+        }
+    }
+    return worn ? EVAL_SUCCESS : EVAL_FAILURE;
+}
+
+int find_armor_in_room()
+{
+    object *armors = filter(all_inventory(this_object()), (
+                                                              : $1->is_wearable()
+                                                              :));
+    object *in_room = filter(all_inventory(environment()), (
+                                                               : $1->is_wearable()
+                                                               :));
+    int worn = 0;
+
+    foreach (object ira in in_room)
+    {
+        object *armor_obs;
+        int armor_cnt;
+        string slot = ira ? ira->query_slot() : 0;
+        if (!slot)
+            continue;
+        armor_obs = this_object()->query_armors(slot);
+        armor_cnt = sizeof(armor_obs);
+
+        if (!armor_cnt)
+        {
+            do_game_command("get " + ira->short());
+            do_game_command("wear " + ira->short());
+            worn++;
+        }
+
+        // There can be more armors in same slot, but that's too much hassle.
+        if (armor_cnt == 1)
+        {
+            // Defensive, but they can disappear...
+            int current_ac = sizeof(armor_obs) ? armor_obs[0]->query_armor_class() : 0;
+
+            // We found a better armor
+            if (current_ac < ira->query_armor_class())
+            {
+                do_game_command("get " + ira->short());
+                do_game_command("remove " + armor_obs[0]->short());
+                do_game_command("wear " + ira->short());
+                do_game_command("salvage " + armor_obs[0]->short());
+                worn++;
+            }
+        }
+    }
+    return worn ? EVAL_SUCCESS : EVAL_FAILURE;
 }

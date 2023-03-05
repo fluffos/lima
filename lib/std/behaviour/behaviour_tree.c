@@ -24,6 +24,7 @@ int *q = ({});
 string emotion_string();
 string discover_parent(string node);
 void debug(mixed s);
+int debugging();
 int query_observers();
 
 string get_extra_long()
@@ -151,7 +152,7 @@ varargs int evaluate_node()
     {
         debug("<077>Queue delay: " + node->delay + " seconds.<res>");
         if (find_call_out("evaluate_node") == -1)
-            call_out("evaluate_node", node->delay);
+            call_out("evaluate_node", debugging() ? CLAMP(node->delay, 3, 20) : node->delay);
     }
     else
         evaluate_node(parent);
