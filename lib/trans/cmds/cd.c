@@ -15,32 +15,32 @@ inherit CMD;
 
 nomask private void main(string *argv)
 {
-  mixed fname;
+   mixed fname;
 
-  if (sizeof(argv))
-    fname = argv[0];
+   if (sizeof(argv))
+      fname = argv[0];
 
-  if (!fname)
-  {
-    fname = wiz_dir(this_user());
-    if (!is_directory(fname))
-      fname = "/help";
-  }
+   if (!fname)
+   {
+      fname = wiz_dir(this_user());
+      if (!is_directory(fname))
+         fname = "/help";
+   }
 
-  if (objectp(fname))
-    fname = base_path(base_name(fname));
+   if (objectp(fname))
+      fname = base_path(base_name(fname));
 
-  if (fname[ < 2..] == ".c")
-    fname = base_path(fname);
+   if (fname[ < 2..] == ".c")
+      fname = base_path(fname);
 
-  if (!is_directory(fname))
-  {
-    out("No such directory: " + fname + "\n");
-    return;
-  }
-  
-  //Never send / at the end to set_pwd().
-  fname = strlen(fname) > 1 && fname[ < 1] == '/' ? fname[0.. < 2] : fname;
-  this_user()->query_shell_ob()->set_pwd(fname);
-  outf("New cwd: %s\n", fname);
+   if (!is_directory(fname))
+   {
+      out("No such directory: " + fname + "\n");
+      return;
+   }
+
+   // Never send / at the end to set_pwd().
+   fname = strlen(fname) > 1 && fname[ < 1] == '/' ? fname[0.. < 2] : fname;
+   this_user()->query_shell_ob()->set_pwd(fname);
+   outf("New cwd: %s\n", fname);
 }

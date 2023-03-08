@@ -30,79 +30,82 @@ inherit __DIR__ "user/bodies";
 /*
 ** This users's userid (login id).
 */
-private string		userid;
-
+private
+string userid;
 
 nomask string query_userid()
 {
-    /*
-    ** NOTE: allow this to return 0 so that callers can know that we
-    ** are still in the login sequence.
-    */
-    return userid;
+   /*
+   ** NOTE: allow this to return 0 so that callers can know that we
+   ** are still in the login sequence.
+   */
+   return userid;
 }
 
 int is_user()
 {
-    return 1;
+   return 1;
 }
 
-protected nomask void set_userid(string new_userid)
+protected
+nomask void set_userid(string new_userid)
 {
-    userid = new_userid;
+   userid = new_userid;
 }
 
 void remove()
 {
-    object body = query_body();
+   object body = query_body();
 
-    MAILBOX_D->unload_mailbox(query_userid());
-    unload_mailer();
+   MAILBOX_D->unload_mailbox(query_userid());
+   unload_mailer();
 
-    if ( body )
-	destruct(body);
+   if (body)
+      destruct(body);
 
-    remove_call_out();
-    stop_shell();
-    destruct();
+   remove_call_out();
+   stop_shell();
+   destruct();
 }
 
 void quit()
 {
-    object body = query_body();
+   object body = query_body();
 
-    if ( body )
-	body->quit();
+   if (body)
+      body->quit();
 
-    remove();
+   remove();
 }
 
 nomask void save_me()
 {
-    unguarded(1, (: save_object, LINK_PATH(userid) :));
+   unguarded(1, ( : save_object, LINK_PATH(userid) :));
 }
 
-protected nomask void restore_me(string some_userid, int preserve_vars)
+protected
+nomask void restore_me(string some_userid, int preserve_vars)
 {
-    unguarded(1, (: restore_object, LINK_PATH(some_userid), preserve_vars :));
+   unguarded(1, ( : restore_object, LINK_PATH(some_userid), preserve_vars:));
 }
 
-private nomask void net_dead()
+private
+nomask void net_dead()
 {
-    object body = query_body();
+   object body = query_body();
 
-    /*
-    ** Tell the body about the net death.  The user object should stick
-    ** around, though, so we can find it again if the user reconnects.
-    ** If there is no body yet, then just torch self.
-    */
-    if ( body )
-    {
-	body->net_dead();
-	call_out((: remove :), 300);
-    }
-    else
-    {
-	remove();
-    }
+   /*
+   ** Tell the body about the net death.  The user object should stick
+   ** around, though, so we can find it again if the user reconnects.
+   ** If there is no body yet, then just torch self.
+   */
+   if (body)
+   {
+      body->net_dead();
+      call_out(( : remove:), 300);
+   }
+   else
+   {
+      remove();
+   }
 }

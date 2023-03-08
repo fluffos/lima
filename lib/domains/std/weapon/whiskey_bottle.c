@@ -17,5 +17,5 @@ void setup()
 
 int query_value()
 {
-    return 10+random(10);
+   return 10 + random(10);
 }

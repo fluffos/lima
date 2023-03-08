@@ -2,14 +2,11 @@
 
 inherit ROOM;
 
-void setup() {
-    set_brief("Beek's Workroom");
-    set_long("This room is far too cool to need a description.");
-    set_light(1);
-    set_objects( ([
-	"beek" : 1
-    ]) );
-    set_exits( ([
-	"house" : "inside_house"
-    ]) );
+void setup()
+{
+   set_brief("Beek's Workroom");
+   set_long("This room is far too cool to need a description.");
+   set_light(1);
+   set_objects((["beek":1]));
+   set_exits((["house":"inside_house"]));
 }

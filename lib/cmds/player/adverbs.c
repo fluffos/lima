@@ -32,43 +32,41 @@ inherit M_GLOB;
 private
 void main(string arg)
 {
-    string *list;
-    int count;
+   string *list;
+   int count;
 
-    list = SOUL_D->get_adverbs();
-    count = sizeof(list);
+   list = SOUL_D->get_adverbs();
+   count = sizeof(list);
 
-    if (count == 0)
-    {
-        out("There are no adverbs!\n");
-        return;
-    }
+   if (count == 0)
+   {
+      out("There are no adverbs!\n");
+      return;
+   }
 
-    if (!sizeof(arg))
-        arg = "*";
-    else if (!has_magic(arg))
-        arg = arg + "*";
-    arg = "^" + translate(arg) + "$";
-    list = regexp(list, arg);
-    if (!list)
-    {
-        outf("No adverbs matched '%s'.\n", arg);
-        return;
-    }
+   if (!sizeof(arg))
+      arg = "*";
+   else if (!has_magic(arg))
+      arg = arg + "*";
+   arg = "^" + translate(arg) + "$";
+   list = regexp(list, arg);
+   if (!list)
+   {
+      outf("No adverbs matched '%s'.\n", arg);
+      return;
+   }
 
-    if (end_of_pipeline())
-        outf(HEADER "%-#79s\n" TRAILER,
-             implode(sort_array(list, 1), "\n"),
-             sizeof(list), count, sizeof(list) * 100 / count);
-    else
-        outf(HEADER "%s\n" TRAILER, implode(sort_array(list, 1), "\n"),
-             sizeof(list), count, sizeof(list) * 100 / count);
+   if (end_of_pipeline())
+      outf(HEADER "%-#79s\n" TRAILER, implode(sort_array(list, 1), "\n"), sizeof(list), count,
+           sizeof(list) * 100 / count);
+   else
+      outf(HEADER "%s\n" TRAILER, implode(sort_array(list, 1), "\n"), sizeof(list), count, sizeof(list) * 100 / count);
 }
 
 void player_menu_entry(string str)
 {
-    bare_init();
-    ZBUG(str);
-    main(str);
-    done_outputing();
+   bare_init();
+   ZBUG(str);
+   main(str);
+   done_outputing();
 }

@@ -5,5 +5,5 @@ inherit OBJ;
 
 string stat_me()
 {
-  return object::stat_me() + m_complex_exit::stat_me();
+   return object::stat_me() + m_complex_exit::stat_me();
 }

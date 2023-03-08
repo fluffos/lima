@@ -1,8 +1,8 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-#include <mudlib.h>
-#include <daemons.h>
 #include <commands.h>
+#include <daemons.h>
+#include <mudlib.h>
 
 void add_hook(string, function);
 void remove_hook(string, function);
@@ -13,11 +13,9 @@ void action_arrival(object);
 void action_departure(object);
 
 private
-nosave function arrival_fn = (
-    : action_arrival:);
+nosave function arrival_fn = ( : action_arrival:);
 private
-nosave function departure_fn = (
-    : action_departure:);
+nosave function departure_fn = ( : action_departure:);
 
 private
 function my_hook;
@@ -31,23 +29,26 @@ string *my_actions;
 private
 object env;
 
-mixed need_hooks() { return 1; }
+mixed need_hooks()
+{
+   return 1;
+}
 
 object query_body()
 {
-  return this_object();
+   return this_object();
 }
 
 object query_shell_ob()
 {
-  if (this_object()->query_link())
-    return this_object()->query_link()->query_shell_ob();
-  return this_object();
+   if (this_object()->query_link())
+      return this_object()->query_link()->query_shell_ob();
+   return this_object();
 }
 
 string *query_actions()
 {
-  return my_actions;
+   return my_actions;
 }
 
 //: FUNCTION set_delay_time
@@ -59,12 +60,12 @@ string *query_actions()
 // beneficial.
 void set_delay_time(int x)
 {
-  delay_time = x >= 5 ? x : 5;
+   delay_time = x >= 5 ? x : 5;
 }
 
 int query_delay_time()
 {
-  return delay_time;
+   return delay_time;
 }
 
 //: FUNCTION do_game_command
@@ -72,39 +73,39 @@ int query_delay_time()
 // module.  E.g. do_game_command("wield sword").  do_game_command("smile hap*").
 void do_game_command(string str)
 {
-  object save_tu;
-  mixed *winner;
-  string verb, argument;
+   object save_tu;
+   mixed *winner;
+   string verb, argument;
 
-  save_tu = this_user();
-  set_this_user(this_object());
+   save_tu = this_user();
+   set_this_user(this_object());
 
-  verb = str;
-  sscanf(verb, "%s %s", verb, argument);
+   verb = str;
+   sscanf(verb, "%s %s", verb, argument);
 
-  winner = CMD_D->find_cmd_in_path(verb, ({CMD_DIR_PLAYER "/"}));
-  if (arrayp(winner))
-    winner[0]->call_main("", "", "", "", "", "", argument);
-  else if (environment())
-  {
-    mixed result = parse_sentence(str);
+   winner = CMD_D->find_cmd_in_path(verb, ({CMD_DIR_PLAYER "/"}));
+   if (arrayp(winner))
+      winner[0]->call_main("", "", "", "", "", "", argument);
+   else if (environment())
+   {
+      mixed result = parse_sentence(str);
 
-    if (stringp(result))
-      write(result);
-  }
+      if (stringp(result))
+         write(result);
+   }
 
-  set_this_user(save_tu);
+   set_this_user(save_tu);
 }
 
 private
 void do_respond()
 {
-  mixed cmd = response_queue[0];
-  if (stringp(cmd))
-    do_game_command(cmd);
-  else
-    evaluate(cmd);
-  response_queue = response_queue[1..];
+   mixed cmd = response_queue[0];
+   if (stringp(cmd))
+      do_game_command(cmd);
+   else
+      evaluate(cmd);
+   response_queue = response_queue[1..];
 }
 
 //: FUNCTION respond
@@ -117,96 +118,90 @@ void do_respond()
 // me BEFORE the message gets to you.
 void respond(string str)
 {
-  response_queue += ({str});
-  call_out((
-               : do_respond:),
-           random(3));
-  if (!my_hook)
-  {
-    my_hook = (
-        : remove_call_out:);
-    add_hook("remove", my_hook);
-  }
+   response_queue += ({str});
+   call_out(( : do_respond:), random(3));
+   if (!my_hook)
+   {
+      my_hook = ( : remove_call_out:);
+      add_hook("remove", my_hook);
+   }
 }
 
 // Return the number of listeners (player in room)
 int query_listeners()
 {
-  object *inv;
-  if (!env)
-    return 0;
-  if (inv = all_inventory(env))
-    return sizeof(filter(inv, (
-                                  : $1->query_link()
-                                  :)));
-  return 0;
+   object *inv;
+   if (!env)
+      return 0;
+   if (inv = all_inventory(env))
+      return sizeof(filter(inv, ( : $1->query_link() :)));
+   return 0;
 }
 
 // The periodic action call_out
 void actions()
 {
-  if (!this_object()->query_target() && sizeof(my_actions))
-    do_game_command(choice(my_actions));
-  if (query_listeners())
-    call_out("actions", delay_time);
+   if (!this_object()->query_target() && sizeof(my_actions))
+      do_game_command(choice(my_actions));
+   if (query_listeners())
+      call_out("actions", delay_time);
 }
 
 // If last player leaves, remove call_out
 void action_departure(object who)
 {
-  if (who->query_link())
-  {
-    if (!query_listeners())
-      remove_call_out("actions");
-  }
+   if (who->query_link())
+   {
+      if (!query_listeners())
+         remove_call_out("actions");
+   }
 }
 
 // If first player arrives, add call_out
 void action_arrival(object who)
 {
-  if (who->query_link())
-  {
-    if (query_listeners() == 1)
-      call_out("actions", delay_time);
-  }
+   if (who->query_link())
+   {
+      if (query_listeners() == 1)
+         call_out("actions", delay_time);
+   }
 }
 
 // It moves the "object_arrived/left" hooks (which are associated with a room)
 // when the action monster moves
 void action_movement()
 {
-  if (env)
-  {
-    env->remove_hook("object_arrived", arrival_fn);
-    env->remove_hook("object_left", departure_fn);
-  }
+   if (env)
+   {
+      env->remove_hook("object_arrived", arrival_fn);
+      env->remove_hook("object_left", departure_fn);
+   }
 
-  env = environment();
-  env->add_hook("object_arrived", arrival_fn);
-  env->add_hook("object_left", departure_fn);
-  if (find_call_out("actions") < 0)
-    if (query_listeners())
-      call_out("actions", delay_time);
+   env = environment();
+   env->add_hook("object_arrived", arrival_fn);
+   env->add_hook("object_left", departure_fn);
+   if (find_call_out("actions") < 0)
+      if (query_listeners())
+         call_out("actions", delay_time);
 }
 
 void start_actions()
 {
 
-  add_hook("move", (
-                       : action_movement:));
-  if (env = environment(this_object()))
-  {
-    env->add_hook("object_arrived", arrival_fn);
-    env->add_hook("object_left", departure_fn);
-  }
+   add_hook("move", ( : action_movement:));
+   if (env = environment(this_object()))
+   {
+      env->add_hook("object_arrived", arrival_fn);
+      env->add_hook("object_left", departure_fn);
+   }
 
-  if (query_listeners())
-    call_out("actions", delay_time);
+   if (query_listeners())
+      call_out("actions", delay_time);
 }
 
 void stop_actions()
 {
-  remove_call_out("actions");
+   remove_call_out("actions");
 }
 
 //: FUNCTION set_actions
@@ -217,7 +212,7 @@ void stop_actions()
 protected
 void set_actions(int delay, string *actions)
 {
-  delay_time = delay;
-  my_actions = actions;
-  start_actions();
+   delay_time = delay;
+   my_actions = actions;
+   start_actions();
 }

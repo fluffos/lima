@@ -11,49 +11,52 @@ string pelt_type;
 
 void set_pelt_size(int s)
 {
-    pelt_size = s;
-    set_mass(0.5 * s);
+   pelt_size = s;
+   set_mass(0.5 * s);
 }
 
 int query_pelt_size()
 {
-    return pelt_size;
+   return pelt_size;
 }
 
 void set_pelt_type(string t)
 {
-    pelt_type = t;
-    set_id(pelt_type, "skin", "pelt");
+   pelt_type = t;
+   set_id(pelt_type, "skin", "pelt");
 }
 
 string short()
 {
-    if (strlen(pelt_type))
-        set_id(pelt_type, "skin", "pelt");
-    return ::short();
+   if (strlen(pelt_type))
+      set_id(pelt_type, "skin", "pelt");
+   return ::short();
 }
 
 string query_pelt_type()
 {
-    return pelt_type;
+   return pelt_type;
 }
 
 void mudlib_setup()
 {
-    ::mudlib_setup();
-    set_salvageable((["skin":100]));
-    set_id("skin", "pelt");
+   ::mudlib_setup();
+   set_salvageable((["skin":100]));
+   set_id("skin", "pelt");
 #ifdef USE_SIZE
-    set_size( 0 );
+   set_size(0);
 #endif
 #ifdef USE_MASS
-    set_mass(0.5);
+   set_mass(0.5);
 #endif
 }
 
-int is_pelt() { return 1; }
+int is_pelt()
+{
+   return 1;
+}
 
 void internal_setup()
 {
-    this_object()->add_save(({"pelt_size", "pelt_type"}));
+   this_object()->add_save(({"pelt_size", "pelt_type"}));
 }

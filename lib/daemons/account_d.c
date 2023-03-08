@@ -24,15 +24,13 @@ mapping transactions = ([]);
 private
 string abbreviate(string s)
 {
-  return filter_array(s, (
-                             : member_array($1, "eyuioa") == -1
-                             :))[0..2];
+   return filter_array(s, ( : member_array($1, "eyuioa") == -1 :))[0..2];
 }
 
 private
 int valid_currency(string currency)
 {
-  return member_array(currency, MONEY_D->query_currency_types()) != -1;
+   return member_array(currency, MONEY_D->query_currency_types()) != -1;
 }
 
 //: FUNCTION query_account
@@ -52,204 +50,200 @@ int valid_currency(string currency)
 //   75.520000
 varargs mixed query_account(string bank, mixed player, string currency)
 {
-  string name;
-  if (objectp(player))
-    name = player->query_link()->query_userid();
-  else
-    name = player;
+   string name;
+   if (objectp(player))
+      name = player->query_link()->query_userid();
+   else
+      name = player;
 
-  if (!accounts[bank])
-    accounts[bank] = ([]);
-  if (!accounts[bank][name])
-    accounts[bank][name] = ([]);
+   if (!accounts[bank])
+      accounts[bank] = ([]);
+   if (!accounts[bank][name])
+      accounts[bank][name] = ([]);
 
-  if (accounts[bank][name][currency])
-    return accounts[bank][name][currency];
-  else
-    return accounts[bank][name];
+   if (accounts[bank][name][currency])
+      return accounts[bank][name][currency];
+   else
+      return accounts[bank][name];
 }
 
 private
 void transaction(mixed player, string bank, string what, string currency, float money)
 {
-  string name;
-  float saldo;
-  if (!valid_currency(currency))
-    error("Unknown currency '" + currency + "'.");
+   string name;
+   float saldo;
+   if (!valid_currency(currency))
+      error("Unknown currency '" + currency + "'.");
 
-  if (!to_int(money))
-    return;
-  if (objectp(player))
-    name = player->query_link()->query_userid();
-  else
-    name = player;
-  saldo = query_account(bank, name, currency);
-  if (!transactions[currency])
-    transactions[currency] = ([]);
-  if (!transactions[currency][name])
-    transactions[currency][name] = ({});
-  if (sizeof(transactions[currency][name]) > MAX_TRANSACTION_LOG)
-    transactions[currency][name] = transactions[name][5..];
+   if (!to_int(money))
+      return;
+   if (objectp(player))
+      name = player->query_link()->query_userid();
+   else
+      name = player;
+   saldo = query_account(bank, name, currency);
+   if (!transactions[currency])
+      transactions[currency] = ([]);
+   if (!transactions[currency][name])
+      transactions[currency][name] = ({});
+   if (sizeof(transactions[currency][name]) > MAX_TRANSACTION_LOG)
+      transactions[currency][name] = transactions[name][5..];
 
-  transactions[currency][name] += ({({bank, what, money, saldo, time()})});
+   transactions[currency][name] += ({({bank, what, money, saldo, time()})});
 }
 
 private
 string fake_account_id(string bank, object body)
 {
-  string name = lower_case(body->query_name());
-  return upper_case(bank[0..2]) + "-" + (bank[0] + name[0]) + "" + (bank[0] + name[1]) + "" + (bank[0] + name[2]);
+   string name = lower_case(body->query_name());
+   return upper_case(bank[0..2]) + "-" + (bank[0] + name[0]) + "" + (bank[0] + name[1]) + "" + (bank[0] + name[2]);
 }
 
 string bank_statement(string bank, string currency, object body)
 {
-  string name = lower_case(body->query_name());
-  string *out = ({upper_case(bank + " bank") + sprintf("%60s", "Account #: " + fake_account_id(bank, body)),
-                  "Account in currency: " + capitalize(currency), "",
-                  sprintf("%-35.35s  %-15s  %-15s  %-10s", "Description", "Withdrawals", "Deposits", "Balance"),
-                  simple_divider()[0.. < 2]});
-  if (!valid_currency(currency))
-    error("Unknown currency '" + currency + "'.");
+   string name = lower_case(body->query_name());
+   string *out = ({upper_case(bank + " bank") + sprintf("%60s", "Account #: " + fake_account_id(bank, body)),
+                   "Account in currency: " + capitalize(currency), "",
+                   sprintf("%-35.35s  %-15s  %-15s  %-10s", "Description", "Withdrawals", "Deposits", "Balance"),
+                   simple_divider()[0.. < 2]});
+   if (!valid_currency(currency))
+      error("Unknown currency '" + currency + "'.");
 
-  if (!transactions[currency][name])
-    return "You have no '" + currency + "' account with " + bank + " Bank.\n";
-  foreach (mixed *ar in transactions[currency][name])
-  {
-    if (ar[LOG_BANK] == bank && ar[LOG_MONEY])
-      out += ({sprintf("%-35.35s  %-15s  %-15s  %-10s",
-                       ar[LOG_TEXT],
-                       ar[LOG_MONEY] < 0 ? sprintf("%2.2f %s", ar[LOG_MONEY] * -1, abbreviate(currency)) : "",
-                       ar[LOG_MONEY] >= 0 ? sprintf("%2.2f %s", ar[LOG_MONEY], abbreviate(currency)) + "" : "",
-                       sprintf("%2.2f %s", ar[LOG_SALDO], abbreviate(currency)) + "", )});
-  }
-  out += ({simple_divider()[0.. < 2]});
-  return implode(out, "\n");
+   if (!transactions[currency][name])
+      return "You have no '" + currency + "' account with " + bank + " Bank.\n";
+   foreach (mixed *ar in transactions[currency][name])
+   {
+      if (ar[LOG_BANK] == bank && ar[LOG_MONEY])
+         out += ({sprintf("%-35.35s  %-15s  %-15s  %-10s", ar[LOG_TEXT],
+                          ar[LOG_MONEY] < 0 ? sprintf("%2.2f %s", ar[LOG_MONEY] * -1, abbreviate(currency)) : "",
+                          ar[LOG_MONEY] >= 0 ? sprintf("%2.2f %s", ar[LOG_MONEY], abbreviate(currency)) + "" : "",
+                          sprintf("%2.2f %s", ar[LOG_SALDO], abbreviate(currency)) + "", )});
+   }
+   out += ({simple_divider()[0.. < 2]});
+   return implode(out, "\n");
 }
 
 mapping query_transactions()
 {
-  return transactions;
+   return transactions;
 }
 
 mapping query_account_data()
 {
-  return accounts;
+   return accounts;
 }
 
 void remove_bank(string bank)
 {
-  map_delete(accounts, bank);
-  save_me();
+   map_delete(accounts, bank);
+   save_me();
 }
 
 mapping query_accounts(object player)
 {
-  mapping acm = ([]);
-  foreach (string bank in keys(accounts))
-  {
-    mapping account = query_account(bank, player);
-    foreach (string currency, float balance in account)
-    {
-      if (!acm[bank])
-        acm[bank] = ([]);
-      if (balance > 0.00)
-        acm[bank][currency] = balance;
-    }
-  }
-  return acm;
+   mapping acm = ([]);
+   foreach (string bank in keys(accounts))
+   {
+      mapping account = query_account(bank, player);
+      foreach (string currency, float balance in account)
+      {
+         if (!acm[bank])
+            acm[bank] = ([]);
+         if (balance > 0.00)
+            acm[bank][currency] = balance;
+      }
+   }
+   return acm;
 }
 
 varargs void deposit(string bank, mixed player, float amount, string type, string what)
 {
-  string name;
-  string currency;
-  float factor;
-  type = MONEY_D->singular_name(type);
-  currency = MONEY_D->query_currency(type);
-  factor = MONEY_D->query_factor(type);
-  amount = amount*factor;
+   string name;
+   string currency;
+   float factor;
+   type = MONEY_D->singular_name(type);
+   currency = MONEY_D->query_currency(type);
+   factor = MONEY_D->query_factor(type);
+   amount = amount * factor;
 
-  if (!valid_currency(currency))
-    error("Unknown currency '" + currency + "'.");
+   if (!valid_currency(currency))
+      error("Unknown currency '" + currency + "'.");
 
-  if (objectp(player))
-    name = player->query_link()->query_userid();
-  else
-    name = player;
+   if (objectp(player))
+      name = player->query_link()->query_userid();
+   else
+      name = player;
 
-  if (!accounts[bank])
-    accounts[bank] = ([]);
+   if (!accounts[bank])
+      accounts[bank] = ([]);
 
-  if (!accounts[bank][name])
-    accounts[bank][name] = ([]);
-  if (!accounts[bank][name][currency])
-    accounts[bank][name][currency] = 0.0;
-  accounts[bank][name][currency] =
-      to_float(accounts[bank][name][currency]) + amount;
-  transaction(player, bank, what ? what : (amount >= 0 ? "Deposit into" : "Withdrawal from") + " account", currency, amount);
-  save_me();
+   if (!accounts[bank][name])
+      accounts[bank][name] = ([]);
+   if (!accounts[bank][name][currency])
+      accounts[bank][name][currency] = 0.0;
+   accounts[bank][name][currency] = to_float(accounts[bank][name][currency]) + amount;
+   transaction(player, bank, what ? what : (amount >= 0 ? "Deposit into" : "Withdrawal from") + " account", currency,
+               amount);
+   save_me();
 }
 
 varargs void withdraw(string bank, mixed player, float amount, string currency, string what)
 {
-  string name;
-  if (!valid_currency(currency))
-    error("Unknown currency '" + currency + "'.");
+   string name;
+   if (!valid_currency(currency))
+      error("Unknown currency '" + currency + "'.");
 
-  if (objectp(player))
-    name = player->query_link()->query_userid();
-  else
-    name = player;
-  deposit(bank, player, -amount, currency, what);
+   if (objectp(player))
+      name = player->query_link()->query_userid();
+   else
+      name = player;
+   deposit(bank, player, -amount, currency, what);
 }
 
 void set_account(string bank, object player, string currency, float amount)
 {
-  string name = player->query_userid();
-  if (!valid_currency(currency))
-    error("Unknown currency '" + currency + "'.");
+   string name = player->query_userid();
+   if (!valid_currency(currency))
+      error("Unknown currency '" + currency + "'.");
 
-  if (!accounts[bank])
-    accounts[bank] = ([]);
-  if (!accounts[bank][name])
-    accounts[bank][name] = ([]);
-  accounts[bank][name][currency] = amount;
-  save_me();
+   if (!accounts[bank])
+      accounts[bank] = ([]);
+   if (!accounts[bank][name])
+      accounts[bank][name] = ([]);
+   accounts[bank][name][currency] = amount;
+   save_me();
 }
 
 void stat_me()
 {
-  int people = 0;
-  int account = 0;
-  float amount = 0;
-  string *currencies = ({});
+   int people = 0;
+   int account = 0;
+   float amount = 0;
+   string *currencies = ({});
 
-  foreach (string bank, mapping peoples in accounts)
-  {
-    people++;
-    foreach (string name, mapping acc in peoples)
-    {
-      foreach (string currency, float am in acc)
+   foreach (string bank, mapping peoples in accounts)
+   {
+      people++;
+      foreach (string name, mapping acc in peoples)
       {
-        if (member_array(currency, currencies) == -1)
-          currencies += ({currency});
-        TBUG(currencies);
-        amount += am;
-        account++;
+         foreach (string currency, float am in acc)
+         {
+            if (member_array(currency, currencies) == -1)
+               currencies += ({currency});
+            TBUG(currencies);
+            amount += am;
+            account++;
+         }
       }
-    }
-  }
+   }
 
-  write("ACCOUNT_D stats:\n----------------\n" +
-        "Number of Banks: " + sizeof(accounts) + "\n" +
-        "Number of People with accounts: " + people + "\n" +
-        "Number of accounts: " + account + "\n" +
-        "Number of currencies: " + sizeof(currencies) + " (" + format_list(currencies) + ")\n" +
-        "Total amount: " + amount + "\n" +
-        "Average/account: " + (amount / account) + "\n");
+   write("ACCOUNT_D stats:\n----------------\n" + "Number of Banks: " + sizeof(accounts) + "\n" +
+         "Number of People with accounts: " + people + "\n" + "Number of accounts: " + account + "\n" +
+         "Number of currencies: " + sizeof(currencies) + " (" + format_list(currencies) + ")\n" +
+         "Total amount: " + amount + "\n" + "Average/account: " + (amount / account) + "\n");
 }
 
 void clean_up()
 {
-  destruct(this_object());
+   destruct(this_object());
 }

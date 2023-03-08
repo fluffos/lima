@@ -2,32 +2,34 @@
 
 #include <mudlib.h>
 
-object query_owner();	// in SHELL
+object query_owner(); // in SHELL
 
-private nosave string scrollback = "";
-private nosave string last_scrollback = "";
+private
+nosave string scrollback = "";
+private
+nosave string last_scrollback = "";
 
-private nomask void cmd_scrollback()
+private
+nomask void cmd_scrollback()
 {
-    if(last_scrollback=="")
-    {
-	write("You have no scrollback.\n");
-	return;
-    }
-    more(last_scrollback);
+   if (last_scrollback == "")
+   {
+      write("You have no scrollback.\n");
+      return;
+   }
+   more(last_scrollback);
 }
-
 
 nomask void end_scrollback()
 {
-    last_scrollback = scrollback;
-    scrollback = "";
+   last_scrollback = scrollback;
+   scrollback = "";
 }
 
 nomask void add_scrollback(string s)
 {
-    if ( previous_object() != query_owner() )
-	error("illegal attempt at adding scrollback data\n");
+   if (previous_object() != query_owner())
+      error("illegal attempt at adding scrollback data\n");
 
-    scrollback += s;
+   scrollback += s;
 }

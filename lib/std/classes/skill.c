@@ -9,6 +9,6 @@
 
 class skill
 {
-    int	skill_points;
-    int training_points;
+   int skill_points;
+   int training_points;
 }

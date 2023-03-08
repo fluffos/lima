@@ -13,43 +13,43 @@ inherit M_DURABILITY;
 
 void mudlib_setup()
 {
-    ::mudlib_setup();
-    add_id("weapon");
-    set_combat_messages("combat-bludgeon");
-    set_skill_used("combat/melee/club");
-    set_salvageable((["skin":50, "metal":50]));
-    add_save(({"persist_flags"}));
-    set_max_durability(100 * query_weapon_class());
+   ::mudlib_setup();
+   add_id("weapon");
+   set_combat_messages("combat-bludgeon");
+   set_skill_used("combat/melee/club");
+   set_salvageable((["skin":50, "metal":50]));
+   add_save(({"persist_flags"}));
+   set_max_durability(100 * query_weapon_class());
 }
 
 int query_value()
 {
-    int value = m_valuable::query_value();
-    int level = query_weapon_class() + (query_raw_hit_bonus() * 2) + query_raw_disarm_bonus() + query_raw_anti_disarm() +
-                (query_must_dual_wield() ? -1 : 0) + (query_raw_damage_bonus() * 3);
-    if (!value)
-        value = WEAPON_LVL_PRICE * level - random(WEAPON_LVL_PRICE);
-    set_value(value);
-    return value;
+   int value = m_valuable::query_value();
+   int level = query_weapon_class() + (query_raw_hit_bonus() * 2) + query_raw_disarm_bonus() + query_raw_anti_disarm() +
+               (query_must_dual_wield() ? -1 : 0) + (query_raw_damage_bonus() * 3);
+   if (!value)
+      value = WEAPON_LVL_PRICE * level - random(WEAPON_LVL_PRICE);
+   set_value(value);
+   return value;
 }
 
 nomask void set_proper_name(string str)
 {
-    error("Do not use set_proper_name() with weapons.");
+   error("Do not use set_proper_name() with weapons.");
 }
 
 mixed ob_state()
 {
-    return object::ob_state() + "/" + !!m_wieldable::ob_state();
+   return object::ob_state() + "/" + !!m_wieldable::ob_state();
 }
 
 void remove()
 {
-    object::remove();
-    m_wieldable::remove();
+   object::remove();
+   m_wieldable::remove();
 }
 
 int indirect_kill_liv_with_obj()
 {
-    return 1;
+   return 1;
 }

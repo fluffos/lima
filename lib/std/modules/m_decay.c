@@ -5,7 +5,7 @@
 // amount of time. You may also have an object decay in stages.
 /*
 ** Coded by Kinison@Private Idaho - June 18, 1996
-** Rewritten by Tsath, 2020, to use STATE_D and to function for 
+** Rewritten by Tsath, 2020, to use STATE_D and to function for
 ** mobs as well as players.
 */
 

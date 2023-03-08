@@ -33,190 +33,188 @@ void remove();
 int query_heal_value();
 void heal_from_drink();
 
-//:FUNCTION set_taste_action
-//set_taste_action( mixed x )
-//Put this function in the drinkable
-//fluid.  'x' is evaluated when the
-//fluid is drunk.  By default it is
-//a my_action, but it could be a
-//function or an *of mixed.
-//To have no taste action, pass a
-//zero.
+//: FUNCTION set_taste_action
+// set_taste_action( mixed x )
+// Put this function in the drinkable
+// fluid.  'x' is evaluated when the
+// fluid is drunk.  By default it is
+// a my_action, but it could be a
+// function or an *of mixed.
+// To have no taste action, pass a
+// zero.
 void set_taste_action(mixed x)
 {
-    taste_action = x;
+   taste_action = x;
 }
 
 mixed get_taste_action()
 {
-    return taste_action;
+   return taste_action;
 }
 
 int query_drinks_current_unit()
 {
-    return drinks_current_unit;
+   return drinks_current_unit;
 }
 
-//:FUNCTION set_poisonous
-//void set_poisonous(int p)
-//Sets the level of poison in this edible thing.
-//0 means non-poisonous, 100 means deadly.
+//: FUNCTION set_poisonous
+// void set_poisonous(int p)
+// Sets the level of poison in this edible thing.
+// 0 means non-poisonous, 100 means deadly.
 void set_poisonous(int p)
 {
-    poison_strength = p;
+   poison_strength = p;
 }
 
 int query_poisonous()
 {
-    return poison_strength;
+   return poison_strength;
 }
 
-//:FUNCTION set_drink_action
-//set_drink_action( mixed x )
-//Put this function in the drinkable
-//fluid.  'x' is evaluated when the
-//fluid is drunk.  By default it is
-//a simple_action, but it could be a
-//function or an *of mixed.
-//To have no drink action, pass a
-//zero.
+//: FUNCTION set_drink_action
+// set_drink_action( mixed x )
+// Put this function in the drinkable
+// fluid.  'x' is evaluated when the
+// fluid is drunk.  By default it is
+// a simple_action, but it could be a
+// function or an *of mixed.
+// To have no drink action, pass a
+// zero.
 void set_drink_action(mixed action)
 {
-    drink_action = action;
+   drink_action = action;
 }
 
-//:FUNCTION set_last_drink_action
-//Just like set_drink_action, but only is used for the last drink.
+//: FUNCTION set_last_drink_action
+// Just like set_drink_action, but only is used for the last drink.
 void set_last_drink_action(mixed action)
 {
-    last_drink_action = action;
+   last_drink_action = action;
 }
 
-//:FUNCTION set_num_drinks
-//set_num_drinks( int x )
-//This sets the number of drinks per 1 size-unit.
-//The default is 3;
+//: FUNCTION set_num_drinks
+// set_num_drinks( int x )
+// This sets the number of drinks per 1 size-unit.
+// The default is 3;
 void set_num_drinks(int x)
 {
-    drinks_per_unit = to_int(x);
+   drinks_per_unit = to_int(x);
 }
 
-//Not necessary, but kept for possible special effects.
-//Actually, this doesn't appear to be used at all.
+// Not necessary, but kept for possible special effects.
+// Actually, this doesn't appear to be used at all.
 void set_drink_source(string source)
 {
-    drink_source = load_object(source);
+   drink_source = load_object(source);
 }
 
 int calculate_num_drinks()
 {
-    num_drinks = to_int((query_mass() < 1 ? 1 : query_mass()) * drinks_per_unit + drinks_current_unit);
-    return num_drinks;
+   num_drinks = to_int((query_mass() < 1 ? 1 : query_mass()) * drinks_per_unit + drinks_current_unit);
+   return num_drinks;
 }
 
 void reduce_drink_number()
 {
 
-    drinks_current_unit--;
-    if (!drinks_current_unit)
-    {
-        drinks_current_unit = drinks_per_unit;
-        set_weight(query_mass());
-        set_quantity(query_mass());
-    };
-    calculate_num_drinks();
-    if (!num_drinks)
-        remove();
+   drinks_current_unit--;
+   if (!drinks_current_unit)
+   {
+      drinks_current_unit = drinks_per_unit;
+      set_weight(query_mass());
+      set_quantity(query_mass());
+   };
+   calculate_num_drinks();
+   if (!num_drinks)
+      remove();
 }
 
 varargs void drink_it(object drinkee)
 { // This is called by the verb.
 
-    mixed action;
-    object source;
+   mixed action;
+   object source;
 
-    if (!drinkee)
-        drinkee = this_body();
+   if (!drinkee)
+      drinkee = this_body();
 
-    if (query_poisonous())
-    {
-        object p = new ("/std/transient/poison",
-                        query_poisonous(),
-                        query_poisonous(),
-                        "$N $vbend over in pain. Must be something $n drank.")
-                       ->move(drinkee);
-    }
+   if (query_poisonous())
+   {
+      object p = new ("/std/transient/poison", query_poisonous(), query_poisonous(),
+                      "$N $vbend over in pain. Must be something $n drank.")
+                     ->move(drinkee);
+   }
 
-    // Are we in the presence of the source?
-    source = present(query_primary_id() + "_source");
+   // Are we in the presence of the source?
+   source = present(query_primary_id() + "_source");
 
-    if (source)
-        if (source->id("drink_source"))
-        {
-            source->drink_from_it();
-            return;
-        }
+   if (source)
+      if (source->id("drink_source"))
+      {
+         source->drink_from_it();
+         return;
+      }
 
-    if (num_drinks == 1 && last_drink_action)
-        action = last_drink_action;
-    else
-        action = drink_action;
+   if (num_drinks == 1 && last_drink_action)
+      action = last_drink_action;
+   else
+      action = drink_action;
 
-    if (arrayp(action))
-        action = choice(action);
+   if (arrayp(action))
+      action = choice(action);
 
-    if (functionp(action))
-        evaluate(action);
-    else
-        drinkee->simple_action(action, this_object());
+   if (functionp(action))
+      evaluate(action);
+   else
+      drinkee->simple_action(action, this_object());
 
-    if (taste_action && num_drinks != 1)
-    {
-        action = taste_action;
-        if (arrayp(action))
-            action = choice(action);
-        if (functionp(action))
-            evaluate(action);
-        else
-            drinkee->my_action(action, this_object());
-    };
+   if (taste_action && num_drinks != 1)
+   {
+      action = taste_action;
+      if (arrayp(action))
+         action = choice(action);
+      if (functionp(action))
+         evaluate(action);
+      else
+         drinkee->my_action(action, this_object());
+   };
 
-    if (query_heal_value())
-    {
-        heal_from_drink();
-    }
+   if (query_heal_value())
+   {
+      heal_from_drink();
+   }
 
-    reduce_drink_number();
+   reduce_drink_number();
 }
 
-//:FUNCTION query_num_drinks
+//: FUNCTION query_num_drinks
 // returns the number of drinks left in the drink.
 int query_num_drinks()
 {
-    calculate_num_drinks();
-    return num_drinks;
+   calculate_num_drinks();
+   return num_drinks;
 }
 
 mixed direct_drink_obj()
 {
-    if (environment(this_object()) == environment(this_body()))
-    {
-        return 0;
-    }
+   if (environment(this_object()) == environment(this_body()))
+   {
+      return 0;
+   }
 
-    //Must be inside something in our inventory or directly in our inventory.
-    if (environment(environment(this_object())) != this_body() && environment(this_object()) != this_body())
-    {
-        return 0;
-    }
-    calculate_num_drinks();
-    if (!num_drinks)
-        return capitalize(the_short()) + " is gone.\n";
+   // Must be inside something in our inventory or directly in our inventory.
+   if (environment(environment(this_object())) != this_body() && environment(this_object()) != this_body())
+   {
+      return 0;
+   }
+   calculate_num_drinks();
+   if (!num_drinks)
+      return capitalize(the_short()) + " is gone.\n";
 
-    return 1;
+   return 1;
 }
 
 mixed direct_drink_obj_from_obj()
 {
-    return direct_drink_obj();
+   return direct_drink_obj();
 }

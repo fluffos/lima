@@ -5,68 +5,68 @@
 inherit SWORD;
 
 #if BLOWS_STYLE == BLOWS_TYPES
-#define evt_data(evt)  evt->data[0]
-#define decrement_damage(evt)  evt->data[sizeof(evt->data) - 1]--
+#define evt_data(evt) evt->data[0]
+#define decrement_damage(evt) evt->data[sizeof(evt->data) - 1]--
 #else /* BLOWS_STYLE == BLOWS_SIMPLE */
-#define evt_data(evt)  evt->data
-#define decrement_damage(evt)  evt->data--
+#define evt_data(evt) evt->data
+#define decrement_damage(evt) evt->data--
 #endif
 
 class event_info source_modify_event(class event_info evt)
 {
-  int opp_health;
-  int damage;
-  int excess;
-  string *system_limbs;
+   int opp_health;
+   int damage;
+   int excess;
+   string *system_limbs;
 
-  if(evt->data == "miss" || evt->data == "disarm")
-    return evt;
+   if (evt->data == "miss" || evt->data == "disarm")
+      return evt;
 
 #ifdef HEALTH_USES_LIMBS
-  opp_health = evt->target->query_health(evt->target_extra);
+   opp_health = evt->target->query_health(evt->target_extra);
 #else
-  opp_health = evt->target->query_health();
+   opp_health = evt->target->query_health();
 #endif
-  damage = evt->data[sizeof(evt->data) - 1];
+   damage = evt->data[sizeof(evt->data) - 1];
 
-  if(opp_health <= damage)
-  {
-    excess = damage - opp_health;
+   if (opp_health <= damage)
+   {
+      excess = damage - opp_health;
 #if HEALTH_STYLE == HEALTH_HITPOINTS
-    for(int i = 0; i<=excess;i++)
-      decrement_damage(evt);
-#else /* HEALTH_STYLE == HEALTH_LIMBS || HEALTH_STYLE == HEALTH_WOUNDS */
-    if(evt->target->is_vital_limb(evt->target_extra))
-      for(int i = 0; i<excess;i++)
-        decrement_damage(evt);
-    if(evt->target->is_system_limb(evt->target_extra))
-    {
-      system_limbs = evt->target->query_system_limbs() - ({ evt->target_extra });
-      foreach(string s in system_limbs)
+      for (int i = 0; i <= excess; i++)
+         decrement_damage(evt);
+#else  /* HEALTH_STYLE == HEALTH_LIMBS || HEALTH_STYLE == HEALTH_WOUNDS */
+      if (evt->target->is_vital_limb(evt->target_extra))
+         for (int i = 0; i < excess; i++)
+            decrement_damage(evt);
+      if (evt->target->is_system_limb(evt->target_extra))
       {
-        if(evt->target->query_health(s) != -1)
-        return evt;
-      }
+         system_limbs = evt->target->query_system_limbs() - ({evt->target_extra});
+         foreach (string s in system_limbs)
+         {
+            if (evt->target->query_health(s) != -1)
+               return evt;
+         }
 
-      for(int i = 0; i<excess;i++)
-        decrement_damage(evt);
-    }
+         for (int i = 0; i < excess; i++)
+            decrement_damage(evt);
+      }
 #endif /* HEALTH_STYLE */
-  }
+   }
    return evt;
 }
 
 void setup()
 {
-  set_adj("glowing");
-  set_id("sword");
-  add_id("mercy");
-  add_adj("sword of");
-  set_proper_name("the Sword of Mercy");
+   set_adj("glowing");
+   set_id("sword");
+   add_id("mercy");
+   add_adj("sword of");
+   set_proper_name("the Sword of Mercy");
 #ifdef USE_SIZE
-  set_size(MEDIUM);
+   set_size(MEDIUM);
 #endif
 #ifdef USE_MASS
-  set_mass(MEDIUM);
+   set_mass(MEDIUM);
 #endif
 }

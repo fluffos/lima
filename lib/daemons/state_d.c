@@ -16,81 +16,78 @@ mapping queue = ([]);
 
 varargs void add_to_queue(object ob, int add_to_time)
 {
-    int update_time;
-    if (ob && ob->query_call_interval())
-    {
-        //If the object is already in here, don't add it.
-/*        if (member_array(ob, flatten_array(values(queue))) != -1)
-            return;
-*/
-        update_time = (ob->query_call_interval() * 60 + time()) + add_to_time;
+   int update_time;
+   if (ob && ob->query_call_interval())
+   {
+      // If the object is already in here, don't add it.
+      /*        if (member_array(ob, flatten_array(values(queue))) != -1)
+                  return;
+      */
+      update_time = (ob->query_call_interval() * 60 + time()) + add_to_time;
 
-        if (!queue[update_time])
-            queue[update_time] = ({});
+      if (!queue[update_time])
+         queue[update_time] = ({});
 
-        queue[update_time] += ({ob});
-    }
+      queue[update_time] += ({ob});
+   }
 }
 
 void process_queue()
 {
-    int processed;
-    int t = time();
-    foreach (int update_time, object * targets in queue)
-    {
-        foreach (object target in targets)
-        {
-            if (target && update_time < time() && target->state_update())
-            {
-                add_to_queue(target);
-            }
-        }
-        if (update_time < time())
-            map_delete(queue, update_time);
-        processed++;
-        if (processed == MAX_PROCESSED)
-            return;
-    }
+   int processed;
+   int t = time();
+   foreach (int update_time, object * targets in queue)
+   {
+      foreach (object target in targets)
+      {
+         if (target && update_time < time() && target->state_update())
+         {
+            add_to_queue(target);
+         }
+      }
+      if (update_time < time())
+         map_delete(queue, update_time);
+      processed++;
+      if (processed == MAX_PROCESSED)
+         return;
+   }
 }
 
 mapping queue()
 {
-    return queue;
+   return queue;
 }
 
 void heart_beat()
 {
-    process_queue();
+   process_queue();
 }
 
 void capture_all_statefuls()
 {
-    object *statefuls = filter_array(objects(), (
-                                                    : clonep($1) &&
-                                                          $1->is_stateful()
-                                                    :));
-    foreach (object ob in statefuls)
-    {
-        string f = file_name(ob);
-        if (member_array(f, keys(queue)) == -1)
-            add_to_queue(ob, random(INITIAL_SPREAD));
-    }
+   object *statefuls = filter_array(objects(), ( : clonep($1) && $1->is_stateful() :));
+   foreach (object ob in statefuls)
+   {
+      string f = file_name(ob);
+      if (member_array(f, keys(queue)) == -1)
+         add_to_queue(ob, random(INITIAL_SPREAD));
+   }
 }
 
 void create()
 {
-    if (clonep())
-    {
-        destruct(this_object());
-        return;
-    }
-    capture_all_statefuls();
-    set_heart_beat(1);
+   if (clonep())
+   {
+      destruct(this_object());
+      return;
+   }
+   capture_all_statefuls();
+   set_heart_beat(1);
 }
 
 string stat_me()
 {
-    return "STAT_D:\n-------\n" +
-           "Queue Length: " + sizeof(keys(queue)) + "\n"
-                                                    "\n";
+   return "STAT_D:\n-------\n" + "Queue Length: " + sizeof(keys(queue)) +
+          "\n"
+          "\n";
 }

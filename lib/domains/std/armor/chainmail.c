@@ -6,11 +6,12 @@
 
 inherit ARMOR;
 
-void setup() {
-    set_adj("chainmail");
-    set_id("shirt", "chainmail");
-    set_armor_class(4);
-    set_resist("slashing", 2); // a little better against blades
-    set_wearmsg( "$N $vput on a $o." );
-    set_slot("torso");
+void setup()
+{
+   set_adj("chainmail");
+   set_id("shirt", "chainmail");
+   set_armor_class(4);
+   set_resist("slashing", 2); // a little better against blades
+   set_wearmsg("$N $vput on a $o.");
+   set_slot("torso");
 }

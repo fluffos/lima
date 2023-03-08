@@ -23,40 +23,40 @@ inherit CMD;
 private
 void main(string arg)
 {
-  string name, race;
-  if (!arg)
-  {
-    name = this_user()->query_selected_body();
-    race = 0;
-  }
-  else if (sscanf(arg, "(%s)%s", race, name) == 2)
-  {
-    if (name == "")
+   string name, race;
+   if (!arg)
+   {
       name = this_user()->query_selected_body();
-    name = trim(name);
-  }
-  else
-  {
-    name = arg;
-    race = 0;
-  }
-  if (race)
-  {
-    race = DIR_RACES + "/" + depath(evaluate_path(race));
-    if (race[ < 2..] != ".c")
-      race += ".c";
-    if (!is_file(race))
-    {
-      TBUG(race);
-      out("No such race.\n");
-      return;
-    }
-  }
+      race = 0;
+   }
+   else if (sscanf(arg, "(%s)%s", race, name) == 2)
+   {
+      if (name == "")
+         name = this_user()->query_selected_body();
+      name = trim(name);
+   }
+   else
+   {
+      name = arg;
+      race = 0;
+   }
+   if (race)
+   {
+      race = DIR_RACES + "/" + depath(evaluate_path(race));
+      if (race[ < 2..] != ".c")
+         race += ".c";
+      if (!is_file(race))
+      {
+         TBUG(race);
+         out("No such race.\n");
+         return;
+      }
+   }
 
-  if (this_body())
-  {
-    this_body()->save_me();
-    this_body()->save_autoload();
-  }
-  this_user()->switch_user(name, race);
+   if (this_body())
+   {
+      this_body()->save_me();
+      this_body()->save_autoload();
+   }
+   this_user()->switch_user(name, race);
 }

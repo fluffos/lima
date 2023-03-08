@@ -12,15 +12,15 @@ inherit VERB_OB;
 
 void do_pick_obj(object ob)
 {
-  ob->do_pick();
+   ob->do_pick();
 }
 
 void do_pick_obj_with_obj(object ob1, object ob2)
 {
-  ob1->open_with(ob2);
+   ob1->open_with(ob2);
 }
 
 void create()
 {
-  add_rules(({ "OBJ", "OBJ with OBJ" }));
+   add_rules(({"OBJ", "OBJ with OBJ"}));
 }

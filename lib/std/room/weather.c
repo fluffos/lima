@@ -10,20 +10,19 @@
 
 nosave private int weather;
 
-
 void set_weather(int new_weather)
 {
-    weather = new_weather;
+   weather = new_weather;
 }
 int query_weather()
 {
-    return weather;
+   return weather;
 }
 
 string get_weather()
 {
-    if ( weather )
-	return WEATHER_D->query_current_weather();
+   if (weather)
+      return WEATHER_D->query_current_weather();
 
-    return "";
+   return "";
 }

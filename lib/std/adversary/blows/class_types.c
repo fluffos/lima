@@ -8,14 +8,17 @@ nosave class event_info *queue = ({});
 
 void add_event(object target, object weapon, mixed target_extra, mixed data)
 {
-   if(!stringp(data) && !arrayp(data))
-      data = ({ weapon ? weapon->query_damage_type() : "blow", data });
+   if (!stringp(data) && !arrayp(data))
+      data = ({weapon ? weapon->query_damage_type() : "blow", data});
 
-   queue += ({ new(class event_info,
-               target: target, weapon: weapon, data: data
+   queue += ({new (class event_info, target
+                   : target, weapon
+                   : weapon, data
+                   : data
 #ifdef HEALTH_USES_LIMBS
-               , target_extra: target_extra
+                     ,
+                     target_extra
+                   : target_extra
 #endif
-            ) });
+                   )});
 }
-

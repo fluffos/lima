@@ -2,20 +2,19 @@
 
 // Rust/Belboz
 
-//:COMMAND
-//USAGE:  pwd
+//: COMMAND
+// USAGE:  pwd
 //
-//Shows you what directory you are currently "in".
+// Shows you what directory you are currently "in".
 //
-//pwd
+// pwd
 //
-// /wiz/zifnab/obj
+//  /wiz/zifnab/obj
 
 inherit CMD;
 
-private void main()
+private
+void main()
 {
-    outf("Dir:  %s\nFile: %s\n",
-	 get_user_variable("pwd") || "NONE",
-	 get_user_variable("cwf") || "NONE");
+   outf("Dir:  %s\nFile: %s\n", get_user_variable("pwd") || "NONE", get_user_variable("cwf") || "NONE");
 }

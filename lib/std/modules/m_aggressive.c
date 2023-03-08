@@ -15,20 +15,19 @@ int aggression_chance = 100;
 private
 int attack_delay = 5;
 
-//:FUNCTION aggressively_attack
+//: FUNCTION aggressively_attack
 // void aggressively_attack();
 // Start the fight.
 void aggressively_attack(object who)
 {
    if (who)
       if (wizardp(who) && environment(this_object()) && environment(this_object())->contains(who))
-         who->targetted_action("$N $vwould have been attacked by $t, but $n1 reconsidered.",
-                               this_object());
+         who->targetted_action("$N $vwould have been attacked by $t, but $n1 reconsidered.", this_object());
       else
          call_out("start_fight", (1 + random(attack_delay)), who);
 }
 
-//:FUNCTION handle_attack
+//: FUNCTION handle_attack
 // By default, this compares a random number to aggression_chance
 // and starts attacking based upon them. This function might be
 // overloaded to perform racial checks or something though.
@@ -36,7 +35,8 @@ void aggressively_attack(object who)
 protected
 void handle_attack(object who)
 {
-   if (random(100) < aggression_chance && who->is_visible() && who->is_body() && environment() && !environment()->query_combat_forbidden())
+   if (random(100) < aggression_chance && who->is_visible() && who->is_body() && environment() &&
+       !environment()->query_combat_forbidden())
       call_out("aggressively_attack", (1 + random(attack_delay)), who);
 }
 
@@ -55,7 +55,7 @@ void i_met(object who)
       handle_attack(who);
 }
 
-//:FUNCTION set_aggressive
+//: FUNCTION set_aggressive
 // This function is used to set the aggression chance of a monster in the
 // range 0 (never aggressive) to 100 (completely aggressive).
 void set_aggressive(int a)
@@ -63,7 +63,7 @@ void set_aggressive(int a)
    aggression_chance = a;
 }
 
-//:FUNCTION query_aggressive
+//: FUNCTION query_aggressive
 // This function returns 0 for unaggressive monsters, or the chance of
 // aggression for aggressive monsters.
 int query_aggressive()
@@ -73,6 +73,5 @@ int query_aggressive()
 
 mapping lpscript_attributes()
 {
-   return (["aggressive":({LPSCRIPT_INT, "setup", "set_aggressive"}),
-   ]);
+   return (["aggressive":({LPSCRIPT_INT, "setup", "set_aggressive"}), ]);
 }

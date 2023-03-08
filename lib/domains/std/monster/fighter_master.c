@@ -4,5 +4,5 @@ inherit STOCK_MASTER;
 
 void create()
 {
-    ::create("stock-fighter");
+   ::create("stock-fighter");
 }

@@ -28,7 +28,7 @@ class wear_info find_wi(string s)
 
    wi = armors[s];
 
-   //Upgrade class with secondary if needed
+   // Upgrade class with secondary if needed
    if (sizeof(wi) == 2)
    {
       class wear_info wi_upgrade = new (class wear_info);
@@ -47,7 +47,7 @@ class wear_info find_wi(string s)
    return wi;
 }
 
-//:FUNCTION query_armors
+//: FUNCTION query_armors
 // object *query_armors(string s);
 // Returns the armors that are covering limb 's'.
 object *query_armors(string s)
@@ -74,7 +74,7 @@ object *query_armors(string s)
       */
 }
 
-//:FUNCTION wear_item
+//: FUNCTION wear_item
 // nomask int wear_item(object what, string where);
 // Forces the adversary to wear 'what' on its 'where' limb.
 nomask int wear_item(object what, string where)
@@ -84,7 +84,7 @@ nomask int wear_item(object what, string where)
 
    wi = find_wi(where);
 
-   //Check if this is worn under other things.
+   // Check if this is worn under other things.
    if (what->query_worn_under())
    {
       if (!wi || wi->secondary)
@@ -126,7 +126,7 @@ nomask int wear_item(object what, string where)
    return 1;
 }
 
-//:FUNCTION remove_item
+//: FUNCTION remove_item
 // nomask int remove_item(object what, string where);
 // Removes armor 'what' from the 'where' limb.
 nomask int remove_item(object what, string where)
@@ -160,7 +160,7 @@ nomask int remove_item(object what, string where)
    return 1;
 }
 
-//:FUNCTION has_body_slot
+//: FUNCTION has_body_slot
 // int has_body_slot(string slot);
 // Returns 1 if the body slot is a valid one.
 int has_body_slot(string slot)
@@ -168,7 +168,7 @@ int has_body_slot(string slot)
    return is_limb(slot);
 }
 
-//:FUNCTION query_armor_slots
+//: FUNCTION query_armor_slots
 // string *query_armor_slots()
 // Returns all valid armor slots on an adversary.
 string *query_armor_slots()

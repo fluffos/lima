@@ -8,11 +8,12 @@
 inherit BOARD_OB;
 inherit M_GETTABLE;
 
-
-void mudlib_setup(){
-    ::mudlib_setup("Portable Bulletin Board", "lima.bugs", 1 );
+void mudlib_setup()
+{
+   ::mudlib_setup("Portable Bulletin Board", "lima.bugs", 1);
 }
 
-string a_short() {
-  return evaluate((: do_desc :));
+string a_short()
+{
+   return evaluate(( : do_desc:));
 }

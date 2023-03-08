@@ -11,18 +11,16 @@ inherit M_VALUABLE;
 
 void setup()
 {
-  set_adj("red");
-  set_id("scarf");
+   set_adj("red");
+   set_id("scarf");
 #ifdef USE_BODYSLOTS
-  set_slot(HEAD);
+   set_slot(HEAD);
 #endif
-  set_value(10000);
+   set_value(10000);
 #ifdef USE_SIZE
-  set_size(SMALL);
+   set_size(SMALL);
 #endif
 #ifdef USE_MASS
-  set_mass(SMALL);
+   set_mass(SMALL);
 #endif
-
 }
-

@@ -91,7 +91,8 @@ nomask int award_experience(object slayer, string name, object *viable, int leve
       if (b && member_array(b, viable) != -1)
       {
          amount = b->calc_xp_for(b->query_level(), level);
-         TBUG("Party XP: " + member_name + " amount: " + amount + " level of receiver: " + b->query_level() + " level for: " + level);
+         TBUG("Party XP: " + member_name + " amount: " + amount + " level of receiver: " + b->query_level() +
+              " level for: " + level);
          b->add_experience(to_int(amount * (find_body(lower_case(member_name))->query_level() / total)));
       }
    }
@@ -134,7 +135,8 @@ nomask int add_member(string new_member, string pname, string password)
    // If the difference in levels between the new member
    // and any existing member of the party is greater
    // than DIFF, do not add the new member.
-   if (body->query_level() > ((class party)parties[pname])->min_level + DIFF || body->query_level() < ((class party)parties[pname])->max_level - DIFF)
+   if (body->query_level() > ((class party)parties[pname])->min_level + DIFF ||
+       body->query_level() < ((class party)parties[pname])->max_level - DIFF)
       return 0;
 
    // Update the new minimum and maximum levels for the party if needed.

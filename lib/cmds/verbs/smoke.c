@@ -2,15 +2,17 @@
 
 inherit VERB_OB;
 
-void do_smoke_obj(object ob) {
-    ob->do_smoke();
+void do_smoke_obj(object ob)
+{
+   ob->do_smoke();
 }
 
 int need_to_see()
 {
-    return 0;
+   return 0;
 }
 
-void create() {
-  add_rules(({ "OBJ" }));
+void create()
+{
+   add_rules(({"OBJ"}));
 }

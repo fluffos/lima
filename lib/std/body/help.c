@@ -7,14 +7,14 @@
 // read_help_topic(str)   -- set time <str> was read to right now.
 //
 
-mapping topic_to_time = ([ ]);
+mapping topic_to_time = ([]);
 
-void
-read_help_topic(string str) {
+void read_help_topic(string str)
+{
    topic_to_time[str] = time();
 }
 
-int
-query_help_topic(string str) {
+int query_help_topic(string str)
+{
    return topic_to_time[str];
 }

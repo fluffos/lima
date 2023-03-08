@@ -7,13 +7,15 @@ void switch_to(object);
 void attack();
 object get_target();
 
-private nosave int  attack_time = time();
-private int         attack_speed = 5;
-nosave int          attacking = 0;
+private
+nosave int attack_time = time();
+private
+int attack_speed = 5;
+nosave int attacking = 0;
 
 void remove()
 {
-    remove_call_out();
+   remove_call_out();
 }
 
 void set_attack_speed(int x)
@@ -31,10 +33,11 @@ int query_penalty()
 
 void do_something()
 {
-   if(attack_speed)
+   if (attack_speed)
    {
-      if(!attacking) return;
-      call_out( (: do_something :), attack_speed + random(5) - 2);
+      if (!attacking)
+         return;
+      call_out(( : do_something:), attack_speed + random(5) - 2);
    }
    attack();
 }
@@ -46,9 +49,9 @@ void do_something()
  */
 varargs void attacked_by(object who, int take_a_swing)
 {
-   if(!attack_speed)
+   if (!attack_speed)
    {
-      if(take_a_swing)
+      if (take_a_swing)
       {
          switch_to(who);
          do_something();
@@ -58,19 +61,19 @@ varargs void attacked_by(object who, int take_a_swing)
 
    switch_to(who);
 
-   if(!attacking)
+   if (!attacking)
    {
       attacking = 1;
-      if(take_a_swing)
+      if (take_a_swing)
          do_something();
       else
-         call_out((: do_something :), attack_speed + random(5) - 2);
+         call_out(( : do_something:), attack_speed + random(5) - 2);
    }
 }
 
 string continue_fight()
 {
-   if(!get_target())
+   if (!get_target())
       return "You aren't attacking anyone.\n";
    do_something();
 }

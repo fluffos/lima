@@ -2,16 +2,13 @@
 
 inherit CHEST;
 
-void setup() 
+void setup()
 {
-  set_adj("large", "magic");
-  set_long( "It's a large chest, that glows softly with a magical aura.");
-  set_objects( ([
-		 "armor/chainmail" : -1,
-		 "weapon/sword" : -1,
-		 ]) );
-  set_gettable( "#It's way too heavy to lift.\n" );
-  set_locked("chest");
-  set_strength_vs_magic(0);
-  set_strength_vs_picking(100);
+   set_adj("large", "magic");
+   set_long("It's a large chest, that glows softly with a magical aura.");
+   set_objects((["armor/chainmail":-1, "weapon/sword":-1, ]));
+   set_gettable("#It's way too heavy to lift.\n");
+   set_locked("chest");
+   set_strength_vs_magic(0);
+   set_strength_vs_picking(100);
 }

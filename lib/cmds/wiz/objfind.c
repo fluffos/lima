@@ -8,15 +8,15 @@
 ** 07-Nov-94. Created. Deathblade.
 */
 
-//:COMMAND
+//: COMMAND
 //$$ see: objdump, objcount, idfind
-//USAGE: objfind <fname>
+// USAGE: objfind <fname>
 //
-//This command is used to find all the instances of objects with a given filename.
-//This is very handy in tracking down where certain items are,
-//or if they have no environment.
+// This command is used to find all the instances of objects with a given filename.
+// This is very handy in tracking down where certain items are,
+// or if they have no environment.
 //
-//Example:
+// Example:
 //
 //> objfind /gue/zork1/trophy_case
 
@@ -24,14 +24,15 @@ inherit CMD;
 
 mapping envs;
 
-private void main(string arg)
+private
+void main(string arg)
 {
-  object * obs;
+   object *obs;
 
-  obs = objects( (: base_name($1) == $(arg) :) );
+   obs = objects(( : base_name($1) == $(arg) :));
 
-  envs = ([ ]);
-  map_array(obs, (: envs[$1] = environment($1) :));
+   envs = ([]);
+   map_array(obs, ( : envs[$1] = environment($1) :));
 
-  out(sprintf("%O\n", envs));
+   out(sprintf("%O\n", envs));
 }

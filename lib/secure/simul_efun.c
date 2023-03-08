@@ -5,7 +5,8 @@
 #endif
 
 // private so they don't become simuls
-private inherit __DIR__ "check_config";
+private
+inherit __DIR__ "check_config";
 
 // these first since others might use them.
 inherit __DIR__ "simul_efun/overrides";

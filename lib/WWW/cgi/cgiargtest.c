@@ -3,6 +3,7 @@
 // simple test of cgi's with args
 // cowl
 
-string main(string arg) {
-    return "The argument entered was: "+arg;
+string main(string arg)
+{
+   return "The argument entered was: " + arg;
 }

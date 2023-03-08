@@ -2,7 +2,8 @@
 
 inherit LANTERN;
 
-void setup() {
-    set_adj("brass");
-    set_long("Somehow, this brass lantern looks vaguely familiar.\n");
- }
+void setup()
+{
+   set_adj("brass");
+   set_long("Somehow, this brass lantern looks vaguely familiar.\n");
+}

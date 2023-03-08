@@ -6,23 +6,22 @@
 ** Define the "channel_info" class for objects that will need it.
 */
 
-
 /*
 ** This class is used to store all the information related to a particular
 ** channel.
 */
 class channel_info
 {
-    string	name;		/* name of the channel */
+   string name; /* name of the channel */
 
-    object *	listeners;	/* who is listening */
-    object *	hooked;		/* objects hooked into this channel */
+   object *listeners; /* who is listening */
+   object *hooked;    /* objects hooked into this channel */
 
-    int		flags;		/* the channel's flags */
+   int flags; /* the channel's flags */
 
-    object	moderator;	/* moderator for this channel */
-    object	speaker;	/* the current speaker */
-    object *	requestors;	/* who is in the queue to talk */
+   object moderator;   /* moderator for this channel */
+   object speaker;     /* the current speaker */
+   object *requestors; /* who is in the queue to talk */
 
-    mixed *	history;	/* channel history information */
+   mixed *history; /* channel history information */
 }

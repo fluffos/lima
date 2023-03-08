@@ -7,11 +7,11 @@
 ** room to room.
 */
 
+#include <classes.h>
+#include <hooks.h>
 #include <move.h>
 #include <playerflags.h>
-#include <hooks.h>
 #include <size.h>
-#include <classes.h>
 
 inherit CLASS_MOVE;
 
@@ -21,110 +21,107 @@ string query_msg(string which);
 int test_flag(int which);
 void simple_action(string s, mixed *obs...);
 varargs string *action(object *who, mixed msg, mixed *obs...);
-varargs string compose_message(object forwhom, string msg, object *who,
-                               mixed *obs...);
+varargs string compose_message(object forwhom, string msg, object *who, mixed *obs...);
 object query_target();
 
 private
 nomask int move_me_there(class move_data data)
 {
-    object last_loc = environment();
-    object env;
-    object d;
-    mixed r;
-    mixed txt;
-    string m;
+   object last_loc = environment();
+   object env;
+   object d;
+   mixed r;
+   mixed txt;
+   string m;
 
-    if ((r = move(data->destination, data->relation)) != MOVE_OK)
-    {
-        if (!stringp(r))
-        {
-            if (r == MOVE_NO_ERROR)
-                return 1;
-            write("You remain where you are.\n");
-            return 0;
-        }
+   if ((r = move(data->destination, data->relation)) != MOVE_OK)
+   {
+      if (!stringp(r))
+      {
+         if (r == MOVE_NO_ERROR)
+            return 1;
+         write("You remain where you are.\n");
+         return 0;
+      }
 
-        switch (r)
-        {
-        case MOVE_NO_DEST:
-            write("Construction blocks your path.\n");
-            return 0;
-        case MOVE_NO_ROOM:
-            d = load_object(data->destination);
-            if (d->query_max_capacity() - d->query_capacity() - VERY_LARGE < 0)
+      switch (r)
+      {
+      case MOVE_NO_DEST:
+         write("Construction blocks your path.\n");
+         return 0;
+      case MOVE_NO_ROOM:
+         d = load_object(data->destination);
+         if (d->query_max_capacity() - d->query_capacity() - VERY_LARGE < 0)
+         {
+            if (sizeof(filter(all_inventory(d), ( : $1->is_living() :))))
             {
-                if (sizeof(filter(all_inventory(d), (
-                                                        : $1->is_living()
-                                                        :))))
-                {
-                    write("You might be able to fit if there weren't "
-                          "something moving around there already.\n");
-                }
-                else
-                {
-                    write("You're unable to fit.\n");
-                }
+               write("You might be able to fit if there weren't "
+                     "something moving around there already.\n");
             }
             else
             {
-                write("You aren't able to fit with the load you're "
-                      "carrying.\n");
+               write("You're unable to fit.\n");
             }
-            return 0;
-        default:
-            write("You remain where you are.\n");
-            return 0;
-        }
-    }
-    /* Make sure that there is some type of direction for the exit */
-    if (!data->exit_dir)
-    {
-        data->exit_dir = "somewhere";
-    }
-    /* Also ensure that there is a valid object being moved */
-    if (!data->who)
-    {
-        data->who = this_body();
-    }
+         }
+         else
+         {
+            write("You aren't able to fit with the load you're "
+                  "carrying.\n");
+         }
+         return 0;
+      default:
+         write("You remain where you are.\n");
+         return 0;
+      }
+   }
+   /* Make sure that there is some type of direction for the exit */
+   if (!data->exit_dir)
+   {
+      data->exit_dir = "somewhere";
+   }
+   /* Also ensure that there is a valid object being moved */
+   if (!data->who)
+   {
+      data->who = this_body();
+   }
 
-    env = environment();
+   env = environment();
 
-    /* Exit Messages */
-    txt = data->exit_messages;
+   /* Exit Messages */
+   txt = data->exit_messages;
 
-    /* If there is no exit message for the exit, use the default for that body.
-     * The default message is not one that should be processed any further.*/
-    if (!txt)
-        txt = query_msg("leave");
+   /* If there is no exit message for the exit, use the default for that body.
+    * The default message is not one that should be processed any further.*/
+   if (!txt)
+      txt = query_msg("leave");
 
-    /* Display the message */
-    if (data->source)
-        tell_from_inside(last_loc, action(({data->who}), txt, data->source)[1]);
-    else
-        tell_from_inside(last_loc, action(({data->who}), txt, data->exit_dir)[1]);
+   /* Display the message */
+   if (data->source)
+      tell_from_inside(last_loc, action(({data->who}), txt, data->source)[1]);
+   else
+      tell_from_inside(last_loc, action(({data->who}), txt, data->exit_dir)[1]);
 
-    /* Entrance messages */
-    txt = data->enter_messages;
+   /* Entrance messages */
+   txt = data->enter_messages;
 
-    /* If there is no enter message for the exit, use the default for that body.
-     * The default message is not one that should be processed any further.*/
-    if (!txt)
-        txt = query_msg("enter");
+   /* If there is no enter message for the exit, use the default for that body.
+    * The default message is not one that should be processed any further.*/
+   if (!txt)
+      txt = query_msg("enter");
 
-    /* If the environment is a vehicle, skip the "You enter message." */
-    if (environment()->is_vehicle() || last_loc->is_vehicle())
-        return r == MOVE_OK;
+   /* If the environment is a vehicle, skip the "You enter message." */
+   if (environment()->is_vehicle() || last_loc->is_vehicle())
+      return r == MOVE_OK;
 
-    /* Display the message */
-    if (data->through)
-        simple_action(txt, data->through);
-    else if (data->source)
-        simple_action(txt, data->source);
-    else
-        simple_action(txt);
+   /* Display the message */
+   if (data->through)
+      simple_action(txt, data->through);
+   else if (data->source)
+      simple_action(txt, data->source);
+   else
+      simple_action(txt);
 
-    return r == MOVE_OK;
+   return r == MOVE_OK;
 }
 
 //: FUNCTION notify_move
@@ -134,7 +131,7 @@ nomask int move_me_there(class move_data data)
 
 void notify_move()
 {
-    this_object()->force_look(0);
+   this_object()->force_look(0);
 }
 
 //: FUNCTION move_to
@@ -154,20 +151,20 @@ void notify_move()
 // varargs int move_to(string dest, mixed dir, mixed exit, mixed enter)
 varargs int move_to(class move_data data)
 {
-    object where = environment();
-    this_object()->before_move();
+   object where = environment();
+   this_object()->before_move();
 
-    if (move_me_there(data))
-    {
-        where->call_hooks("person_left", HOOK_IGNORE, 0, data->exit_dir);
-        environment()->call_hooks("person_arrived", HOOK_IGNORE, 0, data->exit_dir);
-        call_hooks("interrupt", HOOK_IGNORE);
-    }
+   if (move_me_there(data))
+   {
+      where->call_hooks("person_left", HOOK_IGNORE, 0, data->exit_dir);
+      environment()->call_hooks("person_arrived", HOOK_IGNORE, 0, data->exit_dir);
+      call_hooks("interrupt", HOOK_IGNORE);
+   }
 
-    if (where != environment())
-    {
-        this_object()->notify_move();
-        return 1;
-    }
-    return 0;
+   if (where != environment())
+   {
+      this_object()->notify_move();
+      return 1;
+   }
+   return 0;
 }

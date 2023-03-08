@@ -12,10 +12,10 @@
 //                this is now the common lanaguage used for this functionality
 //                in other online games.
 
-//:PLAYERCOMMAND
-//USAGE party
+//: PLAYERCOMMAND
+// USAGE party
 //
-//Starts up the "party" menu system
+// Starts up the "party" menu system
 
 inherit M_INPUT;
 inherit CMD;

@@ -21,19 +21,18 @@
 */
 class stat_roll_mods
 {
-    int str_adjust;
-    int str_range;
+   int str_adjust;
+   int str_range;
 
-    int	agi_adjust;
-    int agi_range;
+   int agi_adjust;
+   int agi_range;
 
-    int int_adjust;
-    int int_range;
+   int int_adjust;
+   int int_range;
 
-    int wil_adjust;
-    int wil_range;
+   int wil_adjust;
+   int wil_range;
 }
-
 
 /*
 ** These values specify what percentage of the con/wis racial modifier
@@ -80,6 +79,6 @@ class stat_roll_mods
 */
 class stat_extra_mods
 {
-    int con_bonus;
-    int wis_bonus;
+   int con_bonus;
+   int wis_bonus;
 }

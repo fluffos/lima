@@ -12,17 +12,17 @@ nosave private string _lower, _upper, _swapcase;
 protected
 void create()
 {
-  int i;
+   int i;
 
-  for (i = 1; i < 255; i++)
-  {
-    if (i == 0)
-      ascii += " ";
-    ascii += chr(i);
-  }
+   for (i = 1; i < 255; i++)
+   {
+      if (i == 0)
+         ascii += " ";
+      ascii += chr(i);
+   }
 
-  _lower = ascii[0..('A' - 1)] + lowercase + ascii[('Z' + 1)..];
-  _upper = ascii[0..('a' - 1)] + uppercase + ascii[('z' + 1)..];
+   _lower = ascii[0..('A' - 1)] + lowercase + ascii[('Z' + 1)..];
+   _upper = ascii[0..('a' - 1)] + uppercase + ascii[('z' + 1)..];
   _swapcase = _upper[0..'A'-1] + lowercase + _upper['Z'+1..];
 }
 
@@ -39,7 +39,7 @@ string add_article(string str)
   case 'i':
   case 'o':
   case 'u':
-    return "an " + str;
+     return "an " + str;
   }
   return "a " + str;
 }
@@ -54,28 +54,25 @@ string punctuate(string str)
   string url_detect;
 
   if (!stringp(str) || !strlen(str))
-    return "";
+     return "";
 
   while (strlen(str) && str[ < 1] == ' ')
-    str = str[0.. < 2];
+     str = str[0.. < 2];
   if (!strlen(str))
-    return "";
+     return "";
 
   url_detect = explode(str, " ")[ < 1];
-  if (strlen(url_detect) > 5 && (url_detect[0..7] == "https://" ||
-                                 url_detect[0..6] == "http://" ||
-                                 url_detect[0..5] == "ftp://"))
-    return str;
+  if (strlen(url_detect) > 5 &&
+      (url_detect[0..7] == "https://" || url_detect[0..6] == "http://" || url_detect[0..5] == "ftp://"))
+     return str;
 
   // For the purposes of this, we consider '^' as a letter
   // since the string may end in ANSI codes. Clearly a hack
   // but very effective since punctuate() is widely used, and
   // we do not want to enage the ANSI engine here.
   last_char = str[ < 1];
-  if ((last_char >= 'a' && last_char <= 'z') ||
-      (last_char >= 'A' && last_char <= 'Z') ||
-      (last_char == '^'))
-    return str + ".";
+  if ((last_char >= 'a' && last_char <= 'z') || (last_char >= 'A' && last_char <= 'Z') || (last_char == '^'))
+     return str + ".";
 
   return str;
 }
@@ -87,7 +84,7 @@ int strstr(string s, string lookfor, int start)
 
   x = strsrch(s[start..], lookfor);
   if (x == -1)
-    return -1;
+     return -1;
   return start + x;
 }
 
@@ -100,13 +97,9 @@ int strstr(string s, string lookfor, int start)
 varargs string wrap(string str, int width, int indent)
 {
   if (!indent)
-    return sprintf("%-=*s", width || DEFAULT_WIDTH, str);
+     return sprintf("%-=*s", width || DEFAULT_WIDTH, str);
 
-  return sprintf(
-      "%s%-=*s",
-      str[0..indent - 1],
-      (width || DEFAULT_WIDTH) - indent,
-      str[indent..]);
+  return sprintf("%s%-=*s", str[0..indent - 1], (width || DEFAULT_WIDTH) - indent, str[indent..]);
 }
 
 //: FUNCTION iwrap
@@ -135,7 +128,7 @@ string chr(int i)
 int ord(string x)
 {
   if (strlen(x) != 1)
-    error("bad type arg to simul_efun ord()");
+     error("bad type arg to simul_efun ord()");
   return x[0];
 }
 
@@ -145,9 +138,7 @@ int ord(string x)
 //    swapcase("jOHN") -> "John"
 string swapcase(string s)
 {
-  return map(s, (
-                    : _swapcase[$1]
-                    :));
+  return map(s, ( : _swapcase[$1] :));
 }
 
 //: FUNCTION count_substrings
@@ -158,28 +149,28 @@ varargs int count_substrings(string s, string sub, int i)
   int n, m, r;
 
   if (strlen(sub) < 2)
-    return -1;
+     return -1;
 
   if (i < 0)
-    i += strlen(s);
+     i += strlen(s);
   n = strlen(sub);
   m = strlen(s) + 1 - n;
   if (!n)
-    return m - i;
+     return m - i;
   n--;
 
   r = 0;
   while (i < m)
   {
-    if (sub == s[i..(i + n)])
-    {
-      r++;
-      i += n;
-    }
-    else
-    {
-      i++;
-    }
+     if (sub == s[i..(i + n)])
+     {
+        r++;
+        i += n;
+     }
+     else
+     {
+        i++;
+     }
   }
   return r;
 }
@@ -192,7 +183,7 @@ string ljust(string s, int width)
 
   n = width - strlen(s);
   if (n <= 0)
-    return s;
+     return s;
 
   return s + repeat_string(" ", n);
 }
@@ -205,7 +196,7 @@ string rjust(string s, int width)
 
   n = width - strlen(s);
   if (n <= 0)
-    return s;
+     return s;
   return repeat_string(" ", n) + s;
 }
 
@@ -215,10 +206,10 @@ string center(string s, int width)
 
   n = width - strlen(s);
   if (n <= 0)
-    return s;
+     return s;
   half = n >> 1;
   if (n % 2 && width % 2)
-    half++;
+     half++;
   return repeat_string(" ", half) + s + repeat_string(" ", n - half);
 }
 
@@ -229,10 +220,10 @@ string truncate(string s, int length)
 {
   length -= 3;
   if (length < 1)
-    error("truncate:  value too low");
+     error("truncate:  value too low");
 
   if (strlen(s) <= length)
-    return s;
+     return s;
   return s[0..length - 1] + "...";
 }
 
@@ -250,13 +241,13 @@ int is_letter(int c)
 string format_list(string *list, string separator)
 {
   if (!separator)
-    separator = "and";
+     separator = "and";
   if (sizeof(list) == 0)
-    return "";
+     return "";
   if (sizeof(list) == 1)
-    return list[0];
+     return list[0];
   if (sizeof(list) == 2)
-    return list[0] + " " + separator + " " + list[1];
+     return list[0] + " " + separator + " " + list[1];
   return implode(list[0.. < 2], ", ") + ", " + separator + " " + list[ < 1];
 }
 
@@ -271,21 +262,21 @@ string tidy_list(mixed items, string separator)
 
   foreach (mixed item in items)
   {
-    if (objectp(item))
-      item = item->short();
-    if (!stringp(item))
-      continue;
-    if (member_array(item, keys(tmp)) < 0)
-      tmp += ([item:1]);
-    else
-      tmp[item]++;
+     if (objectp(item))
+        item = item->short();
+     if (!stringp(item))
+        continue;
+     if (member_array(item, keys(tmp)) < 0)
+        tmp += ([item:1]);
+     else
+        tmp[item]++;
   }
   foreach (string name, int num in tmp)
   {
-    if (num == 1)
-      list += ({add_article(name)});
-    else
-      list += ({sprintf("%d %s", num, name)});
+     if (num == 1)
+        list += ({add_article(name)});
+     else
+        list += ({sprintf("%d %s", num, name)});
   }
   return format_list(list, separator);
 }
@@ -301,22 +292,23 @@ string title_capitalize(string instring)
 /* There are more in parse_command_prepos_list() than is necessary, but
  * they are all two word preps, so they will never be matched, thus this
  * works */
-#define UNCAPPED ({         \
-                     "a",   \
-                     "an",  \
-                     "the", \
-                     "is",  \
-                     "and", \
-                     "but", \
-                     "or",  \
-                 }) + master()->parse_command_prepos_list()
+#define UNCAPPED                                                                                                       \
+   ({                                                                                                                  \
+       "a",                                                                                                            \
+       "an",                                                                                                           \
+       "the",                                                                                                          \
+       "is",                                                                                                           \
+       "and",                                                                                                          \
+       "but",                                                                                                          \
+       "or",                                                                                                           \
+   }) + master()->parse_command_prepos_list()
 
   foreach (string word in inarr)
   {
-    if (member_array(word, UNCAPPED) > -1)
-      out += ({word});
-    else
-      out += ({capitalize(word)});
+     if (member_array(word, UNCAPPED) > -1)
+        out += ({word});
+     else
+        out += ({capitalize(word)});
   }
 
   return implode(out, " ");
@@ -336,25 +328,23 @@ string time_to_string(int num, int short)
   int days, hours, minutes;
 
   if (num > 86399)
-    days = num / 86400;
+     days = num / 86400;
   num -= days * 86400;
   if (num > 3599)
-    hours = num / 3600;
+     hours = num / 3600;
   num -= hours * 3600;
   if (num > 59)
-    minutes = num / 60;
+     minutes = num / 60;
   num -= minutes * 60;
 
   if (short)
-    timestr = (days > 0 ? days + "d " : "") +
-              (hours > 0 ? hours + "h " : "") +
-              (minutes > 0 ? minutes + "m " : "") +
-              (num > 0 ? num + "s" : "");
+     timestr = (days > 0 ? days + "d " : "") + (hours > 0 ? hours + "h " : "") + (minutes > 0 ? minutes + "m " : "") +
+               (num > 0 ? num + "s" : "");
   else
-    timestr = (days > 0 ? (days == 1 ? days + " day" : days + " days") + ", " : "") +
-              (hours > 0 ? (hours == 1 ? hours + " hour" : hours + " hours") + ", " : "") +
-              (minutes > 0 ? (minutes == 1 ? minutes + " minute" : minutes + " minutes") + ", " : "") +
-              (num > 0 ? (num == 1 ? num + " second" : num + " seconds") : "");
+     timestr = (days > 0 ? (days == 1 ? days + " day" : days + " days") + ", " : "") +
+               (hours > 0 ? (hours == 1 ? hours + " hour" : hours + " hours") + ", " : "") +
+               (minutes > 0 ? (minutes == 1 ? minutes + " minute" : minutes + " minutes") + ", " : "") +
+               (num > 0 ? (num == 1 ? num + " second" : num + " seconds") : "");
 
   return timestr[ < 2..] == ", " ? timestr[0.. < 3] : timestr;
 }
@@ -373,19 +363,19 @@ varargs string weight_to_string(float w, int imperial)
   w = w * 1.0;
 #ifdef METRIC
   if (imperial)
-    ret = sprintf("%.2f lbs", round(w * KG_TO_LBS));
+     ret = sprintf("%.2f lbs", round(w * KG_TO_LBS));
   else
-    ret = w >= 1 ? sprintf("%.2f kg", round(w * 100) / 100) : sprintf("%d g", to_int(w * 1000.0));
+     ret = w >= 1 ? sprintf("%.2f kg", round(w * 100) / 100) : sprintf("%d g", to_int(w * 1000.0));
   return replace_string(ret, ".00", "");
 #endif
 #ifndef METRIC
   if (imperial)
-    ret = sprintf("%.2f lbs", w);
+     ret = sprintf("%.2f lbs", w);
   else
   {
-    w = w * LBS_TO_KG;
-    ret = w >= 1 ? sprintf("%.2f kg", round(w * 100) / 100) : sprintf("%d g", to_int(w * 1000.0));
-    return replace_string(ret, ".00", "");
+     w = w * LBS_TO_KG;
+     ret = w >= 1 ? sprintf("%.2f kg", round(w * 100) / 100) : sprintf("%d g", to_int(w * 1000.0));
+     return replace_string(ret, ".00", "");
   }
 #endif
 }
@@ -401,13 +391,13 @@ string filepath_ellipsis(string fpath, int max)
   int partnum = 0;
   while (strlen(fpath) - saved > max && partnum < sizeof(parts))
   {
-    int len = strlen(parts[partnum]);
-    if (len > 5 && partnum < sizeof(parts) - 1)
-    {
-      parts[partnum] = parts[partnum][0..2] + "..";
-      saved = len - 5;
-    }
-    partnum++;
+     int len = strlen(parts[partnum]);
+     if (len > 5 && partnum < sizeof(parts) - 1)
+     {
+        parts[partnum] = parts[partnum][0..2] + "..";
+        saved = len - 5;
+     }
+     partnum++;
   }
   return (fpath[0] == '/' ? "/" : "") + implode(parts, "/");
 }
@@ -423,41 +413,37 @@ string drunk_speak(string s, int drunk)
 
   for (int i = 0; i < sizeof(words); i++)
   {
-    int chance = random(10);
-    int n = sizeof(words[i]);
-    string *letters = explode(words[i], "");
+     int chance = random(10);
+     int n = sizeof(words[i]);
+     string *letters = explode(words[i], "");
 
-    if (chance >= drunk && sizeof(letters))
-    {
-      int pick = random(sizeof(letters));
-      letters[pick] = rand_letters[random(sizeof(rand_letters))];
-    }
+     if (chance >= drunk && sizeof(letters))
+     {
+        int pick = random(sizeof(letters));
+        letters[pick] = rand_letters[random(sizeof(rand_letters))];
+     }
 
-    chance = random(20) - 10;
+     chance = random(20) - 10;
 
-    if (chance >= drunk && sizeof(letters))
-    {
-      int pick = random(sizeof(letters) - 2);
-      int pick2 = random(sizeof(letters));
-      string save;
+     if (chance >= drunk && sizeof(letters))
+     {
+        int pick = random(sizeof(letters) - 2);
+        int pick2 = random(sizeof(letters));
+        string save;
 
-      if (pick < 0)
-        pick = 0;
+        if (pick < 0)
+           pick = 0;
 
-      save = letters[pick];
-      letters[pick] = letters[pick2];
-      letters[pick2] = save;
+        save = letters[pick];
+        letters[pick] = letters[pick2];
+        letters[pick2] = save;
 
-      if (drunk < 8)
-        sort_array(letters, (
-                                : random(3) - 1
-                                :));
-      if (drunk < 7)
-        sort_array(letters, (
-                                : random(3) - 1
-                                :));
-    }
-    words[i] = implode(letters, "");
+        if (drunk < 8)
+           sort_array(letters, ( : random(3) - 1 :));
+        if (drunk < 7)
+           sort_array(letters, ( : random(3) - 1 :));
+     }
+     words[i] = implode(letters, "");
   }
 
   return implode(words, " ");

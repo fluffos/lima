@@ -41,11 +41,9 @@ int max_moves;
 private
 nosave int counting_moves;
 private
-nosave function arrive_func = (
-    : player_did_arrive:);
+nosave function arrive_func = ( : player_did_arrive:);
 private
-nosave function move_hook = (
-    : moving:);
+nosave function move_hook = ( : moving:);
 
 //: FUNCTION set_wander_area
 // Set the area(s) that an NPC can wander in.  If this is not set
@@ -53,38 +51,38 @@ nosave function move_hook = (
 // restrictions.
 void set_wander_area(mixed areas)
 {
-  if (arrayp(areas))
-  {
-    wander_area = clean_array(areas);
-  }
+   if (arrayp(areas))
+   {
+      wander_area = clean_array(areas);
+   }
 
-  if (stringp(areas))
-  {
-    wander_area = clean_array(({areas}));
-  }
+   if (stringp(areas))
+   {
+      wander_area = clean_array(({areas}));
+   }
 }
 
 //: FUNCTION add_wander_area
 // Add area(s) which an NPC can wander in.  See set_wander_area()
 void add_wander_area(mixed areas)
 {
-  if (arrayp(areas))
-  {
-    wander_area = clean_array(wander_area + areas);
-  }
+   if (arrayp(areas))
+   {
+      wander_area = clean_array(wander_area + areas);
+   }
 
-  if (stringp(areas))
-  {
-    wander_area = clean_array(wander_area + ({areas}));
-  }
+   if (stringp(areas))
+   {
+      wander_area = clean_array(wander_area + ({areas}));
+   }
 }
 
 //: FUNCTION remove_wander_area
 // Remove area(s) which an NPC can wander in.  See set_wander_area()
 void remove_wander_area(string *area...)
 {
-  if (member_array(area, wander_area))
-    wander_area -= ({area});
+   if (member_array(area, wander_area))
+      wander_area -= ({area});
 }
 
 //: FUNCTION clear_wander_area
@@ -92,7 +90,7 @@ void remove_wander_area(string *area...)
 // this allows the NPC to wander anywhere.  See set_wander_area()
 void clear_wander_area()
 {
-  wander_area = ({});
+   wander_area = ({});
 }
 
 //: FUNCTION query_wander_area
@@ -100,7 +98,7 @@ void clear_wander_area()
 // See set_wander_area()
 string *query_wander_area()
 {
-  return wander_area;
+   return wander_area;
 }
 
 //: FUNCTION set_wander_time
@@ -114,9 +112,9 @@ string *query_wander_area()
 void set_wander_time(mixed time)
 
 {
-  if (!intp(time) && !functionp(time))
-    return;
-  wander_time = time;
+   if (!intp(time) && !functionp(time))
+      return;
+   wander_time = time;
 }
 
 //: FUNCTION query_wander_time
@@ -127,14 +125,14 @@ void set_wander_time(mixed time)
 // ZERO_RETURN (refer to the M_WANDER file) will be returned
 int query_wander_time()
 {
-  int i;
-  if (intp(wander_time))
-    i = wander_time;
-  else
-    i = evaluate(wander_time);
-  if (i < 2)
-    return ZERO_RETURN;
-  return i;
+   int i;
+   if (intp(wander_time))
+      i = wander_time;
+   else
+      i = evaluate(wander_time);
+   if (i < 2)
+      return ZERO_RETURN;
+   return i;
 }
 
 //: FUNCTION set_max_moves
@@ -145,7 +143,7 @@ int query_wander_time()
 // interaction
 void set_max_moves(int i)
 {
-  max_moves = i;
+   max_moves = i;
 }
 
 //: FUNCTION query_max_moves
@@ -153,22 +151,22 @@ void set_max_moves(int i)
 // interaction before stopping.
 int query_max_moves()
 {
-  return max_moves;
+   return max_moves;
 }
 
 private
 void reset_moves()
 {
-  num_moves = 0;
-  // counting_moves=0;
+   num_moves = 0;
+   // counting_moves=0;
 }
 
 private
 void start_move_count()
 {
-  if (!max_moves)
-    return;
-  counting_moves = 1;
+   if (!max_moves)
+      return;
+   counting_moves = 1;
 }
 
 //: FUNCTION cease_wandering
@@ -176,9 +174,9 @@ void start_move_count()
 // start_wandering() is required to make the NPC move again
 void cease_wandering()
 {
-  remove_call_out(call);
-  call = 0;
-  environment()->remove_hook("person_arrived", arrive_func);
+   remove_call_out(call);
+   call = 0;
+   environment()->remove_hook("person_arrived", arrive_func);
 }
 
 //: FUNCTION stop_wandering
@@ -187,28 +185,26 @@ void cease_wandering()
 // room.
 void stop_wandering()
 {
-  remove_call_out(call);
-  call = 0;
-  environment()->add_hook("person_arrived", arrive_func);
+   remove_call_out(call);
+   call = 0;
+   environment()->add_hook("person_arrived", arrive_func);
 }
 
 //: FUNCTION start_wandering
 // Starts an NPC wandering
 void start_wandering()
 {
-  if (call)
-  {
-    return;
-  }
-  if (!environment())
-  {
-    return;
-  }
-  environment()->add_hook("person_arrived", arrive_func);
-  call = call_out((
-                      : do_wander:),
-                  query_wander_time());
-  reset_moves();
+   if (call)
+   {
+      return;
+   }
+   if (!environment())
+   {
+      return;
+   }
+   environment()->add_hook("person_arrived", arrive_func);
+   call = call_out(( : do_wander:), query_wander_time());
+   reset_moves();
 }
 
 /* Hook function that is called after we move into the new location
@@ -217,124 +213,113 @@ void start_wandering()
  */
 void moving()
 {
-  environment()->add_hook("person_arrived", arrive_func);
-  foreach (object ob in all_inventory(environment()))
-  {
-    if (ob->query_link())
-    {
-      reset_moves();
-      break;
-    }
-  }
+   environment()->add_hook("person_arrived", arrive_func);
+   foreach (object ob in all_inventory(environment()))
+   {
+      if (ob->query_link())
+      {
+         reset_moves();
+         break;
+      }
+   }
 }
 
 int player_did_arrive(string direction)
 {
-  reset_moves();
-  if (this_body()->query_link())
-    start_wandering();
-  return 1;
+   reset_moves();
+   if (this_body()->query_link())
+      start_wandering();
+   return 1;
 }
 
 private
 void move_me(string direction)
 {
-  environment()->remove_hook("person_arrived", arrive_func);
-  do_game_command(sprintf("go %s", direction));
-  if (!counting_moves)
-    start_move_count();
-  num_moves++;
+   environment()->remove_hook("person_arrived", arrive_func);
+   do_game_command(sprintf("go %s", direction));
+   if (!counting_moves)
+      start_move_count();
+   num_moves++;
 
-  if (counting_moves &&
-      (num_moves >= max_moves))
-  {
-    stop_wandering();
-    return;
-  }
-  call = call_out((
-                      : do_wander:),
-                  query_wander_time());
+   if (counting_moves && (num_moves >= max_moves))
+   {
+      stop_wandering();
+      return;
+   }
+   call = call_out(( : do_wander:), query_wander_time());
 }
 
 private
 void do_wander()
 {
-  string *directions;
-  int i;
-  string chosen_dir;
-  string file;
-  object dest;
+   string *directions;
+   int i;
+   string chosen_dir;
+   string file;
+   object dest;
 
-  if (environment(this_object()))
-    directions = environment(this_object())->query_exit_directions();
+   if (environment(this_object()))
+      directions = environment(this_object())->query_exit_directions();
 
-  /* Stop if there are no directions (this takes care of blue prints*/
-  if (!directions || !i = sizeof(directions))
-    return;
+   /* Stop if there are no directions (this takes care of blue prints*/
+   if (!directions || !i = sizeof(directions))
+      return;
 
-  chosen_dir = directions[random(i)];
-  file = environment(this_object())->query_exit_destination(chosen_dir);
-  /* If the file is null or a null string try to move again next time */
-  if (!file || file == "")
-  {
-    call = call_out((
-                        : do_wander:),
-                    query_wander_time());
-    return;
-  }
-  /* If the destination is not loaded, do so */
-  dest = find_object(file);
+   chosen_dir = directions[random(i)];
+   file = environment(this_object())->query_exit_destination(chosen_dir);
+   /* If the file is null or a null string try to move again next time */
+   if (!file || file == "")
+   {
+      call = call_out(( : do_wander:), query_wander_time());
+      return;
+   }
+   /* If the destination is not loaded, do so */
+   dest = find_object(file);
 
-  if (!dest)
-    dest = load_object(file);
+   if (!dest)
+      dest = load_object(file);
 
-  /* If still no destination it won't load, try again next time */
-  if (!dest)
-  {
-    call = call_out((
-                        : do_wander:),
-                    query_wander_time());
-    return;
-  }
+   /* If still no destination it won't load, try again next time */
+   if (!dest)
+   {
+      call = call_out(( : do_wander:), query_wander_time());
+      return;
+   }
 
-  /* Check if the npc has wander restrictions */
-  if (sizeof(wander_area))
-  {
-    if (arrayp(wander_area) && arrayp(dest->query_area()))
-    {
-      if (sizeof(wander_area & dest->query_area()))
+   /* Check if the npc has wander restrictions */
+   if (sizeof(wander_area))
+   {
+      if (arrayp(wander_area) && arrayp(dest->query_area()))
       {
-        move_me(chosen_dir);
+         if (sizeof(wander_area & dest->query_area()))
+         {
+            move_me(chosen_dir);
+         }
+         else
+         {
+            call = call_out(( : do_wander:), query_wander_time());
+         }
       }
       else
       {
-        call = call_out((
-                            : do_wander:),
-                        query_wander_time());
+         call = call_out(( : do_wander:), query_wander_time());
       }
-    }
-    else
-    {
-      call = call_out((
-                          : do_wander:),
-                      query_wander_time());
-    }
-  }
-  else
-  {
-    move_me(chosen_dir);
-  }
-  return;
+   }
+   else
+   {
+      move_me(chosen_dir);
+   }
+   return;
 }
 
 void mudlib_setup()
 {
-  add_hook("move", move_hook);
+   add_hook("move", move_hook);
 }
 
 mapping lpscript_attributes()
 {
-  return (["wander_area":({LPSCRIPT_LIST, "setup", "set_wander_area"}),
-           "wander_time":({LPSCRIPT_INT, "setup", "set_wander_time"}),
-             "max_moves":({LPSCRIPT_INT, "setup", "set_max_moves"})]);
+   return (["wander_area":({LPSCRIPT_LIST, "setup", "set_wander_area"}),
+            "wander_time":({LPSCRIPT_INT, "setup", "set_wander_time"}),
+              "max_moves":({LPSCRIPT_INT, "setup", "set_max_moves"})]);
 }

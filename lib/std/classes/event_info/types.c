@@ -16,7 +16,7 @@ event_damage(class event_info evt)
    return evt->data[sizeof(evt->data) - 1];
 }
 
-//:FUNCTION event_to_str
+//: FUNCTION event_to_str
 // string event_to_str(class event_info evt)
 // Shows an event on the combat event queue as a string.
 // Only used for debug purposes, but oh so very useful.
@@ -25,10 +25,12 @@ string event_to_str(class event_info evt)
    string data = "";
    string out = "Event:\n"
                 " target=" +
-                evt->target + "\n"
-                              " target_extra=" +
-                evt->target_extra + "\n"
-                                    " weapon=" +
+                evt->target +
+                "\n"
+                " target_extra=" +
+                evt->target_extra +
+                "\n"
+                " weapon=" +
                 evt->weapon + "\n";
 
    if (arrayp(evt->data))

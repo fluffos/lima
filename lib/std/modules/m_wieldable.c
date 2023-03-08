@@ -26,8 +26,7 @@ void clear_flag(int);
 private
 nosave object wielded_by;
 private
-nosave function move_hook = (
-    : unwield_me:);
+nosave function move_hook = ( : unwield_me:);
 private
 string *wielding_limbs;
 private
@@ -209,7 +208,7 @@ mixed direct_wield_obj_in_str(object ob, string limb)
 
 mixed direct_wield_obj_with_str(object ob, string limb)
 {
-   return direct_wield_obj_in_str(ob,limb);
+   return direct_wield_obj_in_str(ob, limb);
 }
 
 mixed direct_remove_obj()

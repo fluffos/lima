@@ -6,75 +6,87 @@
 // Remove a post from a bulletin board.
 //
 
-//:COMMAND
+//: COMMAND
 // Remove a post from a bulletin board
 // Remove equipment
 // Remove other things
-// See also: boards 
+// See also: boards
 
 inherit VERB_OB;
 
-mixed can_remove_wrd(string wrd) {
-    object brd = 0;
-    mixed res;
+mixed can_remove_wrd(string wrd)
+{
+   object brd = 0;
+   mixed res;
 
-    foreach (object ob in deep_inventory(environment(this_body()))) {
-        if ((int)ob->is_bulletin_board()) {
-            if (!brd)
-                brd = ob;
-            else
-                return "Please specify on which board you want to "
-                       "remove a note.\n";
-        }
-    }
-    if (!brd)
-        return "There's nothing here to remove notes from.\n";
-
-    if ((res = brd->direct_remove_wrd_from_obj(wrd, brd)) != 1)
-        return res;
-
-    return default_checks();
-}
-
-mixed can_remove_wrd_from_obj(string wrd, object ob) {
-    return default_checks();
-}
-
-void do_remove_obj(object ob) {
-    ob->do_remove();
-}
-
-void do_remove_obs(object *obs) {
-    foreach(object ob in obs)
-    {
-//        TBUG("Remove: "+ob);
-        if (typeof(ob)=="string") continue;
-        //Do not attempt to remove things not in inventory.
-        if (environment(ob)!=this_body()) continue;
-        ob->do_remove();
-    }
-}
-
-void do_remove_wrd(string wrd) {
-    object brd = 0;
-    int id;
-
-    foreach (object ob in deep_inventory(environment(this_body()))) {
-        if ((int)ob->is_bulletin_board())
+   foreach (object ob in deep_inventory(environment(this_body())))
+   {
+      if ((int)ob->is_bulletin_board())
+      {
+         if (!brd)
             brd = ob;
-    }
-    
-    sscanf(wrd, "%d", id);
-    brd->do_remove(id);
+         else
+            return "Please specify on which board you want to "
+                   "remove a note.\n";
+      }
+   }
+   if (!brd)
+      return "There's nothing here to remove notes from.\n";
+
+   if ((res = brd->direct_remove_wrd_from_obj(wrd, brd)) != 1)
+      return res;
+
+   return default_checks();
 }
 
-void do_remove_wrd_from_obj(string wrd, object ob) {
-    int id;
-    
-    sscanf(wrd, "%d", id);
-    ob->do_remove(id);
+mixed can_remove_wrd_from_obj(string wrd, object ob)
+{
+   return default_checks();
 }
 
-void create() {
-    add_rules( ({ "WRD", "WRD from OBJ", "OBJ","OBS" }), ({ "take off"}));
+void do_remove_obj(object ob)
+{
+   ob->do_remove();
+}
+
+void do_remove_obs(object *obs)
+{
+   foreach (object ob in obs)
+   {
+      //        TBUG("Remove: "+ob);
+      if (typeof(ob) == "string")
+         continue;
+      // Do not attempt to remove things not in inventory.
+      if (environment(ob) != this_body())
+         continue;
+      ob->do_remove();
+   }
+}
+
+void do_remove_wrd(string wrd)
+{
+   object brd = 0;
+   int id;
+
+   foreach (object ob in deep_inventory(environment(this_body())))
+   {
+      if ((int)ob->is_bulletin_board())
+         brd = ob;
+   }
+
+   sscanf(wrd, "%d", id);
+   brd->do_remove(id);
+}
+
+void do_remove_wrd_from_obj(string wrd, object ob)
+{
+   int id;
+
+   sscanf(wrd, "%d", id);
+   ob->do_remove(id);
+}
+
+void create()
+{
+   add_rules(({"WRD", "WRD from OBJ", "OBJ", "OBS"}), ({"take off"}));
 }

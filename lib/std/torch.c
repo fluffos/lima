@@ -12,7 +12,7 @@ void mudlib_setup()
 {
    light_object::mudlib_setup();
    weapon::mudlib_setup();
-   add_save( ({ "num_decays" }) );
+   add_save(({"num_decays"}));
    set_decay_auto_remove(1);
    set_id("torch");
    set_fuel(600);

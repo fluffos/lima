@@ -1,14 +1,14 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-/* 
+/*
  * A monster object which can use the 'go' verb properly
  * 042998 Created by Tigran
  */
 
-//:MODULE
+//: MODULE
 //
-// MOVING_MONSTER enables the use of the 'go' verb in npcs (via 
-// do_game_command()) by inheriting M_SMARTMOVE.  
+// MOVING_MONSTER enables the use of the 'go' verb in npcs (via
+// do_game_command()) by inheriting M_SMARTMOVE.
 inherit ADVERSARY;
 inherit M_ACTIONS;
 inherit M_SMARTMOVE;
@@ -19,5 +19,5 @@ inherit M_SMARTMOVE;
 
 void mudlib_setup()
 {
-    adversary::mudlib_setup();
+   adversary::mudlib_setup();
 }

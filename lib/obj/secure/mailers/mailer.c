@@ -11,41 +11,42 @@
 **  Vette  April 15, 1997
 */
 
-#include <security.h>
-#include <daemons.h>
-#include <playerflags.h>
-#include <mudlib.h>
 #include <classes.h>
+#include <daemons.h>
 #include <edit.h>
+#include <mudlib.h>
+#include <playerflags.h>
+#include <security.h>
 
 inherit M_ACCESS;
 inherit M_INPUT;
 
 inherit CLASS_MAILMSG;
 
-//### make it private so it can't be changed?
-nosave object	mailbox_ob;
+// ### make it private so it can't be changed?
+nosave object mailbox_ob;
 
-private string expand_range(string str)
+private
+string expand_range(string str)
 {
-  string ret;
-  mixed tmp;
-  int i, x, y;
+   string ret;
+   mixed tmp;
+   int i, x, y;
 
-  if (!stringp(str))
-    return 0;
-  ret = "";
-  str = implode(explode(str, " "), "");
-  tmp = explode(str, ",");
-  i = sizeof(tmp);
+   if (!stringp(str))
+      return 0;
+   ret = "";
+   str = implode(explode(str, " "), "");
+   tmp = explode(str, ",");
+   i = sizeof(tmp);
 
-  while (i--)
-    if (sscanf(tmp[i], "%d-%d", x, y) == 2)
-      while (x <= y)
-        ret = set_bit(ret, x), x++;
-    else
-      ret = set_bit(ret, to_int(tmp[i]));
-  return ret;
+   while (i--)
+      if (sscanf(tmp[i], "%d-%d", x, y) == 2)
+         while (x <= y)
+            ret = set_bit(ret, x), x++;
+      else
+         ret = set_bit(ret, to_int(tmp[i]));
+   return ret;
 }
 
 /*
@@ -53,9 +54,10 @@ private string expand_range(string str)
 **
 ** Return a temporary filename for editing mail messages
 */
-protected nomask string tmp_fname()
+protected
+nomask string tmp_fname()
 {
-    return "/tmp/tmail." + this_user()->query_userid();
+   return "/tmp/tmail." + this_user()->query_userid();
 }
 
 /*
@@ -64,23 +66,24 @@ protected nomask string tmp_fname()
 ** Get a message key from a user's message number.
 ** 0 is returned if the user number is out of bounds.
 */
-protected nomask int get_message_key(int user_num)
+protected
+nomask int get_message_key(int user_num)
 {
-    int * mail_keys;
+   int *mail_keys;
 
-    if ( !user_num )
-	user_num = mailbox_ob->query_message_index();
-    else 
-	user_num--;
+   if (!user_num)
+      user_num = mailbox_ob->query_message_index();
+   else
+      user_num--;
 
-    mail_keys = mailbox_ob->query_message_keys();
-    if ( user_num < 0 || user_num >= sizeof(mail_keys) )
-    {
-	write("Message number out of bounds.\n");
-	return 0;
-    }
+   mail_keys = mailbox_ob->query_message_keys();
+   if (user_num < 0 || user_num >= sizeof(mail_keys))
+   {
+      write("Message number out of bounds.\n");
+      return 0;
+   }
 
-    return mail_keys[user_num];
+   return mail_keys[user_num];
 }
 
 /*
@@ -88,14 +91,13 @@ protected nomask int get_message_key(int user_num)
 **
 ** Format a list of names (as in To: or CC:).  Returns an array of lines.
 */
-protected nomask string * format_name_list(string prompt, string * names)
+protected
+nomask string *format_name_list(string prompt, string *names)
 {
-    if ( !names || !sizeof(names) )
-	return ({ });
+   if (!names || !sizeof(names))
+      return ({});
 
-    return explode(prompt + implode(map_array(names, (: capitalize :)),
-	  ", "),
-      "\n");
+   return explode(prompt + implode(map_array(names, ( : capitalize:)), ", "), "\n");
 }
 
 /*
@@ -103,30 +105,31 @@ protected nomask string * format_name_list(string prompt, string * names)
 **
 ** Build an array of strings containing a mail message.
 */
-protected nomask string * build_message(int mail_key, int supress_header)
+protected
+nomask string *build_message(int mail_key, int supress_header)
 {
-    string *	output;
-    class mail_msg msg;
+   string *output;
+   class mail_msg msg;
 
-    msg = mailbox_ob->get_one_message(mail_key);
-    if ( !msg )
-	return ({ "*** LOST THE MESSAGE! ***" });
+   msg = mailbox_ob->get_one_message(mail_key);
+   if (!msg)
+      return ({"*** LOST THE MESSAGE! ***"});
 
-    output = ({});
-    if ( !supress_header )
-    {
-	output += format_name_list("To     : ", msg->to_list);
-	output += format_name_list("Cc     : ", msg->cc_list);
-	output += ({ "From   : " + capitalize(msg->sender) });
-	output += ({ "Date   : " + ctime(msg->date) });
-	output += explode("Subject: " + msg->subject,"\n");
-    output += ({ repeat_string("-", 39) });
-    }
+   output = ({});
+   if (!supress_header)
+   {
+      output += format_name_list("To     : ", msg->to_list);
+      output += format_name_list("Cc     : ", msg->cc_list);
+      output += ({"From   : " + capitalize(msg->sender)});
+      output += ({"Date   : " + ctime(msg->date)});
+      output += explode("Subject: " + msg->subject, "\n");
+      output += ({repeat_string("-", 39)});
+   }
 
-    output += msg->body;
-    output += ({ "" });
+   output += msg->body;
+   output += ({""});
 
-    return output;
+   return output;
 }
 
 /*
@@ -135,16 +138,14 @@ protected nomask string * build_message(int mail_key, int supress_header)
 ** Write the array of lines to the wizard's dead.letter.  Does nothing
 ** if the player is not a wizard or no home dir exists.
 */
-protected nomask void write_dead_letter(string * buf)
+protected
+nomask void write_dead_letter(string *buf)
 {
-    if ( wizardp(this_user()) && 
-      file_size("/wiz/"+this_user()->query_userid()) == -2 )
-    {
-	write("Appending to ~/dead.letter\n");
-	write_file(sprintf("/wiz/%s/dead.letter",
-	    this_user()->query_userid()),
-	  implode(buf,"\n")+"\n");
-    }
+   if (wizardp(this_user()) && file_size("/wiz/" + this_user()->query_userid()) == -2)
+   {
+      write("Appending to ~/dead.letter\n");
+      write_file(sprintf("/wiz/%s/dead.letter", this_user()->query_userid()), implode(buf, "\n") + "\n");
+   }
 }
 
 /*
@@ -153,9 +154,10 @@ protected nomask void write_dead_letter(string * buf)
 ** Build an array of lines for the body of a message to be included into
 ** another message (prefixed with "> ")
 */
-protected nomask string * build_body_inclusion(string * body)
+protected
+nomask string *build_body_inclusion(string *body)
 {
-    return map_array(body, (: "> " + $1 :));
+   return map_array(body, ( : "> " + $1:));
 }
 
 /*
@@ -163,40 +165,32 @@ protected nomask string * build_body_inclusion(string * body)
 **
 ** Send a mail message to the given people.
 */
-private nomask void send_mail_message(string subject,
-  string *buf,
-  mixed to_list,
-  mixed cc_list,
-  int use_dead_letter)
+private
+nomask void send_mail_message(string subject, string *buf, mixed to_list, mixed cc_list, int use_dead_letter)
 {
-    string * name_list;
+   string *name_list;
 
-    if ( stringp(to_list) )
-	to_list = map(explode(to_list, ","), (:trim_spaces:));
-    else if ( !arrayp(to_list) )
-	to_list = ({ });
+   if (stringp(to_list))
+      to_list = map(explode(to_list, ","), ( : trim_spaces:));
+   else if (!arrayp(to_list))
+      to_list = ({});
 
-    if ( stringp(cc_list) )
-	cc_list = map(explode(cc_list, ","), (:trim_spaces:));
-    else if ( !arrayp(cc_list) )
-	cc_list = ({ });
+   if (stringp(cc_list))
+      cc_list = map(explode(cc_list, ","), ( : trim_spaces:));
+   else if (!arrayp(cc_list))
+      cc_list = ({});
 
-    name_list = MAIL_D->send_mail(this_user()->query_userid(),
-      subject,
-      buf,
-      to_list,
-      cc_list);
-    if ( !sizeof(name_list) )
-    {
-	write("No valid destination.\n");
-	if ( use_dead_letter )
-	    write_dead_letter(buf);
-	return;
-    }
+   name_list = MAIL_D->send_mail(this_user()->query_userid(), subject, buf, to_list, cc_list);
+   if (!sizeof(name_list))
+   {
+      write("No valid destination.\n");
+      if (use_dead_letter)
+         write_dead_letter(buf);
+      return;
+   }
 
-    write(implode(format_name_list("Mail sent to: ", name_list), "\n") + "\n");
+   write(implode(format_name_list("Mail sent to: ", name_list), "\n") + "\n");
 }
-
 
 /*------------------------------------------------------------------------
 **
@@ -211,284 +205,260 @@ private nomask void send_mail_message(string subject,
 ** entry -- usage information cannot be printed from these commands.
 */
 
-protected nomask void cmd_read(int user_num,
-  string outputfile,
-  int supress_header)
+protected
+nomask void cmd_read(int user_num, string outputfile, int supress_header)
 {
-    int		timestamp;
-    string *	output;
+   int timestamp;
+   string *output;
 
-    if ( !user_num )
-	user_num = mailbox_ob->query_message_index() + 1;
+   if (!user_num)
+      user_num = mailbox_ob->query_message_index() + 1;
 
-    timestamp = get_message_key(user_num);
-    if ( !timestamp ) return;
+   timestamp = get_message_key(user_num);
+   if (!timestamp)
+      return;
 
-    output = build_message(timestamp, supress_header);
+   output = build_message(timestamp, supress_header);
 
-    if ( outputfile )
-    {
-	if ( strsrch(outputfile,"/") == -1 )
-	    outputfile = wiz_dir(this_user()) + "/Mail/" + outputfile;
+   if (outputfile)
+   {
+      if (strsrch(outputfile, "/") == -1)
+         outputfile = wiz_dir(this_user()) + "/Mail/" + outputfile;
 
-	if ( !write_file(outputfile, implode(output,"\n")) )
-	    write("Failed.\n");
-	else
-	    printf("Saved message to %s.\n",outputfile);
-	return;
-    }
+      if (!write_file(outputfile, implode(output, "\n")))
+         write("Failed.\n");
+      else
+         printf("Saved message to %s.\n", outputfile);
+      return;
+   }
 
-    mailbox_ob->set_message_index(user_num - 1);
-    mailbox_ob->set_message_read(timestamp);
+   mailbox_ob->set_message_index(user_num - 1);
+   mailbox_ob->set_message_read(timestamp);
 
-    more(output);
+   more(output);
 }
 
-
-protected nomask void cmd_headers(string rangestr)
+protected
+nomask void cmd_headers(string rangestr)
 {
-    int   i;
-    string* output;
-    int * mail_keys;
-    mapping nums;
-    int key;
+   int i;
+   string *output;
+   int *mail_keys;
+   mapping nums;
+   int key;
 
-    output = ({});
+   output = ({});
 
-    if ( rangestr )
-	rangestr = expand_range(rangestr);
+   if (rangestr)
+      rangestr = expand_range(rangestr);
 
-    mail_keys = mailbox_ob->query_message_keys();
-    if ( !sizeof(mail_keys) )
-	return write("No mail.\n");
+   mail_keys = mailbox_ob->query_message_keys();
+   if (!sizeof(mail_keys))
+      return write("No mail.\n");
 
-    nums = ([ ]);
-    for ( i = sizeof(mail_keys); i--; )
-	nums[mail_keys[i]] = i + 1;
+   nums = ([]);
+   for (i = sizeof(mail_keys); i--;)
+      nums[mail_keys[i]] = i + 1;
 
-    if ( rangestr )
-    {
-	for ( i = sizeof(mail_keys); i--; )
-	    if ( !test_bit(rangestr, i+1) )
-	    {
-		nums[mail_keys[i]] = 0;
-		mail_keys[i] = 0;
-	    }
+   if (rangestr)
+   {
+      for (i = sizeof(mail_keys); i--;)
+         if (!test_bit(rangestr, i + 1))
+         {
+            nums[mail_keys[i]] = 0;
+            mail_keys[i] = 0;
+         }
 
-	mail_keys -= ({ 0 });
-    }
+      mail_keys -= ({0});
+   }
 
-    foreach ( key in mail_keys )
-    {
-	class mail_msg msg = mailbox_ob->get_one_message(key);
+   foreach (key in mail_keys)
+   {
+      class mail_msg msg = mailbox_ob->get_one_message(key);
 
-	if ( !msg )
-	    output +=
-	    ({ sprintf("  %-3d %-15s  %10s  %s",
-		nums[key], "", "", "*** LOST MESSAGE ***")
-	    });
-	else
-	    output +=
-	    ({ sprintf("%c %-3d %-15s (%s) %s",
-		mailbox_ob->query_message_read(key) ? 'N' : ' ',
-		nums[key],
-		capitalize(msg->sender),
-		ctime(msg->date)[0..9],
-		msg->subject)
-	    });
-    }
+      if (!msg)
+         output += ({sprintf("  %-3d %-15s  %10s  %s", nums[key], "", "", "*** LOST MESSAGE ***")});
+      else
+         output += ({sprintf("%c %-3d %-15s (%s) %s", mailbox_ob->query_message_read(key) ? 'N' : ' ', nums[key],
+                             capitalize(msg->sender), ctime(msg->date)[0..9], msg->subject)});
+   }
 
-    more(output);
+   more(output);
 }
-
-
 
 /* to_list is a string * or a string */
-private nomask void mailer_get_cc_list(mixed to_list,
-  string subject,
-  string cc_list)
+private
+nomask void mailer_get_cc_list(mixed to_list, string subject, string cc_list)
 {
-    string * buf;
-    string file;
+   string *buf;
+   string file;
 
-    file = tmp_fname();
-    buf = explode(read_file(file), "\n");
-    send_mail_message(subject, buf, to_list, cc_list, 1);
+   file = tmp_fname();
+   buf = explode(read_file(file), "\n");
+   send_mail_message(subject, buf, to_list, cc_list, 1);
 
-    rm(file);
+   rm(file);
 }
 
-private nomask void mailer_done_edit(string to_list,
-  string subject,
-  string fname)
+private
+nomask void mailer_done_edit(string to_list, string subject, string fname)
 {
-    /*
-    ** Just return if they cancelled the edit
-    */
-    if ( !fname )
-	return;
+   /*
+   ** Just return if they cancelled the edit
+   */
+   if (!fname)
+      return;
 
-    write("Cc: ");
-    modal_simple((: mailer_get_cc_list, to_list, subject :));
+   write("Cc: ");
+   modal_simple(( : mailer_get_cc_list, to_list, subject:));
 }
 
-private nomask void mailer_get_subject(string to_list, string arg)
+private
+nomask void mailer_get_subject(string to_list, string arg)
 {
-    string subject = arg ? arg : "<none>";
+   string subject = arg ? arg : "<none>";
 
-    new(EDIT_OB, EDIT_FILE, tmp_fname(),
-      (: mailer_done_edit, to_list, subject :));
+   new (EDIT_OB, EDIT_FILE, tmp_fname(), ( : mailer_done_edit, to_list, subject:));
 }
 
-protected nomask void cmd_mail(string to_list)
+protected
+nomask void cmd_mail(string to_list)
 {
-    //Until a new maskable editor is in place, don't allow a null
-    // to line.
-    if ( !stringp(to_list) )
-    {
-	write("No destination.\n");
-	return;
-    }
+   // Until a new maskable editor is in place, don't allow a null
+   //  to line.
+   if (!stringp(to_list))
+   {
+      write("No destination.\n");
+      return;
+   }
 
-    write("Subject: ");
-    modal_simple((: mailer_get_subject, to_list :));
+   write("Subject: ");
+   modal_simple(( : mailer_get_subject, to_list:));
 }
 
-protected nomask void cmd_reply(int user_num, int reply_all)
+protected
+nomask void cmd_reply(int user_num, int reply_all)
 {
-    int key;
-    class mail_msg msg;
-    mixed body;
-    string * to_list;
-    string subject;
-    string file;
+   int key;
+   class mail_msg msg;
+   mixed body;
+   string *to_list;
+   string subject;
+   string file;
 
-    key = get_message_key(user_num);
-    if ( !key )
-	return;
+   key = get_message_key(user_num);
+   if (!key)
+      return;
 
-    msg = mailbox_ob->get_one_message(key);
-    if ( !msg )
-    {
-	write("*** ERROR: the message was lost!\n");
-	return;
-    }
+   msg = mailbox_ob->get_one_message(key);
+   if (!msg)
+   {
+      write("*** ERROR: the message was lost!\n");
+      return;
+   }
 
-    body = build_body_inclusion(msg->body);
-    body = implode(body, "\n");
-    body = sprintf("On %s %s wrote:\n%s\n",
-      ctime(msg->date),
-      capitalize(msg->sender),
-      body);
+   body = build_body_inclusion(msg->body);
+   body = implode(body, "\n");
+   body = sprintf("On %s %s wrote:\n%s\n", ctime(msg->date), capitalize(msg->sender), body);
 
-    subject = "Re: " + msg->subject;
+   subject = "Re: " + msg->subject;
 
-    to_list = ({ msg->sender });
-    if ( reply_all )
-	to_list = clean_array(to_list + msg->to_list + msg->cc_list);
+   to_list = ({msg->sender});
+   if (reply_all)
+      to_list = clean_array(to_list + msg->to_list + msg->cc_list);
 
-    file = tmp_fname();
-    write_file(file, body);
+   file = tmp_fname();
+   write_file(file, body);
 
-    new(EDIT_OB, EDIT_FILE, tmp_fname(),
-      (: mailer_done_edit, to_list, subject :));
+   new (EDIT_OB, EDIT_FILE, tmp_fname(), ( : mailer_done_edit, to_list, subject:));
 }
 
-
-protected nomask void cmd_delete(string arg)
+protected
+nomask void cmd_delete(string arg)
 {
-    int *	mail_keys;
-    int		i;
-    string	whichones;
+   int *mail_keys;
+   int i;
+   string whichones;
 
-    mail_keys = mailbox_ob->query_message_keys();
+   mail_keys = mailbox_ob->query_message_keys();
 
-    whichones = "";
-    if( arg )
-	whichones = expand_range( arg );
-    else
-	whichones = set_bit(whichones, mailbox_ob->query_message_index() + 1);
+   whichones = "";
+   if (arg)
+      whichones = expand_range(arg);
+   else
+      whichones = set_bit(whichones, mailbox_ob->query_message_index() + 1);
 
-    for ( i = sizeof(mail_keys) + 1; --i; )
-	if( test_bit(whichones,i) )
-	{
-	    mailbox_ob->delete_message(mail_keys[i-1]);
-	    printf("Message %d deleted.\n",i);
-	}
+   for (i = sizeof(mail_keys) + 1; --i;)
+      if (test_bit(whichones, i))
+      {
+         mailbox_ob->delete_message(mail_keys[i - 1]);
+         printf("Message %d deleted.\n", i);
+      }
 }
 
-
-protected nomask void cmd_setcurrent(mixed arg)
+protected
+nomask void cmd_setcurrent(mixed arg)
 {
-    int count;
+   int count;
 
-    if ( !(count = mailbox_ob->query_message_count()) )
-	return printf("No messages.\n");
+   if (!(count = mailbox_ob->query_message_count()))
+      return printf("No messages.\n");
 
-    if ( !arg )
-	return (void)printf("Current message is: %d\n",
-	  mailbox_ob->query_message_index() + 1);
+   if (!arg)
+      return (void)printf("Current message is: %d\n", mailbox_ob->query_message_index() + 1);
 
-    arg = to_int( arg );
-    if ( arg <= 0 || arg > count )
-    {
-	printf("Message number out of range.\n");
-	return;
-    }
-    mailbox_ob->set_message_index(arg - 1);
+   arg = to_int(arg);
+   if (arg <= 0 || arg > count)
+   {
+      printf("Message number out of range.\n");
+      return;
+   }
+   mailbox_ob->set_message_index(arg - 1);
 
-    printf("Current message now set to: %d\n",arg);
+   printf("Current message now set to: %d\n", arg);
 }
 
-
-protected nomask void cmd_forward(int user_num, string newto)
+protected
+nomask void cmd_forward(int user_num, string newto)
 {
-    int			key;
-    string *		body;
-    class mail_msg	msg;
+   int key;
+   string *body;
+   class mail_msg msg;
 
-    key = get_message_key(user_num);
-    if ( !key ) return;
+   key = get_message_key(user_num);
+   if (!key)
+      return;
 
-    msg = mailbox_ob->get_one_message(key);
-    if ( !msg )
-    {
-	write("*** ERROR: the message was lost!\n");
-	return;
-    }
+   msg = mailbox_ob->get_one_message(key);
+   if (!msg)
+   {
+      write("*** ERROR: the message was lost!\n");
+      return;
+   }
 
-    body = build_body_inclusion(msg->body);
-    body = ({"Begin forwarded message:",
-      sprintf("On %s %s wrote:",
-	ctime(msg->date),
-	capitalize(msg->sender))
-    }) + body;
+   body = build_body_inclusion(msg->body);
+   body = ({"Begin forwarded message:", sprintf("On %s %s wrote:", ctime(msg->date), capitalize(msg->sender))}) + body;
 
-    send_mail_message("FWD: " + msg->subject,
-      body,
-      newto,
-      ({ }),	/* cc_list */
-      0);
+   send_mail_message("FWD: " + msg->subject, body, newto, ({}), /* cc_list */
+                     0);
 }
 
-void send_news_reply(string subject, string * text, string * to)
+void send_news_reply(string subject, string *text, string *to)
 {
-    if ( base_name(previous_object()) != NEWSREADER )
-      error("security: attempted use by: " +
-	    base_name(previous_object()) + "\n");
+   if (base_name(previous_object()) != NEWSREADER)
+      error("security: attempted use by: " + base_name(previous_object()) + "\n");
 
-    send_mail_message(subject, text, to, 0, 0);
+   send_mail_message(subject, text, to, 0, 0);
 }
-
 
 void create()
 {
-    set_privilege(1);
+   set_privilege(1);
 
-    mailbox_ob = MAILBOX_D->get_mailbox(this_user()->query_userid());
+   mailbox_ob = MAILBOX_D->get_mailbox(this_user()->query_userid());
 }
 
 void remove()
 {
-    destruct();
+   destruct();
 }

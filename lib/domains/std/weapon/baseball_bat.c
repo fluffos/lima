@@ -4,7 +4,7 @@ inherit WEAPON;
 
 void setup()
 {
-   set_id("baseball bat","bat");
+   set_id("baseball bat", "bat");
    set_long("A wooden baseball bat with chipped blank paint and the 'slugger' on the side.\n");
    set_weapon_class(10);
    set_anti_disarm(2);

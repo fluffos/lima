@@ -7,16 +7,15 @@ int object_value = 0;
 
 void set_value(int value)
 {
-    object_value = value;
+   object_value = value;
 }
 
 int query_value()
 {
-    return object_value;
+   return object_value;
 }
 
-mapping lpscript_attributes() {
-    return ([
-	"value" : ({ LPSCRIPT_INT, "setup", "set_value" }),
-    ]);
+mapping lpscript_attributes()
+{
+   return (["value":({LPSCRIPT_INT, "setup", "set_value"}), ]);
 }

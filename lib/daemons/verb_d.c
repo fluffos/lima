@@ -22,20 +22,21 @@
 **
 ** Load or reload the given verb file
 */
-private void reload_verb(string file)
+private
+void reload_verb(string file)
 {
-    object ob;
-    string err;
+   object ob;
+   string err;
 
-    if ( ob = find_object(CMD_DIR_VERBS "/" + file) )
-	destruct(ob);
-    err = catch
-    {
+   if (ob = find_object(CMD_DIR_VERBS "/" + file))
+      destruct(ob);
+   err = catch
+   {
 
-	load_object(CMD_DIR_VERBS "/" + file);
-    };
-    if (err != 0)
-	printf("VERB_D failed to load: %s\n", CMD_DIR_VERBS "/" + file);
+      load_object(CMD_DIR_VERBS "/" + file);
+   };
+   if (err != 0)
+      printf("VERB_D failed to load: %s\n", CMD_DIR_VERBS "/" + file);
 }
 
 /*
@@ -46,8 +47,8 @@ private void reload_verb(string file)
 */
 void create()
 {
-    string * files;
+   string *files;
 
-    files = get_dir(CMD_DIR_VERBS "/*.c");
-    map_array(files, (: reload_verb :));
+   files = get_dir(CMD_DIR_VERBS "/*.c");
+   map_array(files, ( : reload_verb:));
 }

@@ -6,5 +6,5 @@ inherit VERB_OB;
 
 void create()
 {
-  add_rules( ({ "OBJ", "OBS", "" }), ({}) );
+   add_rules(({"OBJ", "OBS", ""}), ({}));
 }

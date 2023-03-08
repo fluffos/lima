@@ -9,17 +9,18 @@
 ** 951213, Deathblade: created
 */
 
-private string wiz_position;
+private
+string wiz_position;
 
 nomask string query_wiz_position()
 {
-    return wiz_position;
+   return wiz_position;
 }
 
 nomask void set_wiz_position(string new_position)
 {
-    if ( !check_previous_privilege(1) )
-	error("Illegal attempt to set a position.\n");
+   if (!check_previous_privilege(1))
+      error("Illegal attempt to set a position.\n");
 
-    wiz_position = new_position;
+   wiz_position = new_position;
 }

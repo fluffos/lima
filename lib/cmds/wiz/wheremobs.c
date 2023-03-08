@@ -2,39 +2,35 @@
 
 // Tsath @ Nuke 2, 2020
 
-//:COMMAND
-//USAGE wheremobs
+//: COMMAND
+// USAGE wheremobs
 //
-//Where are the mobs?
+// Where are the mobs?
 
 inherit CMD;
 
 void main(string arg)
 {
-    object *mobs;
+   object *mobs;
 
-    if (!arg || strlen(arg) == 0)
-    {
-        write("wheremobs <id|filename>\n");
-        return;
-    }
+   if (!arg || strlen(arg) == 0)
+   {
+      write("wheremobs <id|filename>\n");
+      return;
+   }
 
-    if (arg[<2..]==".c")
-        arg=arg[0..<3];
-        arg=evaluate_path(arg);
+   if (arg[ < 2..] == ".c")
+      arg = arg[0.. < 3];
+   arg = evaluate_path(arg);
 
-    if (is_file(evaluate_path(arg) + ".c"))
-        mobs = filter_array(objects(), (
-                                           : !$1->is_body() && clonep($1) && base_name($1) == $(arg)
-                                           :));
-    else
-        mobs = filter_array(objects(), (
-                                           : !$1->is_body() && clonep($1) && $1->query_name() == $(arg)
-                                           :));
-    write("'" + arg + "' is found in:\n---------\n");
-    foreach (object mob in mobs)
-    {
-        if (mob && environment(mob))
-            printf("%-O in %O\n", mob, environment(mob));
-    }
+   if (is_file(evaluate_path(arg) + ".c"))
+      mobs = filter_array(objects(), ( : !$1->is_body() && clonep($1) && base_name($1) == $(arg) :));
+   else
+      mobs = filter_array(objects(), ( : !$1->is_body() && clonep($1) && $1->query_name() == $(arg) :));
+   write("'" + arg + "' is found in:\n---------\n");
+   foreach (object mob in mobs)
+   {
+      if (mob && environment(mob))
+         printf("%-O in %O\n", mob, environment(mob));
+   }
 }

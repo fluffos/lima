@@ -99,7 +99,7 @@ int skill_xp_plus()
    return total;
 }
 
-//:FUNCTION calc_xp_for
+//: FUNCTION calc_xp_for
 // int calc_xp_for(int player_level, int monster_level)
 // Decoupled function to allow external XP calculation.
 int calc_xp_for(int player_level, int monster_level)
@@ -110,13 +110,13 @@ int calc_xp_for(int player_level, int monster_level)
    if (multFactor > 1.0)
       multFactor = ((multFactor - 1) * 2) + 1;
    xp = to_int(floor((1.0 + (monster_level / 1.0)) * ((XP_FACTOR / 15)) * (multFactor > 2.0 ? 2.0 : multFactor)));
-   //TBUG("***: "+multFactor);
-   //handling global xp modifier
-   //xp = to_int(xp * GAME_D->query_global_xp_mult());
+   // TBUG("***: "+multFactor);
+   // handling global xp modifier
+   // xp = to_int(xp * GAME_D->query_global_xp_mult());
    return xp > 0 ? xp : 1;
 }
 
-//:FUNCTION xp_value
+//: FUNCTION xp_value
 // int xp_value()
 // Calculate XP value for monsters (and players). The function reduces XP for monsters if the player
 // is too high level compared to the monster. It rewards players up to 20% if the monster is higher than
@@ -129,15 +129,21 @@ varargs int xp_value(object xp_for)
    xp = calc_xp_for(xp_for->query_could_be_level(), this_object()->query_could_be_level());
    xp = to_int(xp * (1.0 + (xp_for->query_guild_xp_buff() / 100.0)));
 
-   //Only needed for debug
-   //int callerLevel = previous_object()->query_could_be_level() > 0 ? previous_object()->query_could_be_level() : 1;
-   //TBUG("Caller level:" + callerLevel + " This level: " + this_object()->query_level());
+   // Only needed for debug
+   // int callerLevel = previous_object()->query_could_be_level() > 0 ? previous_object()->query_could_be_level() : 1;
+   // TBUG("Caller level:" + callerLevel + " This level: " + this_object()->query_level());
    return xp;
 }
 
-int query_xp_modifier() { return xp_modifier; }
+int query_xp_modifier()
+{
+   return xp_modifier;
+}
 
-void set_xp_modifier(int n) { xp_modifier = n; }
+void set_xp_modifier(int n)
+{
+   xp_modifier = n;
+}
 
 int query_xp_for_level(int lev)
 {

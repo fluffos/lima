@@ -16,13 +16,8 @@ object query_body();
 void save_me();
 mixed unguarded(mixed priv, function func);
 
-varargs void modal_push(function input_func,
-                        mixed prompt,
-                        int secure,
-                        function return_to_func);
-varargs void modal_func(function input_func,
-                        mixed prompt,
-                        int secure);
+varargs void modal_push(function input_func, mixed prompt, int secure, function return_to_func);
+varargs void modal_func(function input_func, mixed prompt, int secure);
 void modal_pop();
 
 /* states */
@@ -101,7 +96,7 @@ nomask void set_referral(string reftxt)
    if (!reftxt || strlen(trim(reftxt)) == 0)
       return;
 
-   unguarded(1, (: write_file, REFERRALS_LOG, query_userid() + ": " + reftxt:));
+   unguarded(1, ( : write_file, REFERRALS_LOG, query_userid() + ": " + reftxt:));
 }
 
 nomask string query_url()
@@ -115,10 +110,7 @@ nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
    switch (state)
    {
    case GENDER_QUERY:
-      modal_push((
-                     : userinfo_handle_logon, GOT_GENDER, 0
-                     :),
-                 "Are you male or female? ");
+      modal_push(( : userinfo_handle_logon, GOT_GENDER, 0 :), "Are you male or female? ");
       break;
 
    case GOT_GENDER:
@@ -151,27 +143,18 @@ nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
             "\n"
             "You cannot gain wizard status without valid responses to these questions:\n");
 
-      modal_func((
-                     : userinfo_handle_logon, GOT_EMAIL, 0
-                     :),
-                 "Your email address: ");
+      modal_func(( : userinfo_handle_logon, GOT_EMAIL, 0 :), "Your email address: ");
       break;
 
    case GOT_EMAIL:
       email = arg;
-      modal_func((
-                     : userinfo_handle_logon, GOT_REAL_NAME, 0
-                     :),
-                 "Your real name: ");
+      modal_func(( : userinfo_handle_logon, GOT_REAL_NAME, 0 :), "Your real name: ");
       break;
 
    case GOT_REAL_NAME:
       real_name = arg;
 
-      modal_func((
-                     : userinfo_handle_logon, GOT_URL, 0
-                     :),
-                 "Your home page address (if any): ");
+      modal_func(( : userinfo_handle_logon, GOT_URL, 0 :), "Your home page address (if any): ");
       // tc("hmm");
       break;
 
@@ -180,12 +163,10 @@ nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
 
       write("\n\nThat is almost all!\n"
             "Would you mind telling us how you found out about " +
-            mud_name() + "?\n"
-                         "(This question is completely optional, but we appreciate an answer)\n");
-      modal_func((
-                     : userinfo_handle_logon, GOT_REFERRAL, 0
-                     :),
-                 "How did you find us: ");
+            mud_name() +
+            "?\n"
+            "(This question is completely optional, but we appreciate an answer)\n");
+      modal_func(( : userinfo_handle_logon, GOT_REFERRAL, 0 :), "How did you find us: ");
       break;
    case GOT_REFERRAL:
       set_referral(arg);

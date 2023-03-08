@@ -35,11 +35,8 @@ int calculate_damage(object weapon, object target)
 
 int chance_to_hit(object weapon, object target)
 {
-   if(weapon == this_object())    // if(!weapon)
-      return (target->base_chance_to_be_hit()
-             + base_chance_to_hit(target))/2;
+   if (weapon == this_object()) // if(!weapon)
+      return (target->base_chance_to_be_hit() + base_chance_to_hit(target)) / 2;
    else
-      return (target->base_chance_to_be_hit() + weapon->chance_to_hit(target)
-             + base_chance_to_hit(target))/3;
+      return (target->base_chance_to_be_hit() + weapon->chance_to_hit(target) + base_chance_to_hit(target)) / 3;
 }
-

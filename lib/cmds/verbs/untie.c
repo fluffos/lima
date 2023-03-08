@@ -4,5 +4,5 @@ inherit VERB_OB;
 
 void create()
 {
-  add_rules( ({ "OBJ" }) );
+   add_rules(({"OBJ"}));
 }

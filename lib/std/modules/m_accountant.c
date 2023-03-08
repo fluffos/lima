@@ -75,16 +75,14 @@ void show_money()
       write("You are carrying:\n");
       foreach (string currency, float amount in money)
       {
-         printf("   %-13s%s\n", capitalize(currency) + ":",
-                MONEY_D->currency_to_string(amount, currency));
+         printf("   %-13s%s\n", capitalize(currency) + ":", MONEY_D->currency_to_string(amount, currency));
       }
       write("\n");
    }
 
    printf("\nYour account balance is:\n");
    printf("   %-13s%s\n\n\n", capitalize(deposit_currency) + ":",
-          MONEY_D->currency_to_string(
-              ACCOUNT_D->query_account(bank_id, player, deposit_currency), deposit_currency));
+          MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency), deposit_currency));
 }
 
 void show_rates()
@@ -96,15 +94,14 @@ void show_rates()
    else
    {
       float base_rate = to_float(MONEY_D->query_exchange_rate(deposit_currency));
-      printf("   %-12s%-12s%12s\n   %*'-'s\n", "Currency", "Denomination",
-             "Value", 72, "");
+      printf("   %-12s%-12s%12s\n   %*'-'s\n", "Currency", "Denomination", "Value", 72, "");
       foreach (string type in types)
       {
          foreach (string denomination in MONEY_D->query_denominations(type))
          {
-            float value = to_float(MONEY_D->query_exchange_rate(type)) * MONEY_D->query_factor(denomination) / base_rate;
-            printf("   %-12s%-12s%12.4f %s\n", capitalize(type),
-                   denomination, value,
+            float value =
+                to_float(MONEY_D->query_exchange_rate(type)) * MONEY_D->query_factor(denomination) / base_rate;
+            printf("   %-12s%-12s%12.4f %s\n", capitalize(type), denomination, value,
                    value == 1.0 ? deposit_currency : MONEY_D->query_plural(deposit_currency));
          }
       }
@@ -130,10 +127,14 @@ void exchange4b(string currency1, string denomination2, string answer)
       amount1 = to_float(amount2) * rate2 / rate1 / factor;
       if (player->query_amt_currency(currency1) >= amount1)
       {
-         money_info = MONEY_D->handle_subtract_money(player,
-                                                     amount1, currency1);
+         money_info = MONEY_D->handle_subtract_money(player, amount1, currency1);
          player->add_money(denomination2, amount2);
-         write("You exchange " + MONEY_D->currency_to_string(money_info[0], currency1) + " into " + MONEY_D->denomination_to_string(amount2, denomination2) + (sizeof(money_info[1]) ? " and get " + MONEY_D->currency_to_string(money_info[1], currency1) + " as change" : "") + ".\n");
+         write("You exchange " + MONEY_D->currency_to_string(money_info[0], currency1) + " into " +
+               MONEY_D->denomination_to_string(amount2, denomination2) +
+               (sizeof(money_info[1])
+                    ? " and get " + MONEY_D->currency_to_string(money_info[1], currency1) + " as change"
+                    : "") +
+               ".\n");
       }
       else
       {
@@ -191,10 +192,12 @@ void exchange4(string denomination1, int amount1, string currency2)
       money = MONEY_D->calculate_denominations(amount2, currency2);
       if (sizeof(money))
       {
-         write("You exchange " + MONEY_D->denomination_to_string(amount1, denomination1) + " into " + MONEY_D->currency_to_string(money, currency2) + ".\n");
+         write("You exchange " + MONEY_D->denomination_to_string(amount1, denomination1) + " into " +
+               MONEY_D->currency_to_string(money, currency2) + ".\n");
       }
       else
-         write("The lowest denomination of " + currency2 + " is worth more than " + MONEY_D->denomination_to_string(amount1, denomination1) + ".\n");
+         write("The lowest denomination of " + currency2 + " is worth more than " +
+               MONEY_D->denomination_to_string(amount1, denomination1) + ".\n");
    }
    else
    {
@@ -208,9 +211,7 @@ void exchange3(string denomination, mixed answer)
    if (amount > 0)
    {
       if (player->query_amt_money(denomination) >= amount)
-         input_one_arg("Which currency do you want? ",
-                       (
-                           : exchange4, denomination, amount:));
+         input_one_arg("Which currency do you want? ", ( : exchange4, denomination, amount:));
       else
          write("You don't have " + MONEY_D->denomination_to_string(amount, denomination) + ".\n");
    }
@@ -220,23 +221,20 @@ void exchange2(string denomination)
 {
    if (denomination != "")
    {
-      if (denomination == deposit_currency || (!MONEY_D->is_denomination(denomination) && MONEY_D->is_currency(denomination)))
+      if (denomination == deposit_currency ||
+          (!MONEY_D->is_denomination(denomination) && MONEY_D->is_currency(denomination)))
       {
-         printf("You have %s.\n",
-                MONEY_D->currency_to_string(player->query_money(denomination),
-                                            denomination));
-         input_one_arg("Which denomination do you want? ",
-                       (
-                           : exchange3b, denomination:));
+         printf("You have %s.\n", MONEY_D->currency_to_string(player->query_money(denomination), denomination));
+         input_one_arg("Which denomination do you want? ", ( : exchange3b, denomination:));
       }
       else if (MONEY_D->is_denomination(denomination))
       {
          if (player->query_amt_money(denomination) > 0)
          {
             denomination = MONEY_D->query_currency(denomination);
-            write("You have " + MONEY_D->currency_to_string(player->query_amt_money(denomination), denomination) + " .\n");
-            input_one_arg("How many " + MONEY_D->query_plural(denomination) +
-                              " do you want to exchange? ",
+            write("You have " + MONEY_D->currency_to_string(player->query_amt_money(denomination), denomination) +
+                  " .\n");
+            input_one_arg("How many " + MONEY_D->query_plural(denomination) + " do you want to exchange? ",
                           (
                               : exchange3, denomination:));
          }
@@ -252,11 +250,9 @@ void exchange2(string denomination)
 
 void exchange1()
 {
-   write("\n\nNotice: The " + bank_name + " applies an exchange fee of " +
-         exchange_fee + "% for all transactions.\n\n");
-   input_one_arg("Which currency or denomination do you want to exchange? ",
-                 (
-                     : exchange2:));
+   write("\n\nNotice: The " + bank_name + " applies an exchange fee of " + exchange_fee +
+         "% for all transactions.\n\n");
+   input_one_arg("Which currency or denomination do you want to exchange? ", ( : exchange2:));
 }
 
 void deposit3(string denomination, mixed answer)
@@ -269,8 +265,7 @@ void deposit3(string denomination, mixed answer)
       {
          player->subtract_money(denomination, amount);
          ACCOUNT_D->deposit(bank_id, player, amount, denomination);
-         printf("You deposit %s.\n",
-                MONEY_D->denomination_to_string(amount, denomination));
+         printf("You deposit %s.\n", MONEY_D->denomination_to_string(amount, denomination));
          printf("Your new account balance is %s.\n\n",
                 MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency),
                                             deposit_currency));
@@ -288,8 +283,7 @@ void deposit2(string denomination)
    {
       if (MONEY_D->query_currency(denomination) == deposit_currency)
       {
-         input_one_arg("How many " + MONEY_D->query_plural(denomination) +
-                           " do you want to deposit? ",
+         input_one_arg("How many " + MONEY_D->query_plural(denomination) + " do you want to deposit? ",
                        (
                            : deposit3, denomination:));
       }
@@ -309,9 +303,7 @@ void deposit1()
    float money = player->query_money()[deposit_currency];
 
    write("You have " + MONEY_D->currency_to_string(money, deposit_currency) + ".\n");
-   input_one_arg("Which denomination would you like to deposit? ",
-                 (
-                     : deposit2:));
+   input_one_arg("Which denomination would you like to deposit? ", ( : deposit2:));
 }
 
 void withdraw3(string denomination, mixed answer)
@@ -321,14 +313,11 @@ void withdraw3(string denomination, mixed answer)
    {
       if (ACCOUNT_D->query_account(bank_id, player, deposit_currency, ) >= amount * MONEY_D->query_factor(denomination))
       {
-         ACCOUNT_D->withdraw(bank_id, player,
-                             amount * MONEY_D->query_factor(denomination), deposit_currency);
+         ACCOUNT_D->withdraw(bank_id, player, amount * MONEY_D->query_factor(denomination), deposit_currency);
          player->add_money(denomination, amount);
-         printf("You withdraw %s.\n",
-                MONEY_D->denomination_to_string(amount, denomination));
+         printf("You withdraw %s.\n", MONEY_D->denomination_to_string(amount, denomination));
          printf("Your new account balance is %s.\n\n",
-                MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player),
-                                            deposit_currency));
+                MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player), deposit_currency));
       }
       else
       {
@@ -343,8 +332,7 @@ void withdraw2(string denomination)
    {
       if (MONEY_D->query_currency(denomination) == deposit_currency)
       {
-         input_one_arg("How many " + MONEY_D->query_plural(denomination) +
-                           " do you want to withdraw? ",
+         input_one_arg("How many " + MONEY_D->query_plural(denomination) + " do you want to withdraw? ",
                        (
                            : withdraw3, denomination:));
       }
@@ -360,11 +348,8 @@ void withdraw2(string denomination)
 void withdraw1()
 {
    printf("Your current account balance is %s.\n\n",
-          MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency),
-                                      deposit_currency));
-   input_one_arg("Which denomination do you want to withdraw? ",
-                 (
-                     : withdraw2:));
+          MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency), deposit_currency));
+   input_one_arg("Which denomination do you want to withdraw? ", ( : withdraw2:));
 }
 
 void quit_menu()
@@ -381,33 +366,15 @@ void quit_menu()
 
 void mudlib_setup()
 {
-   MENU_ITEM main_seperator = (MENU_ITEM)new_seperator(
-       "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+   MENU_ITEM main_seperator = (MENU_ITEM)new_seperator("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
    toplevel = (MENU)new_menu();
    add_menu_item(toplevel, main_seperator);
-   add_menu_item(toplevel, new_menu_item("Show the money you have",
-                                         (
-                                             : show_money:),
-                                         "s"));
-   add_menu_item(toplevel, new_menu_item("List exchange rates",
-                                         (
-                                             : show_rates:),
-                                         "l"));
-   add_menu_item(toplevel, new_menu_item("Exchange currencies",
-                                         (
-                                             : exchange1:),
-                                         "x"));
-   add_menu_item(toplevel, new_menu_item("Deposit money",
-                                         (
-                                             : deposit1:),
-                                         "d"));
-   add_menu_item(toplevel, new_menu_item("Withdraw money",
-                                         (
-                                             : withdraw1:),
-                                         "w"));
-   add_menu_item(toplevel, new_menu_item("Quit", (
-                                                     : quit_menu:),
-                                         "q"));
+   add_menu_item(toplevel, new_menu_item("Show the money you have", ( : show_money:), "s"));
+   add_menu_item(toplevel, new_menu_item("List exchange rates", ( : show_rates:), "l"));
+   add_menu_item(toplevel, new_menu_item("Exchange currencies", ( : exchange1:), "x"));
+   add_menu_item(toplevel, new_menu_item("Deposit money", ( : deposit1:), "d"));
+   add_menu_item(toplevel, new_menu_item("Withdraw money", ( : withdraw1:), "w"));
+   add_menu_item(toplevel, new_menu_item("Quit", ( : quit_menu:), "q"));
    set_id("accountant");
 }
 
@@ -415,17 +382,20 @@ void begin_conversation()
 {
    if (player)
    {
-      do_game_command("say Hello " + this_body()->short() + ", welcome to " + bank_name + ". I'm busy at the moment. "
-                                                                                          "Please wait a little.");
+      do_game_command("say Hello " + this_body()->short() + ", welcome to " + bank_name +
+                      ". I'm busy at the moment. "
+                      "Please wait a little.");
       was_busy++;
    }
    else
    {
       player = this_body();
-      do_game_command("say Hello " + this_body()->short() + ", welcome to " + bank_name + ". We will be pleased to exchange your "
-                                                                                          "money for only a minor fee of " +
-                      exchange_fee + "%. "
-                                     "You can deposit your money in " +
+      do_game_command("say Hello " + this_body()->short() + ", welcome to " + bank_name +
+                      ". We will be pleased to exchange your "
+                      "money for only a minor fee of " +
+                      exchange_fee +
+                      "%. "
+                      "You can deposit your money in " +
                       MONEY_D->query_plural(deposit_currency) + ".\n");
       set_menu_title(toplevel, "Main Menu of " + bank_name);
       init_menu_application(toplevel);
@@ -452,6 +422,5 @@ mapping lpscript_attributes()
    return (["bank_id":({LPSCRIPT_STRING, "setup", "set_bank_id"}),
            "bank_name":({LPSCRIPT_STRING, "setup", "set_bank_name"}),
        "currency_type":({LPSCRIPT_STRING, "setup", "set_currency_type"}),
-        "exchange_fee":({LPSCRIPT_INT, "setup", "set_exchange_fee"}),
-   ]);
+        "exchange_fee":({LPSCRIPT_INT, "setup", "set_exchange_fee"}), ]);
 }

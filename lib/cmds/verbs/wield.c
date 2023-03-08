@@ -26,14 +26,14 @@ void do_wield_obs(object *obs)
 
       if (ob->query_must_dual_wield())
          force_dual_wield = 1;
-      //TBUG("Calling do_wield(" + ob->short() + "," + limb + "," + force_dual_wield + ")");
+      // TBUG("Calling do_wield(" + ob->short() + "," + limb + "," + force_dual_wield + ")");
       this_body()->do_wield(ob, limb, force_dual_wield);
    }
 }
 
 void do_wield_obj_in_str(object ob, string limb)
 {
-   //TBUG("do_wield_obj_in_str(" + ob + "," + limb + ")");
+   // TBUG("do_wield_obj_in_str(" + ob + "," + limb + ")");
 
    if (!try_to_acquire(ob))
       return;
@@ -45,7 +45,7 @@ void do_wield_obj_in_str(object ob, string limb)
    else
    {
       limb = replace_string(limb, "hand", "arm");
-      //TBUG(limb);
+      // TBUG(limb);
       this_body()->do_wield(ob, limb);
    }
 }

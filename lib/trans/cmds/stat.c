@@ -14,21 +14,22 @@
 //  return result;
 // }
 
-//:COMMAND
-//USAGE: stat <object>
+//: COMMAND
+// USAGE: stat <object>
 //
-//Gives you vital information about ANY object.
-//This information will usually be the most significant variables,
-//and their values.
+// Gives you vital information about ANY object.
+// This information will usually be the most significant variables,
+// and their values.
 
 inherit CMD;
 
-private void main(mixed *arg)
+private
+void main(mixed *arg)
 {
-  string result = arg[0]->stat_me();
+   string result = arg[0]->stat_me();
 
-  if ( !result )
-    outf("No information available for %O.\n", arg[0]);
-  else
-    out(result);
+   if (!result)
+      outf("No information available for %O.\n", arg[0]);
+   else
+      out(result);
 }

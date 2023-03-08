@@ -8,13 +8,9 @@ inherit OUTDOOR_ROOM;
 
 void setup()
 {
-    set_area("wiz_area");
-    set_brief("Environmental room");
-    set_long("The weather seems to change here a lot. Harry hates this place.");
-    set_weather(1);
-    set_exits( ([
-	"west": "Relations_And_Toys",
-      ]) );
-}   
-
-
+   set_area("wiz_area");
+   set_brief("Environmental room");
+   set_long("The weather seems to change here a lot. Harry hates this place.");
+   set_weather(1);
+   set_exits((["west":"Relations_And_Toys", ]));
+}

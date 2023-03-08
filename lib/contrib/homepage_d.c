@@ -15,22 +15,22 @@ inherit M_DAEMON_DATA;
 
 void build_homepages()
 {
-  string *dirs=get_dir(WIZ_DIR+"/"+"*");
-  string page="<h1>Homepages for ";
+   string *dirs = get_dir(WIZ_DIR + "/" + "*");
+   string page = "<h1>Homepages for ";
 #ifdef DEEPEST
-  page+="coders";
+   page += "coders";
 #endif
 #ifndef DEEPEST
-  page+="Wizards";
+   page += "Wizards";
 #endif
-  page+=" on "+MUD_NAME+"!</h1>\n<UL>\n";
-  foreach (string name in dirs)
-    {
-      if (is_file(WIZ_DIR+"/"+name+HTTP_USER_HOME+"/index.html"))
-	page+="  <LI> <A HREF=http:/"+"/"+__HOST__+":"+(PORT_HTTP)+"/~"+name+
-	  ">\n        "+capitalize(name)+"'s Homepage.</A>\n";
-    }
-  page+="</UL>\n";
-  set_privilege(1);
-  unguarded(1, (: write_file, HTTP_ROOT+"/"+DEFAULT_PAGE,page,1 :));
+   page += " on " + MUD_NAME + "!</h1>\n<UL>\n";
+   foreach (string name in dirs)
+   {
+      if (is_file(WIZ_DIR + "/" + name + HTTP_USER_HOME + "/index.html"))
+         page += "  <LI> <A HREF=http:/" + "/" + __HOST__ + ":" + (PORT_HTTP) + "/~" + name + ">\n        " +
+                 capitalize(name) + "'s Homepage.</A>\n";
+   }
+   page += "</UL>\n";
+   set_privilege(1);
+   unguarded(1, ( : write_file, HTTP_ROOT + "/" + DEFAULT_PAGE, page, 1 :));
 }

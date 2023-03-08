@@ -4,27 +4,30 @@ inherit VERB_OB;
 
 void do_wade()
 {
-  mixed s = environment(this_body())->wade();
+   mixed s = environment(this_body())->wade();
 
-  if(stringp(s))
-    {
+   if (stringp(s))
+   {
       write(s);
       return;
-    }
-  else if(!s)
-    {
+   }
+   else if (!s)
+   {
       write("I don't understand what you want to wade in.\n");
       return;
-    }
+   }
 }
 
-void do_wade_wrd_obj(string prep,object ob)
+void do_wade_wrd_obj(string prep, object ob)
 {
-  ob->do_verb_rule("wade", "WRD OBJ", prep, ob);
+   ob->do_verb_rule("wade", "WRD OBJ", prep, ob);
 }
 
 void create()
 {
-    add_rules ( ({ "", "WRD OBJ", }),({  }) );
-
+   add_rules(({
+                 "",
+                 "WRD OBJ",
+             }),
+             ({}));
 }

@@ -4,13 +4,15 @@ inherit VERB_OB;
 
 void do_remove_obj(object ob)
 {
-    ob->do_remove();
+   ob->do_remove();
 }
 
-void do_remove_str_from_obj(string str, object ob) {
-	ob->do_remove(str);
+void do_remove_str_from_obj(string str, object ob)
+{
+   ob->do_remove(str);
 }
 
-mixed *query_verb_info() {
-    return ({ ({ "OBJ", "STR from OBJ" }), ({ "take off", "unwield" }) });
+mixed *query_verb_info()
+{
+   return ({({"OBJ", "STR from OBJ"}), ({"take off", "unwield"})});
 }

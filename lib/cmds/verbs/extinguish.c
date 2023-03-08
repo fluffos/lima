@@ -2,11 +2,12 @@
 
 inherit VERB_OB;
 
-void do_extinguish_obj(object ob) {
-    ob->do_extinguish();
+void do_extinguish_obj(object ob)
+{
+   ob->do_extinguish();
 }
 
 void create()
 {
-    add_rules( ({ "OBJ" }) );
+   add_rules(({"OBJ"}));
 }

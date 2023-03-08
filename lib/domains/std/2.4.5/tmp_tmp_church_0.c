@@ -6,32 +6,30 @@ void setup();
 mixed reset();
 mixed long();
 
-void setup() {
-function f;
-set_flag(0 | ATTACHED);
-set_id("clock");
+void setup()
 {
-_last_reset = time();
-;
-}
-;
+   function f;
+   set_flag(0 | ATTACHED);
+   set_id("clock");
+   {
+      _last_reset = time();
+      ;
+   };
 }
 
-
-mixed reset() {
+mixed reset()
 {
-_last_reset = time();
-;
-}
-;
+   {
+      _last_reset = time();
+      ;
+   };
 }
 
-
-mixed long() {
+mixed long()
 {
-return "The clock shows " + convert_time(uptime()) + "\n" + "Time since reset is " + convert_time(time() - _last_reset) + "\n";
-;
+   {
+      return "The clock shows " + convert_time(uptime()) + "\n" + "Time since reset is " +
+             convert_time(time() - _last_reset) + "\n";
+      ;
+   };
 }
-;
-}
-

@@ -86,8 +86,7 @@ varargs string stat_mods_string(int compact)
    if (stat_mods)
    {
       foreach (string stat, int value in stat_mods)
-         s += ({capitalize(stat) + (compact ? "" : " ") +
-                (value >= 0 ? "+" : "") + value});
+         s += ({capitalize(stat) + (compact ? "" : " ") + (value >= 0 ? "+" : "") + value});
    }
 
    mods = format_list(s, ",");
@@ -207,11 +206,10 @@ string worn_attributes()
    if (also_covers())
       all += also_covers();
    if (sizeof(all) > 1)
-      worn_str = "(worn " + (query_worn_under() ? "underneath " : "") +
-                 "on " + implode(all[0..(sizeof(all) - 2)], ", ") + ", and " + all[sizeof(all) - 1] + ")";
+      worn_str = "(worn " + (query_worn_under() ? "underneath " : "") + "on " +
+                 implode(all[0..(sizeof(all) - 2)], ", ") + ", and " + all[sizeof(all) - 1] + ")";
    else
-      worn_str = "(worn " + (query_worn_under() ? "underneath " : "") +
-                 "on " + all[0] + ")";
+      worn_str = "(worn " + (query_worn_under() ? "underneath " : "") + "on " + all[0] + ")";
 
    // Some better grammar for humanoid limbs
    // TODO: Should also handle paws, claws and other things.
@@ -262,8 +260,7 @@ void do_wear()
       return;
    if (!environment()->wear_item(this_object(), slot))
    {
-      environment()->simple_action("$N $vdiscover $ns cannot wear the $o.",
-                                   this_object());
+      environment()->simple_action("$N $vdiscover $ns cannot wear the $o.", this_object());
       return;
    }
    set_worn(1);
@@ -324,8 +321,8 @@ mixed direct_remove_obj()
    return 1;
 }
 
-//:FUNCTION is_wearable
-//Returns 1 for wearables.
+//: FUNCTION is_wearable
+// Returns 1 for wearables.
 int is_wearable()
 {
    return 1;
@@ -333,7 +330,6 @@ int is_wearable()
 
 mapping lpscript_attributes()
 {
-   return (["bodyslot":({LPSCRIPT_STRING, "setup", "set_slot"}),
-             "wearmsg":({LPSCRIPT_STRING, "setup", "set_wearmsg"}),
-   ]);
+   return (
+       ["bodyslot":({LPSCRIPT_STRING, "setup", "set_slot"}), "wearmsg":({LPSCRIPT_STRING, "setup", "set_wearmsg"}), ]);
 }

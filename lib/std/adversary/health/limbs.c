@@ -252,10 +252,7 @@ int update_body_style(string bstyle)
 
    // Make sure we have at least one vital or system limb..
 
-   if (!filter(keys(new_body), (
-                                   : ((class limb)$(new_body)[$1])->flags &
-                                         (LIMB_VITAL | LIMB_SYSTEM)
-                                   :)))
+   if (!filter(keys(new_body), ( : ((class limb)$(new_body)[$1])->flags & (LIMB_VITAL | LIMB_SYSTEM) :)))
       return 0;
 
    health = new_body;
@@ -308,8 +305,7 @@ string *query_limbs()
 // Returns a string *containing all the limbs that can wield weapons.
 string *query_wielding_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_WIELDING:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_WIELDING:));
 }
 
 //: FUNCTION query_attacking_limbs
@@ -317,9 +313,7 @@ string *query_wielding_limbs()
 // Returns a string *containing all the limba that can attack.
 string *query_attacking_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags &
-                                         LIMB_ATTACKING:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_ATTACKING:));
 }
 
 //: FUNCTION query_vital_limbs
@@ -329,8 +323,7 @@ string *query_attacking_limbs()
 // adversary dies.
 string *query_vital_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_VITAL:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_VITAL:));
 }
 
 //: FUNCTION query_mobile_limbs
@@ -339,8 +332,7 @@ string *query_vital_limbs()
 // those who want health of mobile limbs to affect movement and such.
 string *query_mobile_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_MOBILE:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_MOBILE:));
 }
 
 //: FUNCTION query_system_limbs
@@ -349,8 +341,7 @@ string *query_mobile_limbs()
 // disabled, the adversary dies.
 string *query_system_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_SYSTEM:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_SYSTEM:));
 }
 
 //: FUNCTION query_non_limbs
@@ -359,9 +350,7 @@ string *query_system_limbs()
 // Such body parts are defined by having a max_health of -1.
 string *query_non_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->max_health == -1
-                                   :));
+   return filter(keys(health), ( : ((class limb)health[$1])->max_health == -1 :));
 }
 
 //: FUNCTION query_reflex
@@ -527,9 +516,7 @@ void kill_us()
    if (killer)
    {
       string team = PARTY_D->locate_user(killer->short());
-      object *viable = filter_array(all_inventory(environment(this_object())), (
-                                                                                   : $1->is_body()
-                                                                                   :));
+      object *viable = filter_array(all_inventory(environment(this_object())), ( : $1->is_body() :));
       this_object()->slain_by(killer);
       if (team && sizeof(viable) > 1)
       {
@@ -570,10 +557,7 @@ string query_random_limb()
    {
       update_body_style(body_style);
    }
-   limbs = filter_mapping(limb_sizes,
-                          (
-                              : ((class limb)health[$1])->health > 0
-                              :));
+   limbs = filter_mapping(limb_sizes, ( : ((class limb)health[$1])->health > 0 :));
 
    return sizeof(limbs) ? element_of_weighted(limbs) : 0;
 }
@@ -603,8 +587,9 @@ void disable_limb(string limb)
       }
       if (dont_kill_me_now == 1)
       {
-         filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.", (
-                                                                                                 : message_filter:),
+         filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.",
+                                (
+                                    : message_filter:),
                                 "disable_limb", limb);
       }
       else
@@ -612,15 +597,17 @@ void disable_limb(string limb)
    }
    else if (((class limb)health[limb])->flags & LIMB_WIELDING)
    {
-      filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.", (
-                                                                                              : message_filter:),
+      filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.",
+                             (
+                                 : message_filter:),
                              "disable_limb", limb);
       do_unwield(limb);
    }
    else
    {
-      filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.", (
-                                                                                              : message_filter:),
+      filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.",
+                             (
+                                 : message_filter:),
                              "disable_limb", limb);
    }
 }
@@ -915,8 +902,7 @@ string diagnose()
    else
       ret = "";
 
-   damaged_limbs = filter(query_limbs(), (
-                                             : query_health($1) < health[$1]->max_health:));
+   damaged_limbs = filter(query_limbs(), ( : query_health($1) < health[$1]->max_health:));
    foreach (string limb in damaged_limbs)
       ret += diagnose_limb_msg(health[limb]->health * 100 / health[limb]->max_health, limb);
 

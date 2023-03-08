@@ -17,16 +17,19 @@ inherit CMD;
 
 void create()
 {
-  ::create();
-  no_redirection();
+   ::create();
+   no_redirection();
 }
 
 private
-void main(string str) { REPORTER_D->report_something("Bug", str); }
+void main(string str)
+{
+   REPORTER_D->report_something("Bug", str);
+}
 
 void player_menu_entry()
 {
-  bare_init();
-  main("");
-  done_outputing();
+   bare_init();
+   main("");
+   done_outputing();
 }

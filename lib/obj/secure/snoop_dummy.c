@@ -6,61 +6,61 @@ string header;
 
 void remove()
 {
-  if(sizeof(snoopers)) 
-    {
+   if (sizeof(snoopers))
+   {
       error("can't remove while in use.\n");
-    }
-  destruct();
+   }
+   destruct();
 }
 
 void create(string name)
 {
-  header = name + "% ";
+   header = name + "% ";
 }
 
 object *get_snoopers()
 {
-  if(previous_object() != find_object(SNOOP_D))
-    {
+   if (previous_object() != find_object(SNOOP_D))
+   {
       return;
-    }
-  return snoopers;
+   }
+   return snoopers;
 }
 
 void add_snooper(object snooper)
 {
-  if(previous_object() != find_object(SNOOP_D))
-    {
+   if (previous_object() != find_object(SNOOP_D))
+   {
       return;
-    }
-  snoopers += ({ snooper });
+   }
+   snoopers += ({snooper});
 }
 
 void remove_snooper(object snooper)
 {
-  if(previous_object() != find_object(SNOOP_D))
-    {
+   if (previous_object() != find_object(SNOOP_D))
+   {
       return;
-    }
-  snoopers -= ({ snooper });
-  if(!sizeof(snoopers))
-    {
+   }
+   snoopers -= ({snooper});
+   if (!sizeof(snoopers))
+   {
       remove();
-    }
+   }
 }
 
 void receive_snoop(string s)
 {
-  if(!strlen(s)) return;
-  // the m is part of a control sequence for some people
-  if(s[<1] == '\n' || (s[<1] == 'm' && strsrch(s,"\n")!=-1))
-    {
+   if (!strlen(s))
+      return;
+   // the m is part of a control sequence for some people
+   if (s[ < 1] == '\n' || (s[ < 1] == 'm' && strsrch(s, "\n") != -1))
+   {
       snoopers->receive_private_msg(header + buf + s);
       buf = "";
-    }
-  else
-    {
+   }
+   else
+   {
       buf += s;
-    }
+   }
 }
-
