@@ -6,13 +6,13 @@ inherit VERB_OB;
 
 mixed do_curse()
 {
-    write("Such language in a high class establishment like this!\n");
+   write("Such language in a high class establishment like this!\n");
 }
 
 void create()
 {
-    add_rules( ({ "" }), ({ "fuck","damn","shit","bitch"}) );
-    clear_flag(NEED_TO_SEE);
-    clear_flag(NEED_TO_THINK);
-    clear_flag(NEED_TO_BE_ALIVE);
+   add_rules(({""}), ({"fuck", "damn", "shit", "bitch"}));
+   clear_flag(NEED_TO_SEE);
+   clear_flag(NEED_TO_THINK);
+   clear_flag(NEED_TO_BE_ALIVE);
 }

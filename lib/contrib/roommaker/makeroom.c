@@ -8,7 +8,8 @@ inherit CMD;
 
 #define MAKER "/trans/obj/buildmenu"
 
-private void main()
+private
+void main()
 {
-    new(MAKER)->start_menu();
+   new (MAKER)->start_menu();
 }

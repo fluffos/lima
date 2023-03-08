@@ -2,13 +2,14 @@
 
 int query_ghost();
 
-private nosave int stunned, asleep, chance;
+private
+nosave int stunned, asleep, chance;
 
 int query_stunned()
 {
-  if(stunned > time())
-    return 1;
-  return 0;
+   if (stunned > time())
+      return 1;
+   return 0;
 }
 
 int query_asleep()
@@ -23,7 +24,7 @@ void stun()
 
 void wake_up()
 {
-   if(asleep)
+   if (asleep)
    {
       asleep = 0;
       stunned = time() + 5;
@@ -38,21 +39,21 @@ void knock_out()
 
 mixed check_condition(int urgent)
 {
-   if(query_ghost())
+   if (query_ghost())
    {
       stunned = 0;
       asleep = 0;
       return 0;
    }
 
-   if(urgent && stunned > time())
+   if (urgent && stunned > time())
       return "You $vare still recovering from that last blow, ";
 
-   if(asleep)
+   if (asleep)
    {
-      if(urgent)
+      if (urgent)
       {
-         if(random(5) <= chance++)
+         if (random(5) <= chance++)
          {
             wake_up();
          }

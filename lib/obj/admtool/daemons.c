@@ -2,10 +2,12 @@
 
 inherit __DIR__ "internal/directory.c";
 
-string module_name() {
-    return "daemons";
+string module_name()
+{
+   return "daemons";
 }
 
-string module_key() {
-    return "d";
+string module_key()
+{
+   return "d";
 }

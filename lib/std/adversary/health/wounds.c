@@ -13,7 +13,8 @@ class diagnosis
    int mutilations;
 }
 
-string number_word(int);       /* M_GRAMMAR */
+string
+number_word(int); /* M_GRAMMAR */
 string number_of(int, string);
 
 /* Value is an array of numbers, indicating the size of the wounds.  Note
@@ -22,13 +23,14 @@ string number_of(int, string);
  *
  * Limbs in perfect condition and disabled limbs are not in the mapping.
  */
-private mapping wounds = ([]);
+private
+mapping wounds = ([]);
 
 void set_max_limb_health(string limb, int x)
 {
    ::set_max_limb_health(limb, x);
    map_delete(wounds, limb);
-   if(!sizeof(wounds))
+   if (!sizeof(wounds))
       remove_call_out("health_periodic");
 }
 
@@ -36,7 +38,7 @@ void disable_limb(string limb)
 {
    ::disable_limb(limb);
    map_delete(wounds, limb);
-   if(!sizeof(wounds))
+   if (!sizeof(wounds))
       remove_call_out("health_periodic");
 }
 
@@ -44,32 +46,32 @@ varargs int hurt_us(int x, string limb)
 {
    int ret;
 
-   if(!limb)
+   if (!limb)
       limb = query_random_limb();
    ret = ::hurt_us(x, limb);
 
    /* ret is the amount of damage actually done; remember to check if we
       disabled the limb */
 
-   if(ret && query_health(limb))
+   if (ret && query_health(limb))
    {
-      if(!sizeof(wounds))
+      if (!sizeof(wounds))
          call_out("health_periodic", 15);
 
-      if(wounds[limb])
+      if (wounds[limb])
       {
          int n = sizeof(wounds[limb]);
 
          /* To prevent huge lists of wounds when chinking away with
             small amounts of damage on a really large monster, we coalesce
             wounds after about 5-10 of them */
-         if(n > random(5) + 5)
+         if (n > random(5) + 5)
             wounds[limb][random(n)] += ret;
          else
-            wounds[limb] += ({ ret });
+            wounds[limb] += ({ret});
       }
       else
-         wounds[limb] = ({ ret });
+         wounds[limb] = ({ret});
    }
 
    return ret;
@@ -83,14 +85,14 @@ void heal_limb(string limb, int x)
    int left = x;
 
    ::heal_limb(limb, x);
-   if(n == 0)
+   if (n == 0)
       return;
 
    /* start healing with the first wound, and continue till we run out of
       'healing' */
-   while(i < n)
+   while (i < n)
    {
-      if(left >= tmp[i])
+      if (left >= tmp[i])
       {
          left -= tmp[i];
          i++;
@@ -101,19 +103,21 @@ void heal_limb(string limb, int x)
          break;
       }
    }
-   if(i < n)
+   if (i < n)
       wounds[limb] = tmp[i..];
-   else map_delete(wounds, limb);
+   else
+      map_delete(wounds, limb);
 
    /* i == number of wounds healed; n == total number before */
-   if(i)
+   if (i)
    {
-      if(n == 1)
+      if (n == 1)
          simple_action("The wound on $p " + limb + " has healed.\n");
-      else if(i == n)
+      else if (i == n)
          simple_action("All of the wounds on $p " + limb + " have healed.\n");
       else
-         simple_action(capitalize(number_word(i)) + " of the " + number_word(n) + " wounds on $p " + limb + " have healed.\n");
+         simple_action(capitalize(number_word(i)) + " of the " + number_word(n) + " wounds on $p " + limb +
+                       " have healed.\n");
    }
 }
 
@@ -141,23 +145,23 @@ void health_periodic()
     * is causing us to heal at ~1 point per heal_rate seconds, so the
     * overall effect is biased towards healing.
     */
-   if(sizeof(wounds) == 0)
+   if (sizeof(wounds) == 0)
       return;
    limb = choice(keys(wounds));
    w = wounds[limb];
    n = sizeof(w);
    i = random(n);
    severity = w[i];
-   delta = fuzzy_divide(random(2*severity+1) - severity, 5);
+   delta = fuzzy_divide(random(2 * severity + 1) - severity, 5);
 
    call_out("health_periodic", 15);
 
-   if(delta == 0)
+   if (delta == 0)
       return;
-    
-   if(delta < 0)
+
+   if (delta < 0)
    {
-      if(n == 1)
+      if (n == 1)
          simple_action("The wound on $p " + limb + " looks a bit worse.");
       else
          simple_action("One of the wounds on $p " + limb + " looks a bit worse.");
@@ -166,7 +170,7 @@ void health_periodic()
    }
    else
    {
-      if(n == 1)
+      if (n == 1)
          simple_action("The wound on $p " + limb + " looks a bit better.");
       else
          simple_action("One of the wounds on $p " + limb + " looks a bit better.");
@@ -179,7 +183,7 @@ void health_periodic()
 
 void reincarnate()
 {
-   foreach(string s in query_vital_limbs())
+   foreach (string s in query_vital_limbs())
       map_delete(wounds, s);
    ::reincarnate();
    health_periodic();
@@ -192,9 +196,8 @@ void health_status()
       int h = query_health(limb);
       int mh = query_max_health(limb);
 
-      if(wounds[limb])
-         printf("%-10s %3i (%3i%%) [%s]\n", limb, h, h * 100 / mh,
-                implode(map(wounds[limb], (: $1 + "" :)), ","));
+      if (wounds[limb])
+         printf("%-10s %3i (%3i%%) [%s]\n", limb, h, h * 100 / mh, implode(map(wounds[limb], ( : $1 + "" :)), ","));
    }
 }
 
@@ -210,44 +213,58 @@ int *query_wounds(string limb)
 
 string diagnose_msg(string limb)
 {
-   class diagnosis stuff = new(class diagnosis);
+   class diagnosis stuff = new (class diagnosis);
    int *my_wounds = query_wounds(limb);
    int max = query_max_health(limb);
-   string *types = ({ });
+   string *types = ({});
 
-   if(!query_health(limb))
+   if (!query_health(limb))
       return "$P " + limb + " is completely disabled!\n";
-   if(!my_wounds)
+   if (!my_wounds)
       return "$P " + limb + " is in good condition.\n";
    my_wounds = sort_array(my_wounds, 1);
-   foreach(int x in my_wounds)
+   foreach (int x in my_wounds)
    {
-      switch(x * 100 / max)
+      switch (x * 100 / max)
       {
-         case 0..10:   stuff->bruises++;     break;
-         case 11..20:  stuff->scratches++;   break;
-         case 21..30:  stuff->cuts++;        break;
-         case 31..50:  stuff->wounds++;      break;
-         case 51..71:  stuff->injuries++;    break;
-         case 72..85:  stuff->gashes++;      break;
-         case 86..100: stuff->mutilations++; break;
+      case 0..10:
+         stuff->bruises++;
+         break;
+      case 11..20:
+         stuff->scratches++;
+         break;
+      case 21..30:
+         stuff->cuts++;
+         break;
+      case 31..50:
+         stuff->wounds++;
+         break;
+      case 51..71:
+         stuff->injuries++;
+         break;
+      case 72..85:
+         stuff->gashes++;
+         break;
+      case 86..100:
+         stuff->mutilations++;
+         break;
       }
    }
 
-   if(stuff->bruises)
-      types += ({ number_of(stuff->bruises, "bruise") });
-   if(stuff->scratches)
-      types += ({ number_of(stuff->scratches, "scratch") });
-   if(stuff->cuts)
-      types += ({ number_of(stuff->cuts, "cut") });
-   if(stuff->wounds)
-      types += ({ number_of(stuff->wounds, "wound") });
-   if(stuff->injuries)
-      types += ({ number_of(stuff->injuries, "injury") });
-   if(stuff->gashes)
-      types += ({ number_of(stuff->gashes, "gash") });
-   if(stuff->mutilations)
-      types += ({ number_of(stuff->mutilations, "mutilation") });
+   if (stuff->bruises)
+      types += ({number_of(stuff->bruises, "bruise")});
+   if (stuff->scratches)
+      types += ({number_of(stuff->scratches, "scratch")});
+   if (stuff->cuts)
+      types += ({number_of(stuff->cuts, "cut")});
+   if (stuff->wounds)
+      types += ({number_of(stuff->wounds, "wound")});
+   if (stuff->injuries)
+      types += ({number_of(stuff->injuries, "injury")});
+   if (stuff->gashes)
+      types += ({number_of(stuff->gashes, "gash")});
+   if (stuff->mutilations)
+      types += ({number_of(stuff->mutilations, "mutilation")});
 
    return "$P " + limb + " has sustained " + format_list(types, 0) + ".\n";
 }
@@ -257,12 +274,13 @@ varargs string diagnose(string limb)
    string *limbs = query_limbs();
    string ret = "";
 
-   if(!limb)
+   if (!limb)
    {
-      foreach(string s in limbs)
+      foreach (string s in limbs)
          ret += diagnose_msg(s);
    }
-   else ret += diagnose_msg(limb);
+   else
+      ret += diagnose_msg(limb);
 
    return ret;
 }

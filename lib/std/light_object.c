@@ -11,7 +11,8 @@ inherit M_LIGHTABLE;
 inherit M_LIGHT_SOURCE;
 inherit M_DECAY;
 
-private string die_msg = "The light from the $o $vflicker and $vdie.";
+private
+string die_msg = "The light from the $o $vflicker and $vdie.";
 
 void set_die_msg(string s)
 {
@@ -23,7 +24,8 @@ string query_die_msg()
    return die_msg;
 }
 
-protected void set_lit(int x)
+protected
+void set_lit(int x)
 {
    m_lightable::set_lit(x);
    m_light_source::set_lit(x);
@@ -36,7 +38,7 @@ int query_is_lit()
 
 mixed check_fuel()
 {
-   if(!query_num_decays())
+   if (!query_num_decays())
       return object_event_message(query_burned_out_msg());
    return 1;
 }
@@ -50,7 +52,7 @@ mixed extinguish()
 mixed light()
 {
    mixed tmp = check_fuel();
-   if(tmp != 1)
+   if (tmp != 1)
       return tmp;
    start_decay();
    return ::light();
@@ -74,5 +76,5 @@ void mudlib_setup()
 {
    set_decay_time(FUEL_DELAY, 1);
    set_decay_action("The $o $vflicker a little.");
-   set_last_decay_action((: burn_out :));
+   set_last_decay_action(( : burn_out:));
 }

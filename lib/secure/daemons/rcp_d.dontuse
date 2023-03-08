@@ -126,7 +126,7 @@ private void RCP_read(object socket, string data)
   thisSession->command=thisSession->command[i+1..];
 
   data=replace_string(data,"\r","");
-  data=trim_spaces(data);
+  data=trim(data);
 
   /* get the command and argument. */
   if (!sscanf(data, "%s %s", cmd, arg))

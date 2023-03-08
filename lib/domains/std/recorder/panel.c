@@ -3,18 +3,21 @@
 inherit OBJ;
 inherit M_GETTABLE;
 
-
 void setup()
 {
-    set_long( "It's a flat metal panel with a row of buttons: play, stop, rewind, fast forward, and record.");
-    set_adj( "flat", "metal" );
-    set_id( "panel" );
-    set_size(1);
-    set_gettable( "#It's securely bound to the recorder.");
+   set_long("It's a flat metal panel with a row of buttons: play, stop, rewind, fast forward, and record.");
+   set_adj("flat", "metal");
+   set_id("panel");
+   set_size(1);
+   set_gettable("#It's securely bound to the recorder.");
 }
 
+int do_not_restore()
+{
+   return 1;
+}
 
 mapping lpscript_attributes()
 {
-    return object::lpscript_attributes() + m_gettable::lpscript_attributes();
+   return object::lpscript_attributes() + m_gettable::lpscript_attributes();
 }

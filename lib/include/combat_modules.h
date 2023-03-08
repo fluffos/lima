@@ -38,10 +38,10 @@
 **                                                                         **
 **                           WEILDING WEAPONS                              **
 **                                                                         **
-** WIELD_SIMPLE 		Only one weapon can be wielded at a time.              **
+** WIELD_SIMPLE 		Only one weapon can be wielded at a time.             **
 ** WIELD_MULTIPLE   Allow adversaries to wield multiple weapons            **
 **                  without requiring a limb-based health module           **
-** WIELD_LIMBS			Any 'wielding' limb can wield a weapon.                **
+** WIELD_LIMBS			Any 'wielding' limb can wield a weapon.               **
 **                  This module requires HEALTH_LIMBS or HEALTH_WOUNDS     **
 **                                                                         **
 *****************************************************************************
@@ -63,7 +63,7 @@
 **                                                                         **
 **                                    PULSE                                **
 **                                                                         **
-** PULSE_HEART_BEAT	    Does heart_beat() drive your combat?           **
+** PULSE_HEART_BEAT	    Does heart_beat() drive your combat?              **
 ** PULSE_NON_HEART_BEAT Or not?                                            **
 **                                                                         **
 *****************************************************************************
@@ -132,14 +132,15 @@
 ** changing some of them later on can, and probably will,
 ** screw up your user data files.
 */
-#define DEATH_STYLE       DEATH_VAPORIZE
+#define DEATH_STYLE       DEATH_CORPSES
 #define HEALTH_STYLE      HEALTH_LIMBS
-#define WIELD_STYLE       WIELD_SINGLE
-#define ARMOR_STYLE       ARMOR_COMPLEX_SLOTS
+#define WIELD_STYLE       WIELD_LIMBS
+#define ARMOR_STYLE       ARMOR_LIMBS
 #define PULSE_STYLE       PULSE_HEART_BEAT
 #define BLOW_STYLE        BLOW_TYPES
 #define FORMULA_STYLE     FORMULA_SKILLS
 #define ADVANCEMENT_STYLE ADVANCEMENT_SIMPLE
+#define USE_KARMA
 
 /* #define or #undef these. Modify them without fear of messing anything
    up in your .o files. */

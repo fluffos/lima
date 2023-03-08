@@ -5,12 +5,10 @@
 
 #include <flags.h>
 
-private nosave mapping attribute_info = ([
-        F_OPEN    : "opened_attributes",
-        F_LIGHTED : "lighted_attributes",
-        F_WIELDED : "wielded_attributes",
-        F_WORN    : "worn_attributes",
-     ]);
+private
+nosave mapping attribute_info =
+    ([F_OPEN:"opened_attributes",
+        F_LIGHTED:"lighted_attributes", F_WIELDED:"wielded_attributes", F_WORN:"worn_attributes", ]);
 
 mapping get_global_attributes()
 {

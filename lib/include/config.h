@@ -44,22 +44,31 @@
 /* The default level of light for a room. */
 #define DEFAULT_LIGHT_LEVEL	1
 
+/* Players start where they log off */
 #define PLAYERS_START_WHERE_THEY_QUIT
+
+/* Do players keep their equipment when they die, or does 
+** it drop to the corpse.
+*/
+#undef PLAYERS_DROP_EQUIPMENT_AT_DEATH
+
+/* The default frame style and theme for new players
+** can be defined here. See /obj/mudlib/frame.c for the
+** entire list of themes.
+*/
+#define DEFAULT_FRAMES_THEME "dusk"
+#define DEFAULT_FRAMES_STYLE "single"
 
 #define USE_QUESTS
 
 /* This only implements races for PC's.*/
 #define USE_RACES
-
-#define USE_STATS
-
 #define USE_GUILDS
-
 #define USE_TITLES
 
 /* If you define this option, you should also look at <bodyslots.h> and decide
  * which body slots you want to support.*/
-#define USE_BODYSLOTS
+#undef USE_BODYSLOTS
 
 /* Parties support */
 #define USE_PARTIES
@@ -74,12 +83,19 @@
 /* Size or Mass?
  * One or the other of these should be defined, but not both.  They should 
  * do essentially the same thing. */
-#define USE_SIZE
+#undef USE_SIZE
 #ifndef USE_SIZE
 # define USE_MASS
 #endif
 
+/* If you want weight to be calculated in metric (kilo) rather than imperial (lbs) 
+   Only works use USE_MASS is defined.
+*/
+#define METRIC
+
+/* Use skills or not*/
 #define USE_SKILLS
+
 /*
  * This is the "maximum" skill level that players are compared against.
  * Their evaluation percentage will be computed as a total of all their
@@ -105,23 +121,25 @@
  * the login promopt is displayed.
  * If WELCOME_DIR is defined it is assumed that there is a directory of 
  * welcome screens and WELCOME_FILE will be ignored. */
-#define WELCOME_FILE             "/data/config/WELCOME"
-#undef WELCOME_DIR		"/data/config/welcome_files"
+#define WELCOME_FILE "/data/config/WELCOME"
+#undef WELCOME_DIR "/data/config/welcome_files"
 
 /* The file displayed to new players before the character generation process
  * starts.*/
-#define NEW_PLAYER		"/data/config/NEW_PLAYER"
+#define NEW_PLAYER "/data/config/NEW_PLAYER"
 
 /* The file displayed immediatly after login. */
-#define MOTD_FILE		"/data/config/MOTD"
+#define MOTD_FILE "/data/config/MOTD"
+#define LOGIN_PROMPT "What is your name? "
 
-#define LOGIN_PROMPT		"What is your name? "
+/* File player referrals are written into */
+#define REFERRALS_LOG "/data/referrals"
 
 /* Define where the obvious exits should appear if at all. 
  * OBVIOUS_EXITS displays the exits above the long description, 
  * OBVIOUS_EXITS_BOTTOM displays them after the long description. */
-#define OBVIOUS_EXITS
-#undef OBVIOUS_EXITS_BOTTOM
+#undef OBVIOUS_EXITS
+#define OBVIOUS_EXITS_BOTTOM
 
 /* Define this if you wish closed doors to show up as an obvious exit */
 #undef CLOSED_DOORS_ARE_OBVIOUS_EXITS
@@ -138,7 +156,6 @@
 
 /* Define this to use an Infocom-like Status line. */
 #define USE_STATUS_LINE
-
 
 /*************************************************************************
  **                                                   									**
@@ -193,7 +210,6 @@
  * wizard does.  Define this if you want to use it. */
 #define USE_WIZ_POSITION
 
-
 /* Allow wizards to see hidden exits? */
 #define WIZARDS_SEE_HIDDEN_EXITS
 
@@ -214,8 +230,6 @@
 #define TODO_NEWSGROUP "reporter.todo"
 #define QUESTION_NEWSGROUP "reporter.question"
 #define FEEDBACK_NEWSGROUP "reporter.discussion"
-
-
 
 /*************************************************************************
  ** 									                                                  **
@@ -252,6 +266,10 @@
  * If you plan to make use of this feature. */
 #define AUTODOC_MUDNAME "LIMA"
 #define MUD_AUTODOC_DIR "lima"
+
+/* Metric definitions */
+#define KG_TO_LBS 2.20462262
+#define LBS_TO_KG 0.453592
 
 /*************************************************************************
  ** 									                                                  **

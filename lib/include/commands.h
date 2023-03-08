@@ -31,9 +31,14 @@
 ** Command objects
 */
 #define CMD_OB_ADVERBS		CMD_DIR_PLAYER "/adverbs"
-#define CMD_OB_ANSI		CMD_DIR_PLAYER "/ansi"
-#define CMD_OB_BIFF		CMD_DIR_PLAYER "/biff"
-#define CMD_OB_CHAN		CMD_DIR_PLAYER "/chan"
+#define CMD_OB_MODE		    CMD_DIR_PLAYER "/mode"
+#define CMD_OB_SIMPLIFY     CMD_DIR_PLAYER "/simplify"
+#define CMD_OB_EMOJI        CMD_DIR_PLAYER "/emoji"
+#define CMD_OB_WIDTH        CMD_DIR_PLAYER "/width"
+#define CMD_OB_FRAMES       CMD_DIR_PLAYER "/frames"
+#define CMD_OB_METRIC       CMD_DIR_PLAYER "/metric"
+#define CMD_OB_BIFF		    CMD_DIR_PLAYER "/biff"
+#define CMD_OB_CHAN		    CMD_DIR_PLAYER "/chan"
 #define CMD_OB_DESCRIBE		CMD_DIR_PLAYER "/describe"
 #define CMD_OB_EMOTEAPROPOS	CMD_DIR_PLAYER "/emoteapropos"
 #define CMD_OB_FEELINGS		CMD_DIR_PLAYER "/feelings"
@@ -42,8 +47,8 @@
 #define CMD_OB_PASSWD		CMD_DIR_PLAYER "/passwd"
 #define CMD_OB_SEMOTE		CMD_DIR_PLAYER "/semote"
 #define CMD_OB_SNOOPABLE	CMD_DIR_PLAYER "/snoopable"
-#define CMD_OB_SU		CMD_DIR_PLAYER "/su"
-#define CMD_OB_TELL		CMD_DIR_PLAYER "/tell"
+#define CMD_OB_SU		    CMD_DIR_PLAYER "/su"
+#define CMD_OB_TELL		    CMD_DIR_PLAYER "/tell"
 
 #define CMD_OB_SNOOP		CMD_DIR_RESTRICT "/snoop"
 

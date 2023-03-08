@@ -15,14 +15,19 @@ int test_flag(int);
 void clear_flag(int);
 void assign_flag(int, int);
 
-varargs mixed light(object);   // From m_light_source.c
+varargs mixed light(object); // From m_light_source.c
 mixed extinguish();
 
-private string		light_msg = "$N $vlight a $o.";
-private string		light_with_msg = "$N $vlight a $o with a $o1.";
-private string		extinguish_msg = "$N $vextinguish a $o.";
-private nosave function light_hook = (: lighting_extra_short :);
-private mixed           source_filter;
+private
+string light_msg = "$N $vlight a $o.";
+private
+string light_with_msg = "$N $vlight a $o with a $o1.";
+private
+string extinguish_msg = "$N $vextinguish a $o.";
+private
+nosave function light_hook = ( : lighting_extra_short:);
+private
+mixed source_filter;
 
 int query_is_lit()
 {
@@ -40,11 +45,11 @@ void set_light_msgs(string x, string y)
    light_with_msg = y;
 }
 
-//:FUNCTION set_source
-//set_source(function f) makes it so that the object can only be lit by
-//objects for which evaluate(f, ob) returns 1.  f may return a string
-//error message on failure.  If f is a string, any object with that string
-//as an id is a valid source.  set_source(0) makes any object a valid source.
+//: FUNCTION set_source
+// Makes it so that the object can only be lit by
+// objects for which evaluate(f, ob) returns 1.  f may return a string
+// error message on failure.  If f is a string, any object with that string
+// as an id is a valid source.  An argument of f == 0 makes any object a valid source.
 void set_source(mixed f)
 {
    source_filter = f;
@@ -60,7 +65,8 @@ string lighted_attributes()
    return "(providing adequate light)";
 }
 
-protected void set_lit(int x)
+protected
+void set_lit(int x)
 {
    assign_flag(F_LIGHTED, x);
    hook_state("extra_short", light_hook, x);
@@ -69,9 +75,9 @@ protected void set_lit(int x)
 void do_extinguish()
 {
    mixed tmp = extinguish();
-   if(!tmp)
+   if (!tmp)
       tmp = "That doesn't seem possible.\n";
-   if(stringp(tmp))
+   if (stringp(tmp))
    {
       write(tmp);
       return;
@@ -83,13 +89,14 @@ void do_extinguish()
 varargs void do_light(object with)
 {
    mixed tmp = light(with);
-   if(!tmp) tmp = "That doesn't seem possible.\n";
-   if(stringp(tmp))
+   if (!tmp)
+      tmp = "That doesn't seem possible.\n";
+   if (stringp(tmp))
    {
       write(tmp);
       return;
    }
-   if(with)
+   if (with)
       this_body()->simple_action(light_with_msg, this_object(), with);
    else
       this_body()->simple_action(light_msg, this_object());
@@ -97,41 +104,43 @@ varargs void do_light(object with)
 
 mixed direct_light_obj()
 {
-   if(query_is_lit())
+   if (query_is_lit())
       return "It is already lit.\n";
-   if(source_filter)
+   if (source_filter)
       return "You need to light it with something.\n";
    return 1;
 }
 
 mixed direct_extinguish_obj()
 {
-   if(!query_is_lit())
+   if (!query_is_lit())
       return "It isn't lit.\n";
    return 1;
 }
 
-mixed direct_light_obj_with_obj(object ob, object with) {
-   if(query_is_lit())
+mixed direct_light_obj_with_obj(object ob, object with)
+{
+   if (query_is_lit())
       return "It is already lit.\n";
-   if(!source_filter)
+   if (!source_filter)
       return 1;
-   if(!with)
+   if (!with)
       return 1;
-   if(stringp(source_filter))
+   if (stringp(source_filter))
       return with->id(source_filter);
    return evaluate(source_filter, with);
 }
 
-mixed indirect_light_obj_with_obj(object ob, object with) {
+mixed indirect_light_obj_with_obj(object ob, object with)
+{
    mixed sf;
-   if(ob)
+   if (ob)
       sf = ob->query_source();
-   if(with->query_is_lit())
+   if (with->query_is_lit())
    {
-      if(!sf)
+      if (!sf)
          return 1;
-      if(stringp(sf))
+      if (stringp(sf))
          return with->id(sf);
       return evaluate(sf, with);
    }
@@ -145,8 +154,9 @@ int need_to_see()
 
 mapping lpscript_attributes()
 {
-   return ([
-      "light_msgs" : ({ LPSCRIPT_SPECIAL, (: ({ "special", "set_light_msgs(\"" + $1[0] + "\", \"" + (sizeof($1) > 1 ? $1[1] : $1[0]) + "\")" }) :) }),
-      "fuel" : ({ LPSCRIPT_INT, "setup", "set_fuel" }),
-   ]);
+   return (["light_msgs":({LPSCRIPT_SPECIAL, (
+                                                 : ({"special", "set_light_msgs(\"" + $1[0] + "\", \"" +
+                                                                    (sizeof($1) > 1 ? $1[1] : $1[0]) + "\")"})
+                                                 :)}),
+                  "fuel":({LPSCRIPT_INT, "setup", "set_fuel"}), ]);
 }

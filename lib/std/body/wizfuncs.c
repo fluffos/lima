@@ -10,18 +10,16 @@ object query_link();
 
 string query_home()
 {
-    string home;
+   string home;
 
-    home = wiz_dir(this_object()) + "/workroom";
-    if ( file_size(home + ".c") > 0 )
-	return home;
+   home = wiz_dir(this_object()) + "/workroom";
+   if (file_size(home + ".c") > 0)
+      return home;
 
-    return "CLONE";
+   return "CLONE";
 }
 
 nomask void wiz_switch_body(string obname)
 {
-    query_link()->switch_body(obname, 0);
-
+   query_link()->switch_body(obname, 0);
 }
-

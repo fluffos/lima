@@ -8,28 +8,27 @@
 
 void simple_action(string, object);
 
-private mapping weapons = ([
-                                 "right hand" : 0,
-                                 "left hand"  : 0,
-]);
+private
+mapping weapons = (["right hand":0, "left hand":0, ]);
 
-//:FUNCTION set_wield_slots
+//: FUNCTION set_wield_slots
 // Set the names of wielding slots in adversaries. Any existing value
 // will be overwritten. Adversaries have "left arm" and "right arm"
 // set as default values normally. Note that this is only available if
 // WIELD_MULTIPLE is defined.
 void set_wield_slots(string *list)
 {
-   if(!list)
+   if (!list)
       return;
    weapons = allocate_mapping(list, 0);
 }
 
-private string find_open_wield_slot()
+private
+string find_open_wield_slot()
 {
-   string *tmp = filter(keys(weapons), (: !weapons[$1] :));
+   string *tmp = filter(keys(weapons), ( : !weapons[$1] :));
 
-   if(!sizeof(tmp))
+   if (!sizeof(tmp))
       return 0;
 
    return choice(tmp);
@@ -37,18 +36,18 @@ private string find_open_wield_slot()
 
 varargs void wield(object ob, string where)
 {
-   if(weapons[where] == ob)
+   if (weapons[where] == ob)
       return;
 
-   if(!where)
+   if (!where)
       where = find_open_wield_slot();
-   if(!where)
+   if (!where)
    {
       write("You have no way of wielding that!\n");
       return;
    }
 
-   if(weapons[where])
+   if (weapons[where])
       weapons[where]->mark_wielded_by(0);
 
    weapons[where] = ob;
@@ -58,37 +57,37 @@ varargs void wield(object ob, string where)
 
 varargs void unwield(string where)
 {
-   if(!where)
+   if (!where)
    {
-      foreach(where in keys(weapons))
+      foreach (where in keys(weapons))
          unwield(where);
       return;
    }
 
-   if(weapons[where])
+   if (weapons[where])
       weapons[where]->mark_wielded_by(0);
    weapons[where] = 0;
 }
 
 varargs object query_weapon(string where)
 {
-   if(!where)
+   if (!where)
    {
       string *slots = keys(weapons);
-      if(!sizeof(slots))
-         return this_object();   // I am my own lethal weapon..
-      while(1)
+      if (!sizeof(slots))
+         return this_object(); // I am my own lethal weapon..
+      while (1)
       {
-        if(sizeof(slots)>1)
-          where = choice(slots);
-        else
-          where = slots[0];
-        if(weapons[where])
-          break;
-        else
-          slots -= ({ where });
-        if(sizeof(slots) == 0)
-          return this_object();
+         if (sizeof(slots) > 1)
+            where = choice(slots);
+         else
+            where = slots[0];
+         if (weapons[where])
+            break;
+         else
+            slots -= ({where});
+         if (sizeof(slots) == 0)
+            return this_object();
       }
    }
 
@@ -97,9 +96,9 @@ varargs object query_weapon(string where)
 
 varargs int do_wield(object ob, string slot)
 {
-   if(!ob->valid_wield())
+   if (!ob->valid_wield())
       return 0;
-   if(ob->query_wielded_by() == this_object())
+   if (ob->query_wielded_by() == this_object())
       return 0;
    wield(ob, slot);
 
@@ -108,18 +107,16 @@ varargs int do_wield(object ob, string slot)
 
 int do_unwield(mixed where)
 {
-   if(objectp(where))
+   if (objectp(where))
    {
-      string *slots = filter(keys(weapons),
-                                  (: weapons[$1] == $(where) :));
-      if(!sizeof(slots))
+      string *slots = filter(keys(weapons), ( : weapons[$1] == $(where) :));
+      if (!sizeof(slots))
          return 0;
       where = slots[0];
    }
 
-   if(!weapons[where] || weapons[where] == this_object() ||
-      !weapons[where]->valid_unwield())
-         return 0;
+   if (!weapons[where] || weapons[where] == this_object() || !weapons[where]->valid_unwield())
+      return 0;
 
    simple_action(weapons[where]->query_unwield_message(), weapons[where]);
    unwield(where);
@@ -132,11 +129,11 @@ string get_wield_attributes()
    string ret = " (wielded with ";
    string *wielding_slots = previous_object()->query_wielding();
 
-   if(sizeof(wielding_slots) == 1)
+   if (sizeof(wielding_slots) == 1)
       return sprintf(" (wielded in %s)", wielding_slots[0]);
-   if(sizeof(wielding_slots) == 2)
+   if (sizeof(wielding_slots) == 2)
    {
-      if(wielding_slots[0][<3..] == "arm" && wielding_slots[1][<3..] == "arm")
+      if (wielding_slots[0][ < 3..] == "arm" && wielding_slots[1][ < 3..] == "arm")
       {
          ret += explode(wielding_slots[0], " ")[0] + " and ";
          ret += explode(wielding_slots[1], " ")[0] + ")";
@@ -149,7 +146,7 @@ string get_wield_attributes()
    }
    else
    {
-      for(int x = sizeof(wielding_slots) - 1; x > 1; x--)
+      for (int x = sizeof(wielding_slots) - 1; x > 1; x--)
          ret += wielding_slots[x] + ", ";
       ret += wielding_slots[1] + " and " + wielding_slots[0] + ")";
    }

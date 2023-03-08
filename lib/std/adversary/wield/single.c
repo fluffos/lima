@@ -2,11 +2,12 @@
 
 void simple_action(string, object);
 
-private object weapon;
+private
+object weapon;
 
 varargs void unwield(string unused)
 {
-   if(weapon)
+   if (weapon)
       weapon->mark_wielded_by(0);
 
    weapon = 0;
@@ -14,7 +15,7 @@ varargs void unwield(string unused)
 
 varargs void wield(object ob, string unused)
 {
-   if(weapon)
+   if (weapon)
       unwield();
 
    weapon = ob;
@@ -28,19 +29,19 @@ object query_weapon()
 
 int do_wield(object ob)
 {
-   if(!(ob->valid_wield()))
+   if (!(ob->valid_wield()))
       return 0;
    simple_action(ob->query_wield_message(), ob);
    wield(ob);
-    
+
    return 1;
 }
 
 int do_unwield()
 {
-   if(!weapon || weapon == this_object())
+   if (!weapon || weapon == this_object())
       return 0;
-   if(!(weapon->valid_unwield()))
+   if (!(weapon->valid_unwield()))
       return 0;
 
    simple_action(weapon->query_unwield_message(), weapon);

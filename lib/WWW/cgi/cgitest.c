@@ -2,6 +2,7 @@
 
 // simple cgi test
 
-string main() {
-    return "At the tone, the time will be: "+ctime(time())+".\nBEEP!";
+string main()
+{
+   return "At the tone, the time will be: " + ctime(time()) + ".\nBEEP!";
 }

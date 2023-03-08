@@ -13,58 +13,59 @@ varargs mixed unguarded(mixed priv, function code);
 string query_userid();
 void save_me();
 
-private mixed *	failures = ({ });
-private int notify_time;	/* time user notified of bad logins */
+private
+mixed *failures = ({});
+private
+int notify_time; /* time user notified of bad logins */
 
-
-protected nomask void register_failure(string addr)
+protected
+nomask void register_failure(string addr)
 {
-    string s;
+   string s;
 
-    if(!arrayp(failures))
+   if (!arrayp(failures))
       failures = ({});
-    failures += ({ ({ time(), addr }) });
-    save_me();
+   failures += ({({time(), addr})});
+   save_me();
 
-    s = sprintf("%s: %s from %s\n", query_userid(), ctime(time()), addr);
-    LOG_D->log(LOG_LOGIN_FAILURE, s);
+   s = sprintf("%s: %s from %s\n", query_userid(), ctime(time()), addr);
+   LOG_D->log(LOG_LOGIN_FAILURE, s);
 }
 
-nomask mixed * query_failures()
+nomask mixed *query_failures()
 {
-    return copy(failures);
+   return copy(failures);
 }
 
 nomask void clear_failures()
 {
 #ifdef NEED_UNRESTRICTED_PLAYER_CMD
-    if ( !check_privilege(query_userid()) )
+   if (!check_privilege(query_userid()))
 #endif
-    if ( this_user() != this_object() )
-    {
-	error("* Security violation: you cannot clear this info\n");
-    }
+      if (this_user() != this_object())
+      {
+         error("* Security violation: you cannot clear this info\n");
+      }
 
-    failures = ({ });
-    save_me();
+   failures = ({});
+   save_me();
 }
 
-protected nomask void report_login_failures()
+protected
+nomask void report_login_failures()
 {
-    int count;
+   int count;
 
-    if ( !sizeof(failures) )
-	return;
+   if (!sizeof(failures))
+      return;
 
-    count = sizeof(filter_array(failures, (: $1[0] > $(notify_time) :)));
-    if ( !count )
-	return;
+   count = sizeof(filter_array(failures, ( : $1[0] > $(notify_time) :)));
+   if (!count)
+      return;
 
-//### hmm... this count is total, not since last login
-    printf("You had " +
-	   M_GRAMMAR->number_of(count, "failed login attempt") +
-	   " since your last login.\n");
+   // ### hmm... this count is total, not since last login
+   printf("You had " + M_GRAMMAR->number_of(count, "failed login attempt") + " since your last login.\n");
 
-    notify_time = time();
-    save_me();
+   notify_time = time();
+   save_me();
 }

@@ -14,7 +14,6 @@
 nomask void save_me();
 mixed unguarded(mixed priv, function fp);
 
-
 private
 mapping bodies = ([]);
 private
@@ -22,89 +21,91 @@ string selected;
 
 void set_body(string name, string fname, string race, int gender)
 {
-    if (!mapp(bodies))
-        bodies = ([]);
-    bodies[name] = ({fname, 1, race, gender});
-    save_me();
+   if (!mapp(bodies))
+      bodies = ([]);
+   bodies[name] = ({fname, 1, race, gender});
+   save_me();
 }
 
 void remove_body(string name)
 {
-    if (!mapp(bodies))
-        return;
-    map_delete(bodies, name);
-    unguarded(1, (: rm, USER_PATH(name)+__SAVE_EXTENSION__ :));
-    unguarded(1, (: call_other, LAST_LOGIN_D, "remove_user", name, 0:));
+   if (!mapp(bodies))
+      return;
+   map_delete(bodies, name);
+   unguarded(1, ( : rm, USER_PATH(name) + __SAVE_EXTENSION__:));
+   unguarded(1, ( : call_other, LAST_LOGIN_D, "remove_user", name, 0 :));
 }
 
 string query_selected_body()
 {
-    return selected;
+   return selected;
 }
 
 int query_num_bodies()
 {
-    if(!mapp(bodies)) bodies = ([ ]) ;
-    
-    return sizeof(keys(bodies));
+   if (!mapp(bodies))
+      bodies = ([]);
+
+   return sizeof(keys(bodies));
 }
 
 int set_selected_body(string name)
 {
-    name = lower_case(name);
-    if (member_array(name, keys(bodies)) != -1)
-    {
-        selected = name;
-        return 1;
-    }
-    return 0;
+   name = lower_case(name);
+   if (member_array(name, keys(bodies)) != -1)
+   {
+      selected = name;
+      return 1;
+   }
+   return 0;
 }
 
 mapping query_bodies()
 {
-    if(!mapp(bodies)) bodies = ([ ]) ;
-    
-    return bodies;
+   if (!mapp(bodies))
+      bodies = ([]);
+
+   return bodies;
 }
 
 int update_body(object body)
 {
-    string name = lower_case(body->query_name());
-    if (arrayp(bodies[name]))
-    {
-        bodies[name][BODY_LEVEL] = body->query_level();
-        bodies[name][BODY_RACE] = body->query_race();
-        bodies[name][BODY_GENDER] = body->query_gender();
-        save_me();
-        // TBUG("Body "+name+" updated in user.");
-        return 1;
-    }
-    return 0;
+   string name = lower_case(body->query_name());
+   if (arrayp(bodies[name]))
+   {
+      bodies[name][BODY_LEVEL] = body->query_level();
+      bodies[name][BODY_RACE] = body->query_race();
+      bodies[name][BODY_GENDER] = body->query_gender();
+      save_me();
+      // TBUG("Body "+name+" updated in user.");
+      return 1;
+   }
+   return 0;
 }
 
 protected
 nomask void set_body_fname(string name, string new_body_fname)
 {
-    bodies[name][BODY_FNAME] = new_body_fname;
-    save_me();
+   bodies[name][BODY_FNAME] = new_body_fname;
+   save_me();
 }
 
 varargs string query_fname(string name)
 {
-    if (!name)
-        name = query_selected_body();
-    if (!mapp(bodies))
-        set_body(name, "/std/race/human.c", "human", 0);
-    if (bodies[name])
-        return bodies[name][BODY_FNAME];
-    return "/std/race/human.c";
+   if (!name)
+      name = query_selected_body();
+   if (!mapp(bodies))
+      set_body(name, "/std/race/human.c", "human", 0);
+   if (bodies[name])
+      return bodies[name][BODY_FNAME];
+   return "/std/race/human.c";
 }
 
 int query_gender(string name)
 {
-    if (!mapp(bodies))
-        set_body(name, "/std/race/human.c", "human", 0);
-    if (bodies[name])
-        return bodies[name][BODY_GENDER];
-    return 0;
+   if (!mapp(bodies))
+      set_body(name, "/std/race/human.c", "human", 0);
+   if (bodies[name])
+      return bodies[name][BODY_GENDER];
+   return 0;
 }

@@ -8,8 +8,8 @@ inherit VERB_OB;
 
 void do_dismount_obj(object ob)
 {
-  ob->do_verb_rule("dismount", "OBJ", ob);
-} 
+   ob->do_verb_rule("dismount", "OBJ", ob);
+}
 
 void do_dismount()
 {
@@ -18,5 +18,5 @@ void do_dismount()
 
 void create()
 {
-    add_rules( ({ "", "OBJ" }) );
+   add_rules(({"", "OBJ"}));
 }

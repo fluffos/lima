@@ -4,10 +4,10 @@
 
 inherit GUILD_GUARD;
 
-void setup( string guild )
+void setup(string guild)
 {
-    set_max_health(5);
-    set_gender( 2 ); // female - overrides default
-    set_in_room_desc( "An armoured figure guards the north exit" );
-    add_block( "north" );
+   set_max_health(5);
+   set_gender(2); // female - overrides default
+   set_in_room_desc("An armoured figure guards the north exit");
+   add_block("north");
 }

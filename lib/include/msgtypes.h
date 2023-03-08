@@ -8,8 +8,10 @@
 #define OUTSIDE_MSG	2
 #define REMOTE_MSG	3
 
-#define NO_WRAP		4
-#define MSG_INDENT	8
-#define NO_ANSI		16
+#define NO_WRAP		     4
+#define MSG_INDENT	     8
+#define NO_ANSI		    16
+#define TREAT_AS_BLOB   32
+#define MSG_PROMPT      (64 | TREAT_AS_BLOB)
 
 #endif /* __MSGTYPES_H__ */

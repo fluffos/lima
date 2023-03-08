@@ -13,20 +13,20 @@
 
 class finger
 {
-    string	visname;
-    string	nickname;
-    string	title;
-    string	position;
-    string	real_name;
-    string	email;
-    string	home_page;
-    int		last_login;
-    int		idle;
-    string	connect_from;
-    string	level;		/* e.g. "player", "wizard", "admin" */
-    string	plan;
-    int		mail_count;
-    int		mail_unread;
-// For marriage system. Inserted by Aziz. :)
-    string	spouse;
+   string visname;
+   string nickname;
+   string title;
+   string position;
+   string real_name;
+   string email;
+   string home_page;
+   int last_login;
+   int idle;
+   string connect_from;
+   string level; /* e.g. "player", "wizard", "admin" */
+   string plan;
+   int mail_count;
+   int mail_unread;
+   // For marriage system. Inserted by Aziz. :)
+   string spouse;
 }

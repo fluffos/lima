@@ -20,20 +20,17 @@ inherit __DIR__ "object/attributes";
 
 void create()
 {
-    names::create();
-    flags::create();
+   names::create();
+   flags::create();
 }
 
-//:FUNCTION stat_me
-//return some debugging info about the state of the object
-string stat_me() 
+//: FUNCTION stat_me
+// return some debugging info about the state of the object
+string stat_me()
 {
-    return
-	"Short: "+short()+"\n" +
-	"IDs: "+implode(parse_command_id_list(),", ")+"\n" +
-	"Plurals: "+implode(parse_command_plural_id_list(),", ")+"\n" +
-	"Adjectives: "+implode(parse_command_adjectiv_id_list(),", ")+"\n" +
-	"Long: \n"+long() + "\n";
+   return "Short: " + short() + "\n" + "IDs: " + implode(parse_command_id_list(), ", ") + "\n" +
+          "Plurals: " + implode(parse_command_plural_id_list(), ", ") + "\n" +
+          "Adjectives: " + implode(parse_command_adjectiv_id_list(), ", ") + "\n" + "Long: \n" + long() + "\n";
 }
 
 /*
@@ -43,12 +40,12 @@ string stat_me()
 
 int is_visible()
 {
-    return 1;
+   return 1;
 }
 
-//### explain this comment.
-// Here on purpose.
-varargs mixed call_hooks(mixed s ...)
+// ### explain this comment.
+//  Here on purpose.
+varargs mixed call_hooks(mixed s...)
 {
 }
 

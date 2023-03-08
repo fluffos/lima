@@ -23,41 +23,58 @@ void hook_state(string, mixed, int);
 void assign_flag(int which, int state);
 void clear_flag(int);
 
-private nosave object wielded_by;
-private nosave function move_hook = (: unwield_me :);
-#if WIELD_STYLE != WIELD_SINGLE
-private string *wielding_limbs;
-#endif
+private
+nosave object wielded_by;
+private
+nosave function move_hook = ( : unwield_me:);
+private
+string *wielding_limbs;
+private
+nosave string *properties;
+
+string *query_properties()
+{
+   return properties;
+}
+
+void add_property(string prop)
+{
+   if (!properties)
+      properties = ({});
+   properties += ({capitalize(prop)});
+}
+
+void remove_property(string prop)
+{
+   if (properties)
+      properties -= ({capitalize(prop)});
+}
 
 int valid_wield()
 {
-    // return 1 if they can wield this.
-    return 1;
+   // return 1 if they can wield this.
+   return 1;
 }
 
 int valid_unwield()
 {
-    // return 1 if they can unwield this.
-    return 1;
+   // return 1 if they can unwield this.
+   return 1;
 }
 
 string query_wield_message()
 {
-    return "$N $vwield a $o.\n";
+   return "$N $vwield a $o.\n";
 }
 
 string query_unwield_message()
 {
-    return "$N $vunwield a $o.\n";
+   return "$N $vunwield a $o.\n";
 }
 
 mixed query_wielding()
 {
-#if WIELD_STYLE == WIELD_SINGLE
-   return 0;
-#else
    return wielding_limbs;
-#endif
 }
 
 object query_wielded_by()
@@ -67,19 +84,26 @@ object query_wielded_by()
 
 string wielded_attributes()
 {
-   return this_body()->get_wield_attributes();
+   return wielded_by ? wielded_by->get_wield_attributes() : "";
 }
 
-varargs void mark_wielded_by(object which, string *limbs...)
+int query_dual_wielded()
+{
+   return sizeof(wielding_limbs) >= 2;
+}
+
+void mark_wielded_by(object which, string *limbs)
 {
    wielded_by = which;
-#if WIELD_STYLE != WIELD_SINGLE
-   wielding_limbs = limbs;
-   if(which)
-      wielded_by->mark_wielding_limbs(limbs);
-#endif
    assign_flag(F_WIELDED, which && which != this_object());
+   wielding_limbs = limbs;
+   if (!which)
+      this_object()->unwielded();
    hook_state("move", move_hook, which && which != this_object());
+   if (arrayp(limbs) && sizeof(limbs) >= 2)
+   {
+      this_object()->dual_wielded();
+   }
 }
 
 mixed ob_state()
@@ -89,7 +113,7 @@ mixed ob_state()
 
 void unwield_me()
 {
-   if(wielded_by)
+   if (wielded_by)
    {
       wielded_by->do_unwield(this_object());
       wielded_by = 0;
@@ -111,11 +135,24 @@ mixed direct_wield_obj()
 {
    object who = owner(this_object());
 
-   if(who && who != this_body())
+   if (who && who != this_body())
       return 0;
 
-   if(wielded_by != 0)
+   if (wielded_by != 0)
       return "You're already wielding that!\n";
+
+   return 1; /* Fall through */
+}
+
+mixed direct_unwield_obj()
+{
+   object who = owner(this_object());
+
+   if (who && who != this_body())
+      return 0;
+
+   if (wielded_by == 0)
+      return "You're not wielding that!\n";
 
    return 1; /* Fall through */
 }
@@ -123,35 +160,71 @@ mixed direct_wield_obj()
 mixed direct_wield_obj_in_str(object ob, string limb)
 {
    object who = owner(this_object());
+   string str;
 
-   if(who && who != this_body())
+   limb = replace_string(limb, "hand", "arm");
+
+   if (who && who != this_body())
       return 0;
 
-   if(member_array(limb, who->query_wielding_limbs()) == -1)
+   if (!who)
+      who = this_body();
+
+   str = lower_case(limb);
+   if (str == "both arms" || str == "both hands" || str == "both")
+   {
+      string *wield_limbs = who->query_wielding_limbs();
+      int open_limbs = 0;
+      foreach (string li in wield_limbs)
+      {
+         if (who->can_wield(li, ob))
+            open_limbs++;
+      }
+      if ((ob->query_can_dual_wield() || ob->query_must_dual_wield()))
+      {
+         if (open_limbs >= 2)
+         {
+            if (ob->query_wielded_by() == who && ob->query_dual_wielded())
+            {
+               return "You are already dual wielding that!";
+            }
+            else
+               return 1;
+         }
+         else
+         {
+            return "Dual wielding that requires two free limbs!";
+         }
+      }
+   }
+   if (member_array(limb, who->query_wielding_limbs()) == -1)
       return 0;
 
-   if(!who->query_health(limb))
+   if (!who->query_health(limb))
       return sprintf("Your %s is in no condition to wield that!\n", limb);
 
    return 1;
 }
 
+mixed direct_wield_obj_with_str(object ob, string limb)
+{
+   return direct_wield_obj_in_str(ob, limb);
+}
+
 mixed direct_remove_obj()
 {
-    object who = owner(this_object());
+   object who = owner(this_object());
 
-    if(!query_wielded_by())
-       return "You are not wielding that.\n";
+   if (!query_wielded_by())
+      return "You are not wielding that.\n";
 
-    if(who && who != this_body())
+   if (who && who != this_body())
       return 0;
 
-    return 1;
+   return 1;
 }
 
 void internal_setup()
 {
-#if WIELD_STYLE != WIELD_SINGLE
-  this_object()->add_save(({ "wielding_limbs" }));
-#endif
+   this_object()->add_save(({"wielding_limbs"}));
 }

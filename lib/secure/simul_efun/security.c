@@ -4,53 +4,54 @@
 
 nomask int check_previous_privilege(mixed priv)
 {
-  return SECURE_D->check_privilege(priv,2);
+   return SECURE_D->check_privilege(priv, 2);
 }
 
 nomask int check_privilege(mixed priv)
 {
-  return SECURE_D->check_privilege(priv,1);
+   return SECURE_D->check_privilege(priv, 1);
 }
 
-nomask void require_privilege(mixed priv) {
-    if (!check_privilege(priv))
-	error("Permission denied: Do not have privilege " + priv + "\n");
-}
-
-nomask mixed get_protection(string file,string mode)
+nomask void require_privilege(mixed priv)
 {
-  int rw;
-  switch (mode[0])
-  {
-    case 'w':
+   if (!check_privilege(priv))
+      error("Permission denied: Do not have privilege " + priv + "\n");
+}
+
+nomask mixed get_protection(string file, string mode)
+{
+   int rw;
+   switch (mode[0])
+   {
+   case 'w':
       rw = 1;
       break;
-    case 'r':
+   case 'r':
       rw = 0;
       break;
-    default:
+   default:
       error("Bad argument 2 to get_protection()\n");
       break;
-  }
-  switch (mode[1])
-  {
-    case 'f':
+   }
+   switch (mode[1])
+   {
+   case 'f':
       file += "foo";
       break;
-    case 'd':
-      if (file[<1]=='/')
-	file += "foo";
+   case 'd':
+      if (file[ < 1] == '/')
+         file += "foo";
       else
-	file += "/foo";
+         file += "/foo";
       break;
-    default:
+   default:
       error("Bad argument 2 to get_protection()\n");
       break;
-  }
-  return SECURE_D->query_protection(file,rw);
+   }
+   return SECURE_D->query_protection(file, rw);
 }
 
 mixed get_privilege(object ob)
 {
-  return function_exists("query_privilege",ob)==M_ACCESS && ob->query_privilege();
+   return function_exists("query_privilege", ob) == M_ACCESS && ob->query_privilege();
 }

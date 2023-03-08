@@ -41,7 +41,12 @@
 #define TIMER_D       "/daemons/timer_d"
 #define VERB_D        "/daemons/verb_d"
 #define WEATHER_D     "/daemons/weather_d"
+#define EMOJI_D       "/daemons/emoji_d"
+#define CRAFTING_D    "/daemons/crafting_d"
+#define STATE_D       "/daemons/state_d"
+
 #define DOMAIN_D      "/daemons/domain_d"
+#define LOOT_D        "/daemons/loot_d"
 #define XTERM256_D    "/daemons/xterm256_d"
 #define CMD_D         "/secure/daemons/cmd_d"
 #define FINGER_D      "/secure/daemons/finger_d"
@@ -59,7 +64,7 @@
 
 // ### obsolete
 // Define these only if you want intermud services.
-#define REMOTE_D        "/secure/daemons/remote"
-#define CHANGW_D	"/daemons/changw"
+#define REMOTE_D      "/secure/daemons/remote"
+#define CHANGW_D	  "/daemons/changw"
 
 #endif // __DAEMONS_H__

@@ -6,10 +6,10 @@
 ** 950701, Deathblade: Created.
 */
 
-#include <mudlib.h>
-#include <security.h>
 #include <classes.h>
 #include <flags.h>
+#include <mudlib.h>
+#include <security.h>
 
 inherit M_ACCESS;
 
@@ -18,18 +18,20 @@ inherit CLASS_MAILMSG;
 /*
 ** mailbox: maps message keys to flags
 */
-private mapping mailbox = ([ ]);
+private
+mapping mailbox = ([]);
 
 /*
 ** Flags for the mail
 */
-#define F_UNREAD	1
-//### code assumes zero/non-zero; fix if more flags are added
+#define F_UNREAD 1
+// ### code assumes zero/non-zero; fix if more flags are added
 
 /*
 ** Who is this mailbox for?
 */
-private nosave string owner;
+private
+nosave string owner;
 
 /*
 ** What is the current message index.  This value is 0-based and represents
@@ -37,155 +39,157 @@ private nosave string owner;
 ** corresponds to the first key in the (ordered) set of message keys in the
 ** mailbox.
 */
-private nosave int message_index = 0;
+private
+nosave int message_index = 0;
 
-
-private nomask string get_fname()
+private
+nomask string get_fname()
 {
-    return sprintf("/data/mail/mbox/%c/%s", owner[0], owner);
+   return sprintf("/data/mail/mbox/%c/%s", owner[0], owner);
 }
 
 nomask void create(string the_owner)
 {
-    if ( !clonep() )
-	return;
+   if (!clonep())
+      return;
 
-    if ( file_name(previous_object()) != MAILBOX_D )
-	error("*Security violation: invalid creation");
+   if (file_name(previous_object()) != MAILBOX_D)
+      error("*Security violation: invalid creation");
 
-    owner = the_owner;
-    unguarded(1, (: restore_object, get_fname(), 1 :));
+   owner = the_owner;
+   unguarded(1, ( : restore_object, get_fname(), 1 :));
 }
-private nomask void save_me()
+private
+nomask void save_me()
 {
-    unguarded(1, (: save_object, get_fname() :));
+   unguarded(1, ( : save_object, get_fname() :));
 }
 nomask void remove()
 {
-    destruct();
+   destruct();
 }
 
 nomask string query_owner()
 {
-    return owner;
+   return owner;
 }
 
 nomask class mail_msg get_one_message(int message_key)
 {
-    class mail_msg msg;
+   class mail_msg msg;
 
-//### need some work on ensuring the call stack is correct
-//    if ( !check_privilege(owner) )
-    if ( this_user()->query_userid() != owner )
-	error("security violation: you are not allowed to use this mailbox\n");
+   // ### need some work on ensuring the call stack is correct
+   //     if ( !check_privilege(owner) )
+   if (this_user()->query_userid() != owner)
+      error("security violation: you are not allowed to use this mailbox\n");
 
-    if ( undefinedp(mailbox[message_key]) )
-	return 0;
+   if (undefinedp(mailbox[message_key]))
+      return 0;
 
-    msg = MAIL_D->get_one_message(message_key);
-    if ( !msg )
-    {
-	/* damn. bad message. remove it from the mailbox. */
-	map_delete(mailbox, message_key);
-	save_me();
-    }
+   msg = MAIL_D->get_one_message(message_key);
+   if (!msg)
+   {
+      /* damn. bad message. remove it from the mailbox. */
+      map_delete(mailbox, message_key);
+      save_me();
+   }
 
-    return msg;
+   return msg;
 }
 
 nomask int query_message_index()
 {
-    return message_index;
+   return message_index;
 }
 nomask void set_message_index(int new_message_index)
 {
-    message_index = new_message_index;
+   message_index = new_message_index;
 }
 
-nomask int * query_message_keys()
+nomask int *query_message_keys()
 {
-    return sort_array(keys(mailbox), 1);
+   return sort_array(keys(mailbox), 1);
 }
 nomask int query_message_count()
 {
-    return sizeof(mailbox);
+   return sizeof(mailbox);
 }
 
 nomask int query_message_read(int message_key)
 {
-    return mailbox[message_key];
+   return mailbox[message_key];
 }
 nomask void set_message_read(int message_key)
 {
-    if ( mailbox[message_key] )
-    {
-	mailbox[message_key] = 0;
-	save_me();
-    }
+   if (mailbox[message_key])
+   {
+      mailbox[message_key] = 0;
+      save_me();
+   }
 }
 nomask int query_unread_count()
 {
-    return implode(values(mailbox), (: $1 + $2 :));
+   return implode(values(mailbox), ( : $1 + $2:));
 }
 nomask int first_unread_message()
 {
-    int * message_keys = query_message_keys();
-    int message_key;
-    int message_index;
+   int *message_keys = query_message_keys();
+   int message_key;
+   int message_index;
 
-    foreach ( message_key in message_keys )
-    {
-	if ( mailbox[message_key] )
-	    return message_index;
+   foreach (message_key in message_keys)
+   {
+      if (mailbox[message_key])
+         return message_index;
 
-	++message_index;
-    }
+      ++message_index;
+   }
 
-    return -1;
+   return -1;
 }
 
 nomask void delete_message(int message_key)
 {
-//### need some work on ensuring the call stack is correct
-//    if ( !check_privilege(owner) )
-    if ( this_user()->query_userid() != owner )
-	error("security violation: you are not allowed to read this mail\n");
+   // ### need some work on ensuring the call stack is correct
+   //     if ( !check_privilege(owner) )
+   if (this_user()->query_userid() != owner)
+      error("security violation: you are not allowed to read this mail\n");
 
-    if ( undefinedp(mailbox[message_key]) )
-	error("non-existent message\n");
+   if (undefinedp(mailbox[message_key]))
+      error("non-existent message\n");
 
-    MAIL_D->delete_mail(message_key, owner);
-    if( query_unread_count() <= message_index ) message_index--;
-    map_delete(mailbox, message_key);
+   MAIL_D->delete_mail(message_key, owner);
+   if (query_unread_count() <= message_index)
+      message_index--;
+   map_delete(mailbox, message_key);
 
-    save_me();
+   save_me();
 }
 
 nomask void nuke_mailbox()
 {
-    if ( !check_previous_privilege(1) )
-	error("security violation: illegal nuke of mailbox\n");
+   if (!check_previous_privilege(1))
+      error("security violation: illegal nuke of mailbox\n");
 
-    foreach ( int message_key in keys(mailbox) )
-	MAIL_D->delete_mail(message_key, owner);
+   foreach (int message_key in keys(mailbox))
+      MAIL_D->delete_mail(message_key, owner);
 
-    mailbox = ([ ]);
-    unguarded(1, (: rm, get_fname() + __SAVE_EXTENSION__ :));
+   mailbox = ([]);
+   unguarded(1, ( : rm, get_fname() + __SAVE_EXTENSION__:));
 }
 
-//### temp functions?  wait and see
+// ### temp functions?  wait and see
 
 nomask void receive_new_message(int message_key)
 {
-    object user;
+   object user;
 
-//    if( previous_object() != find_object( MAIL_D ) )
-//	return;
+   //    if( previous_object() != find_object( MAIL_D ) )
+   //	return;
 
-    mailbox[message_key] = F_UNREAD;
-    save_me();
+   mailbox[message_key] = F_UNREAD;
+   save_me();
 
-    if ( (user = find_user(owner)) &&
-	 user->query_body()->test_flag(F_BIFF) )
-	tell(user, ">>You have new mail<<\n");
+   if ((user = find_user(owner)) && user->query_body()->test_flag(F_BIFF))
+      tell(user, ">>You have new mail<<\n");
 }

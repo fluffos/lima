@@ -16,45 +16,50 @@
 inherit FOLLOWING_MONSTER;
 inherit M_TRIGGERS;
 
-private string *masters = ({ "tigran", "iizuka" });
+private
+string *masters = ({"tigran", "iizuka"});
 
-void do_follow(string name) {
-  object ob;
-  
-  name = lower_case(name);
-  if (!(ob = present(name, environment())) || !ob->is_living()) {
-    respond("growl angrily");
-    return;
-  }
-  set_follow(ob);
+void do_follow(string name)
+{
+   object ob;
+
+   name = lower_case(name);
+   if (!(ob = present(name, environment())) || !ob->is_living())
+   {
+      respond("growl angrily");
+      return;
+   }
+   set_follow(ob);
 }
 
-void do_command(string who, string str) {
-  if (str[<1] == '.') str = str[0..<2];
-  if (member_array(who, masters) == -1) {
-    respond("growl angrily");
-    return;
-  }
-  if (str[0..6] == "follow ") 
-    do_follow(str[7..]);
-  else
-    respond(str);
+void do_command(string who, string str)
+{
+   if (str[ < 1] == '.')
+      str = str[0.. < 2];
+   if (member_array(who, masters) == -1)
+   {
+      respond("growl angrily");
+      return;
+   }
+   if (str[0..6] == "follow ")
+      do_follow(str[7..]);
+   else
+      respond(str);
 }
 
 void setup()
 {
-  int *handle;
-  
-  set_name("Wolf");
-  set_gender(1);
-  set_in_room_desc("A White Timber Wolf");
-  set_adj("White Timber", "timber", "white");
-  set_id("Wolf", "wolf");
-  set_unique(1);
-  set_long("A White Timber Wolf");
-  add_pattern("%s says: Timber, %s", (: do_command :));
-  //  add_pattern("%([^ ]*) enters", (: "emote glances at " + $1 + " for a moment." :));
-  add_pattern("%s looks at you", (: "look " + $1 :));
-  set_follow_search(masters);
-}
+   int *handle;
 
+   set_name("Wolf");
+   set_gender(1);
+   set_in_room_desc("A White Timber Wolf");
+   set_adj("White Timber", "timber", "white");
+   set_id("Wolf", "wolf");
+   set_unique(1);
+   set_long("A White Timber Wolf");
+   add_pattern("%s says: Timber, %s", ( : do_command:));
+   //  add_pattern("%([^ ]*) enters", (: "emote glances at " + $1 + " for a moment." :));
+   add_pattern("%s looks at you", ( : "look " + $1:));
+   set_follow_search(masters);
+}

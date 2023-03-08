@@ -7,5 +7,5 @@ inherit INDOOR_ROOM;
 
 void mudlib_setup()
 {
-    ::mudlib_setup();
+   ::mudlib_setup();
 }

@@ -10,47 +10,71 @@ varargs int query_max_health(string);
 
 class wear_info
 {
-    object primary;
-    object *others;
+   object primary;
+   object *others;
+   object secondary;
 }
 
-private mapping armors = ([ ]);
+private mapping armors = ([]);
+
+mapping query_armor_map()
+{
+   return armors;
+}
 
 class wear_info find_wi(string s)
 {
    class wear_info wi;
 
    wi = armors[s];
-    
-   if(!wi)
+
+   // Upgrade class with secondary if needed
+   if (sizeof(wi) == 2)
    {
-      if(!is_limb(s))
+      class wear_info wi_upgrade = new (class wear_info);
+      wi_upgrade->primary = wi->primary;
+      wi_upgrade->others = wi->others;
+      wi = wi_upgrade;
+      armors[s] = wi;
+   }
+
+   if (!wi)
+   {
+      if (!is_limb(s))
          return 0;
-      wi = armors[s] = new(class wear_info);
+      wi = armors[s] = new (class wear_info);
    }
    return wi;
 }
 
-//:FUNCTION query_armors
+//: FUNCTION query_armors
 // object *query_armors(string s);
 // Returns the armors that are covering limb 's'.
 object *query_armors(string s)
 {
    class wear_info wi;
+   object *armors = ({});
 
-   if(query_max_health(s) == -1)
+   if (query_max_health(s) == -1)
       return 0;
 
    wi = find_wi(s);
-   if(!wi)
+   if (!wi)
       return 0;
-   if(wi->primary)
-      return wi->others ? ({ wi->primary }) + wi->others : ({ wi->primary });
+
+   armors += ({wi->primary}) + (arrayp(wi->others) ? wi->others : ({0})) + ({wi->secondary});
+   armors -= ({0});
+   return sizeof(armors) ? armors : 0;
+
+   /*
+   if (wi->primary)
+      return wi->others ? ({wi->primary}) + wi->others : ({wi->primary});
    else
       return wi->others ? wi->others : 0;
+      */
 }
 
-//:FUNCTION wear_item
+//: FUNCTION wear_item
 // nomask int wear_item(object what, string where);
 // Forces the adversary to wear 'what' on its 'where' limb.
 nomask int wear_item(object what, string where)
@@ -59,48 +83,75 @@ nomask int wear_item(object what, string where)
    mixed *also;
 
    wi = find_wi(where);
-   if(!wi || wi->primary)
+
+   // Check if this is worn under other things.
+   if (what->query_worn_under())
+   {
+      if (!wi || wi->secondary)
+         return 0;
+
+      wi->secondary = what;
+
+      also = what->also_covers();
+      if (also)
+         foreach (string limb in also)
+            if (wi = find_wi(limb))
+            {
+               if (wi->others)
+                  wi->others += ({what});
+               else
+                  wi->others = ({what});
+               wi->others -= ({0});
+            }
+      return 1;
+   }
+
+   if (!wi || wi->primary)
       return 0;
-    
+
    wi->primary = what;
 
    also = what->also_covers();
-   if(also)
+   if (also)
       foreach (string limb in also)
-         if(wi = find_wi(limb))
+         if (wi = find_wi(limb))
          {
-            if(wi->others)
-               wi->others += ({ what });
+            if (wi->others)
+               wi->others += ({what});
             else
-               wi->others = ({ what });
+               wi->others = ({what});
+            wi->others -= ({0});
          }
 
    return 1;
 }
 
-//:FUNCTION remove_item
+//: FUNCTION remove_item
 // nomask int remove_item(object what, string where);
 // Removes armor 'what' from the 'where' limb.
 nomask int remove_item(object what, string where)
 {
    class wear_info wi;
    string *also;
-    
-   if(!(wi = armors[where]) || wi->primary != what) return 0;
+
+   if (!(wi = armors[where]) || wi->primary != what)
+      return 0;
 
    wi->primary = 0;
-   if(wi->others == 0)
+   if (wi->others == 0)
       map_delete(armors, where);
 
    also = what->also_covers();
-   if(also)
+   if (also)
       foreach (string limb in also)
-         if(wi = find_wi(limb))
+         if (wi = find_wi(limb))
          {
-            wi->others -= ({ what });
-            if(sizeof(wi->others) == 0)
+            wi->others -= ({what});
+            wi->others -= ({0});
+
+            if (sizeof(wi->others) == 0)
             {
-               if(wi->primary == 0)
+               if (wi->primary == 0)
                   map_delete(armors, limb);
                else
                   wi->others = 0;
@@ -109,7 +160,7 @@ nomask int remove_item(object what, string where)
    return 1;
 }
 
-//:FUNCTION has_body_slot
+//: FUNCTION has_body_slot
 // int has_body_slot(string slot);
 // Returns 1 if the body slot is a valid one.
 int has_body_slot(string slot)
@@ -117,7 +168,7 @@ int has_body_slot(string slot)
    return is_limb(slot);
 }
 
-//:FUNCTION query_armor_slots
+//: FUNCTION query_armor_slots
 // string *query_armor_slots()
 // Returns all valid armor slots on an adversary.
 string *query_armor_slots()
@@ -132,8 +183,6 @@ string query_random_armor_slot()
 
 object *event_get_armors(class event_info evt)
 {
-// Following ifdef added so this would update nicely always
-#ifdef HEALTH_USES_LIMBS
+   // Following ifdef added so this would update nicely always
    return query_armors(evt->target_extra);
-#endif
 }

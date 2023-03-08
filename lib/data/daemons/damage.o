@@ -1,2 +1,3 @@
 #/daemons/damage_d.c
-damage ({"blade","fire","blow","magic","emotional",})
+damage ({"acid","bludgeon","cold","fire","force","lightning","necrotic","piercing","poison","psychic","radiant","slashing","thunder",})
+short_names (["force":"FRC","cold":"CLD","fire":"FIR","necrotic":"NEC","acid":"ACI","poison":"POI","psychic":"PSY","thunder":"THU","radiant":"RAD","bludgeon":"BLU","slashing":"SLA","piercing":"PRC","lightning":"LGT",])

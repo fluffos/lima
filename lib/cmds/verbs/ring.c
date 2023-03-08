@@ -2,10 +2,12 @@
 
 inherit VERB_OB;
 
-void do_ring_obj(object ob) {
-    ob->do_ring();
+void do_ring_obj(object ob)
+{
+   ob->do_ring();
 }
 
-void create() {
-    add_rules( ({ "OBJ" }) );
+void create()
+{
+   add_rules(({"OBJ"}));
 }

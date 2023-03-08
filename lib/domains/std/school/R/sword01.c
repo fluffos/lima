@@ -26,6 +26,6 @@ MAY
         "forward" : R "sword02",
       ]) );
     set_objects( ([
-      "/domains/std/objects/sword" : 1,
+      "/domains/std/weapon/sword" : 1,
       ]) );
 }

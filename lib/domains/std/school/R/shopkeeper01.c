@@ -16,7 +16,7 @@ Second element = number in stock (-1 for limitless supply)
 
     set_sell(([
      __DIR__ "apple" : -1,
-     OBJS "sword" : 3,
+      "^std/weapon/sword" : 3,
      ]));
 
 }

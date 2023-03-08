@@ -31,7 +31,7 @@ void mudlib_setup()
 {
    object::mudlib_setup();
    light_object::mudlib_setup();
-   add_save( ({ "num_decays" }) );
+   add_save(({"num_decays"}));
    set_id("lantern");
 #ifdef USE_SIZE
    set_size(MEDIUM);

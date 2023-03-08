@@ -9,24 +9,28 @@ string fname;
 
 void finish_editing(string *alltext)
 {
-  string fname=get_file_name();
-  if(!alltext) {
-    write("Description unchanged.\n");
-    return;
-  }
+   string fname = get_file_name();
+   if (!alltext)
+   {
+      write("Description unchanged.\n");
+      return;
+   }
 
-  if(change_attribute(fname,"long",implode(alltext,"\n"))) {
-    write("Description changed.\n");
-    update(fname);
-  }
+   if (change_attribute(fname, "long", implode(alltext, "\n")))
+   {
+      write("Description changed.\n");
+      update(fname);
+   }
 }
 
-private void main() {
-    string fname;
+private
+void main()
+{
+   string fname;
 
-    if (!(fname = get_file_name()))
-	return;
+   if (!(fname = get_file_name()))
+      return;
 
-    write("Begin typing description.\n");
-    new(EDIT_OB,EDIT_TEXT,0,(:finish_editing:));
+   write("Begin typing description.\n");
+   new (EDIT_OB, EDIT_TEXT, 0, ( : finish_editing:));
 }

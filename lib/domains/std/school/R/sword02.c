@@ -22,6 +22,6 @@ MAY
         "weaponry" : R "weaponry",
       ]) );
     set_objects( ([
-      "/domains/std/objects/sword" : 1,
+      "/domains/std/objects/weapon/sword" : 1,
       ]) );
 }

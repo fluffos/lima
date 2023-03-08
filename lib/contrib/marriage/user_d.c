@@ -37,166 +37,160 @@
 
 inherit M_ACCESS;
 
-static private string *	legal_user_query =
-({
+static private string *legal_user_query = ({
     "failures",
     "email",
     "real_name",
     "password",
     "url",
 });
-static private string *	legal_user_set =
-({
+static private string *legal_user_set = ({
     "failures",
     "password",
 });
 
-static private string *	legal_body_query =
-({
-    "nickname",
-    "plan",		/* only when EVERYONE_HAS_A_PLAN */
-    "wiz_position",
-    "title",		/* only when USE_TITLES */
-    "spouse",		/* Added by Aziz for marriage. */
+static private string *legal_body_query = ({
+    "nickname", "plan",      /* only when EVERYONE_HAS_A_PLAN */
+    "wiz_position", "title", /* only when USE_TITLES */
+    "spouse",                /* Added by Aziz for marriage. */
 });
-static private string *	legal_body_set =
-({
-    "plan",		/* only when EVERYONE_HAS_A_PLAN */
+static private string *legal_body_set = ({
+    "plan", /* only when EVERYONE_HAS_A_PLAN */
     "wiz_position",
 });
 
 class var_info
 {
-    object	ob;
-    string	fname;
-    string *	lines;
+   object ob;
+   string fname;
+   string *lines;
 }
 
-void create() {
-    set_privilege(1);
-}
-
-private nomask mixed query_online_object(object ob, string varname)
+void create()
 {
-    return evaluate(bind((: fetch_variable, varname :), ob));
+   set_privilege(1);
 }
 
-private nomask mixed set_online_object(object ob, string varname, mixed value)
+private
+nomask mixed query_online_object(object ob, string varname)
 {
-    evaluate(bind((: store_variable, varname, value :), ob));
+   return evaluate(bind(( : fetch_variable, varname:), ob));
 }
 
-private nomask mixed query_filed_object(string * lines, string varname)
+private
+nomask mixed set_online_object(object ob, string varname, mixed value)
 {
-    lines = regexp(lines, "^" + varname + " ");
-    if ( !sizeof(lines) )
-	return 0;
-    return restore_variable(lines[0][sizeof(varname) + 1..]);
+   evaluate(bind(( : store_variable, varname, value:), ob));
 }
 
-nomask mixed * query_variable(string userid, string * vlist)
+private
+nomask mixed query_filed_object(string *lines, string varname)
 {
-    class var_info user;
-    class var_info body;
-    class var_info which;
-    mixed * results;
-    string var;
+   lines = regexp(lines, "^" + varname + " ");
+   if (!sizeof(lines))
+      return 0;
+   return restore_variable(lines[0][sizeof(varname) + 1..]);
+}
 
-    if ( !check_privilege(1) )
-	error("insufficient privilege to query variables\n");
+nomask mixed *query_variable(string userid, string *vlist)
+{
+   class var_info user;
+   class var_info body;
+   class var_info which;
+   mixed *results;
+   string var;
 
-    results = ({ });
-    
-    foreach ( var in vlist )
-    {
-	if ( member_array(var, legal_user_query) != -1 )
-	{
-	    if ( !user )
-	    {
-		user = new(class var_info);
-		user->ob = find_user(userid);
-		user->fname = LINK_PATH(userid) + __SAVE_EXTENSION__;
-	    }
+   if (!check_privilege(1))
+      error("insufficient privilege to query variables\n");
 
-	    which = user;
-	}
-	else if ( member_array(var, legal_body_query) != -1 )
-	{
-	    if ( !body )
-	    {
-		body = new(class var_info);
-		body->ob = find_body(userid);
-		body->fname = USER_PATH(userid) + __SAVE_EXTENSION__;
-	    }
+   results = ({});
 
-	    which = body;
-	}
-	else
-	    error("illegal variable request\n");
+   foreach (var in vlist)
+   {
+      if (member_array(var, legal_user_query) != -1)
+      {
+         if (!user)
+         {
+            user = new (class var_info);
+            user->ob = find_user(userid);
+            user->fname = LINK_PATH(userid) + __SAVE_EXTENSION__;
+         }
 
-	if ( which->ob )
-	{
-	    results += ({ query_online_object(which->ob, var) });
-	}
-	else
-	{
-	    if ( !which->lines )
-	    {
-		if ( !is_file(which->fname) )
-		{
-		    /* no such player */
-		    return 0;
-		}
+         which = user;
+      }
+      else if (member_array(var, legal_body_query) != -1)
+      {
+         if (!body)
+         {
+            body = new (class var_info);
+            body->ob = find_body(userid);
+            body->fname = USER_PATH(userid) + __SAVE_EXTENSION__;
+         }
 
-		which->lines = explode(read_file(which->fname), "\n");
-	    }
+         which = body;
+      }
+      else
+         error("illegal variable request\n");
 
-	    results += ({ query_filed_object(which->lines, var) });
-	}
-    }
+      if (which->ob)
+      {
+         results += ({query_online_object(which->ob, var)});
+      }
+      else
+      {
+         if (!which->lines)
+         {
+            if (!is_file(which->fname))
+            {
+               /* no such player */
+               return 0;
+            }
 
-    return results;
+            which->lines = explode(read_file(which->fname), "\n");
+         }
+
+         results += ({query_filed_object(which->lines, var)});
+      }
+   }
+
+   return results;
 }
 
 nomask void set_variable(string userid, string varname, mixed value)
 {
-    string fname;
-    object ob;
-    mixed * lines;
+   string fname;
+   object ob;
+   mixed *lines;
 
-    if ( !check_privilege(1) )
-	error("insufficient privilege to set variables\n");
+   if (!check_privilege(1))
+      error("insufficient privilege to set variables\n");
 
-    if ( member_array(varname, legal_user_set) != -1 )
-    {
-	fname = LINK_PATH(userid);
-	ob = find_user(userid);
-    }
-    else if ( member_array(varname, legal_body_set) != -1 )
-    {
-	fname = USER_PATH(userid);
-	ob = find_body(userid);
-    }
+   if (member_array(varname, legal_user_set) != -1)
+   {
+      fname = LINK_PATH(userid);
+      ob = find_user(userid);
+   }
+   else if (member_array(varname, legal_body_set) != -1)
+   {
+      fname = USER_PATH(userid);
+      ob = find_body(userid);
+   }
 
-    if ( !fname )
-	error("illegal variable assignment\n");
+   if (!fname)
+      error("illegal variable assignment\n");
 
-    if ( ob )
-	return set_online_object(ob, varname, value);
+   if (ob)
+      return set_online_object(ob, varname, value);
 
-    fname += __SAVE_EXTENSION__;
-    if ( !is_file(fname) )
-	error("no such user\n");
+   fname += __SAVE_EXTENSION__;
+   if (!is_file(fname))
+      error("no such user\n");
 
-    lines = regexp(explode(read_file(fname), "\n"),
-		  "^" + varname + " ",
-		   2);
-    write_file(fname, implode(lines, "\n") +
-	       sprintf("\n%s %s\n", varname, save_variable(value)),
-	       1);
+   lines = regexp(explode(read_file(fname), "\n"), "^" + varname + " ", 2);
+   write_file(fname, implode(lines, "\n") + sprintf("\n%s %s\n", varname, save_variable(value)), 1);
 }
 
 nomask int user_exists(string s)
 {
-  return unguarded(1, (: is_file(LINK_PATH($(s)) + __SAVE_EXTENSION__) :));
+   return unguarded(1, ( : is_file(LINK_PATH($(s)) + __SAVE_EXTENSION__) :));
 }

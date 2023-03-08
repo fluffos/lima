@@ -7,25 +7,29 @@
 ** Original by Rust (?)
 */
 
-//:PLAYERCOMMAND
+//: PLAYERCOMMAND
 //$$ see: bug, typo, feedback, question
-//USAGE:  idea
+// USAGE:  idea
 //
-//Allows you to document an idea for the administration to see.
+// Allows you to document an idea for the administration to see.
 
 inherit CMD;
 
 void create()
 {
-  ::create();
-  no_redirection();
+   ::create();
+   no_redirection();
 }
 
-private void main(string str){ REPORTER_D->report_something("Idea", str); }
+private
+void main(string str)
+{
+   REPORTER_D->report_something("Idea", str);
+}
 
 void player_menu_entry()
 {
-  bare_init();
-  main("");
-  done_outputing();
+   bare_init();
+   main("");
+   done_outputing();
 }

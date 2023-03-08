@@ -2,6 +2,7 @@
 
 #include <daemons.h>
 
-string main(string user) {
-    return replace_string(read_file("/FOR_ALPHA"), "\n", "<BR>\n");
+string main(string user)
+{
+   return replace_string(read_file("/FOR_ALPHA"), "\n", "<BR>\n");
 }

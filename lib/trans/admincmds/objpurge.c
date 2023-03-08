@@ -1,13 +1,13 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-//:ADMINCOMMAND
+//: ADMINCOMMAND
 //$$see: objfind
-//USAGE objpurge <filename>
+// USAGE objpurge <filename>
 //
-//Removes the objects that would be returned from objfind
-//ie those with the specified filename
+// Removes the objects that would be returned from objfind
+// ie those with the specified filename
 //
-//Admin Only
+// Admin Only
 
 /*
 ** objpurge.c
@@ -24,23 +24,25 @@
 
 inherit CMD;
 
-private object * get_obs(string arg)
+private
+object *get_obs(string arg)
 {
-  return filter_array(objects(), (: base_name($1) == $(arg) :) );
+   return filter_array(objects(), ( : base_name($1) == $(arg) :));
 }
 
-private void main(string arg)
+private
+void main(string arg)
 {
-  object * obs;
+   object *obs;
 
-  if ( !check_privilege(1) )
-    error("Must be an admin to use objpurge.\n");
+   if (!check_privilege(1))
+      error("Must be an admin to use objpurge.\n");
 
-  obs = get_obs(arg);
-  outf("Removing %d objects of class %s\n", sizeof(obs), arg);
-  obs->remove();
+   obs = get_obs(arg);
+   outf("Removing %d objects of class %s\n", sizeof(obs), arg);
+   obs->remove();
 
-  obs = filter_array(obs, (: $1 :));  /* remove zeros */
-  outf("Destructing %d objects of class %s\n", sizeof(obs), arg);
-  map_array(obs, (: destruct :));
+   obs = filter_array(obs, ( : $1:)); /* remove zeros */
+   outf("Destructing %d objects of class %s\n", sizeof(obs), arg);
+   map_array(obs, ( : destruct:));
 }

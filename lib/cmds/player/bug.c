@@ -7,25 +7,29 @@
 // Beek made one line reports work right 11/14/94
 // Rust made them post news
 
-//:PLAYERCOMMAND
-//$$ see: idea, typo, feedback, question
-//USAGE:  bug
+//: PLAYERCOMMAND
+//$$see: idea, typo, feedback, question
+// USAGE bug
 //
-//This command directs a report of a game bug to the proper place.
+// This command directs a report of a game bug to the proper place.
 
 inherit CMD;
 
 void create()
 {
-  ::create();
-  no_redirection();
+   ::create();
+   no_redirection();
 }
 
-private void main(string str){ REPORTER_D->report_something("Bug", str); }
+private
+void main(string str)
+{
+   REPORTER_D->report_something("Bug", str);
+}
 
 void player_menu_entry()
 {
-  bare_init();
-  main("");
-  done_outputing();
+   bare_init();
+   main("");
+   done_outputing();
 }

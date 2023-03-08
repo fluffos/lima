@@ -11,13 +11,12 @@ inherit M_DAMAGE_SOURCE;
 void do_spell_damage(object target, function damage_func)
 {
    this_body()->start_fight(target);
-   this_body()->add_event(target, this_object(), 0,
-                         evaluate(damage_func) );
+   this_body()->add_event(target, this_object(), 0, evaluate(damage_func));
 }
 
 void setup()
 {
-   set_damage_type("magic");
+   set_damage_type("force");
 #ifdef USE_SKILLS
    set_skill_used("spell");
 #endif

@@ -35,103 +35,101 @@ inherit M_DAEMON_DATA;
 #define SAVE "\e7"
 #define RESTORE "\e8"
 #define HOME "\e[H"
+#define NEW_RESET "\e[0;10m"
+#define BLACK_BACK "\e[49;49m"
 
-protected mapping translations, null_translations, identity_translations;
+protected
+mapping translations, null_translations, identity_translations;
 
-string * restrictions;
+string *restrictions;
 
 mapping defaults;
 
 mapping *query_translations()
 {
-  return ({ translations, null_translations, identity_translations });
+   return ({translations, null_translations, identity_translations});
 }
 
-string* query_restrictions() { return copy(restrictions); }
+string *query_restrictions()
+{
+   return copy(restrictions);
+}
 
-mapping defaults() { return defaults; }
+mapping defaults()
+{
+   return defaults;
+}
 
 void create()
 {
-  ::create();
+   ::create();
 
-  if (!translations)
-    translations = ([
-	    "NONE" : "",
-	    "RESET" : RESET, "BOLD" : BOLD, "FLASH" : FLASH, "BLACK" : BLACK, "RED" : RED,
-	    "GREEN" : GREEN, "ORANGE" : ORANGE, "YELLOW" : YELLOW, "BLUE" : BLUE,
-	    "CYAN" : CYAN, "MAGENTA" : MAGENTA, "WHITE" : WHITE, "B_RED" : B_RED,
-	    "B_GREEN" : B_GREEN, "B_ORANGE" : B_ORANGE, "B_YELLOW" : B_YELLOW,
-	    "B_BLUE" : B_BLUE, "B_CYAN" : B_CYAN, "B_BLACK" : B_BLACK,
-	    "B_WHITE" : B_WHITE, "CLEARLINE" : CLEARLINE, "B_MAGENTA" : B_MAGENTA,
-	    "INITTERM" : INITTERM, "ENDTERM" : ENDTERM, "SAVE" : SAVE,
-	    "RESTORE" : RESTORE, "HOME" : HOME,
-	    ]);
+   if (!translations)
+      translations = (["NONE":"",
+                      "RESET":RESET, "BOLD":BOLD, "FLASH":FLASH, "BLACK":BLACK, "RED":RED, "GREEN":GREEN,
+                     "ORANGE":ORANGE, "YELLOW":YELLOW, "BLUE":BLUE, "CYAN":CYAN, "MAGENTA":MAGENTA, "WHITE":WHITE,
+                      "B_RED":B_RED, "B_GREEN":B_GREEN, "B_ORANGE":B_ORANGE, "B_YELLOW":B_YELLOW, "B_BLUE":B_BLUE,
+                     "B_CYAN":B_CYAN, "B_BLACK":B_BLACK, "B_WHITE":B_WHITE, "CLEARLINE":CLEARLINE,
+                  "B_MAGENTA":B_MAGENTA, "INITTERM":INITTERM, "ENDTERM":ENDTERM, "SAVE":SAVE, "RESTORE":RESTORE,
+                       "HOME":HOME, "NEW_RESET":NEW_RESET, "BLACK_BACK":BLACK_BACK, ]);
 
-  if (!defaults)
-    defaults = ([
-	    "ROOM_EXIT" : "magenta",
-	    "TELL" : "bold",
-	    "CHANNEL" : "green",
-	    "MORE" : "bold",
-	    "ROOM_SHORT" : "none",
-	    "LS_DIR" : "magenta",
-	    "LS_LOADED" : "yellow",
-	    "LS_DEFAULT" : "cyan",
-	    "LS_HEADING" : "bold"
-	    ]);
-  if(!restrictions)
-    restrictions = ({});
+   if (!defaults)
+      defaults = (["ROOM_EXIT":"magenta",
+                        "TELL":"bold", "CHANNEL":"green", "MORE":"bold", "ROOM_SHORT":"yellow", "LS_DIR":"magenta",
+                   "LS_LOADED":"yellow", "LS_DEFAULT":"cyan", "LS_HEADING":"bold"]);
+   if (!restrictions)
+      restrictions = ({});
 
-  translations = translations + defaults;
+   translations = translations + defaults;
 
-
-  null_translations = map(translations, function(){ return "";} );
-  identity_translations = map(translations, (: "%^" + $1 + "%^" :));
+   null_translations = map(
+       translations, function() { return ""; });
+   identity_translations = map(translations, ( : "%^" + $1 + "%^" :));
 }
 
 void resync()
 {
-  translations = translations + defaults;
+   translations = translations + defaults;
 
-  null_translations = map(translations, function(){ return "";} );
-  identity_translations = map(translations, (: "%^" + $1 + "%^" :));
+   null_translations = map(
+       translations, function() { return ""; });
+   identity_translations = map(translations, ( : "%^" + $1 + "%^" :));
 
-  save_me();
-  users()->update_translations();
+   save_me();
+   XTERM256_D->update_ansi();
+   users()->update_translations();
 }
-
 
 void add_restriction(string key)
 {
-  require_privilege("Mudlib:daemons");
+   require_privilege("Mudlib:daemons");
 
-  restrictions += ({ upper_case(key) });
+   restrictions += ({upper_case(key)});
 }
 
 void remove_restriction(string key)
 {
-  require_privilege("Mudlib:daemons");
+   require_privilege("Mudlib:daemons");
 
-  restrictions -= ({ upper_case(key) });
+   restrictions -= ({upper_case(key)});
 }
 
 void add_default_colour(string key, string value, int wiz_only)
 {
-  require_privilege("Mudlib:daemons");
+   require_privilege("Mudlib:daemons");
 
-  defaults[upper_case(key)] = lower_case(value);
-  if(wiz_only)
-    restrictions += ({ upper_case(key) });
-  resync();
+   defaults[upper_case(key)] = lower_case(value);
+   if (wiz_only)
+      restrictions += ({upper_case(key)});
+   resync();
 }
 
 void remove_default_colour(string key)
 {
-  require_privilege("Mudlib:daemons");
+   require_privilege("Mudlib:daemons");
 
-  map_delete(translations, upper_case(key));
-  map_delete(defaults, upper_case(key));
-  restrictions += ({ upper_case(key) });
-  resync();
+   map_delete(translations, upper_case(key));
+   map_delete(defaults, upper_case(key));
+   restrictions += ({upper_case(key)});
+   resync();
 }

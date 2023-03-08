@@ -7,12 +7,11 @@ inherit M_OPENABLE;
 inherit M_GETTABLE;
 inherit M_LOCKABLE;
 
-
 void mudlib_setup()
 {
-  set_id( "chest" );
-  set_attached();
-  add_relation("in",VERY_LARGE);
-  add_relation("on",VERY_LARGE);
-  set_default_relation("in");
+   set_id("chest");
+   set_attached();
+   add_relation("in", VERY_LARGE);
+   add_relation("on", VERY_LARGE);
+   set_default_relation("in");
 }

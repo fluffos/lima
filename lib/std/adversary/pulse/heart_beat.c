@@ -9,17 +9,18 @@ object get_target();
 
 nosave int attacking = 0;
 
-void set_attack_speed(int x) {
+void set_attack_speed(int x)
+{
 }
 
 int query_penalty()
 {
-    return 0;
+   return 0;
 }
 
 void do_something()
 {
-   if(!attacking)
+   if (!attacking)
    {
       set_heart_beat(0);
       return;
@@ -30,7 +31,7 @@ void do_something()
 
 void heart_beat()
 {
-    do_something();
+   do_something();
 }
 
 /* Call this function to make us start a fight with "who".  It's
@@ -41,18 +42,18 @@ varargs void attacked_by(object who, int take_a_swing)
 {
    switch_to(who);
 
-   if(!attacking)
+   if (!attacking)
    {
       attacking = 1;
       set_heart_beat(1);
-      if(take_a_swing)
+      if (take_a_swing)
          do_something();
    }
 }
 
 string continue_fight()
 {
-   if(!get_target())
+   if (!get_target())
       return "You aren't attacking anyone.\n";
    // wait for heart_beat
    return "All in good time.\n";
@@ -61,4 +62,9 @@ string continue_fight()
 void stop_attacking()
 {
    attacking = 0;
+}
+
+int is_attacking()
+{
+   return attacking;
 }

@@ -2,19 +2,17 @@
 
 inherit VERB_OB;
 
-
-void do_knock_on_obj( object obj )
+void do_knock_on_obj(object obj)
 {
-    obj->do_knock();
+   obj->do_knock();
 }
 
 void do_knock_at_obj(object obj)
 {
-    obj->do_knock();
+   obj->do_knock();
 }
 
 void create()
 {
-  add_rules( ({ "on OBJ", "at OBJ" }), ({ "rap" }) );
+   add_rules(({"on OBJ", "at OBJ"}), ({"rap"}));
 }
-

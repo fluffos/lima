@@ -22,25 +22,26 @@
 ** displayed.  Each object will then use this information to display that
 ** data.
 */
-private nosave mapping attribute_info = 0;
+private
+nosave mapping attribute_info = 0;
 
 int test_flag(int);
 
-//:FUNCTION get_attributes
+//: FUNCTION get_attributes
 // Get the attributes (a string) for the given object.  This will be
 // built from the object's flag states and the registered attributes.
 string get_attributes()
 {
-    string attr = " ";
+   string attr = " ";
 
-    if (!attribute_info)
-	attribute_info = ATTRIBUTES_D->get_global_attributes();
-    
-    foreach(int flag, mixed info in attribute_info)
-    {
-       if(test_flag(flag))
-          attr += call_other(this_object(), info);
-    }
+   if (!attribute_info)
+      attribute_info = ATTRIBUTES_D->get_global_attributes();
 
-    return attr;
+   foreach (int flag, mixed info in attribute_info)
+   {
+      if (test_flag(flag))
+         attr += call_other(this_object(), info);
+   }
+
+   return attr;
 }

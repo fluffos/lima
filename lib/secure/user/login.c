@@ -5,9 +5,9 @@
 //	Apr 30, 1995 to move to new user/body system.
 //
 
-#include <daemons.h>
-#include <config.h>
 #include <commands.h>
+#include <config.h>
+#include <daemons.h>
 #include <security.h>
 
 string query_userid();
@@ -18,13 +18,8 @@ void sw_body_handle_new_logon(string);
 void userinfo_handle_logon();
 void sw_body_handle_existing_logon(string, int);
 void register_failure(string addr);
-varargs void modal_push(function input_func,
-                        mixed prompt,
-                        int secure,
-                        function return_to_func);
-varargs void modal_func(function input_func,
-                        mixed prompt,
-                        int secure);
+varargs void modal_push(function input_func, mixed prompt, int secure, function return_to_func);
+varargs void modal_func(function input_func, mixed prompt, int secure);
 void modal_pop();
 void modal_recapture();
 mixed unguarded(mixed priv, function fp);
@@ -49,9 +44,7 @@ private
 nomask void get_lost()
 {
    remove_call_out();
-   modal_func(( : 1
-                :),
-              ""); /* ignore all input */
+   modal_func(( : 1 :), ""); /* ignore all input */
    destruct();
 }
 
@@ -114,8 +107,7 @@ nomask int valid_name(string str)
    {
       printf("Sorry, your site has been banished from %s.  To ask for\n"
              "a character, please mail %s.\n",
-             mud_name(),
-             ADMIN_EMAIL);
+             mud_name(), ADMIN_EMAIL);
       get_lost();
       return 0;
    }
@@ -191,8 +183,7 @@ nomask int check_special_commands(string arg)
          break;
 
       default:
-         printf("The following people are logged on:\n%s\n",
-                implode(b, ", "));
+         printf("The following people are logged on:\n%s\n", implode(b, ", "));
          break;
       }
 
@@ -259,9 +250,7 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
 
    case INITIAL_PROMPT:
       /* setup timeout */
-      call_out((
-                   : login_handle_logon, TIMEOUT:),
-               LOGIN_NAME_WAIT);
+      call_out(( : login_handle_logon, TIMEOUT:), LOGIN_NAME_WAIT);
 
       write("");
 #ifdef WELCOME_DIR
@@ -282,18 +271,14 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
        * extensively modified/rewritten more than half of the base mudlib first
        * (intend to modify ... doesn't cut it)
        */
-      printf("%s is running %s on %s\n\n",
-             mud_name(), lima_version(), driver_version());
+      printf("%s is running %s on %s\n\n", mud_name(), lima_version(), driver_version());
 
 #ifdef ZORKMUD
       write("Hello, Zorker!\n");
 #else
       write("Hello, Player!\n");
 #endif
-      modal_push((
-                     : login_handle_logon, NAME_PROMPT, 0
-                     :),
-                 LOGIN_PROMPT);
+      modal_push(( : login_handle_logon, NAME_PROMPT, 0 :), LOGIN_PROMPT);
 
       /* do this to kick off the modal system and print a prompt */
       modal_recapture();
@@ -312,13 +297,9 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
          return;
       if (!valid_name(arg))
          return;
-      if (unguarded(1, (
-                           : file_size, LINK_PATH(arg) +
-                                            __SAVE_EXTENSION__:)) <= 0)
+      if (unguarded(1, ( : file_size, LINK_PATH(arg) + __SAVE_EXTENSION__:)) <= 0)
       {
-         modal_func((
-                        : login_handle_logon, CONFIRM_NEW_NAME, arg:),
-                    "Is '" + capitalize(arg) + "' correct? ");
+         modal_func(( : login_handle_logon, CONFIRM_NEW_NAME, arg:), "Is '" + capitalize(arg) + "' correct? ");
          return;
       }
 
@@ -340,19 +321,13 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
          return;
       }
 
-      modal_func((
-                     : login_handle_logon, GET_PASSWORD, 0
-                     :),
-                 "Password: ", 1);
+      modal_func(( : login_handle_logon, GET_PASSWORD, 0 :), "Password: ", 1);
 
       /*
       ** Adjust the time we'll wait for the user
       */
       remove_call_out(); /* all call outs */
-      call_out((
-                   : login_handle_logon, -1
-                   :),
-               LOGIN_PASSWORD_WAIT);
+      call_out(( : login_handle_logon, -1 :), LOGIN_PASSWORD_WAIT);
       break;
 
       /************ IS 'NAME' CORRECT? ************/
@@ -382,9 +357,10 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
          }
          else
          {
-            write("Unfortunately, " + mud_name() + " is still in the "
-                                                   "developmental stage, and is not accepting new users. "
-                                                   "If it is urgent, please use the guest character.\n");
+            write("Unfortunately, " + mud_name() +
+                  " is still in the "
+                  "developmental stage, and is not accepting new users. "
+                  "If it is urgent, please use the guest character.\n");
             get_lost();
             return;
          }
@@ -397,10 +373,7 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
 
          write("\nA new player in our midst!\n");
 
-         modal_func((
-                        : login_handle_logon, NEW_PASSWORD, 0
-                        :),
-                    "Please enter your password: ", 1);
+         modal_func(( : login_handle_logon, NEW_PASSWORD, 0 :), "Please enter your password: ", 1);
          break;
 
       case "maybe":
@@ -426,10 +399,7 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
 
       write("\n"); /* needed after a no-echo input */
 
-      modal_func((
-                     : login_handle_logon, CONFIRM_PASSWORD, crypt(arg, 0)
-                     :),
-                 "Again to confirm: ", 1);
+      modal_func(( : login_handle_logon, CONFIRM_PASSWORD, crypt(arg, 0) :), "Again to confirm: ", 1);
       break;
 
       /************ CONFIRM PASSWORD *************/
@@ -438,10 +408,7 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
       {
          write("\nSocks don't need to, but passwords have to match.\n");
 
-         modal_func((
-                        : login_handle_logon, NEW_PASSWORD, 0
-                        :),
-                    "Password: ", 1);
+         modal_func(( : login_handle_logon, NEW_PASSWORD, 0 :), "Password: ", 1);
          return;
       }
 
@@ -487,10 +454,7 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
       }
 
       write("\nHmmm.....\nI'll give you another chance.\n");
-      modal_func((
-                     : login_handle_logon, GET_PASSWORD, extra + 1
-                     :),
-                 "Password: ", 1);
+      modal_func(( : login_handle_logon, GET_PASSWORD, extra + 1 :), "Password: ", 1);
       break;
 
    case TIMEOUT: /* The timer has expired */

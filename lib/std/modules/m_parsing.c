@@ -1,6 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-private nosave string *useless_msgs = ({
+private
+nosave string *useless_msgs = ({
     " doesn't seem to work.\n",
     " isn't notably helpful.\n",
     " has no effect.\n",
@@ -11,5 +12,5 @@ private nosave string *useless_msgs = ({
 
 string useless(string str)
 {
-    return str + choice(useless_msgs);
+   return str + choice(useless_msgs);
 }

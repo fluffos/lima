@@ -9,16 +9,16 @@ void do_lie_wrd_obj(string prep, object ob)
 
 void do_lie_down()
 {
-   if(this_body()->lie_down())
+   if (this_body()->lie_down())
       this_body()->simple_action("$N $vlie down on the ground.");
 }
 
 void do_lie()
 {
-   this_body()->simple_action( "$N $vclaim to have a brilliant wit, and a sparkling personality.");
+   this_body()->simple_action("$N $vclaim to have a brilliant wit, and a sparkling personality.");
 }
 
 void create()
 {
-   add_rules( ({ "WRD OBJ", "", "down" }) );
+   add_rules(({"WRD OBJ", "", "down"}));
 }

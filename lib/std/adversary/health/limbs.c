@@ -2,6 +2,8 @@
 
 // limbs.c - Adversary module to control limb-based health. Body styles
 //           are stored in /daemons/body_d.c.
+//
+// Tsath 2020: Extended with drunkenness
 
 #include <limbs.h>
 
@@ -10,67 +12,228 @@ inherit __DIR__ "diagnose_msg";
 
 void die();
 varargs void simple_action(string, string);
+varargs void filtered_simple_action(mixed msg, function filter, mixed extra, mixed *obs...);
 void update_health();
-protected
-void restore_concentration(int x);
 void save_me();
-int query_level();
-void calc_level();
 int do_unwield(string);
 int query_asleep();
 int query_stunned();
-int xp_value();
-int karma_impact();
-int query_wil();
+int query_level();
+int reflex_max();
+varargs int xp_value(object);
 int query_con();
-varargs int query_capacity(string relation);
+varargs float query_capacity(string relation);
 varargs int query_max_capacity(string relation);
 int query_no_move_capacity();
-void gmcp_send_vitals();
+int query_prone();
+int message_filter(object who, mixed extra);
+void set_reflex(int mp);
+void set_max_health(int);
+int should_cap_skill(string skillname);
+varargs int test_skill(string skill, int opposing_skill, int train_limit);
 
 private
 nosave string body_style = "humanoid";
+private
+nosave mapping limb_sizes;
 private
 mapping health = BODY_D->get_body("humanoid");
 private
 nosave int health_time = time();
 private
-int concentration = 0;
-private
 int heal_rate = 15;
 private
-int concentration_rate = 30;
+int sober_rate = 30;
 private
 int dead = 0;
+private
+int drunk = 0; // 0: Sober
+private
+int abuse = 0; // 0: New born
+private
+int reflex = 0;
+private
+int reflex_rate = 30;
 
-//:FUNCTION check_body_style
-// int check_body_style()
-// Checks if this body has a body defined already (returns 1), otherwise
-// returns 0 and adds a humanoid body. This can be replaced with
-// update_body_style(string body_style) should that be needed.
-int check_body_style()
+private
+nosave int hp_cap;
+
+//: FUNCTION query_drunk
+// Returns the points of drunkeness currently held by this adversary.
+// See also set_drunk(int).
+int query_drunk()
 {
-   if (mapp(health))
+   return drunk;
+}
+
+//: FUNCTION query_max_drunk()
+// The maximum level of drunk points this adversary can hold. This increases
+// with level and constitution stat score.
+int query_max_drunk()
+{
+   return 20 + query_level() + query_con();
+}
+
+//: FUNCTION query_abuse
+// Returns the abuse points held by this adversary.
+int query_abuse()
+{
+   return abuse;
+}
+
+//: FUNCTION query_max_abuse
+// Returns the maximum abuse points held by this adversary before they die
+// permanently.
+int query_max_abuse()
+{
+   return 1000 + (10 * query_level() + 5 * query_con());
+}
+
+//: FUNCTION query_abuse_percent
+// Returns the abuse percentage.
+int query_abuse_percent()
+{
+   return CLAMP((100 * abuse) / query_max_abuse(), 0, 100);
+}
+
+//: FUNCTION abuse_body
+// Abuse this adversary for a number of points. These are hard to get
+// rid of so use sparringly.
+int abuse_body(int a)
+{
+   int cap_skill = should_cap_skill("misc/life/endocrines");
+   if (test_skill("misc/life/endocrines", a, cap_skill))
+   {
+      abuse += to_int(a / 2);
+   }
+   else
+      abuse += a;
+   return 1;
+}
+
+int remove_abuse(int a)
+{
+   int cap_skill = should_cap_skill("misc/life/endocrines");
+   if (test_skill("misc/life/endocrines", a, cap_skill))
+      abuse += to_int(a * 2);
+   else
+      abuse -= a;
+
+   if (abuse < 0)
+      abuse = 0;
+   return 1;
+}
+
+//: FUNCTION set_drunk
+// Set a drunk level at a specific point. This is useful for adversaries
+// you want to exhibit drunk behavior.
+void set_drunk(int d)
+{
+   drunk = CLAMP(d, 0, query_max_drunk());
+}
+
+//: FUNCTION drink_alchohol
+// Drink alchohol and add 'd' to the drunk level.
+int drink_alchohol(int d)
+{
+   int cap_skill = should_cap_skill("misc/life/boozing");
+   if (test_skill("misc/life/boozing", d, cap_skill))
+   {
+      drunk += to_int(d / 2);
+   }
+   else
+      drunk += d;
+}
+
+//: FUNCTION query_drunk_percent
+// Returns the drunk level in percent.
+int query_drunk_percent()
+{
+   return (100 * drunk) / query_max_drunk();
+}
+
+//: FUNCTION drunk_diagnose
+// Returns a string with a description of the drunkeness level.
+string drunk_diagnose()
+{
+   string dd;
+   switch (query_drunk_percent())
+   {
+   case 0..19:
+      break;
+   case 20..30:
+      dd = "a little tipsy";
+      break;
+   case 31..40:
+      dd = "a little drunk";
+      break;
+   case 41..50:
+      dd = "very drunk";
+      break;
+   case 51..60:
+      dd = "extremely drunk";
+      break;
+   case 61..70:
+      dd = "in a drunken stupor";
+      break;
+   case 71..80:
+      dd = "in a deep drunken stupor";
+      break;
+   case 81..90:
+      dd = "barely awake";
+      break;
+   default:
+      dd = "close to an alchohol coma";
+      break;
+   }
+   return dd;
+}
+
+//: FUNCTION sober_up
+// Removes a number of drunk points.
+void sober_up(int s)
+{
+   drunk -= s;
+   if (drunk < 0)
+      drunk = 0;
+}
+
+//: FUNCTION query_abuse
+// Can we drink at all? This function returns 1 if not above
+// max drunk otherwise 0.
+int can_drink()
+{
+   if (drunk < query_max_drunk())
       return 1;
-   health = BODY_D->get_body("humanoid");
    return 0;
 }
 
-string query_body_style()
-{
-   return body_style;
-}
-
-//:FUNCTION hp_adjustment
+//: FUNCTION hp_adjustment
 // int hp_adjustment(int hp,int level)
 // Returns the adjustment HP for a limb for an adversary.
 int hp_adjustment(int hp, int level)
 {
-   float hpModifier = 1 + (level / 10.0);
+   float hpModifier = 1 + (level / 10.0) + (query_con() / 20.0) * (1.0 - (query_abuse_percent() / 125.0));
    return to_int(hp * hpModifier);
 }
 
-//:FUNCTION update_body_style
+void update_max_health()
+{
+   mapping new_body = BODY_D->get_body(body_style);
+
+   foreach (string name, class limb l in health)
+   {
+      class limb std_limb = (class limb)new_body[name];
+      l->max_health = hp_adjustment(std_limb->max_health, query_level());
+   }
+
+   // TBUG("HP_cap: " + hp_cap);
+   // If our HP are capped, respect that cap.
+   if (hp_cap)
+      set_max_health(hp_cap);
+}
+
+//: FUNCTION update_body_style
 // int update_body_style(string body_style);
 // Queries BODY_D for the number and type of limbs that will be used.
 // e.g. update_body_style("humanoid") will give the body a torso, head,
@@ -81,34 +244,27 @@ int update_body_style(string bstyle)
 {
    mapping new_body = BODY_D->get_body(bstyle);
    body_style = bstyle;
-   calc_level();
-   //TBUG("Setting body style "+body_style+" for "+this_object()+ " Level "+this_object()->query_level());
+   limb_sizes = BODY_D->get_body_size(bstyle);
+   // TBUG("Setting body style " + body_style + " for " + this_object() + " Level " + this_object()->query_level());
 
    if (!new_body)
       return 0;
 
    // Make sure we have at least one vital or system limb..
 
-   if (!filter(keys(new_body), (
-                                   : ((class limb)$(new_body)[$1])->flags &
-                                         (LIMB_VITAL | LIMB_SYSTEM)
-                                   :)))
+   if (!filter(keys(new_body), ( : ((class limb)$(new_body)[$1])->flags & (LIMB_VITAL | LIMB_SYSTEM) :)))
       return 0;
 
    health = new_body;
 
    foreach (string name, class limb l in health)
    {
-      l->max_health = hp_adjustment(l->max_health, this_object()->query_level());
-      l->health = hp_adjustment(l->max_health, this_object()->query_level());
+      l->max_health = hp_adjustment(l->max_health, query_level());
+      l->health = hp_adjustment(l->max_health, query_level());
    }
 
    update_health();
    return 1;
-}
-
-void update_body()
-{
 }
 
 int is_vital_limb(string limb)
@@ -136,7 +292,7 @@ int is_attacking_limb(string limb)
    return ((class limb)health[limb])->flags & LIMB_ATTACKING;
 }
 
-//:FUNCTION query_limbs
+//: FUNCTION query_limbs
 // string *query_limbs();
 // Returns a string *containing all limbs that health is applied to.
 string *query_limbs()
@@ -144,66 +300,128 @@ string *query_limbs()
    return keys(health);
 }
 
-//:FUNCTION query_wielding_limbs
+//: FUNCTION query_wielding_limbs
 // string *query_wielding_limbs();
 // Returns a string *containing all the limbs that can wield weapons.
 string *query_wielding_limbs()
 {
-   return sort_array(filter(keys(health), (
-                                              : ((class limb)health[$1])->flags & LIMB_WIELDING:)),
-                     -1);
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_WIELDING:));
 }
 
-//:FUNCTION query_attacking_limbs
+//: FUNCTION query_attacking_limbs
 // string *query_attacking_limbs();
 // Returns a string *containing all the limba that can attack.
 string *query_attacking_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags &
-                                         LIMB_ATTACKING:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_ATTACKING:));
 }
 
-//:FUNCTION query_vital_limbs
+//: FUNCTION query_vital_limbs
 // string *query_vital_limbs();
 // Returns a string *containing all the limbs that are considered
 // vital for survival. If any one of these limbs is disabled, the
 // adversary dies.
 string *query_vital_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_VITAL:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_VITAL:));
 }
 
-//:FUNCTION query_mobile_limbs
+//: FUNCTION query_mobile_limbs
 // string *query_mobile_limbs();
 // Lima doesn't do anything with mobile limbs, but they're provided for
 // those who want health of mobile limbs to affect movement and such.
 string *query_mobile_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_MOBILE:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_MOBILE:));
 }
 
-//:FUNCTION query_system_limbs
+//: FUNCTION query_system_limbs
 // string *query_system_limbs();
 // Returns a string *of 'system' limbs. When ALL system limbs are
 // disabled, the adversary dies.
 string *query_system_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->flags & LIMB_SYSTEM:));
+   return filter(keys(health), ( : ((class limb)health[$1])->flags & LIMB_SYSTEM:));
 }
 
-//:FUNCTION query_non_limbs
+//: FUNCTION query_non_limbs
 // string *query_non_limbs();
 // Returns a list of body parts that are not worth tracking health for.
 // Such body parts are defined by having a max_health of -1.
 string *query_non_limbs()
 {
-   return filter(keys(health), (
-                                   : ((class limb)health[$1])->max_health == -1
-                                   :));
+   return filter(keys(health), ( : ((class limb)health[$1])->max_health == -1 :));
+}
+
+//: FUNCTION query_reflex
+// int query_reflex()
+// Returns the amount of reflex currently had by the adversary.
+int query_reflex()
+{
+   return reflex;
+}
+
+//: FUNCTION max_reflex
+// int max_reflex()
+// Returns the max reflex based on the mana stat and a bonus for level of the
+// adversary.
+int max_reflex()
+{
+   return to_int((this_object()->query_int() || 1) * (1 + (query_level() / 10.0)));
+}
+
+//: FUNCTION set_reflex
+// void set_reflex(int mp)
+// Set the reflex to an integer, but never higher than max_reflex().
+void set_reflex(int mp)
+{
+   if (mp > max_reflex())
+      mp = max_reflex();
+   reflex = mp;
+}
+
+//: FUNCTION spend_reflex
+// void spend_reflex(int m)
+// Spends reflex nomatter whether there is enough or too little. reflex is left at 0 no matter
+// what. Returns 1 if we had enough, 0 if we didn't.
+int spend_reflex(int m)
+{
+   reflex -= m;
+   if (reflex < 0)
+   {
+      reflex = 0;
+      return 0;
+   }
+   return 1;
+}
+
+//: FUNCTION use_reflex
+// int use_reflex(int m)
+// Uses reflex from the reflex pool only if it's available and returns 1. If there is not enough
+// nothing is used, and 0 is returned.
+int use_reflex(int m)
+{
+   if (reflex - m >= 0)
+   {
+      reflex -= m;
+      return 1;
+   }
+   return 0;
+}
+
+//: FUNCTION restore_reflex
+// protected void restore_reflex(int x);
+// Restore us a specified amount, truncating at max_reflex().
+protected
+void restore_reflex(int x)
+{
+   // Dont get reflex while dead, sorry.
+   if (dead)
+      return;
+
+   reflex += x;
+   if (reflex > max_reflex())
+      reflex = max_reflex();
 }
 
 void set_heal_rate(int x)
@@ -218,7 +436,7 @@ int query_heal_rate()
    return heal_rate;
 }
 
-//:FUNCTION set_max_limb_health
+//: FUNCTION set_max_limb_health
 // void set_max_limb_health(string limb, int x);
 // Sets the maximum health for a given limb.
 void set_max_limb_health(string limb, int x)
@@ -236,13 +454,19 @@ void set_max_limb_health(string limb, int x)
    tmp->health = x;
 }
 
-//:FUNCTION set_max_health
+//: FUNCTION set_max_health
 // void set_max_health(int x);
 // Set the maximum number of hit points of a monster, and also set it's
-// hit points to the new max
+// hit points to the new max. MUST be called *after* update_body_type()
+// if that is called since that resets all limbs to neutral hitpoints
+// i.e. sums to 100.
 void set_max_health(int x)
 {
    int max = 0;
+   if (!x)
+      x = hp_cap;
+   else
+      hp_cap = x;
 
    foreach (string l, class limb d in health)
       if (d->max_health > max)
@@ -250,92 +474,95 @@ void set_max_health(int x)
 
    foreach (string l, class limb d in health)
    {
-      if (d->max_health != -1)
-      {
-         d->max_health = (d->max_health * x / max < 1 ? 1 : d->max_health * x / max);
-         d->health = d->max_health;
-      }
+      d->max_health = d->max_health * x / max;
+      d->health = d->max_health;
    }
 }
 
-void slain_by(object slayer)
+//: FUNCTION can_move
+// int can_move();
+// Returns 1 if we can move, 0 if not.
+int can_move()
 {
-   //Override me.
+   int can_move = 0;
+
+   if (query_prone())
+      return 0;
+
+   // Are we over max capacity?
+   if (query_capacity() > query_no_move_capacity())
+      return 0;
+
+   // Do we have limbs that can move us?
+   foreach (string l, class limb lb in health)
+   {
+      if ((lb->flags & LIMB_MOBILE) && (lb->health > 0))
+         can_move = 1;
+   }
+
+   return can_move;
 }
 
-//:FUNCTION kill_us
+//: FUNCTION kill_us
 // void kill_us();
-// This functions handles quite a bit:
-// * Adds XP to the slayer
-// * calls slain_by(player) in this object.
-// * Updates the slayers BESTIARY
-// * Updates opponents Karma
-// * and finally kills us. (die()).
-//
-// Yeah, sorry, we had to.
+// Kills us. =)
 void kill_us()
 {
+   object killer = previous_object();
    dead = 1;
-   if (previous_object())
+   if (previous_object()->is_turret())
+      killer = previous_object()->acts_for();
+
+   if (killer)
    {
-      string team = PARTY_D->locate_user(previous_object()->short());
-      object *viable = filter_array(all_inventory(environment(this_object())), (
-                                                                                   : $1->is_body()
-                                                                                   :));
-      this_object()->slain_by(previous_object());
+      string team = PARTY_D->locate_user(killer->short());
+      object *viable = filter_array(all_inventory(environment(this_object())), ( : $1->is_body() :));
+      this_object()->slain_by(killer);
       if (team && sizeof(viable) > 1)
       {
-         //Player is in a team
-         PARTY_D->award_experience(previous_object(), team, viable, query_level());
-         PARTY_D->modify_karma(team, viable, karma_impact());
-         previous_object()->query_bestiary()->add_slain(this_object());
+         // Player is in a team
+         PARTY_D->award_experience(killer, team, viable, query_level());
       }
       else
       {
-         previous_object()->modify_karma(karma_impact());
-         previous_object()->add_experience(xp_value());
-         if (previous_object()->query_bestiary())
-            previous_object()->query_bestiary()->add_slain(this_object());
+         // Add the XP to the player.
+         killer->add_experience(xp_value(killer));
+         // Add xp and object for stats purposes.
+         killer->register_kill(this_object(), xp_value(killer));
       }
    }
 
-   //If this is a player, his worn/wielded equipment loses random durability.
-   if (this_object()->is_body())
-   {
-      object *obs = all_inventory(this_object());
-      object *filtered_obs = ({});
-
-      foreach (object ob in obs)
-      {
-         if ((ob->is_armor() && ob->ob_state()) || (ob->is_weapon() && ob->query_wielded_by() == this_object()))
-            filtered_obs += ({ob});
-         if (ob->is_spell_effect())
-            ob->remove();
-      }
-
-      foreach (object o in filtered_obs)
-      {
-         int reduce_dura = o->max_durability() / 10;
-         o->decrease_durability(random(reduce_dura));
-         o->set_worn(0);
-         o->do_remove();
-      }
-   }
-
-   dead = 1;
    die();
 }
 
+/* OLD function where all is equal
 string query_random_limb()
 {
-   string *limbs = filter(keys(health),
+   string *limbs = filter_mapping(keys(health),
                           (
                               : ((class limb)health[$1])->health > 0
                               :));
    return sizeof(limbs) ? choice(limbs) : 0;
 }
+*/
 
-//:FUNCTION disable_limb
+//: FUNCTION query_random_limb
+// Return a limb based on the size of the limb. The larger
+// the limb the higher chance it's returned. Only limbs that
+// have hitpoints are returned.
+string query_random_limb()
+{
+   mapping limbs;
+   if (!limb_sizes)
+   {
+      update_body_style(body_style);
+   }
+   limbs = filter_mapping(limb_sizes, ( : ((class limb)health[$1])->health > 0 :));
+
+   return sizeof(limbs) ? element_of_weighted(limbs) : 0;
+}
+
+//: FUNCTION disable_limb
 // void disable_limb(string limb);
 // Disables a limb. For effects on vital and system limbs, see
 // query_vital_limbs() and query_system_limbs().
@@ -359,20 +586,33 @@ void disable_limb(string limb)
             dont_kill_me_now = 1;
       }
       if (dont_kill_me_now == 1)
-         simple_action("$N cannot use $p $o anymore.", limb);
+      {
+         filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.",
+                                (
+                                    : message_filter:),
+                                "disable_limb", limb);
+      }
       else
          kill_us();
    }
    else if (((class limb)health[limb])->flags & LIMB_WIELDING)
    {
-      simple_action("$N cannot use $p $o anymore.", limb);
+      filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.",
+                             (
+                                 : message_filter:),
+                             "disable_limb", limb);
       do_unwield(limb);
    }
    else
-      simple_action("$N cannot use $p $o anymore.", limb);
+   {
+      filtered_simple_action("$N %^COMBAT_CONDITION%^cannot use%^RESET%^ $p $o anymore.",
+                             (
+                                 : message_filter:),
+                             "disable_limb", limb);
+   }
 }
 
-//:FUNCTION enable_limb
+//: FUNCTION enable_limb
 // void enable_limb(string limb);
 // Re-enables a disabled limb.
 void enable_limb(string limb)
@@ -384,6 +624,8 @@ void enable_limb(string limb)
    health[limb] = tmp;
 }
 
+//: FUNCTION set_health
+// Set hitpoints for a limb to a certain amount.
 varargs void set_health(string limb, int x)
 {
    class limb tmp = health[limb];
@@ -402,20 +644,18 @@ varargs void set_health(string limb, int x)
       disable_limb(limb);
 }
 
-//:FUNCTION hurt_us
+//: FUNCTION hurt_us
 // varargs int hurt_us(int x, string limb);
 // Hurt us a specified amount.
 varargs int hurt_us(int x, string limb)
 {
    class limb tmp;
-   //TBUG("hurt_us: "+x+" limb: "+limb+" this:"+this_object()->short());
 
    if (!limb)
       limb = query_random_limb();
    tmp = health[limb];
    if (!tmp)
-      error("Bad limb.\n");
-      
+      error("Bad limb '" + limb + "'.\n");
    update_health();
 
    if (tmp->health < 1 || dead)
@@ -429,13 +669,10 @@ varargs int hurt_us(int x, string limb)
       disable_limb(limb);
    }
 
-   update_health();
-   gmcp_send_vitals();
-
    return x;
 }
 
-//:FUNCTION heal_limb
+//: FUNCTION heal_limb
 // protected void heal_limb(string limb, int x);
 // Heal us a specified amount, truncating at max_health.
 protected
@@ -457,7 +694,7 @@ void heal_limb(string limb, int x)
       tmp->health = tmp->max_health;
 }
 
-//:FUNCTION is_limb
+//: FUNCTION is_limb
 // int is_limb(string s);
 // Returns 1 if 's' is a valid limb.
 int is_limb(string s)
@@ -465,7 +702,7 @@ int is_limb(string s)
    return !undefinedp(health[s]);
 }
 
-//:FUNCTION query_max_health
+//: FUNCTION query_max_health
 // varargs int query_max_health(string limb);
 // Tells us the maximum health of a given limb.
 varargs int query_max_health(string limb)
@@ -481,7 +718,7 @@ varargs int query_max_health(string limb)
    return x;
 }
 
-//:FUNCTION heal_us
+//: FUNCTION heal_us
 // varargs void heal_us(int x, string limb);
 // Heals all limbs by 'x' amount.
 varargs void heal_us(int x, string limb)
@@ -496,7 +733,20 @@ varargs void heal_us(int x, string limb)
       heal_limb(limb, x);
 }
 
-//:FUNCTION reincarnate
+//: FUNCTION heal_all
+// void heal_all();
+// Heal us entirely.
+void heal_all()
+{
+   foreach (string l in keys(health))
+      if (!health[l]->health)
+         enable_limb(l);
+   heal_us(query_max_health());
+   set_drunk(0);
+   set_reflex(max_reflex());
+}
+
+//: FUNCTION reincarnate
 // void reincarnate();
 // Makes us alive again!
 void reincarnate()
@@ -508,39 +758,46 @@ void reincarnate()
       dead = 0;
       health_time = time();
    }
-   this_object()->gmcp_send_vitals();
 }
 
 void update_health()
 {
+   int sobering;
+
    if (dead)
+   {
+      drunk = 0;
       return;
+   }
+
+   sobering = fuzzy_divide((time() - health_time) * sober_rate, 3000);
+   sober_up(sobering);
 
    if (time() != health_time)
    {
       foreach (string limb in keys(health))
-         heal_limb(limb, fuzzy_divide((time() - health_time) * (heal_rate + this_object()->query_con()), 2000));
-      restore_concentration(fuzzy_divide((time() - health_time) * (concentration_rate + this_object()->query_wil()), 2000));
+         heal_limb(limb, fuzzy_divide((time() - health_time) * heal_rate, 3000));
+      restore_reflex(fuzzy_divide((time() - health_time) * (reflex_rate + this_object()->query_int()), 2000));
       health_time = time();
    }
 }
 
-//:FUNCTION query_health
+//: FUNCTION query_health
 // int query_health(string limb);
 // Find the current number of hitpoints of a monster
 int query_health(string limb)
 {
    update_health();
+   if (!limb)
+      limb = "head";
    return ((class limb)health[limb])->health;
 }
 
-//:FUNCTION get_health
+//: FUNCTION get_health
 // mapping get_health();
 // Return the health mapping for adversary.
 mapping get_health()
 {
-   if (!mapp(health))
-      health=BODY_D->get_body("humanoid");
    update_health();
    return health;
 }
@@ -558,10 +815,34 @@ void banner_wounded(string limb, int hp)
    tell(this_object(), "\n[%^RED%^WOUNDED!%^RESET%^] Your " + limb + " has " + hp + " hp!\n");
 }
 
-//:FUNCTION badly_wounded
-// int badly_wounded();
+//: FUNCTION query_worst_limb
+// Returns an array of a limb and a percentage of health that is
+// the worst hurt vital limb if vital=1, otherwise from all limbs.
+varargs mixed *query_worst_limb(int vital)
+{
+   mixed ret = ({});
+   int hp_percent, min = 100;
+   string l = "none";
+
+   foreach (string limb in keys(health))
+   {
+      class limb lb = health[limb];
+      if (vital && !(lb->flags & LIMB_VITAL) || !lb->max_health)
+         continue;
+
+      hp_percent = (100 * lb->health) / lb->max_health;
+      if (hp_percent < min)
+      {
+         min = hp_percent;
+         l = limb;
+      }
+   }
+   return ({l, min});
+}
+
+//: FUNCTION badly_wounded
 // Returns 1 if we're near death.
-int badly_wounded()
+string badly_wounded()
 {
    int wimpy_at = 20;
 
@@ -570,9 +851,7 @@ int badly_wounded()
       object link = this_object()->query_link();
       if (link)
       {
-         wimpy_at = this_user()->query_shell_ob()->get_variable("wimpy_percent");
-         if (!wimpy_at)
-            wimpy_at = 20;
+         wimpy_at = this_user()->query_shell_ob()->get_variable("wimpy_percent") || 20;
       }
    }
 
@@ -583,128 +862,38 @@ int badly_wounded()
       if ((lb->flags & LIMB_VITAL) && (lb->health < ((lb->max_health * wimpy_at) / 100)))
       {
          banner_wounded(limb, lb->health);
-         return 1;
+         return limb;
       }
    }
 }
 
-int query_no_move_capacity()
+//: FUNCTION very_wounded
+// Returns 1 if we're very wounded (50% hp on vital limbs). Mobs will start drinking and
+// eating when they hit this level of damage.
+string very_wounded()
 {
-   return query_max_capacity();
-}
-
-//:FUNCTION can_move
-// int can_move();
-// Returns 1 if we can move, 0 if not.
-int can_move()
-{
-   int can_move = 0;
-
-   //Are we over max capacity?
-   if (query_capacity() > query_no_move_capacity())
-      return 0;
-
-   //Do we have limbs that can move us?
-   foreach (string l, class limb lb in health)
+   foreach (string limb in keys(health))
    {
-      if ((lb->flags & LIMB_MOBILE) && (lb->health > 0))
-         can_move = 1;
+      class limb lb = health[limb];
+
+      if ((lb->flags & LIMB_VITAL) && (lb->health < ((lb->max_health * 50) / 100)))
+      {
+         banner_wounded(limb, lb->health);
+         return limb;
+      }
    }
-
-   return can_move;
 }
 
-//:FUNCTION query_concentration
-// int query_concentration()
-// Returns the amount of concentration currently had by the adversary.
-int query_concentration()
-{
-   return concentration;
-}
-
-//:FUNCTION max_concentration
-// int max_concentration()
-// Returns the max concentration based on the mana stat and a bonus for level of the
-// adversary.
-int max_concentration()
-{
-   return to_int((this_object()->query_man() || 1) * (1 + (query_level() / 10.0)));
-}
-
-//:FUNCTION set_concentration
-// void set_concentration(int mp)
-// Set the concentration to an integer, but never higher than max_concentration().
-void set_concentration(int mp)
-{
-   if (mp > max_concentration())
-      mp = max_concentration();
-   concentration = mp;
-}
-
-//:FUNCTION spend_concentration
-// void spend_concentration(int m)
-// Spends concentration nomatter whether there is enough or too little. concentration is left at 0 no matter
-// what. Returns 1 if we had enough, 0 if we didn't.
-int spend_concentration(int m)
-{
-   concentration -= m;
-   if (concentration < 0)
-   {
-      concentration = 0;
-      return 0;
-   }
-   return 1;
-}
-
-//:FUNCTION use_concentration
-// int use_concentration(int m)
-// Uses concentration from the concentration pool only if it's available and returns 1. If there is not enough
-// nothing is used, and 0 is returned.
-int use_concentration(int m)
-{
-   TBUG("M:" + m);
-   if (concentration - m > 0)
-   {
-      concentration -= m;
-      return 1;
-   }
-   return 0;
-}
-
-//:FUNCTION restore_concentration
-// protected void restore_concentration(int x);
-// Restore us a specified amount, truncating at max_concentration().
-protected
-void restore_concentration(int x)
-{
-   //Dont get concentration while dead, sorry.
-   if (dead)
-      return;
-
-   concentration += x;
-   if (concentration > max_concentration())
-      concentration = max_concentration();
-}
-
-//:FUNCTION heal_all
-// void heal_all();
-// Heal us entirely.
-void heal_all()
-{
-   foreach (string l in keys(health))
-      if (!health[l]->health)
-         enable_limb(l);
-   heal_us(query_max_health());
-   restore_concentration(max_concentration());
-}
-
+//: FUNCTION diagnose
+// Returns a string diagnosing the adversary. The string lists limbs in bad health,
+//  drunkenness level and other conditions that affect the adversary.
 string diagnose()
 {
    string ret;
    string *damaged_limbs;
 
    if (query_ghost())
-      return "$N $vare dead. Other than that, things are going pretty well for $n.\n";
+      return "$N $vare dead. Other than that, things are going pretty well.\n";
 
    if (query_asleep())
       ret = "$N $vare asleep.\n";
@@ -713,14 +902,20 @@ string diagnose()
    else
       ret = "";
 
-   damaged_limbs = filter(query_limbs(),
-                          (
-                              : query_health($1) < health[$1]->max_health:));
+   damaged_limbs = filter(query_limbs(), ( : query_health($1) < health[$1]->max_health:));
    foreach (string limb in damaged_limbs)
       ret += diagnose_limb_msg(health[limb]->health * 100 / health[limb]->max_health, limb);
 
-   if (ret == "")
-      ret = "You are in excellent health.\n";
+   if (drunk_diagnose())
+   {
+      if (ret == "")
+         ret = "$N $vare in excellent health, but $n $vare also " + drunk_diagnose() + ".";
+   }
+   else
+   {
+      if (ret == "")
+         ret = "$N $vare in excellent health.";
+   }
 
    return ret;
 }

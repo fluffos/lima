@@ -17,63 +17,66 @@
 
 #include <clean_up.h>
 
-private nosave mapping mailboxes = ([ ]);
+private
+nosave mapping mailboxes = ([]);
 
-private nomask void create()
+private
+nomask void create()
 {
-    object mailbox;
+   object mailbox;
 
-    foreach ( mailbox in children(MAILBOX) )
-    {
-	string owner;
+   foreach (mailbox in children(MAILBOX))
+   {
+      string owner;
 
-	if ( mailbox && (owner = mailbox->query_owner()) )
-	    mailboxes[owner] = mailbox;
-    }
+      if (mailbox && (owner = mailbox->query_owner()))
+         mailboxes[owner] = mailbox;
+   }
 }
 
 nomask object get_mailbox(string the_owner)
 {
-    object mailbox;
+   object mailbox;
 
-    if ( !(mailbox = mailboxes[the_owner]) )
-    {
-	mailbox = mailboxes[the_owner] = new(MAILBOX, the_owner);
-	if ( !mailbox )
-	    error("mailbox wasn't created");
-    }
+   if (!(mailbox = mailboxes[the_owner]))
+   {
+      mailbox = mailboxes[the_owner] = new (MAILBOX, the_owner);
+      if (!mailbox)
+         error("mailbox wasn't created");
+   }
 
-    return mailbox;
+   return mailbox;
 }
 
 nomask void unload_mailbox(string the_owner)
 {
-    object mailbox;
+   object mailbox;
 
-    if ( mailbox = mailboxes[the_owner] )
-    {
-        destruct(mailbox);
-        map_delete(mailboxes, the_owner);
-    }
+   if (mailbox = mailboxes[the_owner])
+   {
+      destruct(mailbox);
+      map_delete(mailboxes, the_owner);
+   }
 }
 
 nomask void close_mailboxes()
 {
-    string * names;
-    string name;
+   string *names;
+   string name;
 
-    names = keys(mailboxes) - users()->query_userid();
-    foreach ( name in names )
-    {
-	if ( mailboxes[name] )	/* might have been destructed */
-	    destruct(mailboxes[name]);
+   names = keys(mailboxes) - users()->query_userid();
+   foreach (name in names)
+   {
+      if (mailboxes[name]) /* might have been destructed */
+         destruct(mailboxes[name]);
 
-	map_delete(mailboxes, name);
-    }
+      map_delete(mailboxes, name);
+   }
 }
 
 // We don't want to disappear, but do some cleaning anyway.
-int clean_up() {
-    close_mailboxes();
-    return ASK_AGAIN;
+int clean_up()
+{
+   close_mailboxes();
+   return ASK_AGAIN;
 }

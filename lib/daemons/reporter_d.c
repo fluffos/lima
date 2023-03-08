@@ -10,11 +10,12 @@
 */
 
 #include <config.h>
-#include <mudlib.h>
 #include <edit.h>
 #include <log.h>
+#include <mudlib.h>
 
-#define DIVIDER "\
+#define DIVIDER                                                                                                        \
+   "\
 \n***********************************************************************\n"
 
 inherit M_ACCESS;
@@ -28,71 +29,60 @@ inherit M_ACCESS;
 ** change this file, but that is a necessity if this will be writing
 ** to restricted directories.
 */
-private nosave mapping log_files = ([
-				     "Bug" : LOG_BUG,
-				     "Typo" : LOG_TYPO,
-				     "Idea" : LOG_IDEA,
-				     "Todo" : LOG_TODO,
-                                    "Question" : LOG_QUESTION,
-                                    "Feedback" : LOG_FEEDBACK,
-				     ]);
-private nosave mapping news_groups = ([
-				       "Bug" : BUG_NEWSGROUP,
-				       "Typo" : TYPO_NEWSGROUP,
-				       "Idea" : IDEA_NEWSGROUP,
-				       "Todo" : TODO_NEWSGROUP,
-                                     "Question" : QUESTION_NEWSGROUP,
-                                       "Feedback" : FEEDBACK_NEWSGROUP,
-				       ]);
+private
+nosave mapping log_files =
+    (["Bug":LOG_BUG,
+            "Typo":LOG_TYPO, "Idea":LOG_IDEA, "Todo":LOG_TODO, "Question":LOG_QUESTION, "Feedback":LOG_FEEDBACK, ]);
+private
+nosave mapping news_groups = (["Bug":BUG_NEWSGROUP,
+                              "Typo":TYPO_NEWSGROUP, "Idea":IDEA_NEWSGROUP, "Todo":TODO_NEWSGROUP,
+                          "Question":QUESTION_NEWSGROUP, "Feedback":FEEDBACK_NEWSGROUP, ]);
 int busy = 0;
 
-void create() {
-    set_privilege(1);
+void create()
+{
+   set_privilege(1);
 }
 
-private nomask void issue_report(string type, string subject, string text)
+private
+nomask void issue_report(string type, string subject, string text)
 {
-    string where_am_i;
-    object env;
+   string where_am_i;
+   object env;
 
-    env = environment(this_body());
-    where_am_i = (env ? file_name(env) : "<nowhere>");
+   env = environment(this_body());
+   where_am_i = (env ? file_name(env) : "<nowhere>");
 
-    if ( subject )
-    {
-        text = sprintf( "%s\n", text);
+   if (subject)
+   {
+      text = sprintf("%s\n", text);
 
-	unguarded(1, (: NEWS_D->system_post($(news_groups[type]),
-					    $(subject),
-					    $(text)) :));
-    }
-    else
-    {
-	text = sprintf("%s: %s reports from %s on %s--\n\n%s" DIVIDER,
-		       type,
-		       this_body()->query_name(),
-		       where_am_i,
-		       ctime(time()),
-		       text);
+      unguarded(1, ( : NEWS_D->system_post($(news_groups[type]), $(subject), $(text)) :));
+   }
+   else
+   {
+      text = sprintf("%s: %s reports from %s on %s--\n\n%s" DIVIDER, type, this_body()->query_name(), where_am_i,
+                     ctime(time()), text);
 
-	LOG_D->log(log_files[type], text);
-    }
+      LOG_D->log(log_files[type], text);
+   }
 
-    write("Thanks for the report!\n");
+   write("Thanks for the report!\n");
 }
 
 /* handle the completion of the report */
-private nomask void done_ed(string type, string subject, string *lines)
+private
+nomask void done_ed(string type, string subject, string *lines)
 {
-    busy--;
-    
-    if ( !lines )
-    {
-	printf("%s entry aborted.\n", type);
-	return;
-    }
+   busy--;
 
-    issue_report(type, subject, implode(lines, "\n") + "\n");
+   if (!lines)
+   {
+      printf("%s entry aborted.\n", type);
+      return;
+   }
+
+   issue_report(type, subject, implode(lines, "\n") + "\n");
 }
 
 /*
@@ -103,12 +93,12 @@ private nomask void done_ed(string type, string subject, string *lines)
 */
 varargs void begin_report(string type, string subject)
 {
-    if ( !log_files[type] )
-	error("Illegal report type.\n");
+   if (!log_files[type])
+      error("Illegal report type.\n");
 
-    printf("** %s report **\n", type);
-    busy++;
-    new(EDIT_OB, EDIT_TEXT, 0, (: done_ed, type, subject :));
+   printf("** %s report **\n", type);
+   busy++;
+   new (EDIT_OB, EDIT_TEXT, 0, ( : done_ed, type, subject:));
 }
 
 /*
@@ -119,10 +109,10 @@ varargs void begin_report(string type, string subject)
 */
 varargs void short_report(string type, string subject, string text)
 {
-    if ( !log_files[type] )
-	error("Illegal report type.\n");
+   if (!log_files[type])
+      error("Illegal report type.\n");
 
-    issue_report(type, subject, text);
+   issue_report(type, subject, text);
 }
 
 /*
@@ -133,28 +123,30 @@ varargs void short_report(string type, string subject, string text)
 */
 void report_something(string type, string input)
 {
-    object env;
-    string this_place;
+   object env;
+   string this_place;
 
 #ifdef LOG_DONT_POST
 
-    if( !input || input == "" )
-	begin_report(type);
-    else
-	short_report(type, 0, input);
+   if (!input || input == "")
+      begin_report(type);
+   else
+      short_report(type, 0, input);
 
 #else
 
-    env = environment(this_body());
-    this_place = " Report from: " + (env ? file_name(env):"nowhere") + "...";
-    if ( !input || input == "" )
-	begin_report(type, type + this_place);
-    else
-        short_report(type, type + this_place, input);
+   env = environment(this_body());
+   this_place = " Report from: " + (env ? file_name(env) : "nowhere") + "...";
+   if (!input || input == "")
+      begin_report(type, type + this_place);
+   else
+      short_report(type, type + this_place, input);
 
 #endif
 }
 
-void clean_up() {
-    if (!busy) destruct(this_object());
+void clean_up()
+{
+   if (!busy)
+      destruct(this_object());
 }

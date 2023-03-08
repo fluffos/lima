@@ -6,12 +6,15 @@
 ** 960603, Deathblade: created.
 */
 
-#include <commands.h>		/* for CMD_OB_xxx */
-#include <playerflags.h>        /* for F_INACTIVE */
+#include <commands.h>    /* for CMD_OB_xxx */
+#include <playerflags.h> /* for F_INACTIVE */
 
-private string describe;
-private string invis_name;
-private string nickname;
+private
+string describe;
+private
+string invis_name;
+private
+string nickname;
 
 int is_visible();
 int test_flag(int which);
@@ -30,120 +33,123 @@ string query_name();
 string query_title();
 #endif
 
-
 string query_long_name()
 {
-    if (query_ghost())
-	return "The ghost of " + capitalize(living_query_name());
+   if (query_ghost())
+      return "The ghost of " + capitalize(living_query_name());
 #ifdef USE_TITLES
-    return query_title();
+   return query_title();
 #else
-    return capitalize(living_query_name());
+   return capitalize(living_query_name());
 #endif
 }
 
 nomask string query_userid()
 {
-  if(!query_link())
-    return 0;
-  return query_link()->query_userid();
+   if (!query_link())
+      return 0;
+   return query_link()->query_userid();
 }
 
 nomask string query_invis_name()
 {
-    return invis_name;
+   return invis_name;
 }
 
 string query_idle_string()
 {
-  object link = query_link();
-  int idle_time;
-  string result = "";
+   object link = query_link();
+   int idle_time;
+   string result = "";
 
-  if(test_flag(F_INACTIVE))
-    result += " [INACTIVE] ";
+   if (test_flag(F_INACTIVE))
+      result += " [INACTIVE] ";
 
-  if ( interactive(link) )
-    idle_time = query_idle(link);
-  if ( idle_time < 60 )
-    return result;
+   if (interactive(link))
+      idle_time = query_idle(link);
+   if (idle_time < 60)
+      return result;
 
-  result += " [idle " + convert_time(idle_time, 2) + "]";
-  return result;
+   result += " [idle " + convert_time(idle_time, 2) + "]";
+   return result;
 }
 
 // This is used by in_room_desc and by who, one of which truncates,
 // one of which doesnt.  Both want an idle time.
 string base_in_room_desc()
 {
-    string result;
-    object link = query_link();
+   string result;
+   object link = query_link();
 
-    result = query_long_name();
+   result = query_long_name();
 
+   /* if they are link-dead, then prepend something... */
+   if (!link || !interactive(link))
+      result = "The lifeless body of " + result;
 
-    /* if they are link-dead, then prepend something... */
-    if ( !link || !interactive(link) )
-	result = "The lifeless body of " + result;
-
-    return result;
+   return result;
 }
 
 string query_formatted_desc(int num_chars)
 {
-    string idle_string;
-    int i;
+   string idle_string;
+   int i;
 
-    idle_string = query_idle_string();
-    if ( i = strlen(idle_string) )
-    {
-	num_chars -= (i + 1);
-	idle_string = " " + idle_string;
-    }
-    return M_ANSI->colour_truncate(base_in_room_desc(), num_chars) + idle_string;
+   idle_string = query_idle_string();
+   if (i = strlen(idle_string))
+   {
+      num_chars -= (i + 1);
+      idle_string = " " + idle_string;
+   }
+   return M_COLOURS->colour_truncate(base_in_room_desc(), num_chars) + idle_string;
 }
 
-string adjust_name(string name) {
-    if ( invis_name == capitalize(name) || !invis_name ) invis_name = "Someone";
-    if ( !is_visible() ) return invis_name;
-    return capitalize(name);
+string adjust_name(string name)
+{
+   if (invis_name == capitalize(name) || !invis_name)
+      invis_name = "Someone";
+   if (!is_visible())
+      return invis_name;
+   return capitalize(name);
 }
 
 void set_description(string str)
 {
-    if(base_name(previous_object()) == CMD_OB_DESCRIBE)
-	describe = str;
-    save_me();
+   if (base_name(previous_object()) == CMD_OB_DESCRIBE)
+      describe = str;
+   save_me();
 }
 
 string our_description()
 {
-    if (describe)
-	return in_room_desc() + "\n" + describe +"\n";
+   if (describe)
+      return in_room_desc() + "\n" + describe + "\n";
 
-    return in_room_desc() + "\n" + capitalize(query_name()) + " is boring and hasn't described " + query_reflexive() + ".\n";
+   return in_room_desc() + "\n" + capitalize(query_name()) + " is boring and hasn't described " + query_reflexive() +
+          ".\n";
 }
 
 void set_nickname(string arg)
 {
-    if (file_name(previous_object()) != CMD_OB_NICKNAME)
-	error("Illegal call to set_nickname\n");
+   if (file_name(previous_object()) != CMD_OB_NICKNAME)
+      error("Illegal call to set_nickname\n");
 
-    if ( nickname )
-	remove_id(nickname);
+   if (nickname)
+      remove_id(nickname);
 
-    nickname = arg;
-    add_id_no_plural(nickname);
-    parse_refresh();
+   nickname = arg;
+   add_id_no_plural(nickname);
+   parse_refresh();
 }
 
 string query_nickname()
 {
-    return nickname;
+   return nickname;
 }
 
-protected void naming_init_ids()
+protected
+void naming_init_ids()
 {
-    if ( nickname )
-	add_id_no_plural(nickname);
+   if (nickname)
+      add_id_no_plural(nickname);
 }

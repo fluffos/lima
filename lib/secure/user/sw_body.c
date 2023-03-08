@@ -17,10 +17,7 @@ string query_selected_body();
 int query_gender(string);
 
 void modal_simple(function input_func, mixed prompt, int secure, int lock);
-varargs void modal_push(function input_func,
-                        mixed prompt,
-                        int secure,
-                        function return_to_func);
+varargs void modal_push(function input_func, mixed prompt, int secure, function return_to_func);
 void modal_pop();
 
 void set_privilege(mixed priv); // from M_ACCESS
@@ -68,32 +65,29 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
 {
    object where;
    object old_body;
-   string body_fname = query_selected_body();
+   string body_fname = query_fname(query_selected_body());
    // TBUG("switch_body(): new_body_fname: "+identify(new_body_fname));
 
    if (previous_object() != body && this_body() != body)
       error("security violation: bad body switch attempt\n");
-   // TBUG("1");
 
    where = body ? environment(body) : (mixed)VOID_ROOM;
-   // TBUG("2");
 
    if (permanent && new_body_fname)
    {
       body_fname = new_body_fname;
       save_me();
+      // TBUG("Taking change as permanent");
    }
-   // TBUG("3");
 
    if (!new_body_fname)
       new_body_fname = body_fname;
-   // TBUG("4 new ("+new_body_fname+");");
+   // TBUG("Body filename: "+new_body_fname);
 
    old_body = body;
-   body = new (BODY,new_body_fname);
+   body = new (new_body_fname, query_selected_body());
    // TBUG(body);
    master()->refresh_parse_info();
-   // TBUG("5");
 
    if (old_body)
    {
@@ -101,17 +95,11 @@ varargs nomask void switch_body(string new_body_fname, int permanent)
       if (old_body)
          catch (destruct(old_body));
    }
-   // TBUG("6");
-
    load_mailer();
-   // TBUG("7");
    report_login_failures();
-   // TBUG("8");
 
    /* NOTE: we are keeping the same shell for now... */
-
    body->su_enter_game(where);
-   // TBUG("9");
 }
 
 /*
@@ -137,9 +125,7 @@ nomask void incarnate(string name, int is_new, string new_fname)
 
    if (is_new)
    {
-#ifdef USE_STATS
       this_body()->init_stats();
-#endif
       body->save_me();
       /* This seems to me to be a poor place to put this, but fits with
        * the default login/new user creation sequence.  -- Tigran */
@@ -184,13 +170,11 @@ nomask void rcv_try_to_boot(object who, string answer)
    }
 
    write("please type 'y' or 'n'  >");
-   modal_simple((
-                    : rcv_try_to_boot, who:),
-                0, 0, 1);
+   modal_simple(( : rcv_try_to_boot, who:), 0, 0, 1);
 }
 
 protected
-nomask void sw_body_handle_existing_logon(string name,int enter_now)
+nomask void sw_body_handle_existing_logon(string name, int enter_now)
 {
    string *members = SECURE_D->query_domain_members("admin");
    // Woops, we have no admin! Treat as new logon.
@@ -239,10 +223,8 @@ nomask void sw_body_handle_existing_logon(string name,int enter_now)
          }
          else
          {
-            write("\nYou are already logged in!\nThrow yourself off?  ");
-            modal_simple((
-                             : rcv_try_to_boot, the_user:),
-                         0, 0, 1);
+            write("\nYou are already logged in!\nThrow yourself off?\n");
+            modal_simple(( : rcv_try_to_boot, the_user:), 0, 0, 1);
             return;
          }
       }
@@ -273,7 +255,7 @@ nomask void steal_body()
 ** Do a bit of additional work and go for a body.
 */
 protected
-nomask void sw_body_handle_new_logon(string name,string fname)
+nomask void sw_body_handle_new_logon(string name, string fname)
 {
    // TBUG("sw_body_handle_new_logon() stack: "+get_stack());
    remove_call_out(); /* all call outs */
@@ -284,9 +266,7 @@ nomask void sw_body_handle_new_logon(string name,string fname)
    // TBUG("2");
    write(">>>>> You've been granted automatic guest wizard status. <<<<<\n");
    // TBUG("3");
-   unguarded(1, (
-                    : SECURE_D->create_wizard($(query_userid()))
-                    :));
+   unguarded(1, ( : SECURE_D->create_wizard($(query_userid())) :));
    // TBUG("4");
 #endif
 
@@ -301,17 +281,11 @@ nomask void sw_body_handle_new_logon(string name,string fname)
          // TBUG("wizardp("+identify(query_userid())+"): "+wizardp(query_userid()));
          if (!wizardp(query_userid()))
          {
-            unguarded(1,
-                      (
-                          : SECURE_D->create_wizard($(query_userid()))
-                          :));
+            unguarded(1, ( : SECURE_D->create_wizard($(query_userid())) :));
          }
          write(">>>>> You have been made admin. Remember to use admtool. <<<<<\n");
          TBUG(">>>>> " + identify(query_userid()) + " has been made admin. <<<<<\n");
-         unguarded(1, (
-                          : SECURE_D->add_domain_member("admin",
-                                                        $(query_userid()), 1)
-                          :));
+         unguarded(1, ( : SECURE_D->add_domain_member("admin", $(query_userid()), 1) :));
       }
       // else TBUG"6b: apparently an admin existed");
    }
@@ -327,6 +301,6 @@ nomask void sw_body_handle_new_logon(string name,string fname)
    // TBUG("9");
    //  pass a lfun pointer so that we don't have to worry about validating
    //  the call.
-   incarnate(name,1, fname);
+   incarnate(name, 1, fname);
    // TBUG("10");
 }

@@ -4,12 +4,18 @@
 
 inherit M_OPENABLE;
 
-void set_closed(int x) {
-  if (clonep(this_object())) base_name(this_object())->set_closed(x);
-  else ::set_closed(x);
+void set_closed(int x)
+{
+   if (clonep(this_object()))
+      base_name(this_object())->set_closed(x);
+   else
+      ::set_closed(x);
 }
 
-int query_closed() {
-  if (clonep(this_object())) return base_name(this_object())->query_closed();
-  else return ::query_closed();
+int query_closed()
+{
+   if (clonep(this_object()))
+      return base_name(this_object())->query_closed();
+   else
+      return ::query_closed();
 }

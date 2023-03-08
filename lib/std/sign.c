@@ -6,6 +6,6 @@ inherit M_GETTABLE;
 
 void mudlib_setup()
 {
-    set_id("sign");
-    set_gettable( "#It's best left alone." );
+   set_id("sign");
+   set_gettable("#It's best left alone.");
 }

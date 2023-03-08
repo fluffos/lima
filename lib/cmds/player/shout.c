@@ -6,10 +6,10 @@
 // 961216, Deathblade: noted that the only original line in this file is
 //                     the header. :-)  Go Mars!
 
-//:PLAYERCOMMAND
-//USAGE:  shout <message>
+//: PLAYERCOMMAND
+// USAGE:  shout <message>
 //
-//Allows you to 'shout' a message to the entire mud.
+// Allows you to 'shout' a message to the entire mud.
 //
 //[ Warning: this is here during the development of the mud. Do not abuse it. ]
 
@@ -18,19 +18,19 @@ inherit M_GRAMMAR;
 
 void create()
 {
-  ::create();
-  no_redirection();
+   ::create();
+   no_redirection();
 }
 
-private void main(string s)
+private
+void main(string s)
 {
-  if (!s || s == "")
-  {
-    out("Shout what?\n");
-    return;
-  }
+   if (!s || s == "")
+   {
+      out("Shout what?\n");
+      return;
+   }
 
-  tell(users()-({this_user()}), this_body()->query_name() + " shouts: " + punctuate(s) + "\n", MSG_INDENT);
-  out("You shout: " + punctuate(s) + "\n");
+   tell(users() - ({this_user()}), this_body()->query_name() + " shouts: " + punctuate(s) + "\n", MSG_INDENT);
+   out("You shout: " + punctuate(s) + "\n");
 }
-

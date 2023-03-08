@@ -53,8 +53,7 @@
 ** M_INPUT	interface to the input system
 ** M_COMPLETE	name completion
 ** M_RECONNECT	functions for performing socket reconnects
-** M_ANSI	functions for using the %^ ansi protocol
-** M_ANSI       function for using the status line (Infocom style header)
+** M_COLOURS	functions for using colours
 ** M_SAVE	functions to abstract saveing and restoring objects
 **
 ** M_BODY_STATS	statistics (characteristics) for a body (player/NPC)
@@ -160,6 +159,7 @@
 
 #define VOID_ROOM          "/domains/std/Void"
 #define WIZ_ROOM           "/domains/std/Wizroom"
+#define HEAVEN             "/domains/std/Heaven"
 
 #define ADVERSARY          "/std/adversary"
 #define AGGRESSIVE_MONSTER "/std/aggressive_monster"
@@ -170,6 +170,7 @@
 #define COMBAT_SPELL       "/std/combat_spell"
 #define CONTAINER          "/std/container"
 #define CORPSE             "/std/corpse"
+#define PELT               "/std/pelt"
 #define EXIT_OBJ           "/std/complex_exit_obj"
 #define COMPLEX_EXIT_OBJ   "/std/complex_exit_obj"
 #define DOOR               "/std/door"
@@ -205,7 +206,7 @@
 /* used by the OBJ object */
 
 /* for mudlib objects */
-#define M_ANSI            "/std/modules/m_ansi"
+#define M_COLOURS         "/std/modules/m_colours"
 #define M_BODY_STATS      "/std/modules/m_bodystats"
 #define M_COMPLETE        "/std/modules/m_complete"
 #define M_GLOB            "/std/modules/m_glob"
@@ -220,12 +221,14 @@
 #define M_SMARTMOVE       "/std/modules/m_smartmove"
 #define M_EDIBLE          "/std/modules/m_edible"
 #define M_DRINKABLE       "/std/modules/m_drinkable"
-#define M_DRINK_CONTAINER	"/std/modules/m_drink_container"
+#define M_DURABILITY      "/std/modules/m_durability"
+#define M_DRINK_CONTAINER "/std/modules/m_drink_container"
 #define M_DRINK_SOURCE    "/std/modules/m_drink_source"
 #define M_FLUID_SOURCE    "/std/modules/m_fluid_source"
 #define M_FLUID_CONTAINER "/std/modules/m_fluid_container"
 #define M_CONVERSATION    "/std/modules/m_conversation"
 #define M_WIDGETS         "/std/modules/m_widgets"
+#define M_STATEFUL        "/std/modules/m_stateful"
 
 /* for area objects */
 #define M_ACCOUNTANT      "/std/modules/m_accountant"
@@ -234,6 +237,7 @@
 #define M_AGGRESSIVE      "/std/modules/m_aggressive"
 #define M_DAMAGE_SINK     "/std/modules/m_damage_sink"
 #define M_DAMAGE_SOURCE   "/std/modules/m_damage_source"
+#define M_CRAFTING        "/std/modules/m_crafting"
 #define M_DIGGABLE        "/std/modules/m_diggable"
 #define M_DECAY           "/std/modules/m_decay"
 #define M_DIGGER          "/std/modules/m_digger"
@@ -255,19 +259,25 @@
 #define M_SIBLING         "/std/modules/m_sibling"
 #define M_SWITCHABLE      "/std/modules/m_switchable"
 #define M_THROWABLE       "/std/modules/m_throwable"
+#define M_ASSISTANCE      "/std/modules/m_assistance"
+#define M_COMPANION       "/std/modules/m_companion"
 #define M_TRIGGERS        "/std/modules/m_triggers"
 #define M_VALUABLE        "/std/modules/m_valuable"
 #define M_VENDOR          "/std/modules/m_vendor"
 #define M_WANDER          "/std/modules/m_wander"
+#define M_BOSS            "/std/modules/m_boss"
 #define M_WANDER_OLD      "/std/modules/m_wander_old"
 #define M_WEARABLE        "/std/modules/m_wearable"
 #define M_WIELDABLE       "/std/modules/m_wieldable"
 #define M_WRITING_SURFACE "/std/modules/m_writing_surface"
 #define M_EXIT            "/std/modules/m_exit"
 #define M_COMPLEX_EXIT    "/std/modules/m_complex_exit"
+#define M_DICE            "/std/modules/m_dice"
+#define M_SALVAGEABLE     "/std/modules/m_salvageable"
+#define M_HEALING         "/std/modules/m_healing"
 
-#define M_LIB_LOCKABLE		"/domains/std/lockable"
-#define M_LIB_OPENABLE		"/domains/std/openable"
+#define M_LIB_LOCKABLE	  "/domains/std/lockable"
+#define M_LIB_OPENABLE    "/domains/std/openable"
 
 #define ED_SESSION        "/trans/obj/ed_session"
 #define ADDTO_OB          "/trans/obj/addto_ob"
@@ -286,9 +296,10 @@
 #define NEWSREADER        "/obj/mudlib/newsreader"
 #define NNTP_OB           "/obj/mudlib/nntp"
 #define PLAYER_MENU       "/obj/mudlib/plmenu"
+#define FRAME             "/obj/mudlib/frame"
 #define PLYR_SHELL        "/obj/mudlib/pshell"
 #define SIMPLE_OB         "/obj/mudlib/simple_ob"
-#define TEAM_MENU         "/obj/mudlib/team_menu"
+#define PARTY_MENU         "/obj/mudlib/party_menu"
 #define TEMP_WORKROOM     "/obj/mudlib/TWorkroom"
 #define WATER             "/std/water"
 
@@ -301,6 +312,7 @@
 #define MAILER_DIR        "/obj/secure/mailers"
 #define MAILER            MAILER_DIR "/mailer"
 #define SOCKET            "/obj/secure/socket"
+#define BEHAVIOUR_TREE    "/std/behaviour/behaviour_tree"
 
 #define SHELL             "/obj/secure/shell"
 #define M_ALIAS           "/obj/secure/shell/alias"
@@ -316,13 +328,26 @@
 // These next few are 'high level' inheritables and probably should have
 // their own dir.
 #define ACCOUNTANT        "/std/accountant"
+#define MEAT              "/std/meat"
+#define TRANSIENT         "/std/transient"
+#define SLOWHEAL          "/std/slowheal"
+#define DRINK             "/std/drink"
+#define JUNK              "/std/junk"
 #define BED               "/std/bed"
 #define MONEY             "/std/money"
 #define BOOK              "/std/book"
 #define COINS             "/std/coins"
+#define ELEVATOR          "/std/elevator"
+#define BANDAGE           "/std/bandage"
 #define HOLE              "/std/hole"
+#define LOOT_CHEST        "/std/loot_chest"
+#define MATERIAL          "/std/material"
 #define LADDER            "/std/ladder"
 #define LANTERN           "/std/lantern"
+#define GEM               "/std/gem"
+#define PELT              "/std/pelt"
+#define ART_OBJECT        "/std/art_object"
+#define TAMING_COLLAR     "/std/taming_collar"
 #define PORTAL            "/std/portal"
 #define STAIRS            "/std/stairs"
 #define SWORD             "/std/sword"

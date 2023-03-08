@@ -19,21 +19,26 @@ inherit VERB_OB;
 
 int do_fill_it(object bottle, object fluid)
 {
-    if (!fluid ) {
-	fluid = present("fill_source", environment( this_body () ));
-	if (fluid) { fluid -> fill_up( bottle) ;
-	   	return 1;};
+   if (!fluid)
+   {
+      fluid = present("fill_source", environment(this_body()));
+      if (fluid)
+      {
+         fluid->fill_up(bottle);
+         return 1;
+      };
 
-	fluid = present("fluid", environment(this_body()))
-	            || present("fluid", this_body()); // This should never be!
-	
-	if (!fluid) {
-	    write("With what?\n");
-	    return 1;}
-	};
-    write("(with " + fluid -> short() +")\n");
-    bottle ->fill_with( fluid ); //fluid_obj: check to see if it is in presence of source.
-    return 1;
+      fluid = present("fluid", environment(this_body())) || present("fluid", this_body()); // This should never be!
+
+      if (!fluid)
+      {
+         write("With what?\n");
+         return 1;
+      }
+   };
+   write("(with " + fluid->short() + ")\n");
+   bottle->fill_with(fluid); // fluid_obj: check to see if it is in presence of source.
+   return 1;
 }
 
 // This function looks for an object with id ("<string>_source")
@@ -41,40 +46,40 @@ int do_fill_it(object bottle, object fluid)
 // To have a source of any <fluid>, add an id of <fluid>_source.
 //  Use the function fill_up( ob ) to move the fluid into ob.
 
-int source( object bottle, string fluid )
+int source(object bottle, string fluid)
 {
    object source;
 
-   source = present( fluid +"_source", environment( this_body()) );
-   if (!source ) {
-	write("You cannot fill "
-      	+ bottle -> the_short() + 
-	" with " + fluid + ". \n");
-	return 1; };
-   return source -> fill_up( bottle );
-} 
+   source = present(fluid + "_source", environment(this_body()));
+   if (!source)
+   {
+      write("You cannot fill " + bottle->the_short() + " with " + fluid + ". \n");
+      return 1;
+   };
+   return source->fill_up(bottle);
+}
 
 void do_fill_obj(object ob)
 {
-    do_fill_it(ob, 0);
+   do_fill_it(ob, 0);
 }
 
-void do_fill_obj_with_obj(object ob1, object ob2) {
-    do_fill_it(ob1, ob2);
+void do_fill_obj_with_obj(object ob1, object ob2)
+{
+   do_fill_it(ob1, ob2);
 }
 
-void do_fill_obj_with_str(object ob1, string str ){
-  source( ob1, str );
+void do_fill_obj_with_str(object ob1, string str)
+{
+   source(ob1, str);
 }
 
-void do_fill_obj_from_obj( object ob1, object ob2){
-  ob2 -> fill_up( ob1 );
+void do_fill_obj_from_obj(object ob1, object ob2)
+{
+   ob2->fill_up(ob1);
 }
 
 void create()
 {
-   add_rules ( ({ "OBJ",  "OBJ with OBJ" , "OBJ with STR" , "OBJ from OBJ" }) );
+   add_rules(({"OBJ", "OBJ with OBJ", "OBJ with STR", "OBJ from OBJ"}));
 }
-
-
-

@@ -5,9 +5,9 @@ inherit COMBAT_SPELL;
 
 void setup()
 {
-  set_spell_name("fireball");
-  set_combat_messages("combat-torch");
-  set_damage_type("magic");
+   set_spell_name("fireball");
+   set_combat_messages("combat-torch");
+   set_damage_type("fire");
 }
 
 int calculate_damage()
@@ -17,38 +17,37 @@ int calculate_damage()
 
 void cast_spell(object ob, object reagent)
 {
-    object *targets;
+   object *targets;
 
-    if ( !ob )
-    {
-	targets = filter(all_inventory(environment(this_body())),
-                         (: $1 != this_body() && $1->is_living() :));
-	this_body()->simple_action("$N $vcast a fireball spell!");
-    }
-    else
-    {
-	targets = ({ ob });
-	this_body()->targetted_action("$N $vcast a fireball spell at $t1.", ob);
-    }
+   if (!ob)
+   {
+      targets = filter(all_inventory(environment(this_body())), ( : $1 != this_body() && $1->is_living() :));
+      this_body()->simple_action("$N $vcast a fireball spell!");
+   }
+   else
+   {
+      targets = ({ob});
+      this_body()->targetted_action("$N $vcast a fireball spell at $t1.", ob);
+   }
 
-    foreach ( object item in targets )
-    {
-	/* okay... we won't have the fireball hit the caster... :-) */
-	if ( item && item == this_body() )
-	    continue;
+   foreach (object item in targets)
+   {
+      /* okay... we won't have the fireball hit the caster... :-) */
+      if (item && item == this_body())
+         continue;
 
-	//reduce hit points here
-        do_spell_damage(item, (: calculate_damage :));
-    }
+      // reduce hit points here
+      do_spell_damage(item, ( : calculate_damage:));
+   }
 }
 
-mixed valid_target(object ob) 
+mixed valid_target(object ob)
 {
-    /* a fireball can always be cast... */
-    return 1;
+   /* a fireball can always be cast... */
+   return 1;
 }
 
 mixed valid_reagent(object ob)
 {
-    return !ob || "That wouldn't help the spell any.\n";
+   return !ob || "That wouldn't help the spell any.\n";
 }

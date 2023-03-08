@@ -5,7 +5,8 @@
 #endif
 
 // private so they don't become simuls
-private inherit __DIR__ "check_config";
+private
+inherit __DIR__ "check_config";
 
 // these first since others might use them.
 inherit __DIR__ "simul_efun/overrides";
@@ -19,4 +20,3 @@ inherit __DIR__ "simul_efun/misc";
 inherit __DIR__ "simul_efun/more";
 inherit __DIR__ "simul_efun/tell";
 inherit __DIR__ "simul_efun/goofy";
-inherit __DIR__ "simul_efun/colour" ;

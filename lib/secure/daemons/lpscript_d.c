@@ -254,7 +254,7 @@ void handle_grouping() {
 	    } else {
 		if (part1[0][0] == ":")
 		    add_error(cur, "Illegal function declaration");
-		lines[dest++] = line_info() + part1 + ({ trim_spaces(part2) });
+		lines[dest++] = line_info() + part1 + ({ trim(part2) });
 	    }
 	} else
 	    add_error(cur, "Syntax error");
@@ -277,25 +277,25 @@ mixed handle_expr1(string arg) {
 	tmp = handle_subexpression(arg[1..]);
 	if (tmp[1][0] != ')')
 	    add_error(cur, "expected ')'");
-	return ({ tmp[0], trim_spaces(tmp[1][1..]) });
+	return ({ tmp[0], trim(tmp[1][1..]) });
     case '0'..'9':
 	if (sscanf(arg, "%d%s", tmp, rest) == 2)
-	    return ({ tmp+"", trim_spaces(rest) });
+	    return ({ tmp+"", trim(rest) });
 	break;
     case '$':
 	sscanf(arg, "$%([A-Za-z0-9_]*)%s", arg, rest);
 	if (member_array(arg, cur_vars) == -1)
 	    add_error(cur, "Undefined variable '" + arg + "'");
-	rest = trim_spaces(rest);
+	rest = trim(rest);
 	return ({ "_" + arg, rest });
     case '"':
 	if (sscanf(arg, "\"%(([^\\\"]|\\.)*)\"%s", tmp, rest) != 2)
 	    add_error(cur, "Missing '\"'");
-	return ({ "\"" + tmp + "\"", trim_spaces(rest) });
+	return ({ "\"" + tmp + "\"", trim(rest) });
     case 'A'..'Z': 
     case 'a'..'z':
 	sscanf(arg, "%([A-Za-z]*)%s", arg, rest);
-	rest = trim_spaces(rest);
+	rest = trim(rest);
 
 	switch (arg) {
 	case "who":
@@ -332,7 +332,7 @@ mixed handle_prefix(string arg) {
     string rest = "";
 
     sscanf(arg, "%s %s", arg, rest);
-    rest = trim_spaces(rest);
+    rest = trim(rest);
 
     switch (arg) {
     case "find":
@@ -354,7 +354,7 @@ mixed handle_infix(string arg) {
     string rest = "";
 
     sscanf(arg, "%s %s", arg, rest);
-    rest = trim_spaces(rest);
+    rest = trim(rest);
 
     switch (arg) {
     case "notequal":
@@ -377,7 +377,7 @@ mixed handle_assignment(string arg) {
     mixed tmp;
 
     sscanf(arg, "%([A-Za-z0-9_]*)%s", var, rest);
-    rest = trim_spaces(rest);
+    rest = trim(rest);
     if (rest[0] != '=')
 	add_error(cur, "Expected '=' after '$" + var + "'");
     else
@@ -460,7 +460,7 @@ mixed handle_subexpression(string arg) {
 string handle_expression(string arg) {
     mixed tmp;
 
-    tmp = handle_subexpression(trim_spaces(arg));
+    tmp = handle_subexpression(trim(arg));
     if (tmp[1] != "")
 	add_error(cur, "junk found after valid expression");
 
@@ -728,8 +728,8 @@ mixed handle_mapping(string rfunc, string func, mixed *args) {
 	    add_error(cur, "Illegal exit value");
 	    continue;
 	}
-	exit = trim_spaces(exit);
-	value = trim_spaces(value);
+	exit = trim(exit);
+	value = trim(value);
 	ret += sprintf("  \"%s\" : \"%s\",\n", exit, value);
     }
     return ({ rfunc, ret + "]) )" });
@@ -745,8 +745,8 @@ mixed handle_int_mapping(string rfunc, string func, mixed *args) {
 	    add_error(cur, "Illegal int map value");
 	    continue;
 	}
-	key = trim_spaces(key);
-	value = trim_spaces(value);
+	key = trim(key);
+	value = trim(value);
 	ret += sprintf("  \"%s\" : %s,\n", key, value);
     }
     return ({ rfunc, ret + "]) )" });
@@ -782,7 +782,7 @@ string handle_string(mixed *args) {
 
 mixed handle_flags(mixed *args) {
     string ret = "0";
-    args = map(explode(args[0], ","), (: trim_spaces :));
+    args = map(explode(args[0], ","), (: trim:));
     foreach (string arg in args) {
 	switch (arg) {
 	case "attached" : ret += " | ATTACHED"; break;
@@ -792,7 +792,7 @@ mixed handle_flags(mixed *args) {
 }
 
 mixed handle_list(string rfunc, string func, mixed *args) {
-    args = map(explode(args[0], ","), (: trim_spaces :));
+    args = map(explode(args[0], ","), (: trim:));
 
     return ({ rfunc, func + "(\"" + implode(args, "\", \"") + "\")" });
 }
@@ -811,14 +811,14 @@ void get_attributes(string fname) {
 }
 
 mixed handle_variables(mixed *args) {
-    args = map(explode(args[0], ","), (: trim_spaces :));
+    args = map(explode(args[0], ","), (: trim:));
 
     globals += args;
     return ({ -1, "mixed _" + implode(args, ";\nmixed _") });
 }
 
 mixed handle_is(mixed *args) {
-    args = map(explode(args[0], ","), (: trim_spaces :));
+    args = map(explode(args[0], ","), (: trim:));
 
     foreach (string file in args) {
 	if (file[0] == '"' && file[<1] == '"') {

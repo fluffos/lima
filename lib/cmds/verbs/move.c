@@ -2,6 +2,7 @@
 
 inherit VERB_OB;
 
-void create() {
-    add_rules( ({ "OBJ" }) );
+void create()
+{
+   add_rules(({"OBJ"}));
 }

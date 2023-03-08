@@ -6,59 +6,61 @@
  */
 
 /* This is our property implementation.  Use as little as possible */
-private nosave mapping sets =([]);
-private mapping psets =([]);
+private
+nosave mapping sets = ([]);
+private
+mapping psets = ([]);
 
-
-nomask void
-set(mixed key, mixed value) {
-    sets[key] = value;
-}
-
-nomask void
-add(mixed key, mixed value)
+nomask void set(mixed key, mixed value)
 {
-    if(typeof(value) == typeof(sets[key]))
-	if(!functionp(value))
-	    sets[key]+=value;
+   sets[key] = value;
 }
 
-nomask mixed
-query(mixed key){
-    return sets[key];
+nomask void add(mixed key, mixed value)
+{
+   if (typeof(value) == typeof(sets[key]))
+      if (!functionp(value))
+         sets[key] += value;
 }
 
-nomask mapping
-query_sets() {
-    return sets;
+nomask mixed query(mixed key)
+{
+   return sets[key];
 }
 
-void
-delete(mixed key){
-   map_delete( sets, key );
+nomask mapping query_sets()
+{
+   return sets;
 }
 
-
-nomask void set_perm(mixed key, mixed value){
-    psets[key] = value;
+void delete(mixed key)
+{
+   map_delete(sets, key);
 }
 
-nomask mixed query_perm(mixed key){
-  return psets[key];
+nomask void set_perm(mixed key, mixed value)
+{
+   psets[key] = value;
 }
 
-nomask void delete_perm(mixed key){
-    map_delete(psets,key);
+nomask mixed query_perm(mixed key)
+{
+   return psets[key];
+}
+
+nomask void delete_perm(mixed key)
+{
+   map_delete(psets, key);
 }
 
 nomask void add_perm(mixed key, mixed value)
 {
-    if(typeof(value) == typeof(psets[key]))
-	if(!functionp(value))
-	    psets[key]+=value;
+   if (typeof(value) == typeof(psets[key]))
+      if (!functionp(value))
+         psets[key] += value;
 }
 
 nomask mapping query_perm_sets()
 {
-  return psets;
+   return psets;
 }

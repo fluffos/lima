@@ -2,12 +2,11 @@
 
 inherit VERB_OB;
 
-
 void do_wait()
 {
-    write("Do I have to do EVERYTHING for you?\n");
+   write("Do I have to do EVERYTHING for you?\n");
 }
-void create() {
-    add_rules( ({ "" }) );
+void create()
+{
+   add_rules(({""}));
 }
-

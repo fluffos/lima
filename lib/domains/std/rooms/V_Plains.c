@@ -18,9 +18,9 @@
 
 inherit GRID_SERVER;
 
-#define DATA_FILE	__DIR__ "v_plains.data"
+#define DATA_FILE __DIR__ "v_plains.data"
 
-nosave private string * my_descriptions = ({
+nosave private string *my_descriptions = ({
     "A dry, harsh wind blows over the gentle rolling hills of these plains.",
     "Wild grains and grasses push up through the hard earth.",
     "The clear blue sky heats the surrounding area, hardening the ground into baked clay.",
@@ -29,8 +29,8 @@ nosave private string * my_descriptions = ({
 
 void create()
 {
-ZBUG("in_set_up");
-    use_data_file(DATA_FILE);
-    set_brief("Plains");
-    set_descriptions(my_descriptions);
+   ZBUG("in_set_up");
+   use_data_file(DATA_FILE);
+   set_brief("Plains");
+   set_descriptions(my_descriptions);
 }
