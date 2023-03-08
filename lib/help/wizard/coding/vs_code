@@ -17,11 +17,11 @@ if you are using VS Code. The mudlib had been formatted by a range of different 
 over the years, so this change was made to make it consistent.
 
 (*) Entire mudlib:
-If you VS Code you can use the "Format Files" extension to format the entire mudlib should you
-wish to do so. Take care not to format files containing the 
+If you use VS Code you can use the "Format Files" extension to format the entire mudlib should you
+wish to do so. Take care not to format files containing this syntax for line formatting if doing so:
 @TEXT 
   Some text
 TEXT
 
-Syntax for line formatting if doing so. The entire /domains/std/school/ has not been formatted for
+The entire /domains/std/school/ has not been formatted for
 this exact reason as it uses this syntax extensively.
