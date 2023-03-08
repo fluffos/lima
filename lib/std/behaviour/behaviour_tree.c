@@ -26,6 +26,7 @@ string discover_parent(string node);
 void debug(mixed s);
 int debugging();
 int query_observers();
+int parses =0;
 
 string get_extra_long()
 {
@@ -53,6 +54,7 @@ varargs int evaluate_node()
         debug("<069>ROOT<res> node.");
         reset_tree(); // Reset tree when we see the root node.
         backpush(node->children[0]);
+        parses++;
         if (query_observers())
             evaluate_node();
         return;
@@ -156,6 +158,11 @@ varargs int evaluate_node()
     }
     else
         evaluate_node(parent);
+}
+
+int parses_made()
+{
+    return parses;
 }
 
 int is_smart()
