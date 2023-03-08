@@ -283,13 +283,13 @@ varargs mixed exec_code(string arg, string dir, string includefile)
    if (strsrch(arg, ";") == -1)
       arg = "return " + arg;
 
-   contents = "#include <mudlib.h>                                        " +
-              "#include <security.h>                                      " +
-              "  inherit M_ACCESS;                                        " +
-              "  create()                                                 " +
-              "   {                                                       " +
-              "      set_privilege(1);                                    " +
-              "   }                                                       ";
+   contents = "#include <mudlib.h>                                        \n" +
+              "#include <security.h>                                      \n" +
+              "  inherit M_ACCESS;                                        \n" +
+              "  create()                                                 \n" +
+              "   {                                                       \n" +
+              "      set_privilege(1);                                    \n" +
+              "   }                                                       \n";
 
    if (includefile)
       contents += sprintf("\n#include \"%s\"\n", includefile);
