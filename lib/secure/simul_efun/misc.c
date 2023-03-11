@@ -896,3 +896,12 @@ varargs string get_stack(int x)
 
    return list;
 }
+
+//:FUNCTION pround
+// Preceision round a float into a string with a specific number of decimals.
+// Example::
+//     pround(3.14152526,4) -> "3.1415"
+string pround(float f, int p)
+{
+   return sprintf("%:" + p + "f", f);
+}
