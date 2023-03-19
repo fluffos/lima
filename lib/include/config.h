@@ -154,9 +154,6 @@
 #define BUG_MSG \
 "You have just encountered a bug.  Please use the bug command to report it.\n"
 
-/* Define this to use an Infocom-like Status line. */
-#define USE_STATUS_LINE
-
 /*************************************************************************
  **                                                   									**
  **  Other options which affect users, but not gameplay.            		**
