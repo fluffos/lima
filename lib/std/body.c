@@ -49,9 +49,6 @@ inherit __DIR__ "body/skills";
 #ifdef USE_TITLES
 inherit __DIR__ "body/title";
 #endif
-#ifdef USE_WIZ_POSITION
-inherit __DIR__ "body/wiz_position";
-#endif
 #ifdef USE_GUILDS
 inherit __DIR__ "body/guilds";
 #endif
