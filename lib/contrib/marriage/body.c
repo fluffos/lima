@@ -37,7 +37,6 @@ inherit __DIR__ "body/quests";
 inherit __DIR__ "body/mailbase";
 inherit __DIR__ "body/newsdata";
 inherit __DIR__ "body/cmd";
-inherit __DIR__ "body/help";
 inherit __DIR__ "body/wizfuncs";
 inherit __DIR__ "body/money";
 inherit __DIR__ "body/start";

@@ -33,7 +33,6 @@ inherit M_SAVE; // don't want people calling load_from_string()
 
 inherit __DIR__ "body/quests";
 inherit __DIR__ "body/cmd";
-inherit __DIR__ "body/help";
 inherit __DIR__ "body/wizfuncs";
 inherit __DIR__ "body/pockets";
 inherit __DIR__ "body/start";
