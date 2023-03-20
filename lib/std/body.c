@@ -42,7 +42,6 @@ inherit __DIR__ "body/naming";
 #ifndef SAY_HISTORY_IN_ROOMS
 inherit __DIR__ "body/history";
 #endif
-
 #ifdef USE_SKILLS
 inherit __DIR__ "body/skills";
 #endif
