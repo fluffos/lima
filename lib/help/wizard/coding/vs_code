@@ -3,7 +3,7 @@ The entire(*) LIMA Mudlib has been formatted in VS Code by these rules:
 {
     "editor.accessibilitySupport": "off",
     "[c]": {
-        
+
         "editor.defaultFormatter": "ms-vscode.cpptools",
         "editor.wordBasedSuggestions": false,
         "editor.suggest.insertMode": "replace",
