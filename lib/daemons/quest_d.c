@@ -71,10 +71,6 @@ int grant_points(object solver, string quest)
    tell(solver, sprintf("Your score has gone up by %d points.\n", quests[quest][1]));
    save_me();
 
-#ifdef USE_STATUS_LINE
-   if (this_body()->has_status_line())
-      this_body()->update_status_line();
-#endif
    return 1;
 }
 

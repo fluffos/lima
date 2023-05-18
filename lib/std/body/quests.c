@@ -45,11 +45,6 @@ void rack_up_a_death()
    deaths++;
    points -= 20;
    save_me();
-
-#ifdef USE_STATUS_LINE
-   if (has_status_line())
-      update_status_line();
-#endif
 }
 
 int query_deaths()

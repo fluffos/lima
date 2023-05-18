@@ -33,7 +33,6 @@ inherit M_SAVE; // don't want people calling load_from_string()
 
 inherit __DIR__ "body/quests";
 inherit __DIR__ "body/cmd";
-inherit __DIR__ "body/help";
 inherit __DIR__ "body/wizfuncs";
 inherit __DIR__ "body/pockets";
 inherit __DIR__ "body/start";
@@ -43,18 +42,11 @@ inherit __DIR__ "body/naming";
 #ifndef SAY_HISTORY_IN_ROOMS
 inherit __DIR__ "body/history";
 #endif
-
-#ifdef USE_STATUS_LINE
-inherit __DIR__ "body/status_line";
-#endif
 #ifdef USE_SKILLS
 inherit __DIR__ "body/skills";
 #endif
 #ifdef USE_TITLES
 inherit __DIR__ "body/title";
-#endif
-#ifdef USE_WIZ_POSITION
-inherit __DIR__ "body/wiz_position";
 #endif
 #ifdef USE_GUILDS
 inherit __DIR__ "body/guilds";

@@ -15,6 +15,7 @@ object query_mailer();                // in /std/body/mailbase.c
 
 /* forward decl */
 string history_and_alias_processing(string arg);
+mapping topic_to_time = ([]);
 
 private
 nosave string *nonsense_msgs;
@@ -146,4 +147,18 @@ nomask void force_game_command(string str)
    if (!do_game_command(str))
       write(nonsense());
    set_this_player(save_this_user);
+}
+
+//:FUNCTION read_help_topic
+// read_help_topic(str)   -- set time <str> was read to right now.
+void read_help_topic(string str)
+{
+   topic_to_time[str] = time();
+}
+
+//:FUNCTION query_help_topic
+// query_help_topic(str)  -- return time <str> was read. if not read, return 0
+int query_help_topic(string str)
+{
+   return topic_to_time[str];
 }
