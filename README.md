@@ -1,7 +1,7 @@
 Lima Mudlib that work with latest FluffOS
 
 # Get involved
-- Visit us at lima.themud.org 7878 !
+- Visit us at limalib.dev 7878 !
 - #LIMA Channel on LPC Discord - https://discord.gg/wzUbBgs3AQ
 
 # Documentation
