@@ -63,7 +63,7 @@ void init_data()
    special_mats = info[0];
    mat_sums = info[1];
 
-   info = CRAFTING_D->query_special_attk();
+   info = DAMAGE_D->query_special_attk();
    special_attk = info[0];
    attk_sums = info[1];
 }

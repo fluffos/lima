@@ -10,7 +10,7 @@
 */
 
 inherit M_DAEMON_DATA;
-inherit M_DICE;
+//inherit M_DICE;
 
 #define MATERIALS_CONFIG_FILE "/data/config/crafting-materials"
 #define PRIV_NEEDED "Mudlib:daemons"
@@ -28,24 +28,7 @@ nosave mapping special_mats = (
                  64:"darksteel", 32:"silver", 16:"gold", 8:"platinum", 4:"titanium", 2:"adamantine", 1:"orichalcum", ]),
         "wood":([128:"fir", 64:"pine", 32:"oak", 16:"cedar", 8:"larch", 4:"hemlock", 2:"ebony", 1:"bloodwood", ]), ]);
 private
-nosave mapping special_attk =
-    (["acid":([128:"sourness", 64:"bitterness", 32:"tartness", 4:"astringent bite", 1:"corrosive jaws", ]),
-             "cold":([128:"chill", 64:"frost", 32:"crystals", 4:"frigid freeze", 1:"arctic cold", ]),
-             "fire":([128:"glow", 64:"embers", 32:"flames", 4:"blaze", 1:"infernal fire", ]),
-            "force":([128:"pushing", 64:"thrusting", 32:"bursting", 4:"blasting", 1:"impetuous force", ]),
-        "lightning":([128:"light", 64:"sparks", 32:"volt", 4:"electricity", 1:"lightning storm", ]),
-         "necrotic":([128:"nausea", 64:"pestilence", 32:"rotting", 4:"decay", 1:"ungraceful death", ]),
-           "poison":([128:"toxicity", 64:"miasma", 32:"blight", 4:"contagion", 1:"pandemic plague", ]),
-          "psychic":([128:"spirit", 64:"obscura", 32:"mysticism", 4:"shadow", 1:"etheral duress", ]),
-          "radiant":([128:"sparkling", 64:"lucent", 32:"glowing", 4:"resplending", 1:"light of the stars", ]),
-          "thunder":([128:"thunderclap",
-                        64:"thunderbolt", 32:"thundercrack", 4:"thunderous barrage", 1:"thunderous explosion", ])]);
-private
-nosave string *rn = ({"I", "II", "III", "IV", "V", "VI", "VII", "IIX", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"});
-private
 nosave int *mat_sums = ({128, 192, 224, 240, 248, 252, 254, 255});
-private
-nosave int *attk_sums = ({128, 192, 224, 228, 229});
 private
 nosave mapping crafting_recipes = ([]);
 private
@@ -154,11 +137,6 @@ mixed *query_all_special_mats()
 mixed *query_special_mats(string category)
 {
     return ({special_mats[category], mat_sums});
-}
-
-mixed *query_special_attk()
-{
-   return ({special_attk, attk_sums});
 }
 
 mapping query_upgrade_schemes()
@@ -701,7 +679,7 @@ int query_longest_mat()
    return longest_material;
 }
 
-void load_materials_from_file()
+void load_config_from_file()
 {
    int errors_found = 0;
    mapping materials = ([]);
@@ -807,7 +785,7 @@ void create()
 {
    ::create();
    load_crafting_recipes();
-   load_materials_from_file();
+   load_config_from_file();
    refresh_cache();
 }
 
