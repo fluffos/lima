@@ -239,8 +239,6 @@ int query_skill_pts(string skill)
 void add_skill_bonus(string s, int v)
 {
    class skill skill, new_skill;
-   TBUG("Skill " + s + " " + v);
-   TBUG(previous_object());
    if (!skill_bonus[s])
       skill_bonus[s] = 0;
    skill_bonus[s] += v;
