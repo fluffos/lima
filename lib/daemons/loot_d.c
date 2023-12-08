@@ -110,7 +110,7 @@ void drop_corpse(object adversary)
    string corpse_long = adversary->query_corpse_long();
    string in_room_singular = adversary->in_room_singular();
    string in_room_plural = adversary->in_room_plural();
-   string dom = domain_file(adversary);
+   string dom = file_domain(adversary);
    string cur = DOMAIN_D->query_currency(dom) || "gold"; // Use "gold" as fallback.
 
    // Handling of players dropping corpses
@@ -127,7 +127,7 @@ void drop_corpse(object adversary)
       corpse->override_room_desc(in_room_singular, in_room_plural);
 #ifdef PLAYERS_DROP_EQUIPMENT_AT_DEATH
       all_inventory(adversary)->set_worn(0);
-      all_inventory(adversary)->set_tattered();
+      all_inventory(adversary)->set_damaged();
       all_inventory(adversary)->reduce_value_by(10);
       all_inventory(adversary)->move(corpse);
 #endif
@@ -143,7 +143,7 @@ void drop_corpse(object adversary)
       if (sizeof(all_inventory(adversary)))
       {
          all_inventory(adversary)->set_worn(0);
-         all_inventory(adversary)->set_tattered();
+         all_inventory(adversary)->set_damaged();
          all_inventory(adversary)->reduce_value_by(10);
          all_inventory(adversary)->move(corpse);
          coins_treasure(adversary->query_level(), cur)->move(corpse);
@@ -190,7 +190,7 @@ object *loot_chest(int level, object env)
    object t;
    object *t_ar = ({});
    int roll = random(100);
-   string dom = domain_file(env);
+   string dom = file_domain(env);
    string cur = DOMAIN_D->query_currency(dom) || "gold"; // Use "gold" as fallback.
    int count;
 

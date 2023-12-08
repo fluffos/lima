@@ -5,7 +5,7 @@
 // exchange rates.
 //
 // Objects have an inherent "value".  This is then translated into a
-// particular currency via that currency's value -> actual exchange rate.
+// particular currency via that currency's value.actual exchange rate.
 //
 // Currencies have different denomiations, e.g. dollar have dollar and cent.
 // Calculation is always based on the lowest denomination. Functions for
@@ -55,6 +55,7 @@ nosave mapping singulars = ([]);
 // e.g. lover case, without spaces and singular.
 string singular_name(string name)
 {
+   if (!name) return;
    name = lower_case(trim(name));
    if (singulars[name])
       name = singulars[name];
@@ -111,7 +112,7 @@ nomask string query_currency(string name)
    name = singular_name(name);
    if (!denomination[name])
       error("unknown denomination: " + name + ".\n");
-   return denomination[name]->currency;
+   return denomination[name].currency;
 }
 
 //: FUNCTION query_plural
@@ -120,7 +121,7 @@ nomask string query_plural(string name)
 {
    name = singular_name(name);
    if (denomination[name])
-      return denomination[name]->plural;
+      return denomination[name].plural;
    if (denominations[name]) // test if currency
       if (plurals[name])
          return plurals[name];
@@ -134,9 +135,9 @@ nomask string query_plural(string name)
 nomask float query_factor(string name)
 {
    name = singular_name(name);
-   if (!denomination[name])
+   if (!name || !denomination[name])
       error("unknown denomination: " + name + ".\n");
-   return denomination[name]->factor;
+   return denomination[name].factor;
 }
 
 //: FUNCTION add_currency
@@ -207,10 +208,10 @@ nomask void set_exchange_rate(string type, int rate)
 private
 int compare_denominations(string d1, string d2)
 {
-   if (denomination[d1]->factor > denomination[d2]->factor)
+   if (denomination[d1].factor > denomination[d2].factor)
       return -1;
    else
-      return (denomination[d1]->factor < denomination[d2]->factor);
+      return (denomination[d1].factor < denomination[d2].factor);
 }
 
 //: FUNCTION add_denomination
@@ -221,8 +222,8 @@ void add_denomination(string type, string name, string plural, float factor)
       error("illegal attempt to add a denomination.\n");
    type = singular_name(type);
    name = lower_case(trim(name));
-   if (denomination[name] && denomination[name]->currency != type)
-      error("denomination " + name + " already exists in currency " + denomination[name]->currency + "\n");
+   if (denomination[name] && denomination[name].currency != type)
+      error("denomination " + name + " already exists in currency " + denomination[name].currency + "\n");
    plural = lower_case(plural);
    singulars[plural] = name;
    denomination[name] = new (class denomination, currency : type, plural : plural, factor : factor);
@@ -253,14 +254,14 @@ void remove_denomination(string name)
    name = singular_name(name);
    if (!denomination[name])
       error("unknown denomination: " + name + "\n");
-   type = denomination[name]->currency;
+   type = denomination[name].currency;
    if (sizeof(denominations[type]) == 1)
       remove_currency(type);
    else
    {
       denominations[type] -= ({name});
       if (!denominations[name])
-         map_delete(singulars, denomination[name]->plural);
+         map_delete(singulars, denomination[name].plural);
       map_delete(denomination, name);
       save_me();
    }
@@ -275,7 +276,7 @@ nomask string denomination_to_string(int amount, string type)
    if (!denomination[type])
       error("illegal denomination: " + type + "\n");
    if (amount > 1)
-      return amount + " " + denomination[type]->plural;
+      return amount + " " + denomination[type].plural;
    else
       return amount + " " + type;
 }
@@ -291,13 +292,13 @@ mapping calculate_denominations(float f_amount, string currency)
    if (!denominations[currency])
       error("illegal currency type: " + currency + "\n");
    // avoid rounding errors
-   f_amount += denomination[denominations[currency][ < 1]]->factor * 0.1;
+   f_amount += denomination[denominations[currency][ < 1]].factor * 0.1;
    foreach (string type in denominations[currency])
    {
-      amount = to_int(f_amount / denomination[type]->factor);
+      amount = to_int(f_amount / denomination[type].factor);
       if (amount)
       {
-         f_amount -= to_float(amount) * denomination[type]->factor;
+         f_amount -= to_float(amount) * denomination[type].factor;
          money[type] = amount;
       }
    }
@@ -336,7 +337,7 @@ varargs nomask string currency_to_string(mixed money, string currency)
          if (str != "")
             str += ", ";
          if (amount > 1)
-            str += amount + " " + denomination[name]->plural;
+            str += amount + " " + denomination[name].plural;
          else
             str += amount + " " + name;
       }
@@ -368,11 +369,11 @@ mapping *handle_subtract_money(object player, float f_amount, string type)
       for (int i = sizeof(types) - 1; i >= 0; i--)
       {
          type = types[i];
-         amount = to_int(f_amount / denomination[type]->factor + 0.9999);
+         amount = to_int(f_amount / denomination[type].factor + 0.9999);
          if (amount <= money[type])
          {
             substract[type] = amount;
-            f_amount -= to_float(amount) * denomination[type]->factor;
+            f_amount -= to_float(amount) * denomination[type].factor;
             break;
          }
       }
@@ -380,16 +381,16 @@ mapping *handle_subtract_money(object player, float f_amount, string type)
       {
          foreach (type in types)
          {
-            amount = to_int(f_amount / denomination[type]->factor + 0.9999);
+            amount = to_int(f_amount / denomination[type].factor + 0.9999);
             if (amount > money[type])
             {
                substract[type] = money[type];
-               f_amount -= to_float(money[type]) * denomination[type]->factor;
+               f_amount -= to_float(money[type]) * denomination[type].factor;
             }
             else
             {
                substract[type] = amount;
-               f_amount -= to_float(amount) * denomination[type]->factor;
+               f_amount -= to_float(amount) * denomination[type].factor;
                break;
             }
          }
@@ -401,7 +402,7 @@ mapping *handle_subtract_money(object player, float f_amount, string type)
       string currency = query_currency(type);
       amount = to_int(f_amount + 0.9999);
       substract[type] = amount;
-      f_amount = (to_float(amount) - f_amount) * denomination[type]->factor;
+      f_amount = (to_float(amount) - f_amount) * denomination[type].factor;
       change = calculate_denominations(f_amount, currency);
    }
    TBUG(amount + f_amount);
@@ -422,13 +423,14 @@ mapping *handle_subtract_money(object player, float f_amount, string type)
 create()
 {
    ::create();
+   restore_me();
    foreach (string type, string plural in plurals)
    {
       singulars[plural] = type;
    }
    foreach (string type, class denomination d in denomination)
    {
-      singulars[d->plural] = type;
+      singulars[d.plural] = type;
    }
 }
 

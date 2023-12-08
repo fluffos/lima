@@ -22,23 +22,33 @@ varargs void add_pattern(string pattern, mixed action, mixed left, mixed right, 
 {
    class pattern pat = new (class pattern);
 
-   pat->pattern = pattern;
-   pat->action = action;
-   pat->left = left;
-   pat->right = right;
-   pat->type_to_listen = type;
+   pat.pattern = pattern;
+   pat.action = action;
+   pat.left = left;
+   pat.right = right;
+   pat.type_to_listen = type;
 
    patterns[0] += ({pat});
+}
+
+void remove_pattern(string pattern)
+{
+   patterns[0] = filter_array(patterns[0], ( : ((class pattern)$1).pattern != $(pattern) :));
+}
+
+mapping query_patterns()
+{
+   return copy(patterns);
 }
 
 varargs void add_sub_pattern(mixed rule, string pattern, mixed action, mixed left, mixed right)
 {
    class pattern pat = new (class pattern);
 
-   pat->pattern = pattern;
-   pat->action = action;
-   pat->left = left;
-   pat->right = right;
+   pat.pattern = pattern;
+   pat.action = action;
+   pat.left = left;
+   pat.right = right;
 
    if (patterns[rule])
       patterns[rule] += ({pat});
@@ -56,11 +66,11 @@ mixed try_to_match(string str, string rule)
 
    foreach (pat in patterns[rule])
    {
-      if (!pat->pattern || str == pat->pattern || sscanf(str, pat->pattern, left, right))
+      if (!pat.pattern || str == pat.pattern || sscanf(str, pat.pattern, left, right))
       {
-         left = try_to_match(left, pat->left);
-         right = try_to_match(right, pat->right);
-         return evaluate(pat->action, left, right);
+         left = try_to_match(left, pat.left);
+         right = try_to_match(right, pat.right);
+         return evaluate(pat.action, left, right);
       }
    }
    return str;
@@ -78,20 +88,21 @@ varargs void check_msg(string str, int type)
       str = str[0.. < 2];
    foreach (pat in patterns[0])
    {
-      if (pat->type_to_listen && !(type & pat->type_to_listen))
+      if (pat.type_to_listen && !(type & pat.type_to_listen))
          continue;
-      if (!pat->pattern || str == pat->pattern || sscanf(str, pat->pattern, left, right))
+      if (!pat.pattern || str == pat.pattern || sscanf(str, pat.pattern, left, right))
       {
-         left = try_to_match(left, pat->left);
-         right = try_to_match(right, pat->right);
-         if (stringp(pat->action))
-            ret = pat->action;
+         left = try_to_match(left, pat.left);
+         right = try_to_match(right, pat.right);
+         if (stringp(pat.action))
+            ret = pat.action;
          else
          {
-            ret = evaluate(pat->action, left, right);
+            ret = evaluate(pat.action, left, right);
             if (!stringp(ret))
                continue;
          }
+         this_object()->triggered(pat.pattern);
          respond(ret);
          return;
       }

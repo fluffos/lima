@@ -6,7 +6,7 @@ inherit M_WIELDABLE;
 inherit M_GETTABLE;
 inherit M_MESSAGES;
 inherit M_SALVAGEABLE;
-inherit M_VALUABLE;
+
 inherit M_DURABILITY;
 
 #define WEAPON_LVL_PRICE 25
@@ -17,14 +17,13 @@ void mudlib_setup()
    add_id("weapon");
    set_combat_messages("combat-bludgeon");
    set_skill_used("combat/melee/club");
-   set_salvageable((["skin":50, "metal":50]));
+   set_salvageable((["wood":40, "textile":10, "metal":50]));
    add_save(({"persist_flags"}));
-   set_max_durability(100 * query_weapon_class());
 }
 
 int query_value()
 {
-   int value = m_valuable::query_value();
+   int value = ::query_value();
    int level = query_weapon_class() + (query_raw_hit_bonus() * 2) + query_raw_disarm_bonus() + query_raw_anti_disarm() +
                (query_must_dual_wield() ? -1 : 0) + (query_raw_damage_bonus() * 3);
    if (!value)

@@ -9,6 +9,7 @@
 #include <config.h>
 #include <mudlib.h>
 #include <security.h>
+#include <config/user_menu.h>
 
 void sw_body_handle_new_logon();
 nomask string query_userid();
@@ -96,7 +97,7 @@ nomask void set_referral(string reftxt)
    if (!reftxt || strlen(trim(reftxt)) == 0)
       return;
 
-   unguarded(1, ( : write_file, REFERRALS_LOG, query_userid() + ": " + reftxt:));
+   unguarded(1, ( : write_file, REFERRALS_LOG, ctime(time()) + ":" + query_userid() + ": " + reftxt + "\n" :));
 }
 
 nomask string query_url()
@@ -107,6 +108,8 @@ nomask string query_url()
 protected
 nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
 {
+   object tmp;
+
    switch (state)
    {
    case GENDER_QUERY:
@@ -155,7 +158,6 @@ nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
       real_name = arg;
 
       modal_func(( : userinfo_handle_logon, GOT_URL, 0 :), "Your home page address (if any): ");
-      // tc("hmm");
       break;
 
    case GOT_URL:
@@ -171,7 +173,11 @@ nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
    case GOT_REFERRAL:
       set_referral(arg);
       modal_pop();
-      new (USER_MENU)->start_menu();
+      tmp = new (USER_MENU);
+      tmp->start_menu();
+#ifndef USE_USER_MENU
+      tmp->char_name(query_userid());
+#endif
       return;
    }
 }

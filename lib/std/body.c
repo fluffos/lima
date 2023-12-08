@@ -38,6 +38,7 @@ inherit __DIR__ "body/pockets";
 inherit __DIR__ "body/start";
 inherit __DIR__ "body/time";
 inherit __DIR__ "body/naming";
+inherit __DIR__ "body/levels";
 
 #ifndef SAY_HISTORY_IN_ROOMS
 inherit __DIR__ "body/history";
@@ -132,6 +133,7 @@ nomask void init_stuff()
 {
    foreach (object inv in all_inventory())
    {
+      inv->restore_to_game();
 #ifdef WIELD_SINGLE
       if (inv->test_flag(F_WIELDED))
          do_wield(inv);
@@ -226,8 +228,11 @@ void enter_game(int state)
 void save_me()
 {
    object shell_ob = link && link->query_shell_ob();
-   string userid = query_userid();
    string bodyid = lower_case(query_name());
+
+   //Never save guests
+   if (bodyid && strlen(bodyid) > 5 && bodyid[0..4] == "guest")
+      return;
 
    /* save the shell information */
    if (shell_ob)
@@ -244,8 +249,6 @@ void save_me()
 // Handle mailboxes and the last login daemon, as well as the normal stuff
 void remove()
 {
-   object ob;
-
    if (!clonep())
    {
       ::remove();

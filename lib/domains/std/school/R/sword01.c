@@ -1,16 +1,16 @@
 #include "../school.h";
-inherit ROOM;
+inherit INDOOR_ROOM;
 
 void setup(){
     set_brief("How to make a basic sword");
     set_long(@MAY
 
-Inherit the appropriate file - SWORD, M_VALUABLE.
+Inherit the appropriate file - SWORD, .
 Normal setup for adj, size and value (id not needed).
 Set weapon_class - approx max hps of damage from a hit.
 
 inherit SWORD;
-inherit M_VALUABLE;
+
 
 void setup() {
     set_adj("dull");

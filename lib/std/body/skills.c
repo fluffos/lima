@@ -43,7 +43,7 @@
 **   against the opposing skill (MAX if you're totally outclassed or MIN
 **   if you stomp all over your opponent).
 **
-**   All these parameters are set in the skills.h file.
+**   All these parameters are set in the config/skills.h file.
 **
 ** Note: policy decision says that we aren't protecting skills from
 **       "unauthorized" tampering.  This is consistent with much of
@@ -52,7 +52,8 @@
 */
 
 #include <classes.h>
-#include <skills.h>
+#include <config/skills.h>
+#include <hooks.h>
 
 inherit CLASS_SKILL;
 
@@ -62,6 +63,8 @@ private
 nosave mapping skill_ranks = ([]);
 private
 nosave mixed ranks = SKILL_D->ranks();
+private
+nosave mapping skill_bonus = ([]);
 
 int base_test_skill(string skill, int opposing_skill);
 
@@ -78,7 +81,7 @@ int initiate_ranks()
    {
       foreach (string skill_name in keys(skills))
       {
-         skill_ranks[skill_name] = SKILL_D->rank_name_from_pts(skills[skill_name]->skill_points);
+         skill_ranks[skill_name] = SKILL_D->rank_name_from_pts(skills[skill_name].skill_points);
       }
       return 1;
    }
@@ -108,7 +111,7 @@ void banner_rankup(string skill, int rank)
 int check_rank(string skill_name, int sp)
 {
    int rank = 0;
-   int rankUp = 0;
+   int rank_up = 0;
 
    while (rank < (sizeof(ranks) - 1) && sp > ranks[rank])
    {
@@ -117,14 +120,14 @@ int check_rank(string skill_name, int sp)
    // TBUG(this_object()+"Name: "+skill_name+" Cached rank: "+skill_ranks[skill_name]+" calc rank: "+rank+" Skillpoints:
    // "+sp);
 
-   rankUp = rank > skill_ranks[skill_name] ? 1 : 0;
-   if (rankUp)
+   rank_up = rank > skill_ranks[skill_name] ? 1 : 0;
+   if (rank_up)
    {
       banner_rankup(skill_name, rank);
       skill_ranks[skill_name] = rank;
    }
 
-   return rankUp;
+   return rank_up;
 }
 
 //: FUNCTION query_skill_ranks
@@ -142,7 +145,7 @@ mapping query_skill_ranks()
 // Mostly called internally in BODY, but can be used for testing by wizards.
 //
 // i.e. give me 100 skill_points and 20 training_points in combat/sword:
-// @.me->set_skill("combat/sword",100,20)
+// @.me->set_skill("combat/melee/blade",100,20)
 class skill set_skill(string skill, int skill_points, int training_points)
 {
    class skill cs = skills[skill];
@@ -156,8 +159,8 @@ class skill set_skill(string skill, int skill_points, int training_points)
    }
    else
    {
-      cs->skill_points = skill_points;
-      cs->training_points = training_points;
+      cs.skill_points = skill_points;
+      cs.training_points = training_points;
    }
 
    return cs;
@@ -174,7 +177,7 @@ class skill clear_training_points(string skill)
    if (!cs)
       error("Cannot clear training points in non-existing skill " + skill + ".\n");
 
-   cs->training_points = 0;
+   cs.training_points = 0;
 
    return cs;
 }
@@ -210,9 +213,14 @@ void clean_skills()
 //: FUNCTION query_skill
 // class skill query_skill(string skill);
 // Returns a single class skill by name.
-class skill query_skill(string skill)
+class skill query_skill(string s)
 {
-   return skills[skill];
+   class skill skill;
+   if (!skills[s])
+      return 0;
+   skill = copy(skills[s]);
+   skill.skill_points = CLAMP(skill.skill_points+skill_bonus[s],0,MAX_SKILL_VALUE);
+   return skill;
 }
 
 //: FUNCTION query_skill_pts
@@ -224,7 +232,44 @@ class skill query_skill(string skill)
 int query_skill_pts(string skill)
 {
    if (skills[skill])
-      return skills[skill]->skill_points;
+      return skills[skill].skill_points;
+   return -1;
+}
+
+void add_skill_bonus(string s, int v)
+{
+   class skill skill, new_skill;
+   if (!skills[s])
+      skills[s] = new (class skill);
+   if (!skill_bonus[s])
+      skill_bonus[s] = 0;
+   skill_bonus[s] += v;
+}
+
+void remove_skill_bonus(string s, int v)
+{
+   add_skill_bonus(s, (-1 * v));
+}
+
+//: FUNCTION query_skill_bonus
+// int query_skill_bonus(string skill);
+// Returns the current skill bonus for a skill.
+// Returns -1 if the skill doesn't exist for the player.
+int query_skill_bonus(string skill)
+{
+   if (skills[skill])
+      return skill_bonus[skill];
+   return -1;
+}
+
+//: FUNCTION query_training_pts
+// int query_training_pts(string skill);
+// Returns the current training points for a skill.
+// Returns -1 if the skill doesn't exist for the player.
+int query_training_pts(string skill)
+{
+   if (skills[skill])
+      return skills[skill].training_points;
    return -1;
 }
 
@@ -237,6 +282,7 @@ int aggregate_skill(string skill)
    int total_skill = 0;
    int coef = 1;
 
+   // total_skill += this_object()->call_hooks("modify_skill", HOOK_SUM, 0, skill);
    while (1)
    {
       class skill my_skill;
@@ -245,7 +291,7 @@ int aggregate_skill(string skill)
       my_skill = skills[skill];
       if (my_skill)
       {
-         total_skill += fuzzy_divide(my_skill->skill_points, coef);
+         total_skill += fuzzy_divide(my_skill.skill_points, coef);
       }
 
       coef = coef * AGGREGATION_FACTOR;
@@ -285,16 +331,16 @@ void learn_skill(string skill, int value)
 
       /* as a person's skill increases, the amount they learn decreases */
       divisor = ((LEARNING_FACTOR - 1) * s * s) / (MAX_SKILL_VALUE * MAX_SKILL_VALUE / 4) + 1;
-      my_skill->skill_points += fuzzy_divide(value, divisor);
-      check_rank(skill, my_skill->skill_points);
+      my_skill.skill_points += fuzzy_divide(value, divisor);
+      check_rank(skill, my_skill.skill_points);
       // TBUG("Skill: "+skill+" s: "+s+" Divisor: "+divisor+" Value: "+value+" Points gained: "+fuzzy_divide(value,
       // divisor)+" Prop: "+fuzzy_divide(value, PROPAGATION_FACTOR));
 
-      if (my_skill->skill_points > MAX_SKILL_VALUE)
-         my_skill->skill_points = MAX_SKILL_VALUE;
+      if (my_skill.skill_points > MAX_SKILL_VALUE)
+         my_skill.skill_points = MAX_SKILL_VALUE;
 
       /* accum training points */
-      my_skill->training_points += fuzzy_divide(value, divisor * TRAINING_FACTOR);
+      my_skill.training_points += fuzzy_divide(value, divisor * TRAINING_FACTOR);
 
       /* as skill moves up (<-) the tree, it decreases */
       value = fuzzy_divide(value, PROPAGATION_FACTOR);

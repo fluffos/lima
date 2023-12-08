@@ -97,18 +97,14 @@ void create(mixed *args...)
    // ###
    // ### BTW, contrary to the above, it appears this is *NOT* already done for cloned rooms
 
-#if 0
-    if( !clonep() )
-    {
-#endif
-   // initialize the mudlib (default) stuff, then the area coder's
-   mudlib_setup();
-   this_object()->internal_setup();
+   if (!clonep())
+   {
+      // initialize the mudlib (default) stuff, then the area coder's
+      mudlib_setup();
+      this_object()->internal_setup();
 
-   setup(args...);
-#if 0
-    }
-#endif
+      setup(args...);
+   }
 }
 
 void mudlib_setup()
@@ -185,19 +181,6 @@ mixed direct_get_obj(object ob)
    if (this_object() == environment(this_body()))
       return "#A surreal idea.";
    return ::direct_get_obj(ob);
-}
-
-mapping lpscript_attributes()
-{
-   return (["area":({LPSCRIPT_STRING, "setup", "set_area"}),
-           "brief":({LPSCRIPT_STRING, "setup", "set_brief"}), "exits":({LPSCRIPT_MAPPING, "setup", "set_exits"}),
-           "state":({LPSCRIPT_TWO, (
-                                       : ({"setup", "set_state_description(\"" + $1 + "\", \"" + $2[0] + "\")"})
-                                       :)}),
-            "item":({LPSCRIPT_SPECIAL,
-                     (
-                         : ({"setup", "add_item(\"" + $1[0] + "\", \"" + implode($1[1..], " ") + "\")"})
-                         :)})]);
 }
 
 /* tweak the base long description to add the state stuff */
@@ -311,7 +294,8 @@ void check_anybody_here()
 {
    if (listeners())
    {
-      tag = call_out("room_chat", chat_period, chat_msg);
+      if (find_call_out("room_chat") == -1)
+         tag = call_out("room_chat", chat_period, chat_msg);
    }
    else
    {
@@ -341,7 +325,7 @@ void departure(object who)
 
 void arrival(object who)
 {
-   if (!listeners())
+   if (!listeners() && find_call_out("room_chat") == -1)
       tag = call_out("room_chat", chat_period, chat_msg);
 }
 

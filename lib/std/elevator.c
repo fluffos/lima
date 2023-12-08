@@ -97,7 +97,6 @@ void add_to_queue(string where)
 {
    if (member_array(where, queue) != -1)
    {
-      error("Trying to call elevator to destination '" + where + "' that is unknown.");
       return;
    }
    queue += ({where});
@@ -113,7 +112,7 @@ void handle_press(string dest)
    }
 
    if (sscanf(dest, "%s/%s", key, newdest) == 2)
-      this_body()->simple_action("$N $vpress the '" + (key ? "(" + key + ") " : "") + capitalize(newdest) +
+      this_body()->simple_action("$N $vpress the '" + (key ? "[" + key + "] " : "") + capitalize(newdest) +
                                  "' button.\n");
    else
       this_body()->simple_action("$N $vpress the '" + capitalize(dest) + "' button.\n");

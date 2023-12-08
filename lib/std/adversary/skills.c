@@ -7,7 +7,7 @@
 ** More extensive skill support for players is found in /std/body/skills.c
 */
 
-#include <skills.h>
+#include <config/skills.h>
 
 int query_level();
 
@@ -34,8 +34,20 @@ int aggregate_skill(string skill)
 // Example @.here:guard->set_skill("combat/melee/club",1000);
 //
 // No need to set "combat" as well for adversaries since the skills do
-// not aggregate like for players with bodies.
+// not aggregate like for players with bodies. Once set, a skill cannot be changed.
+// Use force_skill() to override this restriction.
 void set_skill(string name, int sp)
+{
+   if (!adversary_skills[name])
+      adversary_skills[name] = sp;
+}
+
+//: FUNCTION force_skill
+// This provides a simple way to set skills for adversaries.
+// Example @.here:guard->force_skill("combat/melee/club",1000);
+//
+// Unlike set_skill(), force_skill() in adversary can set a skill even if set previously.
+void force_skill(string name, int sp)
 {
    adversary_skills[name] = sp;
 }
@@ -68,7 +80,6 @@ int query_skill(string skill)
 int base_test_skill(string skill, int opposing_skill)
 {
    int total_skill;
-   int amount;
    int combined_total;
 
    total_skill = aggregate_skill(skill);
@@ -100,7 +111,7 @@ int base_test_skill(string skill, int opposing_skill)
 // This is the basic skill test for adversaries.
 // For players it is replaced by an extended version, supporting the
 // improvement of skills through use.
-int test_skill(string skill, int opposing_skill)
+varargs int test_skill(string skill, int opposing_skill, int no_learn)
 {
    return base_test_skill(skill, opposing_skill);
 }

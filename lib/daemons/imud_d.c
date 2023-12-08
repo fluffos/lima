@@ -163,12 +163,13 @@ void return_error(string mudname, string username, string errcode, string errmsg
 private
 nomask void handle_router_read(object socket, mixed *message)
 {
+   if (!message)
+      return;
    if (message[0] != "mudlist")
    {
       string s = sprintf("%O", message);
       if (sizeof(s) > 200)
          s[200..] = "...";
-      //    TBUG(s);
    }
 
    if (!dispatch[message[0]])
@@ -185,7 +186,6 @@ nomask void handle_router_read(object socket, mixed *message)
 private
 nomask void handle_router_close(object socket)
 {
-   //    TBUG("router closed");
    router_socket = 0;
 
    /* mark all the muds as down. when we reconnect we'll get new data */
@@ -200,7 +200,6 @@ nomask void handle_router_close(object socket)
 }
 
 /* (re)connect to the router */
-private
 nomask void reconnect()
 {
    string err;
@@ -215,8 +214,6 @@ nomask void reconnect()
 
    if (err)
    {
-      //	TBUG(err);
-
       if (router_socket)
       {
          router_socket->remove();
@@ -265,7 +262,7 @@ void create()
 
    mudlist_reset_entries();
 
-   reconn_func = ( : reconnect:);
+   reconn_func = (: reconnect :);
 
    oob_startup();
    chan_startup();
@@ -274,6 +271,14 @@ void create()
 
    trigger_reconnect("router");
    set_privilege("Mudlib:daemons");
+   
+   call_out("imud_socket_keepalive", 120);
+}
+
+private void imud_socket_keepalive()
+{
+  router_socket->send_telnet_nop();
+  call_out("imud_socket_keepalive", 120);
 }
 
 void remove(int coming_back_soon)

@@ -86,7 +86,7 @@ void transaction(mixed player, string bank, string what, string currency, float 
    if (!transactions[currency][name])
       transactions[currency][name] = ({});
    if (sizeof(transactions[currency][name]) > MAX_TRANSACTION_LOG)
-      transactions[currency][name] = transactions[name][5..];
+      transactions[currency][name] = transactions[currency][name][5..];
 
    transactions[currency][name] += ({({bank, what, money, saldo, time()})});
 }
@@ -248,4 +248,11 @@ void stat_me()
 void clean_up()
 {
    destruct(this_object());
+}
+
+void create()
+{
+   ::create();
+   set_privilege("Mudlib:daemons");
+   restore_me();
 }

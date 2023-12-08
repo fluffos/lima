@@ -1,5 +1,5 @@
 #include "../school.h";
-inherit ROOM;
+inherit INDOOR_ROOM;
 
 void setup(){
     set_brief("Optional extras for a simple object");
@@ -10,10 +10,10 @@ within the setup function, set its size:
     set_size(1);
 
 Adding a value:
-first inherit the module M_VALUABLE
+first inherit the module 
 then (within setup) set the value
 
-inherit M_VALUABLE;
+
 
     set_value(1);
 LORIEL

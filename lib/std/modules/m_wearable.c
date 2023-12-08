@@ -12,7 +12,7 @@
 ** 25 March, 1998: Iizuka made major changes to support the new adversary
                    code.
 ** 2020: Tsath made improvements to support being worn underneath
-         under armor and fixed a ton of issues with messages and other things.
+         under armour and fixed a ton of issues with messages and other things.
          Stat modifiers, better worn_attributes and more.
 */
 
@@ -38,6 +38,8 @@ private
 int worn_under;
 private
 string stat_bonus;
+private
+string extra_mod;
 private
 mapping stat_mods = ([]);
 
@@ -79,6 +81,11 @@ void set_worn_under(int wu)
    worn_under = wu;
 }
 
+void set_extra_mod(string s)
+{
+   extra_mod = s;
+}
+
 varargs string stat_mods_string(int compact)
 {
    string *s = ({});
@@ -88,6 +95,8 @@ varargs string stat_mods_string(int compact)
       foreach (string stat, int value in stat_mods)
          s += ({capitalize(stat) + (compact ? "" : " ") + (value >= 0 ? "+" : "") + value});
    }
+   if (extra_mod)
+      s += ({extra_mod});
 
    mods = format_list(s, ",");
    mods = replace_string(mods, " , ", ", ");
@@ -188,7 +197,7 @@ string *also_covers()
 }
 
 //: FUNCTION set_also_covers
-// Set string or an an array of other limbs that this armor piece
+// Set string or an an array of other limbs that this armour piece
 // also covers.
 //
 //  set_also_covers("left foot");
@@ -205,22 +214,39 @@ string worn_attributes()
 
    if (also_covers())
       all += also_covers();
+
+   if (sizeof(all) > 1)
+   {
+      mapping replaced = (["hand":"hands",
+                           "foot":"feet", "leg":"legs", "arm":"arms", "paw":"paws", "claw":"claws", "head":"heads",
+                          "wrist":"wrists"]);
+      foreach (string r in keys(replaced))
+      {
+         if (member_array("left " + r, all) != -1 && member_array("right " + r, all) != -1)
+         {
+            all -= ({"left " + r, "right " + r});
+            all += ({replaced[r]});
+         }
+      }
+
+      if (member_array("arms", all) != -1 && member_array("legs", all) != -1 && member_array("torso", all) != -1)
+      {
+         all -= ({"arms", "legs", "torso"});
+         all += ({"full body"});
+      }
+
+      if (member_array("arms", all) != -1 && member_array("head", all) != -1 && member_array("torso", all) != -1)
+      {
+         all -= ({"arms", "head", "torso"});
+         all += ({"upper body"});
+      }
+   }
+
    if (sizeof(all) > 1)
       worn_str = "(worn " + (query_worn_under() ? "underneath " : "") + "on " +
                  implode(all[0..(sizeof(all) - 2)], ", ") + ", and " + all[sizeof(all) - 1] + ")";
    else
       worn_str = "(worn " + (query_worn_under() ? "underneath " : "") + "on " + all[0] + ")";
-
-   // Some better grammar for humanoid limbs
-   // TODO: Should also handle paws, claws and other things.
-   worn_str = replace_string(worn_str, "left foot, and right foot", "feet");
-   worn_str = replace_string(worn_str, "right foot, and left foot", "feet");
-   worn_str = replace_string(worn_str, "left hand, and right hand", "hands");
-   worn_str = replace_string(worn_str, "right hand, and left hand", "hands");
-   worn_str = replace_string(worn_str, "left leg, and right leg", "legs");
-   worn_str = replace_string(worn_str, "right leg, and left leg", "legs");
-   worn_str = replace_string(worn_str, "left arm, and right arm", "arms");
-   worn_str = replace_string(worn_str, "right arm, and left arm", "arms");
 
    return worn_str;
 }
@@ -275,6 +301,7 @@ void do_wear()
    }
    if (stat_bonus && stat_mod)
       environment()->add_hook(stat_bonus + "_bonus", stat_mod);
+   this_object()->worn();
 }
 
 void do_remove()
@@ -295,6 +322,7 @@ void do_remove()
    }
    if (stat_bonus && stat_mod)
       environment()->remove_hook(stat_bonus + "_bonus", stat_mod);
+   this_object()->removed();
 }
 
 mixed direct_wear_obj()
@@ -326,10 +354,4 @@ mixed direct_remove_obj()
 int is_wearable()
 {
    return 1;
-}
-
-mapping lpscript_attributes()
-{
-   return (
-       ["bodyslot":({LPSCRIPT_STRING, "setup", "set_slot"}), "wearmsg":({LPSCRIPT_STRING, "setup", "set_wearmsg"}), ]);
 }

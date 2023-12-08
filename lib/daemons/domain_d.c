@@ -14,7 +14,7 @@ inherit M_DAEMON_DATA;
 private
 mapping spawn_control = ([]);
 private
-mapping currency = ([]);
+mapping currency = (["std":"gold"]);
 
 void add_spawn_control(string domain, string basename, int max)
 {
@@ -48,7 +48,11 @@ void remove_currency(string domain)
 
 string query_currency(string domain)
 {
-   return currency[domain] || currency["std"];
+   string body_d = this_body() ? file_domain(environment(this_body())) : "std";
+   if (domain)
+      return currency[domain] || currency["std"];
+
+   return currency[body_d] || currency["std"];
 }
 
 mapping query_currencies()

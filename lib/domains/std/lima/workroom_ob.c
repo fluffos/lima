@@ -30,16 +30,11 @@ mixed direct_open_obj()
 void open_with()
 {
    class move_data dest = new (class move_data);
-   dest->destination = __DIR__ "beeks_workroom";
-   dest->relation = "in";
+   dest.destination = __DIR__ "beeks_workroom";
+   dest.relation = "in";
    write("As you start opening your workroom, a burst of static darts across your screen.  It wavers for a minute, "
          "then stablizes.  Several lines of hexadecimal scroll across the bottom.  You hear high pitched laughter in "
          "the background as the monitor dims and fuzzes out, then regains focus.  You look around, and notice you "
          "aren't quite where you thought you were going to end up.\n");
    this_body()->move_to(dest);
-}
-
-mapping lpscript_attributes()
-{
-   return object::lpscript_attributes() + m_openable::lpscript_attributes() + m_gettable::lpscript_attributes();
 }

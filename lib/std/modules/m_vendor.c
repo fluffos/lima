@@ -14,7 +14,7 @@
 // m_vendor is used to create vendor objects that buy and sell stuff
 // they work as traditional shopkeepers and also bartenders.
 // See: /domains/std/shopkeeper.c
-// See: M_VALUABLE for possible interactions.
+// See:  for possible interactions and notes about generic items.
 
 /* TODO
 compatibility of buying and selling vehicles
@@ -54,6 +54,7 @@ class item
    int value;
    string *ids;
    int amount;
+   mixed *args;
    object *objects;
 }
 
@@ -66,7 +67,7 @@ mixed for_sale;
 private
 mixed will_buy;
 private
-mixed currency_type = "dollars";
+mixed currency_type = "gold";
 private
 mapping stored_items = ([]);
 private
@@ -81,11 +82,21 @@ private
 string haggle_buy = "$T $v1think $n deserve $o more for $o1.";
 private
 string haggle_sell = "$T $v1think $n deserve to pay $o less for $o1.";
+private
+int clear_numbers = 0;
 
 //: FUNCTION set_cost_multiplicator
 float set_cost_multiplicator(float m)
 {
    cost_mult = m;
+}
+
+//: FUNCTION set_clear_numbers
+// Sets numbers to be clear fractions (1) in the vendor list,
+// or lists of denominations (0) - default.
+void set_clear_numbers(int cn)
+{
+   clear_numbers = cn;
 }
 
 void set_haggle_buy(string s)
@@ -111,37 +122,63 @@ float buying_cost(float cost)
 }
 
 private
-class item init_item(object ob)
+class item init_item(object ob, mixed *setup_args)
 {
    class item item;
    item = new (class item, short
                : ob->short(), long
                : ob->long(), ids
                : ob->query_id() + ({ob->short(), ob->plural_short()}), value
-               : ob->query_value(), amount : 1);
-   if (item->long[ < 1] != '\n')
-      item->long += "\n";
+               : ob->query_value(), amount : 1, args
+               : setup_args);
+   if (item.long[ < 1] != '\n')
+      item.long += "\n";
    return item;
+}
+
+private
+int find_item(string file, mixed *setup_args)
+{
+   foreach (int indx, class item item in stored_items)
+   {
+      if (item.file == file && cmp(item.args, setup_args))
+         return indx;
+   }
+   return -1;
 }
 
 //: FUNCTION add_sell
 // enables you to add items to the vendors stored_item's mapping
-void add_sell(string file, int amt)
+varargs void add_sell(string file, int amt, mixed *setup_args)
 {
    object ob;
    class item item;
+   int indx = find_item(file, setup_args);
 
+   if (!arrayp(setup_args))
+      setup_args = ({});
    file = evaluate_path(file, 0, 1);
+
+   // If we already have this item in store with same setup_args,
+   // just increase the amount of these in store.
+   if (indx != -1)
+   {
+      item = stored_items[indx];
+      if (item.amount > 0)
+         item.amount = item.amount + 1;
+      stored_items[indx] = item;
+      return;
+   }
 
    if (!amt)
       amt = 1;
    if (file)
    {
-      if (ob = new (file))
+      if (ob = new (file, setup_args...))
       {
-         item = init_item(ob);
-         item->amount = amt;
-         item->file = base_name(ob);
+         item = init_item(ob, setup_args);
+         item.amount = amt;
+         item.file = base_name(ob);
          stored_items[++max_item_number] = item;
          destruct(ob);
       }
@@ -152,13 +189,20 @@ void add_sell(string file, int amt)
 
 //: FUNCTION set_sell
 // with a mapping you can set many items into the vendor's to sell list
+// Two formats are support:
+//   set_sell((["^std/apple":-1, "^std/weapon/sword":3, "^std/ale":-1, ]));
+// and another format supporting custom setup() arguments.
+//   set_sell((["^std/generic_item": ({-1,({"test object",15})}),"^std/weapon/sword":3]));
+// First argument is still count (or -1 for infinite), seconds argument is args for setup().
 void set_sell(mapping items)
 {
-   string item;
-   int amt;
-
-   foreach (item, amt in items)
-      add_sell(item, amt);
+   foreach (string item, mixed amt in items)
+   {
+      if (!arrayp(amt))
+         add_sell(item, amt);
+      else
+         add_sell(item, amt[0], amt[1]);
+   }
 }
 
 //: FUNCTION add_sell_object
@@ -169,15 +213,15 @@ void add_sell_object(object ob)
 
    foreach (item in values(stored_items))
    {
-      if (item->objects && compare_objects(item->objects[0], ob))
+      if (item.objects && compare_objects(item.objects[0], ob))
       {
-         item->objects += ({ob});
-         item->amount++;
+         item.objects += ({ob});
+         item.amount++;
          return;
       }
    }
-   item = init_item(ob);
-   item->objects = ({ob});
+   item = init_item(ob, 0);
+   item.objects = ({ob});
    stored_items[++max_item_number] = item;
 }
 
@@ -299,7 +343,7 @@ int test_buy(object ob)
 }
 
 // FUNCTION: buy_object
-// gets called from the verb sell. Addes bought object to the list of
+// gets called from the verb sell. Adds bought object to the list of
 // stored_items depending on check_uniqueness()
 void buy_object(object ob)
 {
@@ -327,7 +371,7 @@ void buy_object(object ob)
    if (this_body()->test_skill("misc/life/haggle", to_int(cost), train_limit))
    {
       int increase = to_int(this_body()->query_cha() * CHA_MULT * cost / 100);
-      TBUG("Selling " + ob->the_short() + " for " + cost + " increased by " + increase);
+      //TBUG("Selling " + ob->the_short() + " for " + cost + " increased by " + increase);
       cost += increase;
       money = MONEY_D->calculate_denominations(cost, currency_type);
       if (increase)
@@ -350,17 +394,8 @@ void buy_object(object ob)
    {
    case 0: /* object is not unique, so just keep the filename. */
       file = base_name(ob);
+      add_sell(file, 1, ob->setup_args());
       destruct(ob);
-      foreach (item in values(stored_items))
-      {
-         if (item->file && item->file == file)
-         {
-            if (item->amount != -1)
-               item->amount++;
-            return;
-         }
-      }
-      add_sell(file, 1);
       break;
    case 1: /* object is unique */
       add_sell_object(ob);
@@ -375,7 +410,7 @@ void buy_object(object ob)
 string random_item_short()
 {
    class item example = choice(values(stored_items));
-   return example->ids[0];
+   return example.ids[0];
 }
 
 //: FUNCTION query_items
@@ -383,16 +418,20 @@ string random_item_short()
 // The player commands buy and list use it too.
 // This function shows the players what items the shopkeeper has.
 // If flag is set the it will show the long() too
-int query_items(string item, int flag)
+mixed query_items(string item, int flag)
 {
+   string *frame_content = ({});
    int *keys = ({});
-   int key, num;
-   string cost;
-   float exchange_rate = to_float(MONEY_D->query_exchange_rate(currency_type));
+   string *item_names = ({});
+   string *cost_names = ({});
+   int num, item_lng, cost_lng, i;
+   string cost, out = "";
+   float exchange_rate;
+   currency_type = DOMAIN_D->query_currency();
+   exchange_rate=to_float(MONEY_D->query_exchange_rate(currency_type));
 
    if (sizeof(stored_items) == 0 || !for_sale)
    {
-      write("This shop has nothing to sell.\n");
       return 0;
    }
    if (item == "all")
@@ -401,9 +440,9 @@ int query_items(string item, int flag)
    }
    else
    {
-      foreach (key in keys(stored_items))
+      foreach (int key in keys(stored_items))
       {
-         if (member_array(item, stored_items[key]->ids) != -1)
+         if (member_array(item, stored_items[key].ids) != -1 || strsrch(stored_items[key].short, item) != -1)
          {
             keys += ({key});
          }
@@ -415,27 +454,44 @@ int query_items(string item, int flag)
       return 0;
    }
    keys = sort_array(keys, 1);
-   if (get_user_variable("simplify") != 1)
-      printf(">----------------------------------------------------------------------<\n");
-   printf("%|-7s%|-13s %-30s %s\n", " List #", "Amount", "Name/id", capitalize(currency_type));
-   if (get_user_variable("simplify") != 1)
-      printf(">----------------------------------------------------------------------<\n");
-   foreach (key in keys)
+
+   foreach (int key in keys)
    {
-      cost =
-          MONEY_D->currency_to_string(selling_cost(to_float(stored_items[key]->value)) / exchange_rate, currency_type);
-      num = stored_items[key]->amount;
-      if (num != -1)
-         printf("  %-7d %-10d %-30s %s\n", key, num, stored_items[key]->short, cost);
+      if (clear_numbers)
+         cost_names += ({"" + pround(selling_cost(to_float(stored_items[key].value)) / (exchange_rate || 1), 2)});
       else
-         printf("  %-7d %-10s %-30s %s\n", key, "Many", stored_items[key]->short, cost);
-      if (flag)
-         write(stored_items[key]->long);
+         cost_names += ({MONEY_D->currency_to_string(
+             selling_cost(to_float(stored_items[key].value)) / (exchange_rate || 1), currency_type)});
+
+      if (cost_lng < strlen(cost_names[ < 1]))
+         cost_lng = strlen(cost_names[ < 1]);
+
+      item_names += ({stored_items[key].short});
+      if (item_lng < strlen(item_names[ < 1]))
+         item_lng = strlen(item_names[ < 1]);
    }
-   if (get_user_variable("simplify") != 1)
-      printf(">----------------------------------------------------------------------<\n");
-   printf("(Example: 'buy #1' or buy several 'buy 2 " + random_item_short() + "')\n");
-   return 1;
+
+   item_lng += 3;
+
+   frame_content += ({sprintf("%|-7s%|-13s %-" + item_lng + "s %" + cost_lng + "s\n", " List #", "Amount", "Name/id",
+                              capitalize(currency_type))});
+
+   foreach (int key in keys)
+   {
+      num = stored_items[key].amount;
+      if (num != -1)
+         out +=
+             sprintf("   %-7d %-10d %-" + item_lng + "s %" + cost_lng + "s\n", key, num, item_names[i], cost_names[i]);
+      else
+         out += sprintf("   %-7d %-10s %-" + item_lng + "s %" + cost_lng + "s\n", key, "Many", item_names[i],
+                        cost_names[i]);
+      if (flag)
+         out += stored_items[key].long;
+      i++;
+   }
+   frame_content += ({out});
+   frame_content += ({sprintf("(Example: 'buy #1' or buy several 'buy 2 " + random_item_short() + "')\n")});
+   return frame_content;
 }
 
 int test_sell(object ob)
@@ -464,7 +520,7 @@ int test_sell(object ob)
 }
 
 protected
-int sell_object(object ob)
+int sell_object(object ob, int value)
 {
    float exchange_rate = to_float(MONEY_D->query_exchange_rate(currency_type));
    float cost;
@@ -474,12 +530,13 @@ int sell_object(object ob)
 
    if (!test_sell(ob))
       return 0;
-   cost = selling_cost(to_float(ob->query_value())) / exchange_rate;
+   cost = selling_cost(to_float(value)) / exchange_rate;
+   //TBUG("Selling cost: "+value+" -> "+cost);
 
    if (this_body()->test_skill("misc/life/haggle", to_int(cost), train_limit))
    {
       int decrease = to_int(this_body()->query_cha() * CHA_MULT_SELL * cost / 100);
-      TBUG("Buying " + ob->the_short() + " for " + cost + " decreased by " + decrease);
+      //TBUG("Buying " + ob->the_short() + " for " + cost + " decreased by " + decrease);
       cost -= decrease;
       money = MONEY_D->calculate_denominations(decrease, currency_type);
       if (decrease)
@@ -529,23 +586,23 @@ void sell_items(int key, int amount)
    object ob;
 
    item = stored_items[key];
-   if (item->amount != -1 && item->amount < amount)
-      amount = item->amount;
+   if (item.amount != -1 && item.amount < amount)
+      amount = item.amount;
 
    for (i = 1; i <= amount; i++)
    {
-      if (item->objects)
-         ob = item->objects[0];
+      if (item.objects)
+         ob = item.objects[0];
       else
-         ob = new (item->file);
-      if (sell_object(ob))
+         ob = new (item.file, item.args...);
+      if (sell_object(ob,item.value))
       {
-         if (item->objects)
-            item->objects -= ({ob});
-         if (item->amount != -1)
+         if (item.objects)
+            item.objects -= ({ob});
+         if (item.amount != -1)
          {
-            item->amount--;
-            if (item->amount <= 0)
+            item.amount--;
+            if (item.amount <= 0)
                map_delete(stored_items, key);
          }
       }
@@ -578,7 +635,7 @@ void sell_stored_objects(string item, int number, int amount)
          sell_items(number, amount);
       else
       {
-         if (member_array(item, stored_items[number]->ids) != -1)
+         if (member_array(item, stored_items[number].ids) != -1)
             sell_items(number, amount);
          else
             write("There is no '" + item + "' at #" + number + ".\n");
@@ -588,7 +645,7 @@ void sell_stored_objects(string item, int number, int amount)
    {
       foreach (int key in keys(stored_items))
       {
-         if (member_array(item, stored_items[key]->ids) != -1)
+         if (member_array(item, stored_items[key].ids) != -1)
          {
             sell_items(key, amount);
             return;
@@ -614,7 +671,7 @@ mapping query_stored()
 // what you buy.  The unique inventory is set by sending the room
 // where the inventory is kept.
 // ex: set_unique_inventory("/domains/std/rooms/storage");
-// NOTE: only armor, weaps, vehicles are uniqued
+// NOTE: only armour, weaps, vehicles are uniqued
 // Unless the object has a is_unique() { return 1; } function in it
 // See set_all_unique to unique everything
 void set_unique_inventory(string str)
@@ -681,19 +738,11 @@ int check_uniqueness(object ob)
    if (ob->is_unique())
       return 1;
 
-   if (ob->is_armor())
+   if (ob->is_armour())
       return 1;
    if (ob->is_weapon())
       return 1;
    if (ob->is_vehicle())
       return 1;
    return 0;
-}
-
-mapping lpscript_attributes()
-{
-   return (["currency_type":({LPSCRIPT_STRING, "setup", "set_currency_type"}),
-                 "for_sale":({LPSCRIPT_BOOLEAN, "setup", "set_for_sale"}),
-                 "will_buy":({LPSCRIPT_BOOLEAN, "setup", "set_will_buy"}),
-                     "sell":({LPSCRIPT_INT_MAPPING, "setup", "set_sell"}), ]);
 }

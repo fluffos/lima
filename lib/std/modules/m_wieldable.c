@@ -99,6 +99,8 @@ void mark_wielded_by(object which, string *limbs)
    wielding_limbs = limbs;
    if (!which)
       this_object()->unwielded();
+   else
+      this_object()->wielded();
    hook_state("move", move_hook, which && which != this_object());
    if (arrayp(limbs) && sizeof(limbs) >= 2)
    {
@@ -142,6 +144,11 @@ mixed direct_wield_obj()
       return "You're already wielding that!\n";
 
    return 1; /* Fall through */
+}
+
+mixed direct_dualwield_obj()
+{
+   return direct_wield_obj();
 }
 
 mixed direct_unwield_obj()
@@ -206,9 +213,19 @@ mixed direct_wield_obj_in_str(object ob, string limb)
    return 1;
 }
 
+mixed direct_dualwield_obj_in_str(object ob, string limb)
+{
+   return direct_wield_obj_in_str(ob, limb);
+}
+
 mixed direct_wield_obj_with_str(object ob, string limb)
 {
    return direct_wield_obj_in_str(ob, limb);
+}
+
+mixed direct_dualwield_obj_with_str(object ob, string limb)
+{
+   return direct_dualwield_obj_with_str(ob, limb);
 }
 
 mixed direct_remove_obj()

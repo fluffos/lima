@@ -2,7 +2,7 @@
 
 /*
 ** 25-Jul-96    Valentino.     Created.
-** 17-Jan-23	Tsath		   Updated and framed.
+** 17-Jan-23    Tsath		    Updated and framed.
 */
 
 //: COMMAND
@@ -53,10 +53,12 @@
 // I -Prints IP/hostnames of people logged on.
 // F -Prints an 'I' if a person is idle, and an 'E' if the person is editing.
 
+#include <config/user_menu.h>
 #include <playerflags.h>
 
 inherit CMD;
-inherit M_WIDGETS;
+inherit M_FRAME;
+// inherit M_WIDGETS;
 
 #define WHO_FORMAT "%s:  (Local Time is: %s) %28s\n%s"
 #define DEBUG(arg)                                                                                                     \
@@ -69,7 +71,6 @@ string get_who_string(string arg)
 {
    string content = " ";
    string header = "";
-   object frame = new (FRAME);
    int first_run = 1;
    int debug;
    object *b = bodies() - ({0});
@@ -125,9 +126,12 @@ string get_who_string(string arg)
       string footer = "";
       args -= ({"h"});
       DEBUG("Header");
-      footer += "There are " + sizeof(b) + " users connected ";
+      if (sizeof(b) == 1)
+         footer += "There is only " + sizeof(b) + " user connected ";
+      else
+         footer += "There are " + sizeof(b) + " users connected ";
       footer += "at " + ctime(time()) + "" + "\n";
-      frame->set_footer_content(footer);
+      set_frame_footer(footer);
    }
    else if (member_array("H", args) != -1)
    {
@@ -179,12 +183,14 @@ string get_who_string(string arg)
             content += sprintf("%-14.14s ", body->query_wiz_position() ? body->query_wiz_position() : "(None)");
             break;
          case "u":
+#ifdef USE_USER_MENU
             DEBUG("User");
             if (first_run)
                header += sprintf("%-15s", "User");
             content +=
                 sprintf("%-14.14s ", body->query_link()->query_userid() ? capitalize(body->query_link()->query_userid())
                                                                         : "(None?)");
+#endif
             break;
          case "a":
             if (!wizardp(this_user()))
@@ -236,15 +242,17 @@ string get_who_string(string arg)
          }
       }
       first_run = 0;
+      content = rtrim(content);
       content += "\n ";
    }
    if (strlen(bad_flags))
-      content += frame->warning("Bad flags: " + bad_flags);
+      content += warning("Bad flags: " + bad_flags);
 
-   frame->set_title(implode(explode(mud_name(), ""), " "));
-   frame->set_header_content(header);
-   frame->set_content(rtrim(content));
-   return frame->render();
+   frame_init_user();
+   set_frame_title(implode(explode(mud_name(), ""), " "));
+   set_frame_header(header);
+   set_frame_content(rtrim(content));
+   return frame_render();
 }
 
 private

@@ -28,12 +28,13 @@ string base_name(mixed val)
 
 // changed by Beek to be objects identical to previous_object()
 // since otherwise things get put in groups they don't belong in.
-// red sword + blue sword -> 2 red swords.
+// red sword + blue sword.2 red swords.
 
 int compare_objects(object o1, object o2)
 {
    return (base_name(o1) == base_name(o2) && o1->ob_state() == o2->ob_state() &&
-           o1->get_attributes() == o2->get_attributes() && (int)o2->ob_state() != -1);
+           o1->get_attributes() == o2->get_attributes() && (int)o2->ob_state() != -1 &&
+           o1->setup_args() == o2->setup_args());
 }
 
 varargs int count(object o)
@@ -49,7 +50,7 @@ varargs int count(object o)
       else
          o = previous_object();
    }
-   if (!objectp(environment(o)))
+   if (!objectp(o) || !objectp(environment(o)))
       return 1;
 
    obs = all_inventory(environment(o));

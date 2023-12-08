@@ -4,7 +4,7 @@
 
 varargs mixed call_hooks(string, mixed, mixed);
 int query_attack_speed();
-string query_random_armor_slot();
+string query_random_armour_slot();
 object query_target();
 object get_target();
 object query_weapon();
@@ -23,7 +23,7 @@ void simple_action(string);
 int query_ghost();
 void target_is_asleep();
 void handle_events();
-void try_to_ready();
+int try_to_ready();
 object *query_readied();
 void remove_readied(object);
 int query_prone();
@@ -157,7 +157,7 @@ void take_a_swing(object target)
       //      TBUG(this_object()->short() + " attacks " + target->short() + " Def chance: " + defense + " FAIL DEFEND");
 
       add_event(target, weapon,
-                target->query_random_armor_slot(), // Use the TARGET's armor slots, not your own, duh.
+                target->query_random_armour_slot(), // Use the TARGET's armour slots, not your own, duh.
                 damage);
    }
 }

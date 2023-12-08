@@ -26,7 +26,7 @@ void mudlib_setup()
             "%^YELLOW%^Salvage components in your pouch by:%^RESET%^\n"
             "\tsalvage metal bar\n"
             "\tsalvage 4 metal splinters\n"
-            "\tsalvage tattered dagger (does not require a bench)\n"
+            "\tsalvage damaged dagger (does not require a bench)\n"
             "\tsalvage all (see 'help equip')\n"
             "\n");
    set_max_capacity(LARGE, "under");

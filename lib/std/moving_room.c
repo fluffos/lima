@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-inherit ROOM;
+inherit INDOOR_ROOM;
 
 mapping dests = ([]);
 mapping distances = ([]);
@@ -105,9 +105,4 @@ void set_in_progress(function f, int delay)
 {
    in_progress = f;
    progress_delay = delay;
-}
-
-mapping lpscript_attributes()
-{
-   return (["destinations":({LPSCRIPT_MAPPING, "setup", "set_destinations"})]);
 }

@@ -10,10 +10,7 @@
 #include <mudlib.h>
 #include <playerflags.h>
 #include <security.h>
-
-// Move to config.h perhaps?
-#define MAX_CHRACTERS_PER_USER 10
-#define AUTO_LOGIN_AFTER 10 // seconds
+#include <config/user_menu.h>
 
 inherit MENUS;
 inherit M_ACCESS;
@@ -39,6 +36,8 @@ private
 string fname;
 private
 int autologin_tag;
+private
+mapping races;
 
 private
 int name_available(string name)
@@ -50,6 +49,43 @@ private
 nomask void simple_cmd(string cmd)
 {
    call_other(CMD_DIR_PLAYER "/" + dispatch[cmd], "player_menu_entry");
+}
+
+private
+void load_races()
+{
+   races = ([]);
+   foreach (string file in get_dir(DIR_RACES + "/*.c"))
+   {
+      string tmp = DIR_RACES + "/" + file;
+      string name;
+
+      if (!load_object(tmp))
+         continue;
+      name = tmp->query_race();
+      races[name] = tmp;
+   }
+}
+
+string query_race_filename(string race)
+{
+   if (!races)
+      load_races();
+   return races[race];
+}
+
+string *query_races()
+{
+   if (!races)
+      load_races();
+   return keys(races);
+}
+
+mapping query_race_data()
+{
+   if (!races)
+      load_races();
+   return copy(races);
 }
 
 private
@@ -67,8 +103,10 @@ void enter_game()
       remove_call_out(autologin_tag);
       autologin_tag = 0;
    }
+   remove_call_out();
    modal_pop();
    this_user()->enter_game(selected, fname);
+   destruct();
 }
 
 private
@@ -140,7 +178,7 @@ void got_entry(function when_done, string line)
 {
    int width = 0;
    string format = "%#-75." + (75 / (width + 3)) + "s\n\n";
-   mapping races = RACE_D->query_race_data();
+   mapping races = query_race_data();
 
    if (line == "list")
    {
@@ -239,8 +277,13 @@ void select_char()
 private
 void creation_done()
 {
-   write("Character '" + capitalize(name) + " has been created.\n");
+   write("Character '" + capitalize(name) + "' has been created.\n");
    this_user()->set_body(name, fname, race, gender);
+#ifndef USE_USER_MENU
+   modal_pop();
+   this_user()->enter_game(name, fname);
+   destruct();
+#endif
 }
 
 private
@@ -261,7 +304,7 @@ void input_gender(int inputgender)
    }
    gender = intconvert;
 #ifdef USE_RACES
-   races = RACE_D->query_races();
+   races = query_races();
    if (sizeof(races) == 1)
    {
       string default_race = races[0];
@@ -287,7 +330,6 @@ void input_gender(int inputgender)
 #endif /* USE_RACES */
 }
 
-private
 void char_name(string inputname)
 {
    inputname = lower_case(inputname);
@@ -307,19 +349,19 @@ void char_name(string inputname)
       return;
    }
    name = inputname;
-   write("Gender for " + capitalize(name) + "?\n\t1. Male\n\t2. Female\n\t3. Non-binary\n\n");
+   write("Gender for your character '" + capitalize(name) +
+         "'? (Not your gender necessarily)\n\t1. Male\n\t2. Female\n\t3. Non-binary\n\n");
    input_one_arg("Gender: ", ( : input_gender:));
 }
 
-private
 void create_char()
 {
-   if (this_user()->query_num_bodies() < MAX_CHRACTERS_PER_USER)
+   if (this_user()->query_num_bodies() < MAX_CHARACTERS_PER_USER)
    {
       input_one_arg("Name: ", ( : char_name:));
    }
    else
-      write("The maximum number of characters on " + mud_name() + " is currently " + MAX_CHRACTERS_PER_USER +
+      write("The maximum number of characters on " + mud_name() + " is currently " + MAX_CHARACTERS_PER_USER +
             ".\n"
             "Alas, you can create no more. Remove an old one to make space for a new.\n");
 }
@@ -335,6 +377,12 @@ confirm_remove(string name, string input)
    else
       write("Cancelled. All is well.\n");
 }
+
+#ifndef USE_USER_MENU
+void display_current_menu()
+{
+}
+#endif
 
 private
 void input_remove(string name)
@@ -363,19 +411,30 @@ void remove_char()
 private
 void quit_game()
 {
-   this_user()->save_me();
-   this_user()->quit();
+   if (this_user())
+   {
+      this_user()->save_me();
+      this_user()->quit();
+   }
+   destruct();
+}
+
+void quit_idle_menu()
+{
+   write("(Sorry, you've idled for too long)\n");
+   quit_game();
 }
 
 void create()
 {
    set_privilege(1);
-
    toplevel = new_menu(mud_name() + " User Menu");
    quit_item = new_menu_item("Quit", ( : quit_game:), "q");
    goto_main_menu_item = new_menu_item("Return to main menu", toplevel, "m");
 
    main_seperator = new_seperator("--------------------------------------------------");
+   if (clonep())
+      call_out(( : quit_idle_menu:), USER_MENU_TIMEOUT);
 
    // Add items to the toplevel (main) menu.
    add_menu_item(toplevel, main_seperator);
@@ -395,17 +454,29 @@ void user_is_active()
       autologin_tag = 0;
       write("(Cancelled autologin)\n");
    }
+   remove_call_out();
+   call_out(( : quit_idle_menu:), USER_MENU_TIMEOUT);
 }
 
 void auto_login()
 {
-   string selected = this_user()->query_selected_body();
-   string fname = this_user()->query_body_fname(selected);
+   string selected;
+   string fname;
+
+   // Stop auto login here if user has disappeared.
+   if (!this_user() || !this_user()->query_selected_body())
+      return;
+
+   selected = this_user()->query_selected_body();
+   fname = this_user()->query_body_fname(selected);
    if (selected)
    {
       modal_pop();
       write("(Auto login with " + capitalize(selected) + " after " + AUTO_LOGIN_AFTER + " seconds ...)\n");
-      this_user()->enter_game(selected, fname);
+      // In case they went away here ...
+      if (this_user())
+         this_user()->enter_game(selected, fname);
+      destruct();
    }
 }
 

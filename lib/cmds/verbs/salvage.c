@@ -33,7 +33,7 @@ void do_salvage_obj(object ob)
    }
 
    CRAFTING_D->salvage_obj(ob);
-   this_body()->simple_action("$N $vsalvage materials from something.");
+   this_body()->other_action("$N $vsalvage materials from something.");
 }
 
 void do_salvage_obs(object *obs)
@@ -44,11 +44,11 @@ void do_salvage_obs(object *obs)
    {
       if (environment(ob) != this_body())
          continue;
-      if (ob->is_armor() && ob->ob_state())
+      if (ob->is_armour() && ob->ob_state())
          continue;
       if (ob->is_weapon() && ob->query_wielded_by() == this_body())
          continue;
-      if (ob->is_salvageable() && (ob->is_tattered() || ob->is_pelt()))
+      if (ob->is_salvageable() && (ob->is_damaged() || ob->is_pelt() || ob->is_junk()))
       {
          do_salvage_obj(ob);
          count++;
@@ -62,7 +62,7 @@ void do_salvage_obs(object *obs)
 
 void do_salvage_str_on_obj(string str, object ob)
 {
-   if (ob->is_crafting_bench())
+   if (ob->is_crafting_station())
    {
       return ob->simple_salvage(this_body(), str);
    }
@@ -74,7 +74,7 @@ void do_salvage_str(string str)
 {
    foreach (object ob in all_inventory(environment(this_body())))
    {
-      if (ob->is_crafting_bench())
+      if (ob->is_crafting_station())
       {
          return do_salvage_str_on_obj(str, ob);
       }

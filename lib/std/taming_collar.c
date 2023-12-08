@@ -1,4 +1,4 @@
-inherit ARMOR;
+inherit ARMOUR;
 
 #define COLLAR_TYPE_COMBAT 1
 #define COLLAR_TYPE_DRAFT 2
@@ -22,7 +22,7 @@ internal_set_id()
 
 void mudlib_setup()
 {
-   set_armor_class(1);
+   set_armour_class(1);
    internal_set_id();
    set_slot("head");
    set_weight(0.01);
@@ -30,7 +30,7 @@ void mudlib_setup()
 
 mapping query_recipe()
 {
-   return (["skin":({0, 1, 0, 0, 0}), "metal":({5, 0, 0, 0, 0})]);
+   return (["textile":({0, 1, 0, 0, 0}), "metal":({5, 0, 0, 0, 0})]);
 }
 
 void set_combat_collar()
@@ -60,7 +60,7 @@ int is_taming_collar()
    return 1;
 }
 
-void set_tattered()
+void set_damaged()
 {
    this_object()->remove();
 }

@@ -25,8 +25,8 @@ void setup()
    set_exits((["east":"Example_Room1", "south":"Monster_Room", "northwest":"Lava_Room", ]));
    set_objects(([STAIRS:({"Attic", "Shop"}),
                   "large_oak_door":({"northeast", "Quiet_Room"}), "portal":({"/domains/std/rooms/beach/Sandy_Beach"}),
-              "/std/elevator_door":({"west", "/domains/std/2.4.5/elevator"}),
-       "/std/elevator_call_button":({"1/lima", "/domains/std/2.4.5/elevator"}), "greeter":1, "map":1, ]));
+              "/std/elevator_door":({"west", "/domains/std/elevator"}),
+       "/std/elevator_call_button":({"1/lima", "/domains/std/elevator"}), "greeter":1, "map":1, ]));
    set_default_error("Walking through walls is painful. Try a more pleasant "
                      "direction.\n");
    set_exit_msg("east", ({"$N $vwomble east.", "$N $vfritter away."}));
@@ -41,4 +41,13 @@ void arrived()
    if (query_state("lamp"))
       tell_from_inside(this_object(), "The lamp on the button beside the elevator goes out.\n");
    clear_room_state("lamp");
+}
+
+mixed query_hint(int level)
+{
+   if (level>10)
+      return "You're a big wizard, you know all about this room.";
+   return ({"This is a room with many different features and examples for state descriptions, objects, listen, smell and exits.",
+          "Read the source by using 'more here' or 'cd here' to go to the directory of this file.",
+          "Use 'talk to greeter' for some basic information about the LIMA Mudlib."});
 }

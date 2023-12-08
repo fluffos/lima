@@ -44,7 +44,7 @@ void main(string str)
       }
       else
       {
-         outf("%O -> %s\n", m[i], implode(data[m[i]], "\n\t-> "));
+         outf("%O -> %s\n", m[i], implode(data[m[i]], "\n\t"));
       }
    }
 }

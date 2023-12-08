@@ -1,21 +1,30 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-//   The following is an attempt at a value module.
-//
+/*
+** Tsath, 2020
+** Extended and documented.
+*/
 
 int object_value = 0;
 
+//:FUNCTION set_value
+//Set the value of the item. 
 void set_value(int value)
 {
-   object_value = value;
+    object_value = value;
 }
 
+//:FUNCTION query_value
+//Return the value of the item. 
 int query_value()
 {
-   return object_value;
+    return object_value;
 }
 
-mapping lpscript_attributes()
+//:FUNCTION nobody_will_buy 
+//Override this function to set this item as unsellable even though it has a
+//value. 
+int nobody_will_buy()
 {
-   return (["value":({LPSCRIPT_INT, "setup", "set_value"}), ]);
+  return 0;
 }

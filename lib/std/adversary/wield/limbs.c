@@ -156,7 +156,7 @@ varargs void wield(object ob, string limb, int force_dual_wield)
       ob->mark_wielded_by(this_object(), ({limb}));
    }
 
-   call_hooks("on_wield", HOOK_IGNORE);
+   call_hooks("on_wield", HOOK_IGNORE,0,ob,limb);
 
    // Uh oh, object is not for everyone
    restriction_level = ob->query_restriction_level();
@@ -169,13 +169,13 @@ varargs void wield(object ob, string limb, int force_dual_wield)
          simple_action(ob->query_restriction_message(), ob);
          ob->set_restricted(1);
       }
-      else if (skill_used && skill_used->skill_points < restriction_level)
+      else if (skill_used && skill_used.skill_points < restriction_level)
       {
          // Player does not meet restriction
          simple_action(ob->query_restriction_message(), ob);
          ob->set_restricted(1);
       }
-      else if (skill_used && skill_used->skill_points >= restriction_level)
+      else if (skill_used && skill_used.skill_points >= restriction_level)
       {
          // Restriction met.
          simple_action(ob->query_wield_message(), ob);

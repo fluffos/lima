@@ -23,10 +23,13 @@
 void add_hook(string tag, function hook);
 void remove_hook(string tag, function hook);
 void do_wander();
-void do_game_command(string str);
 int query_attacking();
 int player_did_arrive(string dir);
+void set_def_msgs(string type);
 void moving();
+
+// M_ACTIONS dependency
+void do_game_command(string str);
 
 private
 mixed wander_time;
@@ -99,6 +102,11 @@ void clear_wander_area()
 string *query_wander_area()
 {
    return wander_area;
+}
+
+int can_go_str(string s)
+{
+   return 1;
 }
 
 //: FUNCTION set_wander_time
@@ -236,7 +244,12 @@ private
 void move_me(string direction)
 {
    environment()->remove_hook("person_arrived", arrive_func);
+
+   // ### TODO: This is a dependency for M_ACTIONS for this entire module.
+   // ### TODO: Since this uses the verb, the verb requires M_SMARTMOVE, so another indirect dependency. Adversary does
+   // this, but if you just inherit LIVING you'll have an issue here.
    do_game_command(sprintf("go %s", direction));
+   // End dependency.
    if (!counting_moves)
       start_move_count();
    num_moves++;
@@ -314,12 +327,6 @@ void do_wander()
 
 void mudlib_setup()
 {
+   set_def_msgs("living-default");
    add_hook("move", move_hook);
-}
-
-mapping lpscript_attributes()
-{
-   return (["wander_area":({LPSCRIPT_LIST, "setup", "set_wander_area"}),
-            "wander_time":({LPSCRIPT_INT, "setup", "set_wander_time"}),
-              "max_moves":({LPSCRIPT_INT, "setup", "set_max_moves"})]);
 }

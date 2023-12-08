@@ -44,13 +44,13 @@
 **	Charisma:	natural attraction, leadership, persuasion
 **		Nobody vs. great leader/speaker
 **
-**
-**  Mana:   intellectual capacity, magic ability, concentration
+**  Mana:   intellectual capacity, magic ability, reflex
 **      Distraught vs. Contemplative Guru
 **
 */
 
 #include <classes.h>
+#include <config/stats.h>
 #include <hooks.h>
 #include <stats.h>
 
@@ -244,7 +244,7 @@ void inc_mod_wil()
 
 int spare_points()
 {
-   int total_pts = this_object()->query_level() * 3;
+   int total_pts = this_object()->query_level() * STAT_PTS_PER_LEVEL;
    total_pts -= mod_str + mod_agi + mod_int + mod_wil;
    return total_pts;
 }
@@ -255,7 +255,7 @@ int stat_component(int STAT, int PART)
    int adj_str, adj_agi, adj_int, adj_wil;
    int ccur_str, ccur_agi, ccur_int, ccur_wil;
    int *stats;
-   int *mods = ({mod_str, mod_agi, mod_int, mod_wil});
+
    ccur_str = stat_str + mod_str + (adj_str = call_hooks("str_bonus", HOOK_SUM));
    ccur_agi = stat_agi + mod_agi + (adj_agi = call_hooks("agi_bonus", HOOK_SUM));
    ccur_int = stat_int + mod_int + (adj_int = call_hooks("int_bonus", HOOK_SUM));
@@ -367,7 +367,7 @@ int skill_wis_sum()
 #ifndef USE_SKILLS
    return 10;
 #else
-   return to_int(51 * (aggregate_skill("misc/knowledge") / 10000.0));
+   return to_int(51 * (aggregate_skill("misc/life/knowledge") / 10000.0));
 #endif
 }
 
@@ -376,7 +376,7 @@ int skill_cha_sum()
 #ifndef USE_SKILLS
    return 10;
 #else
-   return to_int(44 * (aggregate_skill("misc/converse") / 10000.0));
+   return to_int(44 * (aggregate_skill("misc/life/converse") / 10000.0));
 #endif
 }
 
@@ -385,7 +385,7 @@ int skill_man_sum()
 #ifndef USE_SKILLS
    return 10;
 #else
-   return to_int(48 * (aggregate_skill("magic") / 10000.0));
+   return to_int(48 * (aggregate_skill("magic/arcane/knowledge") / 10000.0));
 #endif
 }
 
@@ -461,7 +461,16 @@ nomask int roll_stat(int adjust, int range)
    if (!range)
       range = DEFAULT_RANGE;
 
-   return BASE_VALUE + adjust + random(range) - (range + 1) / 2;
+   return STAT_BASE_VALUE + adjust + random(range) - (range + 1) / 2;
+}
+
+void reset_stat_increases()
+{
+   mod_str = 0;
+   mod_agi = 0;
+   mod_int = 0;
+   mod_wil = 0;
+   refresh_stats();
 }
 
 //: FUNCTION init_stats
@@ -477,18 +486,15 @@ nomask void init_stats()
    error("cannot reinitialize statistics\n");
 */
    mods = query_roll_mods();
-   if (mods->str_adjust + mods->agi_adjust + mods->int_adjust + mods->wil_adjust != 0)
+   if (mods.str_adjust + mods.agi_adjust + mods.int_adjust + mods.wil_adjust != 0)
       error("illegal stat adjustment values\n");
 
-   stat_str = roll_stat(mods->str_adjust, mods->str_range);
-   stat_agi = roll_stat(mods->agi_adjust, mods->agi_range);
-   stat_int = roll_stat(mods->int_adjust, mods->int_range);
-   stat_wil = roll_stat(mods->wil_adjust, mods->wil_range);
+   stat_str = roll_stat(mods.str_adjust, mods.str_range);
+   stat_agi = roll_stat(mods.agi_adjust, mods.agi_range);
+   stat_int = roll_stat(mods.int_adjust, mods.int_range);
+   stat_wil = roll_stat(mods.wil_adjust, mods.wil_range);
 
-   mod_str = 0;
-   mod_agi = 0;
-   mod_int = 0;
-   mod_wil = 0;
+   reset_stat_increases();
 
    recompute_derived();
    refresh_stats();

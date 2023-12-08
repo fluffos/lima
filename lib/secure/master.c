@@ -11,6 +11,8 @@
 #include <mudlib.h>
 #include <security.h>
 
+inherit __DIR__ "error_handler.c";
+
 private
 mapping errors = ([]);
 
@@ -18,13 +20,6 @@ object compile_object(string path)
 {
    string pname;
    object ob;
-
-   /* LPscript support */
-   if (path[ < 4..] == ".scr")
-      return LPSCRIPT_D->compile(path);
-
-   if (file_size(path + ".scr") > 0)
-      return LPSCRIPT_D->compile(path + ".scr");
 
    pname = path;
 
@@ -160,6 +155,7 @@ varargs string standard_trace(mapping mp, int flag)
  *
  * -Beek
  */
+/*
 string error_handler(mapping mp, int caught)
 {
    string ret;
@@ -170,8 +166,8 @@ string error_handler(mapping mp, int caught)
    ret = "---\n" + standard_trace(mp);
    write_file(logfile, ret);
 
-   /* If an object didn't load, they get compile errors.  Don't spam
-      or confuse them */
+   // If an object didn't load, they get compile errors.  Don't spam
+   // or confuse them 
    if (what[0..23] == "*Error in loading object")
       return 0;
 
@@ -196,14 +192,14 @@ string error_handler(mapping mp, int caught)
                capitalize(userid), logfile, what, trace_line(mp["object"], mp["program"], mp["file"], mp["line"])));
    return 0;
 }
-
-mapping query_error(string name)
-{
-   /* This MUST be secure */
-   if (!check_privilege(1))
-      return 0;
-   return errors[name];
-}
+*/
+// mapping query_error(string name)
+// {
+   // /* This MUST be secure */
+   // if (!check_privilege(1))
+      // return 0;
+   // return errors[name];
+// }
 
 string ws = " \t\n";
 
@@ -618,8 +614,7 @@ string object_name(object ob)
          return link->query_userid() + "'s body";
 
    /* uncomment when driver is more tolerant of errors in this function */
-   /*  return ob->short(); */
-   return 0;
+   return ob->short();
 }
 
 #if 0
@@ -691,4 +686,27 @@ int slow_shutdown()
 int valid_compile_to_c()
 {
    return check_privilege(1);
+}
+
+string domain_file(mixed file)
+{
+   string *parts;
+   if (objectp(file))
+      file = base_name(file);
+   parts = explode(file, "/");
+   if (sizeof(parts) > 2 && parts[0] == "domains")
+      return parts[1];
+   else
+      return "std";
+}
+
+string author_file(string file)
+{
+   string *parts = explode(file, "/");
+   if (file == "/secure/master.c")
+      return "beek";
+   if (sizeof(parts) > 2 && parts[0] == "wiz")
+      return parts[1];
+   else
+      return "mudlib";
 }

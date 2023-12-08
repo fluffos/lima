@@ -800,14 +800,14 @@ string dump_socket_status()
 
 string lima_version()
 {
-   return "Lima 1.1a1";
+   return "Lima 1.1a3";
 }
 
 varargs string identify(mixed a)
 {
    int i, s;
    string ret;
-   mapping RealMap;
+   mapping real_map;
 
    if (undefinedp(a))
       return "UNDEFINED";
@@ -819,10 +819,12 @@ varargs string identify(mixed a)
       return "" + a;
    if (objectp(a))
    {
+      /*
       if (ret = a->GetKeyName())
          ret += " ";
       else
          ret = "";
+      */
       return "OBJ(" + ret + file_name(a) + ")";
    }
    if (stringp(a))
@@ -850,31 +852,20 @@ varargs string identify(mixed a)
    if (mapp(a))
    {
       ret = "([ ";
-      RealMap = (mapping)(a);
-      a = keys(RealMap);
+      real_map = (mapping)(a);
+      a = keys(real_map);
       s = sizeof(a);
       for (i = 0; i < s; i++)
       {
          if (i)
             ret += ", ";
-         ret += identify(a[i]) + " : " + identify(RealMap[a[i]]);
+         ret += identify(a[i]) + " : " + identify(real_map[a[i]]);
       }
       return ret + (s ? " " : "") + "])";
    }
    if (functionp(a))
       return sprintf("%O", a);
    return "UNKNOWN";
-}
-
-void tc(string mess)
-{
-   object crat = find_body("cratylus");
-   string sauce = base_name((previous_object() || this_object()));
-   // if(crat) tell(crat, sauce +": "+mess+"\n");
-   if (crat)
-      crat->receive_private_msg(sauce + ": " + mess, PRIVATE_MSG);
-   debug_message(sauce + ": " + mess);
-   flush_messages();
 }
 
 varargs string get_stack(int x)
@@ -897,11 +888,20 @@ varargs string get_stack(int x)
    return list;
 }
 
-//:FUNCTION pround
+//: FUNCTION pround
 // Preceision round a float into a string with a specific number of decimals.
 // Example::
 //     pround(3.14152526,4) -> "3.1415"
 string pround(float f, int p)
 {
    return sprintf("%:" + p + "f", f);
+}
+
+//: FUNCTION nnew
+// Clone a number of the same files with the same arguments and return them.
+// Example::
+//     nnew(3,"/domains/std/consumable/beer")->move(this_body());
+object *nnew(int count, string file, string args...)
+{
+   return ({new (file, args...)}) + (--count > 0 ? nnew(count, file, args...) : ({}));
 }

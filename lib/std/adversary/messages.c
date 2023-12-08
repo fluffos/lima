@@ -5,7 +5,24 @@
 void simple_action(string msg, mixed *obs...);
 varargs mixed *action(mixed *, mixed, object, object);
 void inform(mixed *, mixed, object);
+varargs void filtered_inform(object *who, string *msgs, mixed others, function filter, mixed extra);
+varargs void filtered_simple_action(mixed msg, function filter, mixed extra, mixed *obs...);
 string query_combat_message(string);
+string cconfig;
+
+void update_combat_config()
+{
+   cconfig = get_user_variable("cconfig");
+   if (!cconfig)
+      cconfig = CC_SIZE;
+}
+
+int combat_config(int flag)
+{
+   if (!cconfig)
+      update_combat_config();
+   return cconfig[flag] == 'y';
+}
 
 string damage_message(int percent)
 {
@@ -67,9 +84,18 @@ int message_filter(object who, mixed extra)
    return 1;
 }
 
-void handle_message(string mess, object target, object weapon, string limb)
+void dodge_message()
+{
+   filtered_simple_action("$N $vdodge an attack.", ( : message_filter:), "dodge");
+}
+
+void handle_message(mixed mess, object target, object weapon, string limb)
 {
    mixed *combat_who, messages;
+   string omess = mess;
+
+  if (arrayp(mess))
+    mess=choice(mess);
 
    if (mess[0] == '!')
    {
@@ -83,9 +109,9 @@ void handle_message(string mess, object target, object weapon, string limb)
       if (!tmp)
       {
          simple_action("$N $vare puzzled because $n $vhave no message for '" + mess[1..] + "'.");
-         LBUG(mess);
-         LBUG(target);
-         LBUG(weapon);
+         TBUG(mess);
+         TBUG(target);
+         TBUG(weapon);
          return;
       }
 
@@ -95,14 +121,19 @@ void handle_message(string mess, object target, object weapon, string limb)
    combat_who = ({this_object(), target});
    if (!target)
    {
-      TBUG("Missing target: this_object(): " + this_object() + " message: " + mess + " weapon: " + weapon +
-           " limb: " + limb);
+      TBUG("Missing target: this_object(): " + this_object() + " weapon: " + weapon + " limb: " + limb);
+      TBUG(mess);
       return;
    }
+
+   // Some weapons self-destruct, don't message about them.
+   if (!weapon)
+      return;
+
    if (!limb)
       limb = target->query_random_limb();
+
    messages = action(combat_who, mess, weapon->alt_weapon() ? weapon->alt_weapon() : weapon, target->query_weapon(),
                      limb, weapon->secondary_weapon_part());
-
-   inform(combat_who, messages, environment());
+   filtered_inform(combat_who, messages, environment(), ( : message_filter:), omess[1..]);
 }

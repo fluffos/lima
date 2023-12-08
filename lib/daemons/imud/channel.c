@@ -100,8 +100,6 @@ nomask void rcv_chanlist_reply(string orig_mud, string orig_user, string targ_us
    int i;
    string *added_channels = keys(message[1]) - keys(chanlist);
    string *removed_channels = keys(chanlist) - keys(message[1]);
-   // tc("orig_mud: "+orig_mud+", orig_user: "+orig_user+", targ_user: "+
-   // targ_user+", message: "+identify(message)+" ...");
 
    chanlist_id = message[0];
    chanlist = message[1];
@@ -248,7 +246,7 @@ nomask void rcv_chan_user_req(string orig_mud, string orig_user, string target_u
 
       /* map to I3's concept of gender: male(0), female(1), neuter(2)
          ours is: neuter(0), male(1), female(2) */
-      gender = (gender + 2) % 3; /* Lima -> I3 */
+      gender = (gender + 2) % 3; /* Lima.I3 */
 
       send_to_mud("chan-user-reply", orig_mud, ({message[0], p->query_name(), gender}));
    }
@@ -257,7 +255,7 @@ nomask void rcv_chan_user_req(string orig_mud, string orig_user, string target_u
 protected
 nomask void rcv_chan_user_reply(string orig_mud, string orig_user, string target_user, mixed *message)
 {
-   int gender = (message[2] + 1) % 3; /* I3 -> Lima */
+   int gender = (message[2] + 1) % 3; /* I3.Lima */
 
    add_cache_entry(orig_mud, message[0], message[1], gender);
 
@@ -308,7 +306,6 @@ nomask void listen_to_channel(string channel_name)
    //    if ( !check_privilege(PRIV_REQUIRED) )
    //      error("security: illegal attempt to add a listened intermud channel\n");
    //  }
-   // tc("wheew! "+channel_name);
    if (member_array(channel_name, listened_channels) == -1)
       listened_channels += ({channel_name});
 

@@ -9,6 +9,8 @@ mapping entries;
 mapping synonyms;
 private
 string read_text;
+string synonym_index();
+string *query_id();
 
 /* Parser interaction */
 mixed direct_read_obj(object ob)
@@ -85,10 +87,12 @@ string read_entry(string entry)
 {
    string filename;
    string entry_contents = entries[entry];
+   if (entry == "index")
+      return synonym_index();
    if (!entry_contents)
       entry_contents = entries[synonyms[entry]];
    if (!entry_contents)
-      return ("Nothing there\n");
+      return ("Nothing there.\n");
    if (functionp(entry_contents))
    {
       this_body()->simple_action("$N $vread the $o.", this_object());
@@ -199,6 +203,24 @@ mapping dump_entries()
    return entries;
 }
 
+//: FUNCTION synonym_index
+// Returns a text containing an index of page numbers and synonyms
+string synonym_index()
+{
+   string ret = capitalize(query_id()[0])+" Index:\n";
+   string *entries=({});
+   string rsyn=choice(keys(synonyms));
+   if (!mapp(synonyms) || !sizeof(keys(synonyms)))
+      return 0;
+
+   foreach (string syn, string entry in synonyms)
+   {
+      entries += ({"   [" + sprintf("%2.2s", entry) + "] - " + syn + "\n"});
+   }
+   ret+=implode(sort_array(entries,0),"");
+   return ret + "\n('read " + rsyn + " in "+query_id()[0]+"' or 'read "+synonyms[rsyn]+" in "+query_id()[0]+"')\n";
+}
+
 //: FUNCTION set_synonyms
 // Set the synonyms for the readable entries.
 // A mapping is passed as argument.  The key is the synonym, and the value is
@@ -257,9 +279,4 @@ string query_synonym(string syn)
 mapping dump_synonyms()
 {
    return synonyms;
-}
-
-mapping lpscript_attributes()
-{
-   return (["text":({LPSCRIPT_STRING, "setup", "set_text"}), ]);
 }

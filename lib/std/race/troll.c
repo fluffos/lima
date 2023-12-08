@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-inherit RACE;
+inherit BODY;
 
 /*
  * This is the name of the race.  It is used in the initial selection screen,
@@ -70,34 +70,19 @@ class stat_roll_mods query_roll_mods()
    class stat_roll_mods ret = new (class stat_roll_mods);
 
    /*
-    * These give the adjustments and ranges for base statistics.
-    *
-    * The actual score is in the range:
-    *
-    * BASE_VALUE + adjust +- range/2
-    *
-    * where BASE_VALUE is in /std/modules/bodystat.c (currently 20)
-    *
-    * Here are some examples:
-    *
-    * adjust        range         possible values
-    * -10		  20		 0 .. 20
-    * -15		   5		 3 .. 8
-    *  25		  30		30 .. 60
-    *   5            10		20 .. 30
-    *   0		  40		 0 .. 40
+    * See the race stat overview in admtool, for race balance.
     */
-   ret->str_adjust = 10;
-   ret->str_range = 20;
+   ret.str_adjust = 10;
+   ret.str_range = 20;
 
-   ret->agi_adjust = -5;
-   ret->agi_range = 10;
+   ret.agi_adjust = -5;
+   ret.agi_range = 10;
 
-   ret->int_adjust = -10;
-   ret->int_range = 10;
+   ret.int_adjust = -10;
+   ret.int_range = 10;
 
-   ret->wil_adjust = 5;
-   ret->wil_range = 10;
+   ret.wil_adjust = 5;
+   ret.wil_range = 10;
 
    return ret;
 }
@@ -117,20 +102,20 @@ void create(string userid)
 
 #if 0
 void intrinsic_resistance(class combat_result result) {
-     if (result->kind == "fire" && result->damage)
-         result->damage *= 2;
+     if (result.kind == "fire" && result.damage)
+         result.damage *= 2;
      else
-         result->damage--;
+         result.damage--;
 }
 #endif
 
 class event_info health_modify_event(class event_info evt)
 {
-   if (!arrayp(evt->data))
+   if (!arrayp(evt.data))
       return evt;
-   if (member_array("fire", evt->data) != -1)
-      evt->data[sizeof(evt->data) - 1] *= 2;
+   if (member_array("fire", evt.data) != -1)
+      evt->data[sizeof(evt.data) - 1] *= 2;
    else
-      evt->data[sizeof(evt->data) - 1]--;
+      evt->data[sizeof(evt.data) - 1]--;
    return evt;
 }

@@ -37,12 +37,19 @@ int default_object_checks()
    return 1;
 }
 
+int inside_bag()
+{
+   if (environment(this_object()) && environment(this_object())->is_container() &&
+       !environment(this_object())->is_body())
+      return 1;
+   return 0;
+}
+
 //: FUNCTION direct_verb_rule
 // The default method of handling direct objects with verbs.
 mixed direct_verb_rule(string verb, string rule, mixed args...)
 {
    mixed temp;
-   // TBUG("verb: "+verb+" rule: "+rule+" args: "+format_list(args));
    if (this_object()->is_container())
    {
       string aliased_to;
@@ -104,8 +111,18 @@ mixed direct_get_obj(object ob)
       return "#Too bad you're not a skilled pickpocket.\n";
    if (this_object() == this_body())
       return "#You make an advance on yourself.\n";
+
+   // The environment can give us permission as well.
+   if (environment(this_object()))
+   {
+      mixed result = environment(this_object())->direct_get_obj(ob);
+      if (intp(result))
+         return result;
+   }
    if (environment(this_object()) != environment(this_body()))
       return "#You cannot get that.";
+   if (this_object()->query_drop_owner() && this_object()->query_drop_owner() != this_body())
+      return "#That's not yours.";
    if (!default_object_checks())
       return 0;
 
@@ -137,6 +154,8 @@ mixed direct_get_obj_from_wrd_obj(object ob1, string rel, object ob2)
 // Handle parser checks for "put OBJ WRD OBJ"
 mixed direct_put_obj_wrd_obj(object ob1, object ob2)
 {
+   if (inside_bag())
+      return 0;
    return check_permission("put");
 }
 
@@ -159,6 +178,24 @@ mixed need_to_have()
    if (res == "#You already have it!\n")
       return 1;
    return res;
+}
+
+//: FUNCTION need_to_be_unused
+// Must be something you have, and not wielded and worn.
+mixed need_to_be_unused()
+{
+   if (!default_object_checks())
+      return 0;
+
+   if (need_to_have())
+   {
+      if (this_object()->is_armour() && this_object()->ob_state())
+         return "#You are wearing it.";
+      if (this_object()->is_weapon() && this_object()->ob_state()[ < 1] == '1')
+         return "#You are wielding it.";
+      return need_to_have();
+   }
+   return 0;
 }
 
 //: FUNCTION direct_look_at_obj
@@ -195,7 +232,7 @@ mixed direct_look_wrd_obj(object ob)
 // Handle parser checks for "sell OBJ"
 mixed direct_sell_obj(object ob)
 {
-   return need_to_have();
+   return need_to_be_unused();
 }
 
 //: FUNCTION direct_smell_obj
@@ -222,6 +259,13 @@ mixed direct_eat_obj(object ob)
    if (!default_object_checks())
       return 0;
    return "I don't think " + this_object()->the_short() + " would agree with you.\n";
+}
+
+//: FUNCTION direct_salvage_obj
+// Handle parser checks for "salvage OBJ" rule.
+mixed direct_salvage_obj()
+{
+   return 0; // Without this rule it tries to parse it as a string.
 }
 
 // ### shouldn't these to only be in coins?
@@ -348,7 +392,7 @@ mixed indirect_search_obj_for_obj(object ob1, object ob2)
    return default_object_checks();
 }
 
-// FUNCTION direct_search_for_str
+//: FUNCTION direct_search_for_str
 // Default
 mixed direct_search_for_str(string str)
 {
@@ -448,8 +492,8 @@ mixed indirect_search_obj_for_str_with_obj(object ob1, string str, object ob2)
    return 1;
 }
 
-// FUNCTION do_search
-//  Default searching.
+//: FUNCTION do_search
+// Default searching.
 varargs void do_search(object with, string search_for)
 {
    string str = "$N $vsearch ";

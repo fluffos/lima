@@ -35,7 +35,7 @@
 #pragma warnings
 
 #define CHANNEL_FORMAT(chan)                                                                                           \
-   (chan[0..4] == "imud_" ? "%%^CHANNEL_IMUD%%^[%s]%%^RESET%%^ %s\n" : "%%^CHANNEL%%^[%s]%%^RESET%%^ %s\n")
+   (chan[0..4] == "imud_" ? "%%^CHANNEL_IMUD%%^[%s]<res> %s\n" : "%%^CHANNEL%%^[%s]<res> %s\n")
 
 #include <channel.h>
 #include <security.h>
@@ -47,7 +47,7 @@ inherit __DIR__ "channel/cmd";
 inherit __DIR__ "channel/moderation";
 
 /*
-** This channel information.  It specifies channel_name -> channel_info.
+** This channel information.  It specifies channel_name.channel_info.
 */
 private
 nosave mapping info;
@@ -57,7 +57,7 @@ nosave mapping info;
 ** and their flags (values)
 */
 private
-mapping permanent_channels = ([]);
+mapping permanent_channels;
 
 /*
 ** The listener information is only saved on a "nice" shutdown (remove()).
@@ -70,7 +70,10 @@ class listener_pair
 {
    string channel_name;
    string filename;
-} private class listener_pair *saved_listeners;
+}
+
+// Other privates
+private class listener_pair *saved_listeners;
 private
 class listener_pair *saved_hooks;
 
@@ -103,10 +106,10 @@ nomask void create_channel(string channel_name)
       error("channel already exists\n");
 
    ci = new (class channel_info);
-   ci->name = extract_channel_name(channel_name);
-   ci->listeners = ({});
-   ci->hooked = ({});
-   ci->history = ({});
+   ci.name = extract_channel_name(channel_name);
+   ci.listeners = ({});
+   ci.hooked = ({});
+   ci.history = ({});
 
    info[channel_name] = ci;
 }
@@ -130,12 +133,12 @@ void register_one(int add_hook, object listener, string channel_name)
 
    /* enforce the channel restrictions now */
    /* ### not super secure, but screw it :-) */
-   if ((ci->flags & CHANNEL_WIZ_ONLY) && !wizardp(this_user()))
+   if ((ci.flags & CHANNEL_WIZ_ONLY) && !wizardp(this_user()))
    {
       /* ### don't error... might prevent somebody from logging in */
       return;
    }
-   if ((ci->flags & CHANNEL_ADMIN_ONLY) && !adminp(this_user()) &&
+   if ((ci.flags & CHANNEL_ADMIN_ONLY) && !adminp(this_user()) &&
        member_array(this_user()->query_userid(), SECURE_D->query_domain_members("admin-channels")) == -1)
    {
       /* ### don't error... might prevent somebody from logging in */
@@ -144,13 +147,13 @@ void register_one(int add_hook, object listener, string channel_name)
 
    if (add_hook)
    {
-      if (member_array(listener, ci->hooked) == -1)
-         ci->hooked += ({listener});
+      if (member_array(listener, ci.hooked) == -1)
+         ci.hooked += ({listener});
    }
    else
    {
-      if (member_array(listener, ci->listeners) == -1)
-         ci->listeners += ({listener});
+      if (member_array(listener, ci.listeners) == -1)
+         ci.listeners += ({listener});
    }
 }
 
@@ -159,7 +162,7 @@ nomask void test_for_purge(string channel_name)
 {
    class channel_info ci = info[channel_name];
 
-   if (sizeof(ci->listeners) + sizeof(ci->hooked) == 0)
+   if (sizeof(ci.listeners) + sizeof(ci.hooked) == 0)
       map_delete(info, channel_name);
 }
 
@@ -170,7 +173,7 @@ void unregister_one(string channel_name, object listener)
 
    if (ci)
    {
-      ci->listeners -= ({listener});
+      ci.listeners -= ({listener});
 
       /* purge the channel if it isn't permanent */
       if (undefinedp(permanent_channels[channel_name]))
@@ -198,7 +201,7 @@ nomask void set_permanent(string channel_name, int is_perm)
    {
       class channel_info ci = info[channel_name];
 
-      permanent_channels[channel_name] = ci->flags;
+      permanent_channels[channel_name] = ci.flags;
       save_me();
    }
    else if (!is_perm && !no_exist)
@@ -208,12 +211,17 @@ nomask void set_permanent(string channel_name, int is_perm)
    }
 }
 
+mapping query_permanent_channels()
+{
+   return copy(permanent_channels);
+}
+
 protected
 nomask void set_flags(string channel_name, int flags)
 {
    class channel_info ci = info[channel_name];
 
-   ci->flags = flags;
+   ci.flags = flags;
 
    if (!undefinedp(permanent_channels[channel_name]))
    {
@@ -233,7 +241,7 @@ nomask string user_channel_name(string channel_name)
    class channel_info ci = info[channel_name];
 
    if (ci)
-      return ci->name;
+      return ci.name;
 
    return extract_channel_name(channel_name);
 }
@@ -295,12 +303,12 @@ nomask string find_sender_name(string sender_name)
 nomask void deliver_string(string channel_name, string str)
 {
    class channel_info ci = info[channel_name];
-   if (!ci || sizeof(ci->listeners) == 0)
+   if (!ci || sizeof(ci.listeners) == 0)
       return;
 
-   ci->history += ({str});
-   if (sizeof(ci->history) > CHANNEL_HISTORY_SIZE)
-      ci->history[0..0] = ({});
+   ci.history += ({str});
+   if (sizeof(ci.history) > CHANNEL_HISTORY_SIZE)
+      ci.history[0..0] = ({});
    ci->listeners->channel_rcv_string(channel_name, str);
 }
 
@@ -323,12 +331,12 @@ nomask void deliver_raw_soul(string channel_name, mixed *data)
 {
    class channel_info ci = info[channel_name];
 
-   if (!ci || sizeof(ci->listeners) == 0)
+   if (!ci || sizeof(ci.listeners) == 0)
       return;
 
-   ci->history += ({data[1][ < 1]});
-   if (sizeof(ci->history) > CHANNEL_HISTORY_SIZE)
-      ci->history[0..0] = ({});
+   ci.history += ({data[1][ < 1]});
+   if (sizeof(ci.history) > CHANNEL_HISTORY_SIZE)
+      ci.history[0..0] = ({});
 
    ci->listeners->channel_rcv_soul(channel_name, data);
 }
@@ -342,8 +350,7 @@ private
 nomask void deliver_data(string channel_name, string sender_name, string type, mixed data)
 {
    class channel_info ci = info[channel_name];
-
-   if (!ci || sizeof(ci->listeners) == 0)
+   if (!ci || sizeof(ci.listeners) == 0)
       return;
 
    ci->listeners->channel_rcv_data(channel_name, sender_name, type, data);
@@ -420,14 +427,18 @@ void create()
    info = ([]);
    map_array(users(), ( : register_body:));
    ::create();
+
+   if (!permanent_channels || !sizeof(keys(permanent_channels)))
+      permanent_channels =
+          (["conf":0, "newbie":0, "news":0, "errors":1, "wiz":1, "admin":2, "announce":1, "domains":1, "gossip":0]);
    if (saved_listeners)
    {
       foreach (pair in saved_listeners)
       {
-         object ob = find_object(pair->filename);
+         object ob = find_object(pair.filename);
 
          if (ob)
-            register_one(0, ob, pair->channel_name);
+            register_one(0, ob, pair.channel_name);
       }
 
       saved_listeners = 0;
@@ -436,10 +447,10 @@ void create()
    {
       foreach (pair in saved_hooks)
       {
-         object ob = find_object(pair->filename);
+         object ob = find_object(pair.filename);
 
          if (ob)
-            register_one(1, ob, pair->channel_name);
+            register_one(1, ob, pair.channel_name);
       }
 
       saved_hooks = 0;
@@ -453,7 +464,7 @@ void create()
          create_channel(channel_name);
 
       ci = info[channel_name];
-      ci->flags = flags;
+      ci.flags = flags;
    }
 }
 
@@ -483,8 +494,8 @@ void remove()
          {
             class listener_pair pair = new (class listener_pair);
 
-            pair->channel_name = channel_name;
-            pair->filename = fname;
+            pair.channel_name = channel_name;
+            pair.filename = fname;
             saved_listeners += ({pair});
          }
       }
@@ -497,8 +508,8 @@ void remove()
          {
             class listener_pair pair = new (class listener_pair);
 
-            pair->channel_name = channel_name;
-            pair->filename = fname;
+            pair.channel_name = channel_name;
+            pair.filename = fname;
             saved_hooks += ({pair});
          }
       }
@@ -529,7 +540,7 @@ nomask object *query_listeners(string channel_name)
       class channel_info ci = info[channel_name];
 
       if (ci)
-         return ci->listeners;
+         return ci.listeners;
    }
 
    return 0;
@@ -549,7 +560,7 @@ nomask int query_flags(string channel_name)
    if (!ci)
       return 0;
 
-   flags = ci->flags;
+   flags = ci.flags;
    if (!undefinedp(permanent_channels[channel_name]))
       flags |= CHANNEL_PERMANENT;
 

@@ -1,7 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 inherit TORCH;
-inherit M_VALUABLE;
+
 
 void setup()
 {
@@ -19,11 +19,6 @@ int sound()
 {
    write("It's humming with a low regular buzz.\n");
    return 1;
-}
-
-mapping lpscript_attributes()
-{
-   return m_valuable::lpscript_attributes() + torch::lpscript_attributes();
 }
 
 // Give us unlimited fuel. Also, note that we don't need to call

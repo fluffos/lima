@@ -16,6 +16,10 @@
 // the ip name and number from which each player connected,
 // and is only available to wizards.
 //
+// The command also reports historical data of people who logged in from
+// a given ip given as an argument, or alternatively a list of IPs that
+// the player logged in from.
+//
 // whoip
 //
 // Lima Bean:  (Local Time is: Tue Sep 19 07:09:15 1995)
@@ -33,7 +37,12 @@
 //  whoip 129.188.154.108
 //
 // There is 1 user from maniac1t.mot.com (129.188.154.108):
-// Zifnab..
+// Zifnab
+//
+// The following 3 users have been logged in from 129.188.154.108:
+// Zifnab
+// Beek
+// Tsath
 
 #include <playerflags.h>
 #define DIVIDER "-------------------------------------------------------------------------\n"
@@ -47,7 +56,10 @@ void main(string arg)
    int x;
    object ob;
    string *n, ip, str;
-   object *userlist;
+   object *userlist; // User logged on
+   string *users;    // Users from a given IP
+   string *ips;      // IPs for a given user
+   int output = 0;
 
    if (!arg)
    {
@@ -70,6 +82,7 @@ void main(string arg)
       return;
    }
 
+   ips = LAST_LOGIN_D->ips_for_login(arg);
    if (ob = find_user(arg))
    {
       ip = query_ip_number(ob);
@@ -78,15 +91,18 @@ void main(string arg)
    else if (sscanf(implode(explode(arg, "."), ""), "%d", x) == 1)
    {
       userlist = filter(users(), ( : query_ip_number($1) == $2:), arg);
+      users = LAST_LOGIN_D->logins_from_ip(arg);
    }
    else if (sscanf(implode(explode(arg, "."), ""), "%s", x) == 1)
    {
       userlist = filter(users(), ( : query_ip_name($1) == $2:), arg);
+      users = LAST_LOGIN_D->logins_from_ip(arg);
    }
    else
    {
       arg = lower_case(arg);
       userlist = filter(users(), ( : query_ip_number($1) == $2:), arg);
+      users = LAST_LOGIN_D->logins_from_ip(arg);
    }
 
    if ((x = sizeof(userlist)) > 0)
@@ -96,9 +112,31 @@ void main(string arg)
       if (str != query_ip_number(userlist[0]))
          str += " (" + query_ip_number(userlist[0]) + ")";
 
-      outf("There %s %d user%s from %s:\n", (x > 1 ? "are" : "is"), x, (x > 1 ? "s" : ""), str);
-      outf("%-=78s", implode(n, ", ") + ".\n");
+      outf("There %s %d user%s from %s right now:\n", (x > 1 ? "are" : "is"), x, (x > 1 ? "s" : ""), str);
+      outf("%-=78s", implode(n, ", ") + "\n");
+      output = 1;
    }
-   else
-      out("Nobody is connected from that address.\n");
+
+   if ((x = sizeof(users)) > 0)
+   {
+      outf("\nThe following " + x + " users have been logged in from %s:\n", arg);
+      foreach (string u in users)
+      {
+         outf("%-=78s", capitalize(u) + "\n");
+      }
+      output = 1;
+   }
+
+   if ((x = sizeof(ips)) > 0)
+   {
+      outf("\nThe following " + x + " IP" + (x == 1 ? "" : "s") + " have been used by %s:\n", arg);
+      foreach (string i in ips)
+      {
+         outf("%-=78s", i + "\n");
+      }
+      output = 1;
+   }
+
+   if (!output)
+      out("No login data returned based on '" + arg + "'.\n");
 }

@@ -1,5 +1,7 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
+#include <config/equipment.h>
+
 /* grammar related stuff */
 private
 nosave string *ids;
@@ -90,6 +92,11 @@ int query_plural()
 private
 void resync()
 {
+#ifdef USE_DURABILITY
+   //We use DAMAGED_EQ_NAME internally as ad adverb
+   int damaged = member_array(DAMAGED_EQ_NAME, adjs) != -1;
+#endif
+
    if (!proper_name)
    {
       if (!primary_id && sizeof(ids))
@@ -100,7 +107,17 @@ void resync()
       if (primary_id)
       {
          if (primary_adj)
+         {
+#ifndef USE_DURABILITY
             internal_short = primary_adj + " " + primary_id;
+#else
+            internal_short = (damaged ? DAMAGED_EQ_NAME + " " : "") + primary_adj + " " + primary_id;
+#ifdef DAMAGED_EQ_COLOUR
+            internal_short =
+                (damaged ? "%^DMGED_EQUIP%^" + DAMAGED_EQ_NAME + "<res> " : "") + primary_adj + " " + primary_id;
+#endif
+#endif
+         }
          else
             internal_short = primary_id;
       }
@@ -119,13 +136,18 @@ mixed ob_state()
    return internal_short;
 }
 
+void names_restore()
+{
+   resync();
+}
+
 //: FUNCTION short
 // Return the 'short' description of a object, which is the name by which
 // it should be refered to
 string short()
 {
-   if (!is_visible())
-      return invis_name();
+   if (!this_object()->is_visible())
+      return this_object()->invis_name();
    return evaluate(internal_short);
 }
 

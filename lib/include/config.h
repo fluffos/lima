@@ -26,7 +26,6 @@
  */
 #include "combat_modules.h"
 
-
 /*************************************************************************
  ** 									                                                  **
  **  Options which affect gameplay.					                            **
@@ -35,14 +34,14 @@
 
 /* The players start room.
  * This is the default for where players start when they log in. */
-#define START		"/domains/std/Wizroom"
+#define START "/domains/std/Wizroom"
 
 /* NOTE: if you define this, you have to modify the lib to save the correct
  * variables.*/
 #define EVERYTHING_SAVES
 
 /* The default level of light for a room. */
-#define DEFAULT_LIGHT_LEVEL	1
+#define DEFAULT_LIGHT_LEVEL 1
 
 /* Players start where they log off */
 #define PLAYERS_START_WHERE_THEY_QUIT
@@ -70,22 +69,23 @@
  * which body slots you want to support.*/
 #undef USE_BODYSLOTS
 
-/* Parties support */
-#define USE_PARTIES
-
-/* Use a simple experience scheme for players. */
-#undef USE_SIMPLE_EXP
-
-/* Monster race support */
-#undef USE_MON_RACES
-
+/* Levelling up, how does that happen.
+**  define AUTO_LEVEL to level up automatically.
+**  define TRAIN_FOR_LEVEL to halt levelling when next one is reached
+**  define XP_FACTOR to suit for appetite for speed (default 250)
+**  define CAN_LOSE_LEVELS if people can lose experience that levels them down
+*/
+#define AUTO_LEVEL
+#undef TRAIN_FOR_LEVEL
+#define XP_FACTOR 250
+#define CAN_LOSE_LEVELS
 
 /* Size or Mass?
  * One or the other of these should be defined, but not both.  They should
  * do essentially the same thing. */
 #undef USE_SIZE
 #ifndef USE_SIZE
-# define USE_MASS
+#define USE_MASS
 #endif
 
 /* If you want weight to be calculated in metric (kilo) rather than imperial (lbs)
@@ -107,9 +107,7 @@
  * is simply an aid for players to measure progress against (setting it to
  * the maximum would mean that players wouldn't really ever budge anywhere).
  */
-#define EVALUATION_SKILL_LEVEL	50000
-
-
+#define EVALUATION_SKILL_LEVEL 50000
 
 /*************************************************************************
  ** 									                                                  **
@@ -149,10 +147,8 @@
  * last part of a say conversation.  */
 #define SAY_HISTORY_IN_ROOMS
 
-
 /* Define the message that playes see when they run into an error. */
-#define BUG_MSG \
-"You have just encountered a bug.  Please use the bug command to report it.\n"
+#define BUG_MSG "You have just encountered a bug.  Please use the bug command to report it.\n"
 
 /*************************************************************************
  **                                                   									**
@@ -162,7 +158,11 @@
 
 /* Define the character which allows you to call up previous command history.
  * ! will give you problems since it's used as input escape. */
-#define HISTORY_CHAR		'%'
+#define HISTORY_CHAR '%'
+
+/* Define the character which allows you to comment out a line in the shell
+ * # recommended as default for other shells. */
+#define COMMENT_CHAR '#'
 
 /* Define this if players are allowed to have a plan as well as wizards. */
 #define EVERYONE_HAS_A_PLAN
@@ -173,19 +173,18 @@
 
 /* These defines are the maximum number of seconds to wait at their respective
  * prompts. */
-#define LOGIN_NAME_WAIT		300
-#define LOGIN_PASSWORD_WAIT	180
+#define LOGIN_NAME_WAIT 300
+#define LOGIN_PASSWORD_WAIT 180
 
 /* Disallow new character creation */
 #undef NO_NEW_PLAYERS
 
 /* Define this next one to limit how many aliases a person can have. */
-#undef MAX_NUMBER_OF_ALIASES	30
+#undef MAX_NUMBER_OF_ALIASES 30
 
 /* Define the max number of entries in the channel history (the /last command)
  * This will also be used in say and tell histories */
-#define CHANNEL_HISTORY_SIZE	20
-
+#define CHANNEL_HISTORY_SIZE 20
 
 /*************************************************************************
  ** 									                                                  **
@@ -197,7 +196,7 @@
 #undef HANDLE_MANY_WIZARDS
 
 /* Define where your wizards start in the game by default. */
-#define WIZARD_START		"/domains/std/Wizroom"
+#define WIZARD_START "/domains/std/Wizroom"
 
 /* Auto wiz means guest wizard only.  You still have to use the admtool
  * command to make the person a full wizard w/ a directory. */
@@ -209,7 +208,6 @@
 
 /* Allow wizards to see hidden exits? */
 #define WIZARDS_SEE_HIDDEN_EXITS
-
 
 /*************************************************************************
  ** 									                                                  **
@@ -238,16 +236,16 @@
 #define MAX_FILE_SIZE 1000000
 
 /* The status of your game.*/
-#define lib_status()		"mudlib development"
+#define lib_status() "mudlib development"
 
 /* What's the IP of your game?*/
-#define __HOST__		"localhost"
+#define __HOST__ "localhost"
 
 /* The administrator(s)' email address(es).
  * NOTE: This is required to be changed in order to have a working
  * I3 system. Must be changed for anything to work!
  */
-#define ADMIN_EMAIL		"tsath@lima-rebean.themud.org"
+#define ADMIN_EMAIL "billg@microsoft.com"
 
 /* If this is undefined, anonymous ftp is allowed - undef it to prevent.
   Anon ftp users are limited to /ftp/pub.*/
@@ -276,23 +274,137 @@
 
 /* Where do you want your wizard's shell files to save? */
 #ifdef HANDLE_MANY_WIZARDS
-#define WSHELL_PATH(x)		sprintf("/data/wshells/%c/%s",x[0],x)
+#define WSHELL_PATH(x) sprintf("/data/wshells/%c/%s", x[0], x)
 #else
-#define WSHELL_PATH(x)		sprintf("/data/wshells/%s",x)
+#define WSHELL_PATH(x) sprintf("/data/wshells/%s", x)
 #endif
 
 /* Define the location of wizards home directories. */
-#define WIZ_DIR			"/wiz"
+#define WIZ_DIR "/wiz"
 
 /* Define this if you want expanded wizard directories (i.e. /wiz/f/foo) */
 #undef EXPANDED_WIZ_DIR
 
 /* Any files listed in this file will be loaded when the game starts. */
-#define PRELOAD_FILE		"/data/config/preload"
+#define PRELOAD_FILE "/data/config/preload"
 
 /* It's probably not a good idea to change these. */
-#define LINK_PATH(x)		sprintf("/data/links/%c/%s",x[0],x)
-#define USER_PATH(x)		sprintf("/data/players/%c/%s",x[0],x)
-#define PSHELL_PATH(x)		sprintf("/data/pshells/%c/%s",x[0],x)
+#define LINK_PATH(x) sprintf("/data/links/%c/%s", x[0], x)
+#define USER_PATH(x) sprintf("/data/players/%c/%s", x[0], x)
+#define PSHELL_PATH(x) sprintf("/data/pshells/%c/%s", x[0], x)
 
 #endif __CONFIG_H__
+
+/*
+ * runtime_config.h
+ *
+ * Copy this file to your mudlib include dir for use with the
+ * get_config() efun.
+ *
+ * See Config.Example describing most of these settings.  Some are actually
+ * in options.h, but the mudlib doesn't have to know...
+ *
+ * Note for backwards compatibility:
+ *   Neither the name or the number can be changed, or reused, avoid breaking mudlib code.
+ */
+
+#ifndef RUNTIME_CONFIG_H
+#define RUNTIME_CONFIG_H
+
+#define RC_BASE_CONFIG_STR 0
+#define CFG_STR(x) ((x) + RC_BASE_CONFIG_STR)
+/*
+ * These config settings return a string
+ */
+
+#define __MUD_NAME__ CFG_STR(0)
+#define __RC_STR_1__ CFG_STR(1)
+#define __MUD_LIB_DIR__ CFG_STR(2)
+#define __BIN_DIR__ CFG_STR(3)
+#define __LOG_DIR__ CFG_STR(4)
+#define __INCLUDE_DIRS__ CFG_STR(5)
+#define __RC_STR_2__ CFG_STR(6)
+#define __MASTER_FILE__ CFG_STR(7)
+#define __SIMUL_EFUN_FILE__ CFG_STR(8)
+#define __SWAP_FILE__ CFG_STR(9)
+#define __DEBUG_LOG_FILE__ CFG_STR(10)
+#define __DEFAULT_ERROR_MESSAGE__ CFG_STR(11)
+#define __DEFAULT_FAIL_MESSAGE__ CFG_STR(12)
+#define __GLOBAL_INCLUDE_FILE__ CFG_STR(13)
+#define __MUD_IP__ CFG_STR(14)
+#define __RC_WEBSOCKET_HTTP_DIR__ CFG_STR(15)
+
+#define RC_LAST_CONFIG_STR CFG_STR(255)
+/*
+ * These config settings return an int (ie number)
+ */
+#define RC_BASE_CONFIG_INT (RC_LAST_CONFIG_STR + 1)
+#define CFG_INT(x) ((x) + RC_BASE_CONFIG_INT)
+
+#define __MUD_PORT__ CFG_INT(0)
+#define __RC_INT_1__ CFG_INT(1)
+#define __TIME_TO_CLEAN_UP__ CFG_INT(2)
+#define __TIME_TO_RESET__ CFG_INT(3)
+#define __TIME_TO_SWAP__ CFG_INT(4)
+#define __COMPILER_STACK_SIZE__ CFG_INT(5)
+#define __EVALUATOR_STACK_SIZE__ CFG_INT(6)
+#define __INHERIT_CHAIN_SIZE__ CFG_INT(7)
+#define __MAX_EVAL_COST__ CFG_INT(8)
+#define __MAX_LOCAL_VARIABLES__ CFG_INT(9)
+#define __MAX_CALL_DEPTH__ CFG_INT(10)
+#define __MAX_ARRAY_SIZE__ CFG_INT(11)
+#define __MAX_BUFFER_SIZE__ CFG_INT(12)
+#define __MAX_MAPPING_SIZE__ CFG_INT(13)
+#define __MAX_STRING_LENGTH__ CFG_INT(14)
+#define __MAX_BITFIELD_BITS__ CFG_INT(15)
+#define __MAX_BYTE_TRANSFER__ CFG_INT(16)
+#define __MAX_READ_FILE_SIZE__ CFG_INT(17)
+#define __RC_INT_18__ CFG_INT(18)
+#define __SHARED_STRING_HASH_TABLE_SIZE__ CFG_INT(19)
+#define __OBJECT_HASH_TABLE_SIZE__ CFG_INT(20)
+#define __LIVING_HASH_TABLE_SIZE__ CFG_INT(21)
+#define __RC_INT_22__ CFG_INT(22)
+#define __RC_INT_23__ CFG_INT(23)
+#define __RC_GAMETICK_MSEC__ CFG_INT(24)
+#define __RC_HEARTBEAT_INTERVAL_MSEC__ CFG_INT(25)
+#define __RC_SANE_EXPLODE_STRING__ CFG_INT(26)
+#define __RC_REVERSIBLE_EXPLODE_STRING__ CFG_INT(27)
+#define __RC_SANE_SORTING__ CFG_INT(28)
+#define __RC_WARN_TAB__ CFG_INT(29)
+#define __RC_WOMBLES__ CFG_INT(30)
+#define __RC_CALL_OTHER_TYPE_CHECK__ CFG_INT(31)
+#define __RC_CALL_OTHER_WARN__ CFG_INT(32)
+#define __RC_MUDLIB_ERROR_HANDLER__ CFG_INT(33)
+#define __RC_NO_RESETS__ CFG_INT(34)
+#define __RC_LAZY_RESETS__ CFG_INT(35)
+#define __RC_RANDOMIZED_RESETS__ CFG_INT(36)
+#define __RC_NO_ANSI__ CFG_INT(37)
+#define __RC_STRIP_BEFORE_PROCESS_INPUT__ CFG_INT(38)
+#define __RC_THIS_PLAYER_IN_CALL_OUT__ CFG_INT(39)
+#define __RC_TRACE__ CFG_INT(40)
+#define __RC_TRACE_CODE__ CFG_INT(41)
+#define __RC_INTERACTIVE_CATCH_TELL__ CFG_INT(42)
+#define __RC_RECEIVE_SNOOP__ CFG_INT(43)
+#define __RC_SNOOP_SHADOWED__ CFG_INT(44)
+#define __RC_REVERSE_DEFER__ CFG_INT(45)
+#define __RC_HAS_CONSOLE__ CFG_INT(46)
+#define __RC_NONINTERACTIVE_STDERR_WRITE__ CFG_INT(47)
+#define __RC_TRAP_CRASHES__ CFG_INT(48)
+#define __RC_OLD_TYPE_BEHAVIOR__ CFG_INT(49)
+#define __RC_OLD_RANGE_BEHAVIOR__ CFG_INT(50)
+#define __RC_WARN_OLD_RANGE_BEHAVIOR__ CFG_INT(51)
+#define __RC_SUPPRESS_ARGUMENT_WARNINGS__ CFG_INT(52)
+#define __RC_ENABLE_COMMANDS_CALL_INIT__ CFG_INT(53)
+#define __RC_SPRINTF_ADD_JUSTFIED_IGNORE_ANSI_COLORS__ CFG_INT(54)
+#define __RC_APPLY_CACHE_BITS__ CFG_INT(55)
+#define __RC_CALL_OUT_ZERO_NEST_LEVEL__ CFG_INT(56)
+#define __RC_TRACE_CONTEXT__ CFG_INT(57)
+#define __RC_TRACE_INSTR__ CFG_INT(58)
+#define __RC_ENABLE_MXP__ CFG_INT(59)
+#define __RC_ENABLE_GMCP__ CFG_INT(60)
+#define __RC_ENABLE_ZMP__ CFG_INT(61)
+#define __RC_ENABLE_MSSP__ CFG_INT(62)
+#define __RC_ENABLE_MSP__ CFG_INT(63)
+
+#define RC_LAST_CONFIG_INT CFG_INT(255)
+#endif /* RUNTIME_CONFIG_H */

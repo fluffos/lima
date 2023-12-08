@@ -41,7 +41,12 @@ void setup_for_save()
 
 void save_me()
 {
+   string name;
    if (!owner) /* probably the blueprint */
+      return;
+   name = owner->query_userid();
+
+   if (strlen(name) > 5 && name[0..4] = "guest")
       return;
 
    setup_for_save();
@@ -103,8 +108,13 @@ void shell_input(mixed input)
    ** is the expansion of $@.
    */
 
+   // Skip commands beginning with HISTORY_CHAR, default '#'
+   if (input[0] == COMMENT_CHAR)
+   {
+      return;
+   }
    // is this history manipulation?
-   if (input[0] == HISTORY_CHAR)
+   else if (input[0] == HISTORY_CHAR)
    {
       input = history_command(input);
       if (!input)

@@ -25,7 +25,7 @@ void setup() {
     |-----------|-----------|----------|
     | Weaponry  |           |          |
     |-----------| Corridor6 | Emoting  |
-    |  Armory   |           | Tutorial |
+    |  armoury   |           | Tutorial |
     |-----------|-----------|----------|
     |           |           |
     |  Objects  | Corridor5 |
@@ -53,8 +53,4 @@ void setup() {
     |           ||---------||
     |-----------|-----------|
 FOO);
-}
-
-mapping lpscript_attributes() {
-    return object::lpscript_attributes() + m_gettable::lpscript_attributes();
 }

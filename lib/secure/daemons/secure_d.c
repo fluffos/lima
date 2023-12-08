@@ -20,16 +20,16 @@ private
 mapping privileges; // mapping containing all privileges
                     // values are arrays of parents and children
 private
-mapping read_access; // maps directory -> protection level
+mapping read_access; // maps directory.protection level
 private
 mapping write_access; // dto.
 private
 mapping wizards; // mapping containing all wizards and their level
 private
-mapping domains; // maps domains -> mappings of members/lords
+mapping domains; // maps domains.mappings of members/lords
                  //                 (valued 2 for lords, 1 for members)
 private
-mapping domainlists; // wizard -> domains
+mapping domainlists; // wizard.domains
 
 int valid_name(string s)
 {
@@ -227,21 +227,9 @@ void create()
                                                }),
       ]),
                               }),
-                    "domains":({
-                                  -1,
-                                  (["lpscript":({
-                                                   "Lpscript:",
-                                                   0,
-                                               }),
-                                         "std":({
-                                                   "Std:",
-                                                   0,
-                                               }),
-      ]),
-                              }),
       ]);
       domains = (["mail":([]),
-                   "admin":([]), "admin-channels":([]), "lpscript":([]), "approval":([]), "std":([]), "mudlib":([]), ]);
+                   "admin":([]), "admin-channels":([]), "approval":([]), "std":([]), "mudlib":([]), ]);
       domainlists = ([]);
       wizards = ([]);
       save_data();
@@ -480,7 +468,6 @@ nomask string remove_domain_member(string domain, string member)
 nomask string create_wizard(string wizard)
 {
    string bad;
-   // tc("create_wizard("+identify(wizard)+")");
 
    if (!valid_name(wizard))
       bad = "invalid character name";
@@ -492,14 +479,11 @@ nomask string create_wizard(string wizard)
    // for (;;);
    if (bad)
    {
-      // tc("create_wizard("+identify(wizard)+"): "+bad);
       return bad;
    }
    wizards[wizard] = 1;
    privileges[wizard] = (["":({}), ":":({})]);
-   // tc("good");
    save_data();
-   // tc("good2");
    syslog("Created wizard " + wizard);
    return 0;
 }

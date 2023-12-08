@@ -5,7 +5,7 @@
 ** since players carry this code as well.
 */
 
-#include <skills.h>
+#include <config/skills.h>
 
 #define MAX_MONSTER_LEVEL 100
 
@@ -17,9 +17,10 @@ void set_int(int);
 void set_wil(int);
 void update_max_health();
 void heal_all();
-void set_natural_armor(int na);
+void set_natural_armour(int na);
 void set_damage_bonus(int x);
 void add_id(string *id...);
+void init_stats();
 varargs int query_max_capacity(string relation);
 
 private
@@ -72,18 +73,20 @@ void setup_monster_defaults()
    if (this_object()->is_body())
       return;
 
-   set_natural_armor(query_level() / 2);
+   init_stats();
+   set_natural_armour(query_level() / 2);
    set_damage_bonus(query_level() / 2);
 
    foreach (string skill in skills)
    {
       set_skill(skill, sp);
    }
-
+   /*
    set_str(query_level());
    set_agi(query_level());
    set_int(query_level());
    set_wil(query_level());
+   */
    update_max_health();
    heal_all();
 }
