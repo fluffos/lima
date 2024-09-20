@@ -4,6 +4,11 @@
 #include <daemons.h>
 #include <mudlib.h>
 
+//: MODULE
+// This module adds functions in monsters so they can do actions or respond to actions.
+//
+// .. TAGS: RST
+
 void add_hook(string, function);
 void remove_hook(string, function);
 object query_target();
@@ -52,7 +57,6 @@ string *query_actions()
 }
 
 //: FUNCTION set_delay_time
-// void set_delay_time(int);
 // Sets the amount of time between possible actions. The minimum value
 // is 5, which is default and is fine for most situations. For a large
 // number of action objects, increasing this number (and increasing the
@@ -143,7 +147,7 @@ void actions()
 {
    if (!this_object()->query_target() && sizeof(my_actions))
       do_game_command(choice(my_actions));
-   if (query_listeners() && find_call_out("actions") == -1)
+   if (my_actions && query_listeners() && find_call_out("actions") == -1)
    {
       call_out("actions", delay_time);
    }
@@ -191,6 +195,9 @@ void action_movement()
 
 void start_actions()
 {
+   // If we have no actions, stop here.
+   if (!arrayp(my_actions))
+      return;
 
    add_hook("move", ( : action_movement:));
    if (env = environment(this_object()))
@@ -211,11 +218,9 @@ void stop_actions()
 }
 
 //: FUNCTION set_actions
-// protected void set_actions(int chance, string *actions);
 // This function sets a list of actions and a delay,
 // and chooses one to be executed time each time that delay elapses.
 // This function should only be called from within setup().
-protected
 void set_actions(int delay, string *actions)
 {
    delay_time = delay;

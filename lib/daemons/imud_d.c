@@ -228,7 +228,8 @@ nomask void reconnect()
                      ({
                          password, query_mudlist_id(), query_chanlist_id(), __PORT__, PORT_I3_TCP_OOB, 0,
                          /* DO NOT change this; see comments in /secure/user/login.c */
-                         lima_version(), "Lima", driver_version(), "LP", lib_status(), ADMIN_EMAIL,
+                         lima_version(), "Lima", driver_version(), "LP", lib_status(),
+                         mud_name() == "LIMA" ? "developers@limalib.dev" : ADMIN_EMAIL,
                          (["tell":1,
                              "emoteto":1, "who":1, "finger":1, "locate":1, "channel":1, "auth":1, "ucache":1, "file":1,
                                 "http":80, "ftp":21, "mail":1]),
@@ -249,11 +250,11 @@ void create()
       destruct(this_object());
       return;
    }
-   if (ADMIN_EMAIL == "billg@microsoft.com")
+   if (mud_name() != "LIMA" && ADMIN_EMAIL == "billg@microsoft.com")
    {
       write("ERROR:\n"
-            "  The I3 daemon will not load until you set a proper ADMIN_EMAIL\n"
-            "  value in /include/config.h\n");
+            "  The IMUD daemon will not load until you set a proper ADMIN_EMAIL\n"
+            "  value in /include/config.h. Set this value and do: update `IMUD_D`\n");
       destruct(this_object());
       return;
    }
@@ -262,7 +263,7 @@ void create()
 
    mudlist_reset_entries();
 
-   reconn_func = (: reconnect :);
+   reconn_func = ( : reconnect:);
 
    oob_startup();
    chan_startup();
@@ -271,14 +272,15 @@ void create()
 
    trigger_reconnect("router");
    set_privilege("Mudlib:daemons");
-   
+
    call_out("imud_socket_keepalive", 120);
 }
 
-private void imud_socket_keepalive()
+private
+void imud_socket_keepalive()
 {
-  router_socket->send_telnet_nop();
-  call_out("imud_socket_keepalive", 120);
+   router_socket->send_telnet_nop();
+   call_out("imud_socket_keepalive", 120);
 }
 
 void remove(int coming_back_soon)

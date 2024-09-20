@@ -23,17 +23,15 @@
 
 #define TELL_BUG(p,x) (tell_user(p,sprintf("%s: %O\n",__FILE__,(x))))
 
+/* LIMA mudlib maintainers. Add your own in mudlib.h to avoid merge conflicts with this file. */
 #define IBUG(x) TELL_BUG("iizuka",(x))
 #define BBUG(x) TELL_BUG("rust",(x))
 #define DBBUG(x) TELL_BUG("deathblade",(x))
 #define ZBUG(x) TELL_BUG("zifnab",(x))
 #define ZABUG(x) TELL_BUG("zakk", (x))
 #define TBUG(x) TELL_BUG("tsath",(x))
+#define ABUG(x) TELL_BUG("asmerian",(x))
 #define KBUG(x) TELL_BUG("kobol",(x))
 #define LBUG(x) TELL_BUG("loriel",(x))
 
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-#define ABS(a)    (((a) < 0) ? -(a) : (a))
-#define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 #endif // __GLOBAL_H__

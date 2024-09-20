@@ -4,26 +4,26 @@
 // Improved by Tsath 2020 to show time better, plus better documentation.
 
 // : COMMAND
-// USAGE:  calls
+// USAGE:  ``calls``
 //
 // This command shows you the number of call_outs that are active. If a lot
 // of calls exist on same object to same function they will be abbreviated.
 //
 // Produces display like :
-// calls
+// ``calls``
 //
-// object                                 Function            Delay
-// -----------------------------------------------------------------------------
-// /secure/master                         <function>          17m 13s
-// /domains/std/harry#474                 <function>          19h 23m 53s
-// /domains/std/harry                     <function>          3s
-// /daemons/imud_d                        <function>          (107 calls)
+//   |  object                                 Function            Delay
+//   |  -----------------------------------------------------------------------------
+//   |  /secure/master                         <function>          17m 13s
+//   |  /domains/std/monster/harry#474         <function>          19h 23m 53s
+//   |  /domains/std/monster/harry             <function>          3s
+//   |  /daemons/imud_d                        <function>          (107 calls)
 //
 // There are 3 call_outs active.
+//
+// .. TAGS: RST
 
 inherit CMD;
-
-#define CHOMP(x) replace_string(x, "/domains/", "^")
 
 private
 void main()
@@ -38,9 +38,9 @@ void main()
    // We do not have any ANSI here, but also don't want emojis.
    set_output_flags(NO_ANSI);
 
-   outf("%-45s%-25s%-10s\n", "Object", "Function", "Delay");
+   outf("%-55s%-25s%-10s\n", "Object", "Function", "Delay");
    if (!simplify())
-      outf("%82'-'s\n", "");
+      outf("%92'-'s\n", "");
 
    foreach (data in call_out_stuff)
    {
@@ -76,12 +76,13 @@ void main()
       {
          if (sizeof(t) == 1)
          {
-            outf("%-45s%-25s%-10s\n", CHOMP(ob), f, t[0]);
+            outf("%-55s%-25s%-10s\n", shorten_filename(ob), f, t[0]);
          }
          else
-            outf("%-45s%-25s%-10s\n", CHOMP(ob), f, "(" + sizeof(t) + " calls)");
+            outf("%-55s%-25s%-10s\n", shorten_filename(ob), f, "(" + sizeof(t) + " calls)");
       }
    }
 
    outf("\nThere are %d call_outs active.\n", sizeof(call_out_stuff));
+   outf("\nActive states:\n%s", STATE_D->stat_me());
 }

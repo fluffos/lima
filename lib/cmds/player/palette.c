@@ -1,9 +1,13 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //: PLAYERCOMMAND
-//$$see: colours"," ansi
-// USAGE palette
+//$$see: colours, mode, frames
+// USAGE
+//    ``palette``
+//
 // Show even more possible colours you can use.
+//
+// .. TAGS: RST
 
 inherit CMD;
 inherit M_COLOURS;
@@ -52,4 +56,11 @@ void do_print(string which)
 nomask private void main(string str)
 {
    do_print(0);
+}
+
+void player_menu_entry(string str)
+{
+   bare_init();
+   main(str);
+   done_outputing();
 }

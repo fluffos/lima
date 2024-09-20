@@ -6,24 +6,24 @@
 **
 */
 
-#include <menu.h>
 #include <security.h>
 
 inherit MENUS;
+inherit M_WIDGETS;
 inherit M_ACCESS;
 
-MENU toplevel;
+class menu toplevel;
 
-MENU_ITEM quit_item;
-MENU_ITEM goto_main_menu_item;
-MENU_ITEM main_seperator;
-MENU_ITEM blank_seperator;
+class menu_item quit_item;
+class menu_item goto_main_menu_item;
+class menu_item main_seperator;
+class menu_item blank_seperator;
 string *hints;
 int hints_read;
 
 void show_next_hint(string input)
 {
-   MENU m;
+   class menu m;
 
    switch (input)
    {
@@ -58,7 +58,7 @@ void show_next_hint(string input)
 
 void view_question(string area, string file, string question)
 {
-   MENU question_menu = new_menu("");
+   class menu question_menu = new_menu("");
    set_menu_prompt(question_menu, "[<enter>, (p)revious hint, (b)ack, (q)uit] ");
    set_no_match_function(question_menu, ( : show_next_hint:));
    hints = explode(read_file("/help/hints/" + area + "/" + file), "\n")[1..] - ({""});
@@ -73,8 +73,8 @@ void view_dir(string s)
 {
    string *files = get_dir("/help/hints/" + s + "/*") - ({".", "..", "README"});
    string *questions = map(files, ( : read_file("/help/hints/" + $(s) + "/" + $1, 1, 1) :));
-   MENU m = new_menu(replace_string(s, "_", " "));
-   MENU_ITEM item;
+   class menu m = new_menu("%^HINTS%^" + replace_string(s, "_", " ") + "%^RESET%^");
+   class menu_item item;
    function f;
 
    add_menu_item(m, main_seperator);
@@ -109,12 +109,11 @@ void create()
    quit_item = new_menu_item("Quit", ( : quit_menu_application:), "q");
    goto_main_menu_item = new_menu_item("Return to main menu", toplevel, "m");
 
-   main_seperator = new_seperator("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
-                                  "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+   main_seperator = new_seperator(simple_divider());
    blank_seperator = new_seperator("");
 
    // Add items to the toplevel (main) menu.
-   add_menu_item(toplevel, new_seperator("What area of the mud are you looking for hints for?"));
+   add_menu_item(toplevel, new_seperator("%^HINTS%^What area of the mud are you looking for hints for?%^RESET%^"));
    add_menu_item(toplevel, main_seperator);
 
    sections = sort_array(get_dir("/help/hints/*") - ({".", "..", "README"}), 1);
@@ -125,10 +124,10 @@ void create()
    }
    //    if(sizeof(sections)%2)
    add_menu_item(toplevel, blank_seperator);
-   add_menu_item(toplevel, main_seperator);
-   add_menu_item(toplevel, quit_item);
+   // add_menu_item(toplevel, main_seperator);
+   // add_menu_item(toplevel, quit_item);
    add_menu_item(toplevel, blank_seperator);
-   add_menu_item(toplevel, main_seperator);
+   // add_menu_item(toplevel, main_seperator);
    set_menu_prompt(toplevel, "[#q] ");
    allow_empty_selection(toplevel);
    set_no_match_function(toplevel, ( : quit_if_cr:));

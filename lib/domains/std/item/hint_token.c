@@ -57,15 +57,10 @@ void hook_func()
       call_out("show_hints", 0, hints);
 }
 
-void dropped()
+mixed drop()
 {
    if (!this_body())
-      return;
-   if (environment(this_object())->is_living())
-      return;
-   // Clean up the hooks
-   remove_hook("move", ( : dropped:));
-   this_body()->remove_hook("move", ( : hook_func:));
+      return 1;
    this_body()->simple_action("$N $vdrop " + short() + " which disappears in a puff of smoke.");
 
    this_object()->remove();
@@ -88,7 +83,6 @@ void mudlib_setup()
             "carry for hints.\n\n"
             "You can use 'hints on' to get a new one should you lose this one.");
    this_body()->add_hook("move", ( : hook_func:));
-   add_hook("move", ( : dropped:));
 }
 
 string query_hint()

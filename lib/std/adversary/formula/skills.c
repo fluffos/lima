@@ -7,8 +7,8 @@
 
 #include <classes.h>
 #include <combat_modules.h>
-#include <log.h>
 #include <config/skills.h>
+#include <log.h>
 
 #define DAMAGE_STAT_IMPACT 5
 #define DEFEND_STAT_IMPACT 5
@@ -48,8 +48,9 @@ int chance_to_hit(object weapon, object target)
 {
    string attack_skill = weapon ? weapon->query_skill_used() : "combat/melee/unarmed";
    string defend_skill = target->query_defend_skill_used();
-   int skill_contrib = strsrch(attack_skill, "combat/guns") != -1 ? (this_object()->query_dex() / TO_HIT_STAT_IMPACT)
-                                                                  : (this_object()->query_str() / TO_HIT_STAT_IMPACT);
+   int skill_contrib = strsrch(attack_skill, "combat/guns") != -1
+                           ? (this_object()->query_agility_stat() / TO_HIT_STAT_IMPACT)
+                           : (this_object()->query_physical_dmg_stat() / TO_HIT_STAT_IMPACT);
    int attack_value;
    int defend_value;
    int attack_mod = 1;
@@ -93,7 +94,7 @@ int chance_to_hit(object weapon, object target)
    if (combat_debug)
       TBUG("Res after skill test: " + res + " (clamped between 0 and 100)");
 
-   res = CLAMP(to_int(res), 0, 100);
+   res = clamp(to_int(res), 0, 100);
    return res;
 }
 
@@ -147,7 +148,7 @@ int disarm_chance(object target)
    // Calculate anti_disarm chances from the target + her weapon.
    int disarm_prevention = (target ? target->query_anti_disarm() : 0) +
                            (target->query_weapon() ? target->query_weapon()->query_anti_disarm() : 0) +
-                           ((target->query_int() / DISARM_STAT_IMPACT));
+                           ((target->query_mental_stat() / DISARM_STAT_IMPACT));
    int train_limit;
 
    if (target->should_cap_skill("combat/defense/disarm"))
@@ -160,7 +161,7 @@ int disarm_chance(object target)
 
    // TBUG("Chance_to_hit: "+chance_to_hit+" Defend_disarm: "+(defend_disarm_value/100.0)+" Res: "+res+
    //" Disarm prev:"+disarm_prevention+" To hit bonus: "+(weapon ? weapon->query_to_hit_bonus(target) :
-   //query_to_hit_bonus(target))+" Disarm bonus "+query_disarm_bonus(target)); Subtract to_hit bonus and add disarm
+   // query_to_hit_bonus(target))+" Disarm bonus "+query_disarm_bonus(target)); Subtract to_hit bonus and add disarm
    // bonus.
    return to_int((res - (weapon ? weapon->query_to_hit_bonus(target) : query_to_hit_bonus(target)) +
                   query_disarm_bonus(target) - disarm_prevention) /
@@ -170,8 +171,9 @@ int disarm_chance(object target)
 int calculate_damage(object weapon, object target)
 {
    string attack_skill = weapon ? weapon->query_skill_used() : "combat/melee/unarmed";
-   int skill_contrib = strsrch(attack_skill, "combat/guns") != -1 ? (this_object()->query_dex() / DAMAGE_STAT_IMPACT)
-                                                                  : (this_object()->query_str() / DAMAGE_STAT_IMPACT);
+   int skill_contrib = strsrch(attack_skill, "combat/guns") != -1
+                           ? (this_object()->query_agility_stat() / DAMAGE_STAT_IMPACT)
+                           : (this_object()->query_physical_dmg_stat() / DAMAGE_STAT_IMPACT);
 
    // If the weapon is set to restricted (happens when wielded in /std/adversary/wield/limbs)
    // we reduce the damage by 90% (you suck!).

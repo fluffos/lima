@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-inherit "/obj/admtool/internal/base.c";
+inherit ADMTOOL_BASE;
 inherit M_COLOURS;
 
 nomask string module_name()
@@ -21,7 +21,7 @@ nomask void list_damage_types()
    if (sizeof(types) == 0)
       write("There are no damage types defined.\n");
    else
-      write(colour_table(types,this_user()->query_screen_width()) + "\n");
+      write(colour_table(types, this_user()->query_screen_width()) + "\n");
 }
 
 private

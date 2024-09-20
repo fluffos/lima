@@ -2,10 +2,15 @@
 
 //: COMMAND
 // Wizard command "scan"
-// list the filenames of objects in an inventory.
-// optional flag -d for "deep" scan (ie recursive)
-// usage : "scan [-d]" to scan environment
-//         "scan [-d] ob" to scan object "ob"
+// USAGE:
+//
+//  |  ``"scan [-d]" to scan environment``
+//  |  ``"scan [-d] ob" to scan object "ob"``
+//
+// List the filenames of objects in an inventory.
+// optional flag -d for "deep" scan (ie recrusive)
+//
+// .. TAGS: RST
 
 // Peregrin@ZorkMUD
 // Updated 1995/10/9 by Ohara,
@@ -15,11 +20,6 @@
 inherit CMD;
 
 #define PAD "    "
-
-string better_filename(string s)
-{
-   return replace_string(replace_string(s, "/domains/", "^"), "/wiz/", "~");
-}
 
 // scan the inventory of an object.
 string scan_object(object ob, int depth, int deep_scan)
@@ -40,7 +40,7 @@ string scan_object(object ob, int depth, int deep_scan)
    l = sizeof(inv);
    while (l--)
    {
-      retstr += pad + better_filename(file_name(inv[l])) + " -> " +
+      retstr += pad + shorten_filename(file_name(inv[l])) + " -> " +
                 ((tempstr = inv[l]->short()) ? "\"" + tempstr + "\" " : "[no short]") + "\n" +
                 (deep_scan ? scan_object(inv[l], depth + 1, deep_scan) : "");
    }

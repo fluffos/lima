@@ -1,10 +1,10 @@
+/* Do not remove the headers from this file! see /USAGE for more info. */
+
 //: MODULE
-// This daemon handles the 256 Colours of XTERM codes
+// This daemon handles the 256 Colours of XTERM code.
 
 // Created:     2022/04/08: Gesslar
-// Last Change: 2022/04/08: Gesslar
-//
-// 2022/04/08: Gesslar - Created
+// Integrated into LIMA by Tsath (2022 at some point)
 
 #include <xterm256.h>
 
@@ -105,6 +105,7 @@ void load_all_colours()
    // If you add more codes, remember to update XTERM256_COLOURS
    // in xterm256.h
    alt_codes = (["res":sprintf("%c[0m", 27),  // reset
+                 "RES":sprintf("%c[0m", 27),  // reset
                  "rev":sprintf("%c[7m", 27),  // reverse video
                  "it0":sprintf("%c[23m", 27), // italics off
                  "it1":sprintf("%c[3m", 27),  // italics on
@@ -113,6 +114,7 @@ void load_all_colours()
                  "fl0":sprintf("%c[25m", 27), // flash off
                  "fl1":sprintf("%c[5m", 27),  // flash on
                  "bld":sprintf("%c[1m", 27),  // bold on
+                 "BLD":sprintf("%c[1m", 27),  // bold on
    ]);
 
    lines = explode(read_file("/data/xterm256/256_to_16_fallback.txt"), "\n");

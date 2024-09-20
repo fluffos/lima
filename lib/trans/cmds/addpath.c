@@ -3,11 +3,14 @@
 /* Created by Ranma@Koko Wa 951001 */
 
 //: COMMAND
-//$$ see: showpath, rmpath
-// Usage: addpath [directory]
+//$$ see: printpath, rmpath
+// USAGE
+//       ``addpath [directory]``
 //
 // This command will add a new path to your current exec path,
 // which the command finder will search through.
+//
+// .. TAGS: RST
 
 inherit CMD;
 

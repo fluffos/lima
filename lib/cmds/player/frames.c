@@ -2,12 +2,19 @@
 
 //: PLAYERCOMMAND
 //$$ see: color, colours, ansi, emoji
-// USAGE frames
-//      frames list
-//      frames <type>
+// USAGE
 //
-// Use 'frames list' to show which frame themes are supported.
-// Use 'frames single' to set your frame theme to 'single'.
+//   |   ``frames``
+//   |   ``frames styles``
+//   |   ``frames style <name>``
+//   |   ``frames themes``
+//   |   ``frames theme <name>``
+//
+// Use ``frames styles`` to show which frame styles are supported.
+// Use ``frames style single`` to set your frame style to 'single'.
+// Use ``frames theme dusk`` to set your frame theme to 'dusk'.
+//
+// .. TAGS: RST
 
 inherit CMD;
 inherit M_WIDGETS;
@@ -22,10 +29,10 @@ string frames_help()
 private
 void main(string arg)
 {
-   string *themes = query_frame_themes();
+   string *styles = query_frame_styles();
    string *colours = query_frame_colour_themes();
    string col;
-   string usertheme = this_user()->frames_theme();
+   string usertheme = this_user()->frames_style();
    string usercoltheme = this_user()->frames_colour();
    frame_init_user();
 
@@ -33,20 +40,19 @@ void main(string arg)
    {
       string simplestate;
       set_frame_title("Frame settings");
-      set_frame_header("<bld>Frame style is:<res> " + (usertheme || "ascii") + ".\n" +
-                                    "<bld>Frame theme is:<res> " + (usercoltheme || "none") + ".\n" +
-                                    (i_simplify() ? "Frames are off, since you have simplify on.\n" : ""));
+      set_frame_header("<bld>Frame style is:<res> " + (usertheme || "ascii") + ".\n" + "<bld>Frame theme is:<res> " +
+                       (usercoltheme || "none") + ".\n" +
+                       (i_simplify() ? "Frames are off, since you have simplify on.\n" : ""));
 
       set_frame_content(frames_help());
-      set_frame_footer("<bld>These settings will change most UI on " + mud_name() +
-                                    " to this style.<res>");
+      set_frame_footer("<bld>These settings will change most UI on " + mud_name() + " to this style.<res>");
       out(frame_render());
       return;
    }
 
    else if (sscanf(arg, "style %s", col) == 1)
    {
-      if (member_array(col, themes) != -1)
+      if (member_array(col, styles) != -1)
       {
          this_user()->query_shell_ob()->set_variable("frames", col);
          out("Frame style set to '" + col + "'.\n");
@@ -88,9 +94,9 @@ void main(string arg)
       printf("The following frame styles are supported:\n\n");
       printf("\t<bld>%-15.15s %s<res>", "Name", "Example");
 
-      foreach (string t in themes)
+      foreach (string t in styles)
       {
-         printf("\t%-15.15s %s\n", t, frame_demo_string(t,20));
+         printf("\t%-15.15s %s\n", t, frame_demo_string(t, 20));
       }
       printf("\n\n");
    }

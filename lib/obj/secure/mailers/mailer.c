@@ -141,10 +141,10 @@ nomask string *build_message(int mail_key, int supress_header)
 protected
 nomask void write_dead_letter(string *buf)
 {
-   if (wizardp(this_user()) && file_size("/wiz/" + this_user()->query_userid()) == -2)
+   if (wizardp(this_user()) && file_size(WIZ_DIR+"/" + this_user()->query_userid()) == -2)
    {
       write("Appending to ~/dead.letter\n");
-      write_file(sprintf("/wiz/%s/dead.letter", this_user()->query_userid()), implode(buf, "\n") + "\n");
+      write_file(sprintf(WIZ_DIR+"/%s/dead.letter", this_user()->query_userid()), implode(buf, "\n") + "\n");
    }
 }
 

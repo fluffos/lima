@@ -94,7 +94,6 @@ string *rev_explode(string arr_in, string delim)
 // Logically 2 arrays should be equivalent, but aren't with ==.
 // cmp knows they are.  This is mainly useful when you want to compare
 // mappings and arrays.
-
 int cmp(mixed a, mixed b)
 {
    int i;
@@ -136,9 +135,7 @@ int cmp(mixed a, mixed b)
 // Inserts the contents of the array of the first argument into
 // The array in the second argument before the nth element of the array,
 // where n is the 3rd argument passed to insert.
-
 // Rust hacked at this to make it a bit more intuitive...
-
 mixed insert(mixed to_insert, mixed into_array, int where)
 {
 // ### (db) I don't see any particular need to program defensively...
@@ -394,11 +391,11 @@ mixed choice(mixed f)
 
    switch (typeof(f))
    {
-   case STRING:
+   case T_STRING:
       return f[random(strlen(f))];
-   case ARRAY:
+   case T_ARRAY:
       return f[random(sizeof(f))];
-   case MAPPING:
+   case T_MAPPING:
       k = keys(f);
       return f[k[random(sizeof(k))]];
    default:
@@ -413,14 +410,14 @@ mixed sum(mixed *numbers...)
    {
       switch (typeof(number))
       {
-      case INT:
+      case T_INT:
          result += number;
          break;
-      case FLOAT:
+      case T_FLOAT:
          result = to_float(result) + number;
          break;
       default:
-         error("Argument must be an array of int or float: " + typeof(number) + ".\n");
+         error("Argument must be an array of int or float, found type: " + typeof(number) + ".\n");
       }
    }
    return result;
@@ -477,38 +474,16 @@ mixed element_of_weighted(mapping data)
    }
 }
 
-//: FUNCTION min
-// Returns the smallest element of an aggregate type (string, array,
-// or mapping).
-
-mixed min(mixed f)
+//: FUNCTION clamp
+// Take a value and makes sure it is between the low and high parameters.
+int clamp(int x, int low, int high)
 {
-   if (stringp(f))
-      f = explode(f, " ");
-   else if (mapp(f))
-      f = keys(f);
-
-   return sort_array(f, 1)[0];
-}
-
-//: FUNCTION max
-// Returns the largest element of a structure that is a string,
-// array or mapping.
-
-mixed max(mixed f)
-{
-   if (stringp(f))
-      f = explode(f, " ");
-   else if (mapp(f))
-      f = keys(f);
-
-   return sort_array(f, -1)[0];
+   return (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)));
 }
 
 //: FUNCTION flatten_array
 // Takes an array that may contain arrays, and reduces all
 // arrays so that the result is a one dimensional array
-
 mixed flatten_array(mixed arr)
 {
    int i = 0;
@@ -532,7 +507,6 @@ mixed flatten_array(mixed arr)
 //: FUNCTION call_out_chain
 // Does a call_out to a list of functions, one following
 // another, with each returning the delay till the next one is called.
-
 protected
 void handle_chain(object ob, mixed *funcs, mixed *args)
 {
@@ -786,18 +760,6 @@ mixed *sort_by_value(mixed arr, function value_func)
    return sort_array(arr, ( : evaluate($(value_func), $1) - evaluate($(value_func), $2) :));
 }
 
-/* Replacement for the dump_socket_status() efun */
-string dump_socket_status()
-{
-   string ret = "Fd    State      Mode       Local Address          Remote Address\n"
-                "--  ---------  --------  ---------------------  ---------------------\n";
-   foreach (mixed *item in socket_status())
-   {
-      ret += sprintf("%2d  %|9s  %|8s  %-21s  %-21s\n", item[0], item[1], item[2], item[3], item[4]);
-   }
-   return ret;
-}
-
 string lima_version()
 {
    return "Lima 1.1a3";
@@ -888,9 +850,17 @@ varargs string get_stack(int x)
    return list;
 }
 
+//: FUNCTION clone_class
+// Create a copy of an existing class.
+mixed clone_class(mixed x)
+{
+   return assemble_class(disassemble_class(x));
+}
+
 //: FUNCTION pround
 // Preceision round a float into a string with a specific number of decimals.
-// Example::
+// Example:
+//
 //     pround(3.14152526,4) -> "3.1415"
 string pround(float f, int p)
 {
@@ -899,7 +869,8 @@ string pround(float f, int p)
 
 //: FUNCTION nnew
 // Clone a number of the same files with the same arguments and return them.
-// Example::
+// Example:
+//
 //     nnew(3,"/domains/std/consumable/beer")->move(this_body());
 object *nnew(int count, string file, string args...)
 {

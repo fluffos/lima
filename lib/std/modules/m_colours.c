@@ -3,7 +3,7 @@
 //: FUNCTION terminal_mode
 // Returns "xterm", "ansi", or "vt100" or nothing if the user
 // has turned colours off.
-nomask string terminal_mode()
+string terminal_mode()
 {
    return get_user_variable("mode");
 }
@@ -46,13 +46,14 @@ string use_colour(string *cols, int position, int width)
 {
    int col_index = floor(sizeof(cols) * ((0.0 + position) / (width || 1)));
 
-   col_index = CLAMP(col_index, 0, sizeof(cols) - 1);
+   col_index = clamp(col_index, 0, sizeof(cols) - 1);
    return "<" + cols[col_index] + ">";
 }
 
 //: FUNCTION gradient_string
 // Given a string, spread the colour array equally over the string length.
-// Example::
+// Example:
+//
 //   gradient_string("Hello world",({"118","119","120","121","122","123"}))
 string gradient_string(string str, string *cols)
 {

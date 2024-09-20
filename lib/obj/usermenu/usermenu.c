@@ -6,23 +6,25 @@
 */
 
 #include <commands.h>
-#include <menu.h>
+#include <config/user_menu.h>
 #include <mudlib.h>
 #include <playerflags.h>
 #include <security.h>
-#include <config/user_menu.h>
 
-inherit MENUS;
+inherit "/std/menu2";
 inherit M_ACCESS;
 
-MENU toplevel;
+class menu toplevel;
 // submenus of the toplevel (main) menu
-MENU_ITEM quit_item;
-MENU_ITEM goto_main_menu_item;
-MENU_ITEM main_seperator;
+class menu_item quit_item;
+class menu_item goto_main_menu_item;
+class menu_item main_seperator;
+class section play;
+class section create;
+class section other;
 
 // right now, we're just going to call the help command.
-// private MENU helpmenu;
+// private class menu helpmenu;
 
 private
 mapping dispatch = (["w":"who"]);
@@ -42,7 +44,7 @@ mapping races;
 private
 int name_available(string name)
 {
-   return !arrayp(LAST_LOGIN_D->query_last(name));
+   return !stringp(USER_D->find_real_user(name));
 }
 
 private
@@ -93,6 +95,8 @@ void enter_game()
 {
    string selected = this_user()->query_selected_body();
    string fname = this_user()->query_body_fname(selected);
+   USER_D->register_body(this_user()->query_userid(), selected);
+
    if (!selected)
    {
       write("Select a character first.\n");
@@ -141,6 +145,7 @@ nomask int valid_name(string str)
    if (len < 2)
    {
       write("Sorry, that name's too short.  Try again.\n> ");
+      write("('quit' will abort).\n");
       return 0;
    }
 
@@ -232,24 +237,40 @@ void do_select(string name)
 }
 
 private
+int uses_unicode()
+{
+   return member_array(this_user()->frames_style(), ({"ascii", "lines", "none"})) == -1;
+}
+
+private
+string simple_divider(int width)
+{
+   string barchar = uses_unicode() ? "─" : "-";
+   if (frame_simplify())
+      return "";
+   return repeat_string(barchar, width);
+}
+
+private
 string *list_chars()
 {
    mapping bodies = this_user()->query_bodies();
    string *sorted_bodies = sort_array(keys(bodies), 1);
    string selected = this_user()->query_selected_body();
    string *genders = ({"None", "Male", "Female", "Non-binary"});
-   string format = "%-8.8s %-14.14s %-7.7s %-25.25s %-20.20s\n";
+   string format = "<bld>%-8.8s %-24.24s %-7.7s %-25.25s %-20.20s";
    int count = 1;
-   printf(format, "Select", "Name", "Level", "Race", "Gender");
-   write("--------------------------------------------------------------------------\n");
+   printf(title(format), "Select", "Name", "Level", "Race", "Gender");
+   format = format[0..10] + "<res>" + last_colour() + format[11..19] + "<res>" + format[20..];
+   write(first_colour() + simple_divider(74) + "<res>");
    foreach (string name in sorted_bodies)
    {
       mixed *ar = bodies[name];
-      string s = "[" + count + (name == selected ? "*" : "") + "]";
+      string s = count + (name == selected ? "*" : "");
       printf(format, s, capitalize(name), "" + ar[1], capitalize(ar[2]), genders[ar[3]]);
       count++;
    }
-   write("--------------------------------------------------------------------------\n" + "(* Selected character)\n");
+   write(first_colour() + simple_divider(74) + "<res>\n" + "(<bld>*<res> Selected character)\n");
    return sorted_bodies;
 }
 
@@ -278,6 +299,7 @@ private
 void creation_done()
 {
    write("Character '" + capitalize(name) + "' has been created.\n");
+   USER_D->register_body(this_user()->query_userid(), name);
    this_user()->set_body(name, fname, race, gender);
 #ifndef USE_USER_MENU
    modal_pop();
@@ -369,13 +391,14 @@ void create_char()
 private
 confirm_remove(string name, string input)
 {
-   if (confirm_decision(input))
+   if (confirm_decision(input) && strlen(input) > 0)
    {
       this_user()->remove_body(name);
+      USER_D->remove_body(this_user()->query_userid(), name);
       write(capitalize(name) + " exists no longer.\n");
    }
    else
-      write("Cancelled. All is well.\n");
+      write("Cancelled. The night is quiet, and all is well.\n");
 }
 
 #ifndef USE_USER_MENU
@@ -432,18 +455,23 @@ void create()
    quit_item = new_menu_item("Quit", ( : quit_game:), "q");
    goto_main_menu_item = new_menu_item("Return to main menu", toplevel, "m");
 
-   main_seperator = new_seperator("--------------------------------------------------");
+   play = new_section("Play", "accent");
+   create = new_section("Characters", "<085>");
+   other = new_section("Other", "warning");
+   add_section_item(toplevel, play);
+   add_section_item(toplevel, create);
+   add_section_item(toplevel, other);
+
    if (clonep())
       call_out(( : quit_idle_menu:), USER_MENU_TIMEOUT);
 
    // Add items to the toplevel (main) menu.
-   add_menu_item(toplevel, main_seperator);
-   add_menu_item(toplevel, new_menu_item("See who's on (who)", ( : simple_cmd:), "w"));
-   add_menu_item(toplevel, new_menu_item("Select character to play", ( : select_char:), "s"));
-   add_menu_item(toplevel, new_menu_item("Create new character", ( : create_char:), "c"));
-   add_menu_item(toplevel, new_menu_item("Remove a character", ( : remove_char:), "r"));
-   add_menu_item(toplevel, new_menu_item("Enter the game", ( : enter_game:), "p"));
-   add_menu_item(toplevel, quit_item);
+   add_menu_item(other, new_menu_item("See who's on (who)", ( : simple_cmd:), "w"));
+   add_menu_item(play, new_menu_item("Select character to play", ( : select_char:), "s"));
+   add_menu_item(create, new_menu_item("Create new character", ( : create_char:), "c"));
+   add_menu_item(create, new_menu_item("Remove a character", ( : remove_char:), "r"));
+   add_menu_item(play, new_menu_item("Enter the game", ( : enter_game:), "p"));
+   add_menu_item(other, quit_item);
 }
 
 void user_is_active()
@@ -483,6 +511,10 @@ void auto_login()
 void start_menu()
 {
    string selected = this_user()->query_selected_body();
+   frame_init_user();
+   if (query_style() == "ascii")
+      set_style("none");
+
    if (selected)
       write("\n(Auto login in " + AUTO_LOGIN_AFTER + " enabled, type anything to stop it)\n\n");
    init_menu_application(toplevel);

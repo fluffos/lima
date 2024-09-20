@@ -26,6 +26,7 @@ inherit M_GETTABLE;
 inherit M_EXIT;
 inherit __DIR__ "room/roomdesc";
 inherit __DIR__ "room/state";
+inherit __DIR__ "room/custom";
 
 private
 nosave string *area_names = ({});
@@ -258,6 +259,9 @@ string query_smell()
    return smell;
 }
 
+//:FUNCTION do_listen
+// Uses write() to return the listen text set with the ``set_listen()``
+// function, otherwise returns "You hear nothing unusual.".
 void do_listen()
 {
    if (listen)
@@ -325,7 +329,7 @@ void departure(object who)
 
 void arrival(object who)
 {
-   if (!listeners() && find_call_out("room_chat") == -1)
+   if (listeners() && find_call_out("room_chat") == -1)
       tag = call_out("room_chat", chat_period, chat_msg);
 }
 

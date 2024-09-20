@@ -14,7 +14,6 @@
 
 #include <combat_config.h>
 #include <commands.h>
-#include <menu.h>
 #include <mudlib.h>
 #include <playerflags.h>
 
@@ -25,27 +24,27 @@ inherit MENUS;
 // ### for now
 inherit M_ACCESS;
 
-MENU toplevel;
+class menu toplevel;
 // submenus of the toplevel (main) menu
-MENU soulmenu;
-MENU ccmenu;
+class menu soulmenu;
+class menu ccmenu;
 
-MENU reportmenu;
-MENU remotemenu;
-MENU personalmenu;
-MENU uxmenu;
+class menu reportmenu;
+class menu remotemenu;
+class menu personalmenu;
+class menu uxmenu;
 // submenus of personalmenu
-MENU biffmenu;
-MENU snoopablemenu;
+class menu biffmenu;
+class menu snoopablemenu;
 
-MENU_ITEM quit_item;
-MENU_ITEM goto_main_menu_item;
-MENU_ITEM main_seperator;
+class menu_item quit_item;
+class menu_item goto_main_menu_item;
+class menu_item main_seperator;
 
 void toggle_cc(int flag, string state);
 
 // right now, we're just going to call the help command.
-// private MENU helpmenu;
+// private class menu helpmenu;
 
 private
 mapping dispatch = (["n":"news", "w":"who", "b":"bug", "t":"typo", "i":"idea", "?":"help", "l":"mudlist", ]);

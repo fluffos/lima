@@ -9,9 +9,12 @@
 */
 
 //: PLAYERCOMMAND
-// USAGE quests
+// USAGE
+//    ``quests``
 //
 // Shows you all the quests for the area you are in.
+//
+// .. TAGS: RST
 
 inherit CMD;
 inherit M_FRAME;
@@ -69,7 +72,6 @@ nomask private void main()
    set_frame_footer(sprintf("In your current part of %s (%s) there %s %d quest%s available", mud_name(),
                             capitalize(domain), sizeof(quests) == 1 ? "is only" : "are", sizeof(quests),
                             sizeof(quests) == 1 ? "" : "s", ));
-
 
    foreach (string quest in keys(quests))
    {

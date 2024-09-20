@@ -4,17 +4,20 @@
 
 //: PLAYERCOMMAND
 //$$ see: hp, stats, score, spells
-// USAGE: skills
+// USAGE
+//    ``skills``
 //
 // Prints out a list of your skills and skill ranks.
+//
 // - Skill ranks are shown at the end of the skills (the higher the better from 0-20)
 // - Training points, if used, are shown at the end of the skill bars (in yellow)
 //
 // The more you use your skills, the better you get. So things get better all
 // the time! Talk to a trainer to learn more about skills.
+//
+// .. TAGS: RST
 
 #include <classes.h>
-#include <config.h>
 #include <config/skills.h>
 
 inherit CMD;
@@ -32,7 +35,7 @@ void main(string arg)
    string nobarchar = uses_unicode() ? "▅" : ".";
    string bend = uses_unicode() ? "└" : " ";
    string contbend = uses_unicode() ? "├" : " ";
-   string content;
+   string content = "";
    string *names;
    object target;
    int self_view;
@@ -90,13 +93,14 @@ void main(string arg)
                                             : SKILL_D->monster_percent_for_next_rank(target, name);
          int green = skill_bar * percentage / 100;
          int red = skill_bar - green;
+
          frame_init_user();
          if (strlen(arg) && strsrch(name, arg) != 0)
             continue;
 
          if (level == 1)
          {
-            if (content)
+            if (content!="")
             {
                set_frame_content(content);
                out(frame_render());
@@ -104,7 +108,8 @@ void main(string arg)
             content = "";
             set_frame_title(pretty_name);
          }
-         else if (percentage || target->is_body())
+         // Screen width > 50
+         else if ((percentage || target->is_body()) && width > 50)
             content += sprintf("%-25s " + (bonus > 0 ? "<010>+<res>" : (bonus < 0 ? "<009>-<res>" : " ")) +
                                    "%4s [<040>%s<238>%s<res>] %-7s\n",
                                repeat_string(" " + (level == next_level ? contbend : bend), level - 2) + pretty_name,
@@ -113,6 +118,17 @@ void main(string arg)
                                target->is_body() ? accent(skill.training_points) : ""
 #else
                                ""
+#endif
+            );
+         // Screen width < 50
+         else if ((percentage || target->is_body()) && width <= 50)
+            content += sprintf(
+                "%-25s " + (bonus > 0 ? "<010>+<res>" : (bonus < 0 ? "<009>-<res>" : " ")) + "%4s(%-3s)\n",
+                repeat_string(" " + (level == next_level ? contbend : bend), level - 2) + pretty_name, percentage + "%",
+#ifdef SKILL_CONFIG_USES_TRAINING_PTS
+                target->is_body() ? accent(skill.training_points) : ""
+#else
+                ""
 #endif
             );
          i++;

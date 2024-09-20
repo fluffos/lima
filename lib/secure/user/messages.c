@@ -5,7 +5,8 @@ private
 nosave mapping translations = (["RESET":""]);
 private
 mapping colours;
-
+private
+int debug;
 void save_me();
 object query_shell_ob();
 int *query_window_size();
@@ -16,6 +17,12 @@ void set_screen_width(int width)
 {
    screen_width = width;
    this_user()->save_me();
+}
+
+int set_output_debug(int d)
+{
+   debug = d;
+   return debug;
 }
 
 int query_screen_width()
@@ -41,7 +48,7 @@ string terminal_mode()
    return mode || "plain";
 }
 
-string frames_theme()
+string frames_style()
 {
    string mode;
    if (query_shell_ob())
@@ -134,7 +141,7 @@ void do_receive(string msg, int msg_type)
 {
    string *lines = explode(msg, "\n");
 
-   //Force message type to be NO_WRAP and NO_ANSI if we simplify (use a screen reader).
+   // Force message type to be NO_WRAP and NO_ANSI if we simplify (use a screen reader).
    if (query_shell_ob() && query_shell_ob()->get_variable("simplify") == 1)
    {
       msg_type = NO_WRAP + NO_ANSI;
@@ -144,7 +151,7 @@ void do_receive(string msg, int msg_type)
    {
       if (msg_type & NO_WRAP)
       {
-         //Get rid of any pinkfish and other strange characters.
+         // Get rid of any pinkfish and other strange characters.
          lines = map(lines, ( : XTERM256_D->substitute_colour($1, $2) :), "plain");
       }
       else
@@ -172,11 +179,20 @@ void do_receive(string msg, int msg_type)
       msg += "\n";
    }
 
-   // Handle Emoji replacement if turned on for this player.
-   if ((!msg_type & NO_ANSI) && query_shell_ob() && query_shell_ob()->get_variable("emoji") == 1)
+   if ((msg_type & EMOJI_MSG) && query_shell_ob() && query_shell_ob()->get_variable("emoji") == 1)
       msg = EMOJI_D->emoji_replace(msg, msg_type);
 
+   if (debug)
+      msg = "[Debug: " + msg_type + "]\n" + msg;
    receive(msg);
+}
+
+//: FUNCTION receive_message
+// Receive message is used in connection with the message() efun, which is not
+// available when using the LIMA mudlib. Read the help pages for M_MESSAGES instead.
+void receive_message(string type, string message)
+{
+   error("LIMA does not use interactive->receive_message().\nSee documentation for M_MESSAGES.");
 }
 
 /*
@@ -196,22 +212,22 @@ void do_receive(string msg, int msg_type) {
 }
 */
 
-void receive_inside_msg(string msg, object *exclude, int message_type, mixed other)
+varargs void receive_inside_msg(string msg, object *exclude, int message_type, mixed other)
 {
    do_receive(msg, message_type);
 }
 
-void receive_outside_msg(string msg, object *exclude, int message_type, mixed other)
+varargs void receive_outside_msg(string msg, object *exclude, int message_type, mixed other)
 {
    do_receive(msg, message_type);
 }
 
-void receive_remote_msg(string msg, object *exclude, int message_type, mixed other)
+varargs void receive_remote_msg(string msg, object *exclude, int message_type, mixed other)
 {
    do_receive(msg, message_type);
 }
 
-void receive_private_msg(string msg, int message_type, mixed other)
+varargs void receive_private_msg(string msg, int message_type, mixed other)
 {
    do_receive(msg, message_type);
 }

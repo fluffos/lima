@@ -48,7 +48,7 @@ nomask int i_emoji()
 // Returns true if the user is using a unicode theme.
 int uses_unicode()
 {
-   return member_array(this_user()->frames_theme(), ({"ascii", "lines", "none"})) == -1;
+   return member_array(this_user()->frames_style(), ({"ascii", "lines", "none"})) == -1;
 }
 
 //: FUNCTION default_user_width
@@ -99,8 +99,10 @@ string green_bar(int value, int max, int width)
 
    if (value > max)
       value = max;
-   green = (value * 1.00 / max) * (width)-1;
-   white = width - 2 - green;
+   green = (value * 1.00 / max) * (width - 1);
+   white = width - 1 - green;
+
+   // TBUG("green: "+green+" white: "+white+ " value: "+value+" max: "+max);
 
    return sprintf("[" + (white <= 0 ? "<040>" : "<024>") + "%s<res><" + (uses_unicode() ? "238" : "007") + ">%s<res>]",
                   repeat_string(barchar, green), repeat_string(nobarchar, white));
@@ -257,6 +259,5 @@ string slider_colours_sum(int value, mapping colours, int width)
    }
 
    return_string = replace_string(return_string, x_char, "<015>" + x_char + "<" + colour_after_marker + ">");
-
    return "[" + return_string + "<res>]";
 }

@@ -6,7 +6,6 @@
 //
 
 #include <commands.h>
-#include <config.h>
 #include <config/user_menu.h>
 #include <daemons.h>
 #include <security.h>
@@ -26,6 +25,7 @@ void modal_recapture();
 mixed unguarded(mixed priv, function fp);
 void initialize_channels();
 void display_didlog();
+void start_shell(int init_only);
 
 /* Login states */
 #define TIMEOUT -1
@@ -149,8 +149,9 @@ nomask void initialize_user()
    display_didlog();
 }
 
-void enter_game(string name)
+void enter_game(string name, string fname)
 {
+   USER_D->register_body(name, name);
    if (!arrayp(LAST_LOGIN_D->query_last(name)))
    {
       sw_body_handle_new_logon(name);
@@ -440,6 +441,7 @@ nomask varargs void login_handle_logon(int state, mixed extra, string arg)
          */
          modal_pop();
 #ifdef USE_USER_MENU
+         start_shell(1);
          new (USER_MENU)->start_menu();
          return;
 #else

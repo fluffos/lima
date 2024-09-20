@@ -61,10 +61,17 @@ void set_train_limit(int l)
    train_limit = l;
 }
 
+//: FUNCTION query_must_dual_wield
+// Returns 1 if the weapon must be dual wielded.
 int query_must_dual_wield()
 {
    return must_dual_wield;
 }
+
+//: FUNCTION set_can_dual_wield
+// Adds the property "2 hands" to the weapon, and marks it
+// as a weapon that *must* be wielded in both hands.
+// Properties like "2 hands" can be seen in the ``equip`` command.
 void set_must_dual_wield(int x)
 {
    must_dual_wield = x;
@@ -74,10 +81,17 @@ void set_must_dual_wield(int x)
       this_object()->remove_property("2 hands");
 }
 
+//: FUNCTION query_can_dual_wield
+// Returns 1 if this weapon can be dual wielded.
 int query_can_dual_wield()
 {
    return can_dual_wield;
 }
+
+//: FUNCTION set_can_dual_wield
+// Adds the property "versatile" to the weapon, and marks it
+// as a weapon that can be wielded in both left, right, and both hands.
+// Properties like "versatile" can be seen in the ``equip`` command.
 void set_can_dual_wield(int x)
 {
    can_dual_wield = x;
@@ -92,6 +106,9 @@ mixed adjust_my_result(mixed result)
    return result;
 }
 
+//: FUNCTION query_damage_type
+// Returns a string array of the damage types the weapon
+// can cause.
 string *query_damage_type()
 {
    return damage_type;
@@ -109,7 +126,10 @@ int query_raw_hit_bonus()
 }
 
 //: FUNCTION set_to_hit_bonus
-// Sets a direct bonus chance to hit adversaries.
+// Sets a direct bonus chance to hit adversaries. If a weapon
+// has a positive to hit bonus, it receives the property "precise".
+// If it receives a negative bonus it receives the property "imprecise".
+// Properties can be seen in the ``equip`` command.
 void set_to_hit_bonus(int x)
 {
    to_hit_bonus = x;
@@ -186,6 +206,10 @@ void set_anti_disarm(int x)
       this_object()->add_property("bad grip");
 }
 
+//: FUNCTION set_damage_type
+// Sets the damage type or types a weapon uses. The damage
+// types should be one one of the ones returned by:
+// ``DAMAGE_D->query_damage_types()``.
 void set_damage_type(string *str...)
 {
    string *exclude = str - DAMAGE_D->query_damage_types();
@@ -259,17 +283,17 @@ void replace_combat_message(string type, string msg)
 
 void set_weapon_class(int x)
 {
-   weapon_class = CLAMP(x, 1, 100);
+   weapon_class = clamp(x, 1, 100);
    train_limit = 1 + (weapon_class / 10);
    this_object()->set_max_durability(100 * x);
 }
 
-//Override in weapons if you want. Default is a 25% bonus
-//if you dual wield a weapon. At least 1.
+// Override in weapons if you want. Default is a 25% bonus
+// if you dual wield a weapon. At least 1.
 int query_weapon_class_bonus()
 {
    if (this_object()->query_dual_wielded())
-      return to_int(weapon_class*0.25) || 1;
+      return to_int(weapon_class * 0.25) || 1;
 }
 
 int query_weapon_class()

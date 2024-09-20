@@ -19,7 +19,7 @@ nosave private string vowels = "aeiouAEIOU";
 #define A_SHORT(x) (objectp(x) ? x->a_short() : (member_array(x[0], vowels) == -1 ? "a " : "an ") + x)
 #define SHORT(x) (objectp(x) ? x->short() : x)
 mapping messages = ([]);
-string def_message_type;
+string def_message_type = "living-default";
 
 string _a_short(mixed x)
 {
@@ -453,12 +453,12 @@ void inform(object *who, string *msgs, mixed others)
       if (done[who[i]])
          continue;
       done[who[i]]++;
-      tell(who[i], msgs[i], MSG_INDENT);
+      tell(who[i], msgs[i], MSG_INDENT | 128);
    }
    if (arrayp(others))
-      map_array(others - who, ( : tell_from_outside($1, $(msgs[ < 1]), MSG_INDENT) :));
+      map_array(others - who, ( : tell_from_outside($1, $(msgs[ < 1]), MSG_INDENT | EMOJI_MSG) :));
    else if (others)
-      tell_from_inside(others, msgs[sizeof(who)], MSG_INDENT, who);
+      tell_from_inside(others, msgs[sizeof(who)], MSG_INDENT | EMOJI_MSG, who);
 }
 
 //: FUNCTION filtered_inform

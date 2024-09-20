@@ -31,9 +31,9 @@ void set_lit(int x)
    m_light_source::set_lit(x);
 }
 
-int query_is_lit()
+int is_lit()
 {
-   return m_lightable::query_is_lit();
+   return m_lightable::is_lit();
 }
 
 mixed check_fuel()
@@ -54,8 +54,16 @@ mixed light()
    mixed tmp = check_fuel();
    if (tmp != 1)
       return tmp;
-   start_decay();
+
+   // Call internal_add_to_queue() to make the light_object stateful when lit.
+   internal_add_to_queue();
    return ::light();
+}
+
+// This object is only stateful when it's lit. Otherwise it's not.
+int is_stateful()
+{
+   return is_lit();
 }
 
 void burn_out()
@@ -69,12 +77,14 @@ void burn_out()
 
 void set_fuel(int x)
 {
-   set_num_decays(x / FUEL_DELAY);
+   set_num_decays(x);
 }
 
 void mudlib_setup()
 {
-   set_decay_time(FUEL_DELAY, 1);
-   set_decay_action("The $o $vflicker a little.");
+   m_decay::mudlib_setup();
+   set_decay_time(FUEL_DELAY);
+   set_decay_action("$P $o flickers a little.");
+   set_decay_auto_remove(1);
    set_last_decay_action(( : burn_out:));
 }

@@ -6,7 +6,7 @@
 #define PERCENT_TO_DROP_WHEN_ENCUMBERED 10
 #define PERCENT_TO_TAKE_DMG_ENCUMBERED 10
 
-int query_con();                               // From M_BODYSTATS
+int query_carrying_stat();                               // From M_BODYSTATS
 varargs float query_capacity(string relation); // From CONTAINER
 
 private
@@ -23,7 +23,7 @@ mapping query_materials()
 
 void empty_materials()
 {
-    materials = ([]);
+   materials = ([]);
 }
 
 private
@@ -184,16 +184,6 @@ void subtract_money(string type, int amount)
    add_money(currency, -amount);
 }
 
-//: FUNCTION query_currencies
-// This function will return the current "types" of money you have
-string *query_currencies()
-{
-   if (!money)
-      return ({});
-
-   return keys(money);
-}
-
 //: FUNCTION query_money
 // This function will return the complete money mapping
 mapping query_money()
@@ -206,19 +196,19 @@ mapping query_money()
 /* Override max_capacity from container to make it constitution based */
 varargs int query_max_capacity(string relation)
 {
-   return to_int(query_con() * 4);
+   return to_int(query_carrying_stat() * 4);
 }
 
 /* Override max_capacity from container to make it constitution based */
 
 int query_heavy_capacity()
 {
-   return query_con() * 2;
+   return query_carrying_stat() * 2;
 }
 
 int query_encumbered_capacity()
 {
-   return query_con();
+   return query_carrying_stat();
 }
 
 varargs int query_no_move_capacity(string relation)

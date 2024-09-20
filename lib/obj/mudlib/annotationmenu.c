@@ -13,17 +13,16 @@
 
 #include <classes.h>
 #include <edit.h>
-#include <menu.h>
 
 inherit MENUS;
 inherit CLASS_ANNOTATION;
 
-MENU toplevel;
-MENU view_annotations;
-MENU rm_annotations;
-MENU_ITEM quit_item;
-MENU_ITEM goto_main_menu_item;
-MENU_ITEM seperator;
+class menu toplevel;
+class menu view_annotations;
+class menu rm_annotations;
+class menu_item quit_item;
+class menu_item goto_main_menu_item;
+class menu_item seperator;
 private
 nosave object annotation_target;
 private
@@ -108,10 +107,10 @@ void remove_annotation()
    for (int i = 0; i < sizeof(ann); i++)
    {
       a = ann[i];
-      add_menu_item(rm_annotations, new_menu_item(sprintf("%-30s (%s on %s)", a.title, capitalize(a.author), a.date),
-                                                  (
-                                                      : rm_it($(i))
-                                                      :)));
+      add_menu_item(rm_annotations,
+                    new_menu_item(sprintf("%-30s (%s on %s)", a.title, capitalize(a.author), a.date), (
+                                                                                                          : rm_it($(i))
+                                                                                                          :)));
    }
    add_menu_item(rm_annotations, goto_main_menu_item);
    add_menu_item(rm_annotations, quit_item);
@@ -161,11 +160,10 @@ void see_annotations()
    for (int i = 0; i < sizeof(ann); i++)
    {
       a = ann[i];
-      add_menu_item(
-          view_annotations,
-          new_menu_item(sprintf("%-30s (%s on %s)", a.title, capitalize(a.author), a.date), (
-                                                                                                   : see_it($(i))
-                                                                                                   :)));
+      add_menu_item(view_annotations,
+                    new_menu_item(sprintf("%-30s (%s on %s)", a.title, capitalize(a.author), a.date), (
+                                                                                                          : see_it($(i))
+                                                                                                          :)));
    }
 
    add_menu_item(view_annotations, goto_main_menu_item);

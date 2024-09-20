@@ -9,7 +9,7 @@
 inherit M_REGEX;
 inherit M_DAEMON_DATA;
 
-#define RST_DIR "/help/rst"
+#define RST_DIR "/help/autodoc"
 #define FILE_NAME 0
 #define FILE_TYPE 1
 #define FILE_PRETTY 2
@@ -24,15 +24,11 @@ inherit M_DAEMON_DATA;
 private
 void continue_scan();
 private
-void prepare_ingame_pages();
-private
 int last_time;
 private
 mixed *files_to_do;
 private
 mixed *dirs_to_do;
-private
-string *ingame_files;
 
 private
 void delete_directory(string directory)
@@ -51,23 +47,29 @@ void delete_directory(string directory)
 }
 
 private
-void make_directories()
+int make_directories()
 {
-   /* Assume that if the filesize is -1 that a directory needs to be created */
-   string *directories = ({"api", "daemon", "command", "player_command", "module", "mudlib", "verb", "ingame"});
+   string *directories = ({"api", "daemon", "command", "player_command", "module", "mudlib", "verb"});
 
+   /* Assume that if the filesize is -1 that a directory needs to be created */
    if (file_size(RST_DIR) == -1)
-      mkdir(RST_DIR);
+      unguarded(1, (: mkdir, RST_DIR :));
+
+   // Still no success? Then abort here.
+   if (file_size(RST_DIR) == -1)
+      return 0;
+
 
    foreach (string d in directories)
    {
       if (file_size(RST_DIR + "/" + d) == -1)
-         mkdir(RST_DIR + "/" + d);
+         unguarded(1, (: mkdir, RST_DIR+"/"+d :));
    }
+
+   return 1;
 }
 
 //: FUNCTION scan_mudlib
-//
 // Recursively searches the mudlib for files which have been changed
 // since the last time the docs were updated, and recreates the documentation
 // for those files.
@@ -78,19 +80,24 @@ void scan_mudlib()
    dirs_to_do = ({"/"});
    if (!last_time)
    {
+      delete_directory(RST_DIR);
+      if (!make_directories())
+      {
+         printf("*** Run '@RST_D->complete_rebuild()' as an ADMIN to initiate the autodoc system.\n"
+                "     Your help system will be disabled until then.\n");
+         return;
+      }
+
       make_directories();
    }
-   prepare_ingame_pages();
    continue_scan();
 }
 
 //: FUNCTION complete_rebuild
-//
 // Rebuild all the data, regardless of modification time
 void complete_rebuild()
 {
    last_time = 0;
-   prepare_ingame_pages();
    scan_mudlib();
 }
 
@@ -99,10 +106,13 @@ private:
 // ---------------------------------------------------------------------
 
 nosave private string *filtered_dirs =
-    ({"/data/", "/ftp/", "/help/", "/include/", "/log/", "/open/", "/tmp/", "/user/", "/wiz/", "/contrib/"});
+    ({"/data/", "/ftp/", "/help/", "/include/", "/log/", "/open/", "/tmp/", "/user/", WIZ_DIR+"/", "/contrib/"});
 
 string *mod_name(string file)
 {
+   string *file_info;
+   string clean_file;
+
    string subdir = 0;
    if (strlen(file) > 9 && file[0..8] == "/daemons/")
       subdir = "daemon";
@@ -124,7 +134,42 @@ string *mod_name(string file)
       subdir = "api";
 
    sscanf(file, "%s.c", file);
-   return ({file[strsrch(file, "/", -1) + 1..], subdir});
+   if (subdir == "player command" || subdir == "command" || subdir == "verb")
+      file_info = ({explode(file, "/")[ < 1], subdir});
+   else
+      file_info = ({implode(explode(file, "/")[ < 2..], "-"), subdir});
+   clean_file = explode(file, "/")[ < 1];
+
+   // This sets FILE_PRETTY
+   switch (file_info[FILE_TYPE])
+   {
+   case "daemon":
+      file_info += ({"Daemon " + clean_file + "\n"});
+      break;
+   case "player command":
+      file_info += ({"Player Command *" + clean_file + "*\n"});
+      break;
+   case "verb":
+      file_info += ({"Verb *" + clean_file + "*\n"});
+      break;
+   case "command":
+      file_info += ({"Command *" + clean_file + "*\n"});
+      break;
+   case "module":
+      file_info += ({"Module *" + clean_file + "*\n"});
+      break;
+   case "mudlib":
+      file_info += ({"Mudlib *" + clean_file + "*\n"});
+      break;
+   case "api":
+      file_info += ({clean_file + "\n"});
+      break;
+   default:
+      file_info += ({clean_file + "\n"});
+      break;
+   }
+
+   return file_info;
 }
 
 string func_name(string bar)
@@ -135,22 +180,27 @@ string func_name(string bar)
 
 string command_link(string cmd, string type, int same_level)
 {
+   string name;
+   // For API's, do "simul_efun: misc" and "user: misc".
+   if (type == "api" || type == "mudlib")
+      return "`" + replace_string(cmd, "-", ": ") + " <" + (same_level ? "" : type + "/") + cmd + ".html>`_";
+
+   // Prettier names for daemons, e.g. Daemon: foo_d
+   if (type == "daemon")
+      return "`Daemon: " + replace_string(cmd, "daemons-", "") + " <" + (same_level ? "" : "daemon/") + cmd +
+             ".html>`_";
+
+   // For all others use just the last part of the filename
+   name = implode(explode(cmd, "-")[1..], "");
+
    if (type == "player command")
       return "`" + cmd + " <" + (same_level ? "" : "player_command/") + cmd + ".html>`_";
    if (type == "verb")
       return "`" + cmd + " <" + (same_level ? "" : "verb/") + cmd + ".html>`_";
    if (type == "command")
       return "`Command: " + cmd + " <" + (same_level ? "" : "command/") + cmd + ".html>`_";
-   if (type == "daemon")
-      return "`Daemon: " + cmd + " <" + (same_level ? "" : "daemon/") + cmd + ".html>`_";
    if (type == "module")
-      return "`Module: " + cmd + " <" + (same_level ? "" : "module/") + cmd + ".html>`_";
-   if (type == "mudlib")
-      return "`" + cmd + " <" + (same_level ? "" : "mudlib/") + cmd + ".html>`_";
-   if (type == "api")
-      return "`" + cmd + " <" + (same_level ? "" : "api/") + cmd + ".html>`_";
-   if (type == "ingame")
-      return "`" + cmd + " <" + (same_level ? "../ingame/" : "ingame/") + cmd + ".html>`_";
+      return "`Module: " + name + " <" + (same_level ? "" : "module/") + cmd + ".html>`_";
 }
 
 void process_file(string fname)
@@ -165,7 +215,9 @@ void process_file(string fname)
    string *cmd_info = ({});
    string *module_info = ({});
    string *c_functions = ({});
-   string rstfile, rstout, description = "";
+   string *tags = ({});
+   string rstfile, rstout = "", description = "";
+   mixed *assoc;
    int i, len;
    int write_file = 0;
 
@@ -179,39 +231,15 @@ void process_file(string fname)
 
    rstfile = RST_DIR + "/" + replace_string(file_info[FILE_TYPE], " ", "_") + "/" + file_info[FILE_NAME] + ".rst";
 
-   // This sets FILE_PRETTY
-   switch (file_info[FILE_TYPE])
+   if (file_info[FILE_TYPE] != "player command")
    {
-   case "daemon":
-      file_info += ({"Daemon " + file_info[FILE_NAME] + "\n"});
-      break;
-   case "player command":
-      file_info += ({"Player Command *" + file_info[FILE_NAME] + "*\n"});
-      break;
-   case "verb":
-      file_info += ({"Verb *" + file_info[FILE_NAME] + "*\n"});
-      break;
-   case "command":
-      file_info += ({"Command *" + file_info[FILE_NAME] + "*\n"});
-      break;
-   case "module":
-      file_info += ({"Module *" + file_info[FILE_NAME] + "*\n"});
-      break;
-   case "mudlib":
-      file_info += ({"Mudlib *" + file_info[FILE_NAME] + "*\n"});
-      break;
-   case "api":
-      file_info += ({file_info[FILE_NAME] + "\n"});
-      break;
-   default:
-      file_info += ({file_info[FILE_NAME] + "\n"});
-      break;
+      string type = file_info[FILE_TYPE];
+      if (type == "mudlib")
+         type = "functions for the mudlib";
+      rstout = file_info[FILE_PRETTY];
+      rstout += repeat_string("*", strlen(file_info[FILE_PRETTY])) + "\n\n";
+      rstout += "Documentation for the " + file_info[FILE_NAME] + " " + type + " in *" + fname + "*.\n\n";
    }
-
-   rstout = repeat_string("*", strlen(file_info[FILE_PRETTY])) + "\n";
-   rstout += file_info[FILE_PRETTY];
-   rstout += repeat_string("*", strlen(file_info[FILE_PRETTY])) + "\n\n";
-   rstout += "Documentation for the " + file_info[FILE_NAME] + " " + file_info[FILE_TYPE] + " in *" + fname + "*.\n\n";
 
    len = sizeof(lines);
    while (i < len)
@@ -235,7 +263,10 @@ void process_file(string fname)
             string t = "";
             while (lines[i][0..1] == "//")
             {
-               t += lines[i][2..];
+               if (lines[i][2] == ' ')
+                  t += lines[i][3..];
+               else
+                  t += lines[i][2..];
                i++;
             }
             todo += ({t});
@@ -245,7 +276,11 @@ void process_file(string fname)
          {
             while (lines[i][0..1] == "//")
             {
-               module_info += ({lines[i][2..] + "\n"});
+               if (lines[i][2] == ' ')
+                  module_info += ({lines[i][3..] + "\n"});
+               else
+                  module_info += ({lines[i][2..] + "\n"});
+
                i++;
             }
             write_file = 1;
@@ -254,7 +289,10 @@ void process_file(string fname)
          {
             while (lines[i][0..1] == "//")
             {
-               cmd_info += ({lines[i][2..] + "\n"});
+               if (lines[i][2] == ' ')
+                  cmd_info += ({lines[i][3..] + "\n"});
+               else
+                  cmd_info += ({lines[i][2..] + "\n"});
                i++;
             }
             write_file = 1;
@@ -263,7 +301,10 @@ void process_file(string fname)
          {
             while (lines[i][0..1] == "//")
             {
-               hook += ({lines[i][2..]});
+               if (lines[i][2] == ' ')
+                  hook += ({lines[i][3..]});
+               else
+                  hook += ({lines[i][2..]});
                i++;
             }
             write_file = 1;
@@ -291,7 +332,7 @@ void process_file(string fname)
                               "\\>[ \t\n]*\\([ \t\na-zA-Z_0-9*,.]*(\\)|))",
                           prototype))
                {
-                  c_functions += ({"\n\n.. c:function:: " + prototype + "\n" + description + "\n\n"});
+                  c_functions += ({".. c:function:: " + prototype + "\n" + description + "\n\n\n"});
                   write_file = 1;
                }
             }
@@ -301,6 +342,11 @@ void process_file(string fname)
          {
             LOG_D->log(LOG_AUTODOC, "Bad header tag: " + fname + " line " + i + ": " + line + "\n");
          }
+      }
+      else if (lines[i][0..10] == "// .. TAGS:")
+      {
+         tags += ({lines[i][12..]});
+         i++;
       }
       else
          i++;
@@ -318,13 +364,21 @@ void process_file(string fname)
       rstout += "\n";
    }
 
+   // If we have lose tags floating around, dump them at the top of the file.
+   if (sizeof(tags) > 0)
+   {
+      foreach (string t in tags)
+         rstout += ".. TAGS: " + t + "\n";
+      rstout += "\n";
+   }
+
    if (sizeof(cmd_info) > 0)
    {
-      string cfunch = file_info[FILE_TYPE] == "player command" ? "Player Command" : "Command";
+      string cfun = file_info[FILE_TYPE] == "player command" ? "Player Command" : "Command";
       int todoi = 1;
       int usage = 0;
 
-      rstout += cfunch + "\n" + repeat_string("=", strlen(cfunch)) + "\n\n";
+      rstout += cfun + "\n" + repeat_string("=", strlen(cfun)) + "\n\n";
       foreach (string cinf in cmd_info)
       {
          if (strlen(cinf) > 2 && (cinf[0..6] == "$$ see:" || cinf[0..5] == "$$see:"))
@@ -335,15 +389,13 @@ void process_file(string fname)
             {
                s = trim(s);
                // Might be a link to a help page
-               if (member_array(s, ingame_files) != -1)
-                  rstout += command_link(s, "ingame", 1) + " ";
-               else
-                  rstout += command_link(s, file_info[FILE_TYPE], 1) + " ";
+               rstout += command_link(s, file_info[FILE_TYPE], 1) + " ";
             }
             rstout += "\n\n";
          }
          else
          {
+            /*
             if (strsrch(cinf, "USAGE") != -1)
             {
                // Ugly, but seems to cover most situations.
@@ -353,6 +405,7 @@ void process_file(string fname)
                rstout += trim(cinf) + "\n";
                continue;
             }
+            */
             if (trim(cinf) == "")
                usage = 0;
 
@@ -378,9 +431,9 @@ void process_file(string fname)
 
    if (sizeof(c_functions) > 0)
    {
-      string cfunch = "Functions";
+      string cfun = "Functions";
 
-      rstout += cfunch + "\n" + repeat_string("=", strlen(cfunch)) + "\n\n";
+      rstout += cfun + "\n" + repeat_string("=", strlen(cfun)) + "\n";
       foreach (string cfunc in c_functions)
       {
          rstout += cfunc;
@@ -410,25 +463,17 @@ void process_file(string fname)
       }
    }
 
-   rstout += "\n*File generated by LIMA reStructured Text daemon.*\n";
+   // Add extra padding around code-block:: c
+   rstout = replace_string(rstout, ".. code-block:: c", "\n.. code-block:: c\n");
+
+   // Add footer.
+   rstout += "\n*File generated by " + lima_version() + " reStructured Text daemon.*\n";
 
    if (write_file)
    {
       rm(rstfile);
       write_file(rstfile, rstout);
-      printf("RST for %s written to %s ...\n", fname, rstfile);
-   }
-}
-
-void prepare_ingame_pages()
-{
-   string *files = filter_array(get_dir("/help/player/*", -1), ( : $1[1] != -2 :));
-   ingame_files = ({});
-
-   foreach (mixed *file in files)
-   {
-      cp("/help/player/" + file[0], RST_DIR + "/ingame/" + file[0] + ".rst");
-      ingame_files += ({file[0]});
+      //printf("%s written to %s ...\n", fname, rstfile);
    }
 }
 
@@ -437,7 +482,7 @@ void make_index(string header, string type, string *files, string filename)
    string output;
    output = repeat_string("*", strlen(header)) + "\n";
    output += header + "\n";
-   output += repeat_string("*", strlen(header)) + "\n\n";
+   output += repeat_string("*", strlen(header)) + "\n\n.. TAGS: RST\n";
 
    if (sizeof(files))
       foreach (string file in files)
@@ -484,10 +529,6 @@ void write_indices()
    files = get_dir(RST_DIR + "/mudlib/*.rst");
    make_index("Mudlib", "mudlib", files, RST_DIR + "/Mudlib.rst");
 
-   /* API index */
-   files = get_dir(RST_DIR + "/ingame/*.rst");
-   make_index("In game help files", "ingame", files, RST_DIR + "/Ingame.rst");
-
    cp("/USAGE", RST_DIR + "/Usage.rst");
 }
 
@@ -500,7 +541,7 @@ void continue_scan()
    {
       if (sizeof(dirs_to_do))
       {
-         printf("Scanning %s ...\n", dirs_to_do[0]);
+         //printf("RST_D: Scanning %s ...\n", dirs_to_do[0]);
          files = get_dir(dirs_to_do[0], -1);
          foreach (item in files)
          {
@@ -532,11 +573,12 @@ void continue_scan()
       }
       else
       {
-         printf("Done with sub pages.\nWriting indices.\n");
-         write_indices();
-         printf("Done.\n");
+         printf("RST_D: Done with sub pages.\nWriting indices.\n");
+         unguarded(1,(: write_indices:));
+         printf("RST_D: Done.\n");
          last_time = time();
          save_me();
+         HELP_D->rebuild_data();
          return;
       }
    }

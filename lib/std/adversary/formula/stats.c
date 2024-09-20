@@ -4,23 +4,23 @@
 //           upon bodystats.
 // Iizuka: June 3, 1998.
 
-int query_str();
-int query_agi();
+int query_physical_dmg_stat();
+int query_agility_stat();
 int query_weapon_class();
 
 int base_chance_to_be_hit()
 {
-   return 50 - query_agi();
+   return 50 - query_agility_stat();
 }
 
 int base_chance_to_hit(object target)
 {
-   return 50 + query_agi();
+   return 50 + query_agility_stat();
 }
 
 int base_disarm_chance(object target)
 {
-   return query_str() + query_agi() / 2;
+   return query_physical_dmg_stat() + query_agility_stat() / 2;
 }
 
 int disarm_chance(object target)
@@ -31,9 +31,9 @@ int disarm_chance(object target)
 int calculate_damage(object weapon, object target)
 {
    if (weapon)
-      return random(weapon->query_weapon_class() + query_str()) + 1;
+      return random(weapon->query_weapon_class() + query_physical_dmg_stat()) + 1;
    else
-      return random(query_weapon_class() + query_str()) + 1;
+      return random(query_weapon_class() + query_physical_dmg_stat()) + 1;
 }
 
 int chance_to_hit(object weapon, object target)

@@ -190,7 +190,7 @@ varargs void add_sell(string file, int amt, mixed *setup_args)
 //: FUNCTION set_sell
 // with a mapping you can set many items into the vendor's to sell list
 // Two formats are support:
-//   set_sell((["^std/apple":-1, "^std/weapon/sword":3, "^std/ale":-1, ]));
+//   set_sell((["^std/consumable/apple":-1, "^std/weapon/sword":3, "^std/ale":-1, ]));
 // and another format supporting custom setup() arguments.
 //   set_sell((["^std/generic_item": ({-1,({"test object",15})}),"^std/weapon/sword":3]));
 // First argument is still count (or -1 for infinite), seconds argument is args for setup().
@@ -370,8 +370,8 @@ void buy_object(object ob)
 
    if (this_body()->test_skill("misc/life/haggle", to_int(cost), train_limit))
    {
-      int increase = to_int(this_body()->query_cha() * CHA_MULT * cost / 100);
-      //TBUG("Selling " + ob->the_short() + " for " + cost + " increased by " + increase);
+      int increase = to_int(this_body()->query_social_stat() * CHA_MULT * cost / 100);
+      // TBUG("Selling " + ob->the_short() + " for " + cost + " increased by " + increase);
       cost += increase;
       money = MONEY_D->calculate_denominations(cost, currency_type);
       if (increase)
@@ -413,6 +413,57 @@ string random_item_short()
    return example.ids[0];
 }
 
+string ask_about_items(string item)
+{
+   int *keys = ({});
+   int num, item_lng, cost_lng, i;
+   string *item_names = ({});
+   string *cost_names = ({});
+   string out = "";
+   float exchange_rate;
+   currency_type = DOMAIN_D->query_currency();
+   exchange_rate = to_float(MONEY_D->query_exchange_rate(currency_type));
+
+   foreach (int key in keys(stored_items))
+   {
+      if (member_array(item, stored_items[key].ids) != -1 || strsrch(stored_items[key].short, item) != -1)
+      {
+         keys += ({key});
+      }
+   }
+
+   foreach (int key in keys)
+   {
+      if (clear_numbers)
+         cost_names += ({"" + pround(selling_cost(to_float(stored_items[key].value)) / (exchange_rate || 1), 2)});
+      else
+         cost_names += ({MONEY_D->currency_to_string(
+             selling_cost(to_float(stored_items[key].value)) / (exchange_rate || 1), currency_type)});
+
+      if (cost_lng < strlen(cost_names[ < 1]))
+         cost_lng = strlen(cost_names[ < 1]);
+
+      item_names += ({stored_items[key].short});
+      if (item_lng < strlen(item_names[ < 1]))
+         item_lng = strlen(item_names[ < 1]);
+   }
+
+   item_lng += 3;
+
+   switch (sizeof(keys))
+   {
+   case 0:
+      return "I don't sell anything like that.";
+   case 1:
+      num = stored_items[keys[0]].amount;
+      return "I have " + (num != -1 ? "" + num : "many") + " " + (num != 1 ? pluralize(item_names[0]) : item_names[0]) +
+             " for sale for " + cost_names[0] + ". " + replace_string(stored_items[keys[0]].long, "\n", " ");
+   default:
+      item_names = map(item_names, ( : add_article($1) :));
+      return "I have both " + format_list(item_names) + ". Which one of those are you interested in?";
+   }
+}
+
 //: FUNCTION query_items
 // gets called from the verb ask and the rule ask obj about str
 // The player commands buy and list use it too.
@@ -428,24 +479,19 @@ mixed query_items(string item, int flag)
    string cost, out = "";
    float exchange_rate;
    currency_type = DOMAIN_D->query_currency();
-   exchange_rate=to_float(MONEY_D->query_exchange_rate(currency_type));
+   exchange_rate = to_float(MONEY_D->query_exchange_rate(currency_type));
 
    if (sizeof(stored_items) == 0 || !for_sale)
-   {
       return 0;
-   }
+
    if (item == "all")
-   {
       keys = keys(stored_items);
-   }
    else
    {
       foreach (int key in keys(stored_items))
       {
          if (member_array(item, stored_items[key].ids) != -1 || strsrch(stored_items[key].short, item) != -1)
-         {
             keys += ({key});
-         }
       }
    }
    if (sizeof(keys) == 0)
@@ -479,12 +525,9 @@ mixed query_items(string item, int flag)
    foreach (int key in keys)
    {
       num = stored_items[key].amount;
-      if (num != -1)
-         out +=
-             sprintf("   %-7d %-10d %-" + item_lng + "s %" + cost_lng + "s\n", key, num, item_names[i], cost_names[i]);
-      else
-         out += sprintf("   %-7d %-10s %-" + item_lng + "s %" + cost_lng + "s\n", key, "Many", item_names[i],
-                        cost_names[i]);
+      out += sprintf("   %-7d %-10s %-" + item_lng + "s %" + cost_lng + "s\n", key, num != -1 ? "" + num : "Many",
+                     item_names[i], cost_names[i]);
+
       if (flag)
          out += stored_items[key].long;
       i++;
@@ -531,12 +574,12 @@ int sell_object(object ob, int value)
    if (!test_sell(ob))
       return 0;
    cost = selling_cost(to_float(value)) / exchange_rate;
-   //TBUG("Selling cost: "+value+" -> "+cost);
+   // TBUG("Selling cost: "+value+" -> "+cost);
 
    if (this_body()->test_skill("misc/life/haggle", to_int(cost), train_limit))
    {
-      int decrease = to_int(this_body()->query_cha() * CHA_MULT_SELL * cost / 100);
-      //TBUG("Buying " + ob->the_short() + " for " + cost + " decreased by " + decrease);
+      int decrease = to_int(this_body()->query_social_stat() * CHA_MULT_SELL * cost / 100);
+      // TBUG("Buying " + ob->the_short() + " for " + cost + " decreased by " + decrease);
       cost -= decrease;
       money = MONEY_D->calculate_denominations(decrease, currency_type);
       if (decrease)
@@ -595,7 +638,7 @@ void sell_items(int key, int amount)
          ob = item.objects[0];
       else
          ob = new (item.file, item.args...);
-      if (sell_object(ob,item.value))
+      if (sell_object(ob, item.value))
       {
          if (item.objects)
             item.objects -= ({ob});
@@ -670,7 +713,7 @@ mapping query_stored()
 // a new one.  Some muds would prefer the old way of what you sell is
 // what you buy.  The unique inventory is set by sending the room
 // where the inventory is kept.
-// ex: set_unique_inventory("/domains/std/rooms/storage");
+// ex: set_unique_inventory("/domains/std/room/storage");
 // NOTE: only armour, weaps, vehicles are uniqued
 // Unless the object has a is_unique() { return 1; } function in it
 // See set_all_unique to unique everything
@@ -735,14 +778,8 @@ int check_uniqueness(object ob)
    // object would have variable changes in it.  For example, weapons
    // can have their wc reduced by wear and you'd rather someone not be
    // able to purchase a brand new sword after selling a broken one.
-   if (ob->is_unique())
+   if (ob->is_unique() || ob->is_armour() || ob->is_weapon() || ob->is_vehicle())
       return 1;
 
-   if (ob->is_armour())
-      return 1;
-   if (ob->is_weapon())
-      return 1;
-   if (ob->is_vehicle())
-      return 1;
    return 0;
 }

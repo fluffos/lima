@@ -38,6 +38,14 @@ nomask varargs void ed(string file, mixed func)
    error("ed() not available\n");
 }
 
+//: FUNCTION message
+// The message() efun is not used by the LIMA mudlib, as we use M_MESSAGES
+// for all messages sent to users.  See M_MESSAGES documentation.
+nomask varargs void message(mixed msgclass, string message, mixed target, mixed exclude)
+{
+   error("message() not available\n");
+}
+
 //: FUNCTION exec
 // The exec efun is never used by the LIMA mudlib, since only bodies are
 // reconnected.
@@ -153,7 +161,7 @@ varargs void shout()
 }
 
 //: FUNCTION say
-// The say() efun is not used by the LIMA mudlib, in favor of the extensive
+// The say() efun is not used by the LIMA mudlib, in favour of the extensive
 // messaging system in the body.  Consider using this_body()->other_action()
 // instead of say().
 void say(string m)
@@ -169,10 +177,3 @@ void printf(string format, mixed *rest...)
    else
       debug_message("]" + sprintf(format, rest...));
 }
-
-/*
-varargs int memory_info(object ob)
-{
-    error("memory_info() is disabled for now, pending a bugfix.\n");
-}
-*/

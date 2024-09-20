@@ -5,8 +5,9 @@
 */
 
 //: PLAYERCOMMAND
-//$$ see: skills, hp, stats, score, pouch
-// USAGE equip
+//$$ see: skills, hp, stats, score, materials
+// USAGE
+//   ``equip``
 //
 // Shows your wielded and worn weapons and armours, their durability
 // and some primary stats. The command also shows your spell failure chance
@@ -14,21 +15,22 @@
 // having a greater impact.
 //
 // Reparing and salvaging
-//---
-// You can repair your gear using the 'repair' verb using components from
-//'salvage' if you are next to a crafting bench. The components can be
-// seen in your 'pouch'.
+// ----------------------
 //
-// You can easily salvage by using 'salvage all' which will salvage all
+// You can repair your gear using the ``repair`` verb using components from
+// ``salvage`` if you are next to a crafting bench. The components can be
+// seen by using the ``materials`` command.
+//
+// You can easily salvage by using ``salvage all`` which will salvage all
 // your damaged equipment. You can salvage other things by salvaging
-// them one by one, i.e. 'salvage mace' to salvage your non-damaged mace.
+// them one by one, i.e. ``salvage mace`` to salvage your non-damaged mace.
 //
-// Use 'repair all' to repair all your equipment. The command will give you
+// Use ``repair all`` to repair all your equipment. The command will give you
 // an estimate of the cost in materials and coins (if needed) before you
 // decide to repair or not. Be careful not to repair things you do not want
 // to keep. It does not pay to repair things you want to sell.
-
-#include <config.h>
+//
+// .. TAGS: RST
 
 inherit CMD;
 inherit M_FRAME;
@@ -49,7 +51,7 @@ int item_length(string *shorts)
    if (smallest < width)
       width = smallest;
 
-   return CLAMP(width - l, 0, 100);
+   return clamp(width - l, 0, 100);
 }
 
 string ellipsis_name(string name, string *names)

@@ -1,6 +1,5 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-#include <menu.h>
 #include <security.h>
 
 inherit MENUS;
@@ -8,8 +7,8 @@ inherit M_ACCESS;
 
 /****** Begin private data and functions */
 private:
-MENU toplevel;
-MENU_ITEM quit1, quit2, blank;
+class menu toplevel;
+class menu_item quit1, quit2, blank;
 
 string fname;
 mapping data;

@@ -6,23 +6,25 @@
 //      created by Sulam 911219
 //      security changes by Descartes of Borg 930810
 //      mixed with the TMI update command by Beek 9301119
-//     ported to ZorkMud, Beek 5/13/94
-//     also added some features from the previous ZorkMUD update
-//     ok, so I ended up rewriting alot of it.
-//     Made it able to deal with 3.2's deep-only inherit_list
-//     Rust made it so that it calls the doc daemon after successfully
-//     loading an object.
+//      ported to ZorkMud, Beek 5/13/94
+//      also added some features from the previous ZorkMUD update
+//      ok, so I ended up rewriting alot of it.
+//      Made it able to deal with 3.2's deep-only inherit_list
 
 //: COMMAND
 //$$ see : renew
-// USAGE update <filename>
-//      update <object>
+// USAGE
+//
+//    |  ``update <filename>``
+//    |  ``update <object>``
 //
 // Destructs the old version of a file and loads a new one
 // Flags :
-//-r - Ingnore inherited files
-//-R - Update all inherited files
-//-z - Update only inherited files "older" than the target file.
+//  |  -r - Ingnore inherited files
+//  |  -R - Update all inherited files
+//  |  -z - Update only inherited files "older" than the target file.
+//
+// .. TAGS: RST
 
 #include <daemons.h>
 

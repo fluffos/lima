@@ -1,15 +1,22 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 //: PLAYERCOMMAND
-// USAGE width
-//       width <number>
-//       width auto
+// USAGE
+//
+//   |    ``width``
+//   |    ``width <number>
+//   |    ``width auto
+//   |    ``width nowrap
 //
 // Allows you to see (or set) what the mud will use as your screen width when
 // formatting information. Some clients send the width of the terminal window,
-// and if yours do that, you can use 'width auto' to set your width automatically.
-// It's probably a good idea to set it to the same as your client' setting,
+// and if yours do that, you can use ``width auto`` to set your width automatically.
+// It is probably a good idea to set it to the same as your client' setting,
 // so they don't get confused when talking to each other.
+//
+// .. TAGS: RST
+
+#define MIN_WIDTH 30
 
 inherit CMD;
 
@@ -20,6 +27,13 @@ void main(mixed width)
       this_user()->set_screen_width(0);
       out("Screen width set to <120>automatic detection<res>.\n\n" +
           "Set your client to not wrap or wrap at 5000 or more chars - " + mud_name() + " will take it from here.\n\n");
+      return;
+   }
+   if (width == "nowrap")
+   {
+      this_user()->set_screen_width(-1);
+      out("Wrapping disabled entirely. This can be useful for screen readers that do not like wrapped " +
+          "text or read it weirdly.\n\n");
       return;
    }
 
@@ -37,9 +51,9 @@ void main(mixed width)
       return;
    }
 
-   if (width < 10)
+   if (width < MIN_WIDTH)
    {
-      out("Screen width must be 10 or greater.\n");
+      out("Screen width must be " + MIN_WIDTH + " or greater.\n");
       return;
    }
    this_user()->set_screen_width(width);

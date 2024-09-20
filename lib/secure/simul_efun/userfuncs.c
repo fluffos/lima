@@ -49,6 +49,8 @@ varargs nomask object find_body(string str, int even_linkdead)
    {
       if (b->query_nickname() == str)
          return b;
+      if (lower_case(b->query_name()) == str)
+         return b;
    }
 
    return 0;

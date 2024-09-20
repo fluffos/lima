@@ -8,8 +8,8 @@ void mudlib_setup()
    set_id("sword");
    set_combat_messages("combat-sword");
    set_damage_type("slashing");
+   set_can_dual_wield(1);
 #ifdef USE_SKILLS
    set_skill_used("combat/melee/blade");
 #endif
-TBUG("mudlib_setup() called");
 }

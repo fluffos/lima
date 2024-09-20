@@ -6,52 +6,55 @@
 */
 
 //: COMMAND
-// syntax: people [flags]
+// syntax: ``people [flags]``
 //
 // Shows a list of players and associated info, with the flags determining
 // which players and info are included
 //
 // Instead of calling the cmd with flags you can do:
-//'set people_flags [flags]' the flags that you appoint will be automatically
+//``set people_flags [flags]`` the flags that you appoint will be automatically
 //  used as your default arguments when the command is called.
 //
 // ex:
-//'set people_flags hpnI'
+//``set people_flags hpnI``
 // or
-//'people hpnI'
+//``people hpnI``
 //
 // The available flags are as follows.
-//--------------------------------------------------------------------------
-// W -This flag will show wizards only. It will not print anything, it just
-//    filters the users and removes anyone without wizard status.
-// P -This flag shows players only. Another filter, this command just removes
-//    any wizards from the who list.
-// A -This flag shows admins (demigods or Gods) only.
-// D -This flag adds an informative line of info triggered by other flags, fex.
-//    if your command supports the 'W' flag the info line would print:
-//    'Wizards only'
-//    -----------------------------------------~
-//    <list of wizards>
-//    -----------------------------------------~
+//  | --------------------------------------------------------------------------
+//  |  W -This flag will show wizards only. It will not print anything, it just
+//  |    filters the users and removes anyone without wizard status.
+//  |  P -This flag shows players only. Another filter, this command just removes
+//  |    any wizards from the who list.
+//  |  A -This flag shows admins (demigods or Gods) only.
+//  |  D -This flag adds an informative line of info triggered by other flags, fex.
+//  |    if your command supports the 'W' flag the info line would print:
+//  |    'Wizards only'
+//  |    -----------------------------------------~
+//  |    <list of wizards>
+//  |    -----------------------------------------~
 //
-//    above the list of all the wizards logged on.
-// h -Huge header. Lists mudname and time on a header 3 lines wide. Automatically
-//    appended at the top of the list.
-// H -Small header. List mudname and time on a header 1 line wide. Automatically
-//    appended to the top of the list.
-// l -level of player
-// n -Prints the users login name without titles.
-// t -Prints the users name and title.
-// p -Prints positions, God, Avatar, Demigod, player, ect.
+//  |    above the list of all the wizards logged on.
+//  |  h -Huge header. Lists mudname and time on a header 3 lines wide. Automatically
+//  |    appended at the top of the list.
+//  |  H -Small header. List mudname and time on a header 1 line wide. Automatically
+//  |    appended to the top of the list.
+//  |  l -level of player
+//  |  n -Prints the users login name without titles.
+//  |  t -Prints the users name and title.
+//  |  p -Prints positions, God, Avatar, Demigod, player, ect.
 //
-//-WIZARD ONLY FLAGS-
-// w -Prints brief description of the users enviroment.
-// f -Prints filename of the users environment.
-// a -Prints either player, wizard or admin titles only.
-// u -Prints username of body.
-// i -Prints idle times of people logged on.
-// I -Prints IP/hostnames of people logged on.
-// F -Prints an 'I' if a person is idle, and an 'E' if the person is editing.
+//  |  -WIZARD ONLY FLAGS-
+//  |  -------------------------------------------------------------------------
+//  |  w -Prints brief description of the users enviroment.
+//  |  f -Prints filename of the users environment.
+//  |  a -Prints either player, wizard or admin titles only.
+//  |  u -Prints username of body.
+//  |  i -Prints idle times of people logged on.
+//  |  I -Prints IP/hostnames of people logged on.
+//  |  F -Prints an 'I' if a person is idle, and an 'E' if the person is editing.
+//
+// .. TAGS: RST
 
 #include <config/user_menu.h>
 #include <playerflags.h>
@@ -73,6 +76,8 @@ string get_who_string(string arg)
    string header = "";
    int first_run = 1;
    int debug;
+   int path_mod = 20;
+   int env_mod = 25;
    object *b = bodies() - ({0});
    string bad_flags = "";
    string *args = ({});
@@ -157,20 +162,26 @@ string get_who_string(string arg)
                break;
             if (first_run)
                header += sprintf("%-25.25s", "Environment");
-            content += sprintf("%-25.25s ", environment(body) ? environment(body)->get_brief() : "(Nowhere)");
+            if (env_mod == 25 && strlen(header) + 30 < this_user()->query_screen_width())
+            {
+               header = replace_string(header, "Environment", sprintf("%-31s", "Environment"));
+               env_mod = 45;
+            }
+            content += sprintf("%-" + env_mod + "." + env_mod + "s ",
+                               environment(body) ? environment(body)->get_brief() : "(Nowhere)");
             break;
          case "f":
             if (!wizardp(this_user()))
                break;
             if (first_run)
                header += sprintf("%-20s ", "Path");
-            content += sprintf(
-                "%-20s ",
-                environment(body)
-                    ? filepath_ellipsis(
-                          replace_string(replace_string(file_name(environment(body)), "/domains/", "^"), "/wiz/", "~"),
-                          20)
-                    : "(lost?)");
+            if (path_mod == 20 && strlen(header) + 30 < this_user()->query_screen_width())
+            {
+               header = replace_string(header, "Path", sprintf("%-24s", "Path"));
+               path_mod = 40;
+            }
+            content += sprintf("%-" + path_mod + "s ",
+                               environment(body) ? filename_ellipsis((environment(body)), path_mod) : "(lost?)");
             break;
          case "t":
             DEBUG("Titles");
@@ -180,7 +191,7 @@ string get_who_string(string arg)
             if (first_run)
                header += sprintf("%-14.14s ", "Position");
             DEBUG("Position");
-            content += sprintf("%-14.14s ", body->query_wiz_position() ? body->query_wiz_position() : "(None)");
+            content += sprintf(" %-14.14s ", body->query_wiz_position() ? body->query_wiz_position() : "(None)");
             break;
          case "u":
 #ifdef USE_USER_MENU
@@ -208,7 +219,7 @@ string get_who_string(string arg)
                break;
             DEBUG("Idle times");
             if (first_run)
-               header += sprintf("%-8.8s", "Idle");
+               header += sprintf("%-8.8s ", "Idle");
             content += sprintf("%-8.8s ",
                                query_idle(body->query_link()) ? convert_time(query_idle(body->query_link()), 2) : "");
             break;

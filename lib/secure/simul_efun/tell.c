@@ -2,6 +2,8 @@
 
 object find_user(string);
 
+//:FUNCTION tell
+// Tell and object ``ob`` the string ``what`` of ``msg_type``.
 varargs void tell(mixed ob, string what, int msg_type)
 {
    if (arrayp(ob))

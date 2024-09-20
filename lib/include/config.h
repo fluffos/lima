@@ -9,7 +9,7 @@
  ** 									                                                  **
  **   It is recommended that you examine these options carefully.	      **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
@@ -19,25 +19,23 @@
  **  Options which have moved to other files.  All of these should 	    **
  **  be read through.							                                      **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
-/*
- * Combat options.
- */
+/* * Combat options. */
 #include "combat_modules.h"
 
 /*************************************************************************
  ** 									                                                  **
  **  Options which affect gameplay.					                            **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* The players start room.
  * This is the default for where players start when they log in. */
-#define START "/domains/std/Wizroom"
+#define START "/domains/std/room/Wizroom"
 
 /* NOTE: if you define this, you have to modify the lib to save the correct
- * variables.*/
+ * variables */
 #define EVERYTHING_SAVES
 
 /* The default level of light for a room. */
@@ -46,35 +44,41 @@
 /* Players start where they log off */
 #define PLAYERS_START_WHERE_THEY_QUIT
 
+/* Body stats modules -  do not these  */
+#define BODY_STATS_LIMA 1
+#define BODY_STATS_DND 2
+#define BODY_STATS_RIFTS 3
+
+/* But edit here:
+** Edit body stats module to use. Only one option can be picked below. */
+#define BODY_STATS BODY_STATS_LIMA
+
 /* Do players keep their equipment when they die, or does
-** it drop to the corpse.
-*/
+** it drop to the corpse. */
 #undef PLAYERS_DROP_EQUIPMENT_AT_DEATH
 
 /* The default frame style and theme for new players
-** can be defined here. See /obj/mudlib/frame.c for the
-** entire list of themes.
-*/
+ * can be defined here. See /obj/mudlib/frame.c for the
+ * entire list of themes. */
 #define DEFAULT_FRAMES_THEME "dusk"
 #define DEFAULT_FRAMES_STYLE "single"
 
 #define USE_QUESTS
 
-/* This only implements races for PC's.*/
+/* This only implements races for PC's */
 #define USE_RACES
 #define USE_GUILDS
 #define USE_TITLES
 
 /* If you define this option, you should also look at <bodyslots.h> and decide
- * which body slots you want to support.*/
+ * which body slots you want to support */
 #undef USE_BODYSLOTS
 
 /* Levelling up, how does that happen.
-**  define AUTO_LEVEL to level up automatically.
-**  define TRAIN_FOR_LEVEL to halt levelling when next one is reached
-**  define XP_FACTOR to suit for appetite for speed (default 250)
-**  define CAN_LOSE_LEVELS if people can lose experience that levels them down
-*/
+ * define AUTO_LEVEL to level up automatically.
+ * define TRAIN_FOR_LEVEL to halt levelling when next one is reached
+ * define XP_FACTOR to suit for appetite for speed (default 250)
+ * define CAN_LOSE_LEVELS if people can lose experience that levels them down */
 #define AUTO_LEVEL
 #undef TRAIN_FOR_LEVEL
 #define XP_FACTOR 250
@@ -89,11 +93,10 @@
 #endif
 
 /* If you want weight to be calculated in metric (kilo) rather than imperial (lbs)
-   Only works use USE_MASS is defined.
-*/
+   Only works use USE_MASS is defined. */
 #define METRIC
 
-/* Use skills or not*/
+/* Use skills or no */
 #define USE_SKILLS
 
 /*
@@ -113,7 +116,7 @@
  ** 									                                                  **
  **  Options affecting the appearance of the game.			                **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* WELCOME_FILE is the file displayed when someone connects to the game before
  * the login promopt is displayed.
@@ -123,7 +126,7 @@
 #undef WELCOME_DIR "/data/config/welcome_files"
 
 /* The file displayed to new players before the character generation process
- * starts.*/
+ * starts */
 #define NEW_PLAYER "/data/config/NEW_PLAYER"
 
 /* The file displayed immediatly after login. */
@@ -148,13 +151,14 @@
 #define SAY_HISTORY_IN_ROOMS
 
 /* Define the message that playes see when they run into an error. */
-#define BUG_MSG "You have just encountered a bug.  Please use the bug command to report it.\n"
+#define BUG_MSG \
+  "You have just encountered a bug.  Please use the bug command to report it.\n"
 
 /*************************************************************************
  **                                                   									**
  **  Other options which affect users, but not gameplay.            		**
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* Define the character which allows you to call up previous command history.
  * ! will give you problems since it's used as input escape. */
@@ -190,13 +194,13 @@
  ** 									                                                  **
  **  Wizard/builder handling.      					                            **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* Define this if you have a lot of wizards */
 #undef HANDLE_MANY_WIZARDS
 
 /* Define where your wizards start in the game by default. */
-#define WIZARD_START "/domains/std/Wizroom"
+#define WIZARD_START "/domains/std/room/Wizroom"
 
 /* Auto wiz means guest wizard only.  You still have to use the admtool
  * command to make the person a full wizard w/ a directory. */
@@ -213,7 +217,7 @@
  ** 									                                                  **
  **  Options affecting game news and logging.				                    **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* Define this if you want bug, typo and idea commands to log to /log instead
  * of posting news. */
@@ -230,15 +234,15 @@
  ** 									                                                  **
  **  Other stuff. 							                                        **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* Max file size for editing etc (eg "ulimit -H -d 1200") */
 #define MAX_FILE_SIZE 1000000
 
-/* The status of your game.*/
+/* The status of your game */
 #define lib_status() "mudlib development"
 
-/* What's the IP of your game?*/
+/* What's the IP of your game */
 #define __HOST__ "localhost"
 
 /* The administrator(s)' email address(es).
@@ -248,7 +252,7 @@
 #define ADMIN_EMAIL "billg@microsoft.com"
 
 /* If this is undefined, anonymous ftp is allowed - undef it to prevent.
-  Anon ftp users are limited to /ftp/pub.*/
+  Anon ftp users are limited to /ftp/pub */
 #define ALLOW_ANON_FTP
 
 /* Whether anon ftp users can *put* files.  Only works if ALLOW_ANON_FTP is
@@ -270,7 +274,7 @@
  ** 									                                                  **
  **  Directory specifications.						                              **
  ** 									                                                  **
- *************************************************************************/
+ *********************************************************************** */
 
 /* Where do you want your wizard's shell files to save? */
 #ifdef HANDLE_MANY_WIZARDS
@@ -313,9 +317,7 @@
 
 #define RC_BASE_CONFIG_STR 0
 #define CFG_STR(x) ((x) + RC_BASE_CONFIG_STR)
-/*
- * These config settings return a string
- */
+/* * These config settings return a string */
 
 #define __MUD_NAME__ CFG_STR(0)
 #define __RC_STR_1__ CFG_STR(1)
@@ -335,9 +337,7 @@
 #define __RC_WEBSOCKET_HTTP_DIR__ CFG_STR(15)
 
 #define RC_LAST_CONFIG_STR CFG_STR(255)
-/*
- * These config settings return an int (ie number)
- */
+/* * These config settings return an int (ie number) */
 #define RC_BASE_CONFIG_INT (RC_LAST_CONFIG_STR + 1)
 #define CFG_INT(x) ((x) + RC_BASE_CONFIG_INT)
 

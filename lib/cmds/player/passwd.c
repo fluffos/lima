@@ -3,9 +3,12 @@
 // Rust wrote this and was a bad boy and didn't attach a header - Beek
 
 //: PLAYERCOMMAND
-// USAGE:	passwd
+// USAGE
+//    ``passwd``
 //
 // Changes your password.  Just type it, and follow the directions.
+//
+// .. TAGS: RST
 
 inherit CMD;
 inherit M_INPUT;
@@ -60,11 +63,11 @@ private
 void main()
 {
    string name = lower_case(this_body()->query_name());
-   if (strlen(name)>5 && name[0..4]=="guest")
-      {
-         write("Guests cannot change password.");
-         return;
-      }
+   if (strlen(name) > 5 && name[0..4] == "guest")
+   {
+      write("Guests cannot change password.");
+      return;
+   }
 
    modal_simple(( : confirm_current_password:), "Enter your current password: ", 1);
 }

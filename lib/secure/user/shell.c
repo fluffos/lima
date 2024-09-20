@@ -25,15 +25,18 @@ nomask object query_shell_ob()
 }
 
 protected
-nomask void start_shell()
+nomask void start_shell(int init_only)
 {
    if (!shell_ob)
    {
       shell_ob = new (wizardp(query_userid()) ? WIZ_SHELL : PLAYER_SHELL);
    }
 
-   shell_ob->start_shell();
-   update_translations();
+   if (!init_only)
+   {
+      shell_ob->start_shell();
+      update_translations();
+   }
 }
 
 protected

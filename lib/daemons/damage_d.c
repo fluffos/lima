@@ -1,10 +1,18 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
+//: MODULE
 // Damage daemon
+//
 // To store list of valid damage types,
 // so weapons and armours check against the list
 // (from M_DAMAGE_SOURCE and M_DAMAGE_SINK)
+// 
+// Currently, this daemon reads the config file ``/data/config/damage-types`` at
+// start up, so modify this file to add/remove data from this daemon permanently.
 //
+// This daemon handles special attacks from weapons as well. It needs more documentation.
+//
+// .. TAGS: RST
 
 inherit M_DAEMON_DATA;
 
@@ -31,6 +39,8 @@ mixed *query_special_attk()
    return ({special_attk, special_sums});
 }
 
+//: FUNCTION add_damage_type
+// Add a damage type to the known damage types.
 void add_damage_type(string t)
 {
    if (member_array(t, damage) == -1)
@@ -40,6 +50,9 @@ void add_damage_type(string t)
    }
 }
 
+//: FUNCTION add_damage_type
+// Add a short name for a damage type to the known damage types.
+// This is used in the ``equip`` command e.g.
 void add_short_name(string type, string s)
 {
    if (member_array(type, damage) != -1)
@@ -51,21 +64,29 @@ void add_short_name(string type, string s)
       write("Failed to find damage type " + type + "\n");
 }
 
+//: FUNCTION remove_short_name
+// Removed a short name.
 void remove_short_name(string type)
 {
    map_delete(short_names, type);
 }
 
+//: FUNCTION query_short_names
+// Returns a mapping of all known short names.
 mapping query_short_names()
 {
    return short_names;
 }
 
+//: FUNCTION query_special_damage_types
+// Returns a string array of special damage types
 string *query_special_damage_types()
 {
    return keys(query_special_attk()[0]);
 }
 
+//: FUNCTION remove_damage_type
+// Removes a damage type.
 void remove_damage_type(string t)
 {
    if (member_array(t, damage) != -1)
@@ -76,6 +97,8 @@ void remove_damage_type(string t)
    }
 }
 
+//: FUNCTION clear_damage_types
+// Removed all damage types from the daemon.
 void clear_damage_types()
 {
    damage = ({});
@@ -83,11 +106,15 @@ void clear_damage_types()
    write("Damage types cleared\n");
 }
 
+//: FUNCTION query_damage_types
+// Returns a string array copy of all known damage types.
 string *query_damage_types()
 {
    return copy(damage);
 }
 
+//: FUNCTION query_valid_damage_type
+// Returns 1 if the type is a valid damage type.
 int query_valid_damage_type(string str)
 {
    if (member_array(str, damage) == -1)
@@ -95,6 +122,8 @@ int query_valid_damage_type(string str)
    return 1;
 }
 
+//: FUNCTION add_special_attks
+// Add special attacks of type t with a string array specs.
 void add_special_attks(string t, string *specs)
 {
    int *values = ({128, 64, 32, 4, 1});
@@ -113,6 +142,9 @@ void add_special_attks(string t, string *specs)
       write("Failed to find damage type " + t + "\n");
 }
 
+//: FUNCTION load_config_from_file
+// Loads the config from ``/data/config/damage-types``.
+// Saves the daemon after load.
 void load_config_from_file()
 {
    string *input;

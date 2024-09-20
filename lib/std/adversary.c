@@ -1,10 +1,11 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
 /*
- * ADVERSARY: Beek, April 7, 1997.  Loosely based on the old monster.c
+ *   ADVERSARY: Beek, April 7, 1997.  Loosely based on the old monster.c
  *   Lots of work done by Iizuka to get this working.
  */
 
+// .. TAGS: RST
 
 inherit LIVING;
 inherit M_DAMAGE_SOURCE;
@@ -71,13 +72,18 @@ void setup_monster()
 }
 
 //: FUNCTION attackable
-// return 1 if we can be attacked.
+// Return 1 if we can be attacked.
 int attackable()
 {
    return environment() && !environment()->query_combat_forbidden();
 }
 
 mixed direct_diagnose_liv(object ob)
+{
+   return 1;
+}
+
+int is_adversary()
 {
    return 1;
 }
@@ -98,9 +104,9 @@ int query_ghost()
 
 #ifdef USE_KARMA
 //: FUNCTION karma_impact
-// int karma_impact();
 // Override and return a number between -5 and 5 to impact karma
-// when killed by someone
+// when killed by someone.
+// Notice: Requires USE_KARMA defined.
 int karma_impact()
 {
    return 0;
@@ -117,6 +123,15 @@ int event_damage(class event_info evt)
 string diagnose()
 {
    return HEALTH_MODULE::diagnose();
+}
+
+//: FUNCTION query_in_room_desc
+// Returns a description for the room for the adversary.
+string query_in_room_desc()
+{
+   if (!this_object()->is_visible())
+      return "";
+   return ::query_in_room_desc() + conditionString();
 }
 
 /*

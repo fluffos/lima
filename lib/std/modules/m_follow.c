@@ -3,7 +3,7 @@
 /*
  * Monster following module
  * Designed to allow NPC's to follow other NPCs or PCs
- * 092998 Created by Tigran, based on /domains/std/wolf.c
+ * 092998 Created by Tigran, based on /domains/std/monster/wolf.c
  */
 
 //: MODULE
@@ -11,6 +11,8 @@
 // Module designed to allow objects to follow other moving objects.
 // This module requires functionality from M_SMARTMOVE, M_TRIGGERS and
 // M_ACTIONS.
+//
+// .. TAGS: RST
 
 //: TODO
 //

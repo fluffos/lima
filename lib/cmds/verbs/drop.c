@@ -19,6 +19,10 @@ nomask void drop_one(object ob)
 {
    mixed tmp = ob->drop();
 
+   // Ob might disappear after drop() getting called, and we do not want any error messages in that case.
+   if (!ob)
+      return;
+
    if (!tmp)
       tmp = "You aren't able to drop it.\n";
    if (stringp(tmp))

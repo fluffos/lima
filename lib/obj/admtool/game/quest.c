@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-inherit "/obj/admtool/internal/base.c";
+inherit ADMTOOL_BASE;
 
 nomask string module_name()
 {
@@ -105,7 +105,9 @@ nomask void add_quest_domain(string domain)
       return;
    }
 
-   modal_simple(( : add_quest, domain:), "Format: [quest]:[taskname], example 'pirate:foundCave'.\nWhat quest/task name?");
+   modal_simple((
+                    : add_quest, domain:),
+                "Format: [quest]:[taskname], example 'pirate:foundCave'.\nWhat quest/task name?");
 }
 
 private

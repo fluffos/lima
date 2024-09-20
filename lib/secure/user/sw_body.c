@@ -1,6 +1,5 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-#include <config.h>
 #include <daemons.h>
 #include <security.h>
 
@@ -23,7 +22,7 @@ void modal_pop();
 void set_privilege(mixed priv); // from M_ACCESS
 mixed unguarded(mixed priv, function fp);
 
-void start_shell();
+void start_shell(int);
 void run_login_script();
 
 /*
@@ -119,7 +118,7 @@ nomask void incarnate(string name, int is_new, string new_fname)
       body->set_gender(query_gender(name));
    save_me();
 
-   start_shell();
+   start_shell(0);
    body->enter_game(is_new);
    run_login_script();
 
@@ -133,7 +132,7 @@ nomask void incarnate(string name, int is_new, string new_fname)
    }
 }
 
-void sw_body_handle_existing_logon(string,int);
+void sw_body_handle_existing_logon(string, int);
 
 private
 nomask void rcv_try_to_boot(object who, string answer)
@@ -150,18 +149,18 @@ nomask void rcv_try_to_boot(object who, string answer)
          who->receive_private_msg("You are taken over by yourself, or something.\n");
          body = who->query_body();
          who->steal_body();
-         start_shell();
+         start_shell(0);
          body->reconnect(this_object());
          return;
       }
-      sw_body_handle_existing_logon(query_userid(),0);
+      sw_body_handle_existing_logon(query_userid(), 0);
       return;
    }
    if (answer == "n" || answer == "no")
    {
       if (wizardp(query_userid()))
       {
-         sw_body_handle_existing_logon(query_userid(),1);
+         sw_body_handle_existing_logon(query_userid(), 1);
          return;
       }
 
@@ -210,15 +209,15 @@ nomask void sw_body_handle_existing_logon(string name, int enter_now)
       ids = users->query_userid();
       if ((idx = member_array(query_userid(), ids)) != -1)
       {
-         //If the user is not interactive (DC'ed) we can take them over directly.
-         //If the user does not have a body yet (hanging on login typically), the same.
+         // If the user is not interactive (DC'ed) we can take them over directly.
+         // If the user does not have a body yet (hanging on login typically), the same.
          if (!interactive(the_user = users[idx]) || !the_user->query_body())
          {
             if (body = the_user->query_body())
             {
                master()->refresh_parse_info();
                the_user->steal_body();
-               start_shell();
+               start_shell(0);
                body->reconnect(this_object());
                return;
             }

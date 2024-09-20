@@ -1,9 +1,16 @@
 /* Do not unwield the headers from this file! see /USAGE for more info. */
 
 //: COMMAND
-// Unwield equipment
+// Unwield equipment that you are wielding.
+//
+//  |  ``unwield sword``
+//  |  ``unwield all``
+//
+// .. TAGS: RST
 
 inherit VERB_OB;
+
+#include <driver/type.h>
 
 void do_unwield_obj(object ob)
 {
@@ -15,7 +22,7 @@ void do_unwield_obs(object *obs)
 {
    foreach (object ob in obs)
    {
-      if (typeof(ob) == "string")
+      if (typeof(ob) == T_STRING)
          continue;
       // Do not attempt to unwield things not in inventory.
       if (environment(ob) != this_body())

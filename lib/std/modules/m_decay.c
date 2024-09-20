@@ -31,6 +31,8 @@ void remove();
 // set_decay_action(string) causes 'string' to be printed this
 // object decays.  set_decay_action(function) causes the function
 // to be called instead.
+// If action contains a "$", it's assumed to be a message, and called via
+//  env()->simple_action(action,this_object());
 void set_decay_action(mixed action)
 {
    decay_action = action;
@@ -91,21 +93,28 @@ int decay_it()
    else
       action = decay_action;
 
+   if (0)
+      TBUG("m_decay: action=" + action + " decay_begun: " + decay_begun + " num_decays: " + num_decays +
+           " auto_remove: " + auto_remove);
+
    if (stringp(action))
+   {
       if (environment() && environment()->is_living())
       {
-         tell(environment(), action + "\n");
+         if (strsrch(action, "$") != -1)
+            environment()->simple_action(action, this_object());
+         else
+            tell(environment(), action + "\n");
       }
       else
-      {
          object_event(action);
-      }
+   }
    else
       evaluate(action);
 
    num_decays--;
 
-   if (!num_decays && auto_remove)
+   if (num_decays <= 0 && auto_remove)
       remove();
    if (!num_decays)
       return 0;
@@ -122,10 +131,11 @@ int state_update()
 
 void stop_decay()
 {
-   decays = 0;
+   STATE_D->remove_from_queue(this_object());
 }
 
 void mudlib_setup()
 {
    m_stateful::mudlib_setup();
+   this_object()->add_save(({"num_decays"}));
 }

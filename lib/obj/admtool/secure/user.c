@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-inherit "/obj/admtool/internal/base.c";
+inherit ADMTOOL_BASE;
 
 #define SECS_PER_DAY (24 * 60 * 60)
 
@@ -51,6 +51,7 @@ nomask void nuke_user(string userid, int skip_save)
    foreach (string player in keys(bodies))
    {
       err = rm(USER_PATH(player) + __SAVE_EXTENSION__);
+      USER_D->remove_body(userid, player);
    }
 
    MAILBOX_D->get_mailbox(userid)->nuke_mailbox(1);

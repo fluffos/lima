@@ -6,7 +6,6 @@
 // Roommaker for Lima muds.
 #include <commands.h>
 #include <edit.h>
-#include <menu.h>
 #include <mudlib.h>
 #include <playerflags.h>
 #include <security.h> /* ### for now */
@@ -39,22 +38,22 @@ string *clude = ({});
 
 #define RM_VER "v0.9.1"
 
-MENU toplevel;
+class menu toplevel;
 
 // submenus of the toplevel (build) menu
-MENU roommenu;
+class menu roommenu;
 
 // sub menus of the roommenu
-MENU itemmenu;
-MENU objectmenu;
-MENU exitmenu;
-MENU filemenu;
-MENU descmenu;
+class menu itemmenu;
+class menu objectmenu;
+class menu exitmenu;
+class menu filemenu;
+class menu descmenu;
 
-MENU_ITEM N_QUIT;
-MENU_ITEM goto_main_menu_item;
-MENU_ITEM goto_room_menu_item;
-MENU_ITEM main_seperator;
+class menu_item N_QUIT;
+class menu_item goto_main_menu_item;
+class menu_item goto_room_menu_item;
+class menu_item main_seperator;
 
 // Right now, I'm too lazy to code in a help command, and this menu
 // should be pretty self-explanatory anyway.

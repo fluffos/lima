@@ -5,10 +5,12 @@
 /* This command will remove a path from your current exec path */
 
 //: COMMAND
-//$$ see: addpath, showpath
-// USAGE: rmpath <directory>
+//$$ see: addpath, printpath
+// USAGE: ``rmpath <directory>``
 //
 // This command will remove a path from your current exec paths.
+//
+// .. TAGS: RST
 
 inherit CMD;
 

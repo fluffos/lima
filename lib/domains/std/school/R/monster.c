@@ -16,8 +16,8 @@ void setup() {
   This is a very scary monster.
 KYLISSA
     );
-    set_wielding("/wiz/kylissa/gotham/W/skull_sword");
-    set_wearing("/wiz/kylissa/gotham/A/skull_plate");
+    set_wielding(WIZ_DIR+"/kylissa/gotham/W/skull_sword");
+    set_wearing(WIZ_DIR+"/kylissa/gotham/A/skull_plate");
 }
 MAY
     );

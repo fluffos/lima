@@ -21,7 +21,7 @@ int query_stunned();
 int query_level();
 int reflex_max();
 varargs int xp_value(object);
-int query_con();
+int query_health_stat();
 varargs float query_capacity(string relation);
 varargs int query_max_capacity(string relation);
 int query_no_move_capacity();
@@ -72,7 +72,7 @@ int query_drunk()
 // with level and constitution stat score.
 int query_max_drunk()
 {
-   return 20 + query_level() + query_con();
+   return 20 + query_level() + query_health_stat();
 }
 
 //: FUNCTION query_abuse
@@ -87,14 +87,14 @@ int query_abuse()
 // permanently.
 int query_max_abuse()
 {
-   return 1000 + (10 * query_level() + 5 * query_con());
+   return 1000 + (10 * query_level() + 5 * query_health_stat());
 }
 
 //: FUNCTION query_abuse_percent
 // Returns the abuse percentage.
 int query_abuse_percent()
 {
-   return CLAMP((100 * abuse) / query_max_abuse(), 0, 100);
+   return clamp((100 * abuse) / query_max_abuse(), 0, 100);
 }
 
 //: FUNCTION abuse_body
@@ -130,7 +130,7 @@ int remove_abuse(int a)
 // you want to exhibit drunk behavior.
 void set_drunk(int d)
 {
-   drunk = CLAMP(d, 0, query_max_drunk());
+   drunk = clamp(d, 0, query_max_drunk());
 }
 
 //: FUNCTION drink_alchohol
@@ -214,7 +214,7 @@ int can_drink()
 // Returns the adjustment HP for a limb for an adversary.
 int hp_adjustment(int hp, int level)
 {
-   float hpModifier = 1 + (level / 10.0) + (query_con() / 20.0) * (1.0 - (query_abuse_percent() / 125.0));
+   float hpModifier = 1 + (level / 10.0) + (query_health_stat() / 20.0) * (1.0 - (query_abuse_percent() / 125.0));
    return to_int(hp * hpModifier);
 }
 
@@ -373,7 +373,7 @@ int query_reflex()
 // adversary.
 int max_reflex()
 {
-   return to_int((this_object()->query_int() || 1) * (1 + (query_level() / 10.0)));
+   return to_int((this_object()->query_reflex_stat() || 1) * (1 + (query_level() / 10.0)));
 }
 
 //: FUNCTION set_reflex
@@ -510,8 +510,9 @@ int can_move()
 }
 
 //: FUNCTION kill_us
-// void kill_us();
 // Kills us. =)
+// This awards all the experience to the killer, or splits it by level if the player is in a party, but that requires
+// more from the same party in the room. This also prioritizes teams, and makes kill sniping harder (not impossible).
 void kill_us()
 {
    object killer = previous_object();
@@ -789,7 +790,7 @@ void update_health()
    {
       foreach (string limb in keys(health))
          heal_limb(limb, fuzzy_divide((time() - health_time) * heal_rate, 3000));
-      restore_reflex(fuzzy_divide((time() - health_time) * (reflex_rate + this_object()->query_int()), 2000));
+      restore_reflex(fuzzy_divide((time() - health_time) * (reflex_rate + this_object()->query_mental_stat()), 2000));
       health_time = time();
    }
 }

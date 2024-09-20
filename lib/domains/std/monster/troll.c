@@ -15,6 +15,7 @@ void setup()
    set_proper_name("Bill the Troll");
    set_in_room_desc("Bill the Troll");
    set_long("Looking closely at a troll is something people usually try to avoid doing.");
+   set_combat_messages("combat-claws-bites");
    set_max_health(30);
    set_wielding("/domains/std/weapon/sword");
 }

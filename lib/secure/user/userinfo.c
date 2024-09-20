@@ -6,10 +6,9 @@
 ** 950821, Deathblade: created.
 */
 
-#include <config.h>
+#include <config/user_menu.h>
 #include <mudlib.h>
 #include <security.h>
-#include <config/user_menu.h>
 
 void sw_body_handle_new_logon();
 nomask string query_userid();
@@ -173,10 +172,11 @@ nomask varargs void userinfo_handle_logon(int state, mixed extra, string arg)
    case GOT_REFERRAL:
       set_referral(arg);
       modal_pop();
+#ifndef USE_USER_MENU
+      this_object()->enter_game(this_object()->query_userid());
+#else
       tmp = new (USER_MENU);
       tmp->start_menu();
-#ifndef USE_USER_MENU
-      tmp->char_name(query_userid());
 #endif
       return;
    }

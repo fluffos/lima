@@ -5,14 +5,19 @@ Lima Mudlib that work with latest FluffOS
 - #LIMA Channel on LPC Discord - https://discord.gg/wzUbBgs3AQ
 
 # Documentation
-Please see https://limamudlib.readthedocs.io/en/latest/
+Please see https://limamudlib.readthedocs.io/
 
 # How to test and contribute
 ```
-git clone --recurse-submodules https://github.com/fluffos/lima
-cd lima
-./build.sh
-./run.sh
+#Somewhat old and outdated
+#git clone --recurse-submodules https://github.com/fluffos/lima
+
+#For a more stable experience, try:
+git clone --recurse-submodules https://github.com/tsathoqqua/lima
+
+cd lima/adm/dist
+./rebuild
+./run
 ```
 
 # License

@@ -36,7 +36,7 @@ void default_variables()
    int utf8 = query_owner() ? query_owner()->utf8() : 0;
    string suggest_mode = XTERM256_D->client_compatibility(query_owner()->query_terminal_type()) || "plain";
    shell_vars = (["mode":suggest_mode,
-                 "emoji":utf8, "frames":(utf8 ? DEFAULT_FRAMES_STYLE : "ascii"),
+                 "emoji":utf8, "frames":(suggest_mode == "xterm" ? DEFAULT_FRAMES_STYLE : "ascii"),
           "frame_colour":(suggest_mode == "xterm" ? DEFAULT_FRAMES_THEME : "none")]);
    if (suggest_mode == "xterm")
       query_owner()->set_screen_width(0);

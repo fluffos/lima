@@ -10,12 +10,58 @@
 // M_CONVERSATION for doing interactive conversations with NPCs.
 //
 // Three things are needed to run conversations::
-//   * A set of conversations options - set_options()
-//   * A set of matching replies for the options - set_responses()
-//   * A set of options to start from - set_start()
+//   - A set of conversations options - set_options()
+//   - A set of matching replies for the options - set_responses()
+//   - A set of options to start from - set_start()
 //
 // Both the replies and the options have special syntaxes that is used to control
 // the interactions. See the functions below for syntax descriptions.
+//
+// This module supports filtering out certain options depending on the *stats* or *skills* of
+// the player. These requirements are specified in the options the players can chose and will
+// be limited accordingly. The filters are just added to the end of the reply option string,
+// examples follow below.
+//
+// Special option syntax:
+//   - [str>10] - only shown if strength larger than 10
+//   - [str=10] - only shown if strength equals 10
+//   - [str<10] - only shown if strength less than 10.
+//
+// Stats are: str, agi, int, con, cha.
+//
+// Example:
+//     ``"I can probably lift that tree trunk for you?[str>60]"``
+//
+// This also works for skills for <, > and =:
+//
+// Example:
+//     ``"I can shoot that pistol right out of your hand [combat/ranged/pistol>3]"``
+//
+// The numbers for skills refer to the ranks from 1-20. (See SKILL_D documentation)
+//
+// For responses (from the NPC), some extra syntax allows you to open up new options and/or
+// close others. The responses can also be different types
+//
+// Special option syntax:
+//
+//    ``@@add options@@remove options``
+//
+// The options can be seperated by "," to include more options.
+//
+// Example:
+//     ``"I'll say something.@@add_option1,add_option2@@remove_option3"``
+//
+// A response can be 4 different things:
+//
+//   - A simple string that will be said by the NPC - "Hi there!"
+//   - An emote that must be performed - "!wave"
+//   - A function pointer - (: check_quest item :)
+//   - An array combined of all three things above.
+//
+// Example:
+//     ``set_responses("hello":({"Hi there!","!wave",(: check_quest_item:) }));``
+//
+// .. TAGS: RST
 
 #include <config/skills.h>
 
@@ -44,22 +90,65 @@ void set_goodbye(mixed arg)
    goodbye_action = arg;
 }
 
+//: FUNCTION add_option
+// Adds a single option to the actions available.
+// See also set_option() documentation.
 void add_option(string key, mixed act)
 {
    options[key] = act;
 }
 
+//: FUNCTION remove_option
+// Removes a single option from the actions available.
+// See also add_option() documentation.
+void remove_option(string key)
+{
+   map_delete(options, key);
+}
+
+//: FUNCTION add_options
+// Adds a mapping of options to the actions available.
+// See also set_option() documentation.
+void add_options(mapping m)
+{
+   options += m;
+}
+
+//: FUNCTION add_response
+// Adds a single key and response to the responses available.
 void add_response(string key, mixed act)
 {
    responses[key] = act;
 }
 
+//: FUNCTION add_responses
+// Adds a mapping of responses to be available.
+void add_responses(mapping m)
+{
+   responses += m;
+}
+
+//: FUNCTION add_to_start
+// Adds a start option for everyone.
 void add_to_start(string key)
 {
    if (member_array(key, default_start) == -1)
       default_start += ({key});
 }
 
+//: FUNCTION add_start
+// Adds a start option for a specific target.
+varargs void add_start(mixed *a, object target)
+{
+   if (target)
+      start[target] += a;
+   else
+      default_start += a;
+}
+
+//: FUNCTION set_can_talk
+// Can be used to turn off if the NPC can talk or not, e.g. if they are
+// moving to a different location they might not be able to talk while moving.
 void set_can_talk(int i)
 {
    can_talk = i;
@@ -123,21 +212,6 @@ int check_option(string key)
 // Set a mapping of keys and options. These options are typically things the player says in the conversation and can
 // select from. Only keys added using set_start() will be shown initially. Other options can be introduced later in the
 // conversation using the add and remove syntax described in the set_responses() function.
-//
-// Special option syntax:
-//   * [str>10] - only shown if strength larger than 10
-//   * [str=10] - only shown if strength equals 10
-//   * [str<10] - only shown if strength less than 10.
-//
-// Stats are: str, agi, int, con, cha.
-//
-// Example: "I can probably lift that tree trunk for you?[str>60]"
-//
-// This also works for skills for <, > and =:
-//
-// Example: "I can shoot that pistol right out of your hand [combat/ranged/pistol>3]"
-//
-// The numbers for skills refer to the ranks from 1-20. (See SKILL_D documentation)
 void set_options(mapping m)
 {
    options = m;
@@ -146,21 +220,6 @@ void set_options(mapping m)
 //: FUNCTION set_responses
 // Set a mapping of keys (that must match the option keys), and responses. The responses use a special syntax described
 // below, that will allow adding and removing new options.
-//
-// Special option syntax:
-// @@add options@@remove options
-// The options can be seperated by "," to include more options.
-//
-// Example: "I'll say something.@@add_option1,add_option2@@remove_option3"
-//
-// A response can be 4 different things:
-//   * A simple string that will be said by the NPC - "Hi there!"
-//   * An emote that must be performed - "!wave"
-//   * A function pointer - (: check_quest item :)
-//   * An array combined of all three things above.
-//
-// Example:
-// set_responses("hello":({"Hi there!","!wave",(: check_quest_item:) }));
 void set_responses(mapping m)
 {
    responses = m;
@@ -176,15 +235,6 @@ varargs void set_start(mixed *a, object target)
       default_start = a;
 }
 
-void add_current(object ob, string option)
-{
-   foreach (string opt in explode(option, ","))
-   {
-      if (member_array(opt, current[ob]) == -1)
-         current[ob] += ({opt});
-   }
-}
-
 mixed direct_talk_to_liv()
 {
    return can_talk ? 1 : "#That person cannot talk right now.";
@@ -197,6 +247,8 @@ mixed direct_talk_with_liv()
 
 void continue_conversation(object, string);
 
+//: FUNCTION show_menu
+// Shows the conversation menu to ob.
 void show_menu(object ob)
 {
    int n = 1;
@@ -221,6 +273,8 @@ void show_menu(object ob)
    modal_simple(( : continue_conversation, ob:), "[choice] :>");
 }
 
+//: FUNCTION do_action
+// Do a specific action whether it's talking, calling a function, training or doing an emote.
 void do_action(object ob, mixed action)
 {
    string add;
@@ -236,6 +290,7 @@ void do_action(object ob, mixed action)
          evaluate(action);
       else if (stringp(action))
       {
+         action = replace_string(action, "$t", ob->query_name());
          if (sscanf(action, "%s@@%s", action, add) == 2)
          {
             if (sscanf(add, "%s@@%s", add, remove) == 2)
@@ -275,6 +330,8 @@ void do_action(object ob, mixed action)
    }
 }
 
+//: FUNCTION bye
+// Handle goodbye for ob.
 void bye(object ob)
 {
    map_delete(current, ob);
@@ -283,6 +340,10 @@ void bye(object ob)
       do_action(ob, goodbye_action);
 }
 
+//: FUNCTION exit_conversations
+// Exit the conversation if the NPC needs to leave.
+// Default is to say "Sorry, I have to go", but this can
+// be changed using ``set_goodbye(action)``.
 void exit_conversations()
 {
    foreach (object body in keys(current))
@@ -291,11 +352,14 @@ void exit_conversations()
       {
          body->modal_pop();
          map_delete(current, body);
-         do_action(body, goodbye_action || "say Sorry, I have to go.");
+         do_action(body, goodbye_action || "Sorry, I have to go.");
       }
    }
 }
 
+//: FUNCTION continue_conversation
+// Continue the conversation with ob given specific input.
+// Used internally in the menu system.
 void continue_conversation(object ob, string input)
 {
    int num;
@@ -310,7 +374,7 @@ void continue_conversation(object ob, string input)
    }
    if (sscanf(input, "%d%s", num, tmp) != 2 || tmp != "")
    {
-      simple_action("$N $vsuggest that you use the numbers to " + "indicate what you want to say.");
+      simple_action("$N $vsuggest that you use the numbers to indicate what you want to say.");
       show_menu(ob);
       return;
    }
@@ -337,9 +401,22 @@ void continue_conversation(object ob, string input)
       return bye(ob);
 }
 
+//: FUNCTION filter_start
+// Override this function, to filter start options for a specific body.
+// See M_GUILD_MASTER for an example where the guild master adds an option to
+// join or leave the guild depending on the state of the body.
+string *filter_start(string *a, object body)
+{
+   return a;
+}
+
+//: FUNCTION begin_conversation
+// Begins the conversation for this_body(). The start options are default start options,
+// but filtered through the filter_start() function.
 void begin_conversation()
 {
    current[this_body()] = start[this_body()] || default_start;
+   current[this_body()] = filter_start(current[this_body()], this_body());
 
    show_menu(this_body());
 }

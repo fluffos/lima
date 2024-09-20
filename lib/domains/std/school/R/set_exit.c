@@ -8,7 +8,7 @@ To do a set_exit think of it this way:
    "direction going to" : "path of the room going to",
 
 so...
-   "may" : "/wiz/may/workroom",
+   "may" : WIZ_DIR+"/may/workroom",
 will take you in the direction "may"
 and the workroom is the location doing to
 please note do not add the .c to the path.
@@ -19,7 +19,7 @@ please note do not add the .c to the path.
 // where R is defined in the .h file as the path needed to find this
 // filename
     set_exits( ([
-        "may" : "/wiz/may/workroom",
+        "may" : WIZ_DIR+"/may/workroom",
         "east" : "shop",
         "south" : "fmagehall",
         "west" : "donation"

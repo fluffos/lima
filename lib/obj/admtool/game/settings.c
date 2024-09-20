@@ -1,6 +1,6 @@
 /* Do not remove the headers from this file! see /USAGE for more info. */
 
-inherit "/obj/admtool/internal/base.c";
+inherit ADMTOOL_BASE;
 inherit "/std/classes/config";
 
 #define CONFIG_FILES "/include/config/"
@@ -74,7 +74,7 @@ void get_config_setting(string key, class config c, mixed result)
          c.define = -1;
       break;
    case "string":
-      if (!stringp(result) || strlen(result)==0)
+      if (!stringp(result) || strlen(result) == 0)
       {
          write("** Invalid selection, old value kept.");
       }

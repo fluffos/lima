@@ -29,7 +29,6 @@ int dice(int d)
 }
 
 //: FUNCTION x_dice
-// int x_dice(int n, int d)
 // Return the sum of n dice with d sides .
 int x_dice(int n, int d)
 {
@@ -38,4 +37,18 @@ int x_dice(int n, int d)
    for (int i = 0; i < n; i++)
       total += dice(d);
    return total;
+}
+
+//: FUNCTION x_dice_dl
+// int x_dice_dl(int n, int d)
+// Return the sum of n dice with d sides, discards the lowest one.
+int x_dice_dl(int n, int d)
+{
+   int *total = ({});
+   int min;
+
+   for (int i = 0; i < n; i++)
+      total += ({dice(d)});
+   min = min(total);
+   return sum(total) - min;
 }

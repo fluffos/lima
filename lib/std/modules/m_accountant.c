@@ -1,4 +1,4 @@
-#include <menu.h>
+
 
 inherit M_ACTIONS;
 inherit MENUS;
@@ -7,7 +7,7 @@ void do_menu_setup();
 void set_id(string *id...);
 
 private
-MENU toplevel;
+class menu toplevel;
 private
 string bank_id = "unknown", bank_name = "Unknown Bank";
 private
@@ -19,10 +19,12 @@ nosave int was_busy;
 
 //: MODULE
 // The accountant module includes almost everything that is needed for a
-// bank.  Only set_currency_type(), set_exchange_fee(), set_bank_id(), and
-// set_bank_name() are needed to define the bank actions.
+// bank.  Only ``set_currency_type()``, ``set_exchange_fee()``, ``set_bank_id()``, and
+// ``set_bank_name()`` are needed to define the bank actions.
 //
 // Your accountant should inherit from LIVING or ADVERSARY.
+//
+// .. TAGS: RST
 
 //: FUNCTION set_currency_type
 // Sets the type of currency the bank will deposit.
@@ -62,6 +64,8 @@ void set_bank_name(string name)
    bank_name = name;
 }
 
+//: FUNCTION show_money
+// Prints the currencies carried and in the bank for ``this_body()``.
 void show_money()
 {
    mapping money = this_body()->query_money();
@@ -85,6 +89,8 @@ void show_money()
           MONEY_D->currency_to_string(ACCOUNT_D->query_account(bank_id, player, deposit_currency), deposit_currency));
 }
 
+//: FUNCTION show_rates
+// Printes rates defined in the MONEY_D.
 void show_rates()
 {
    string *types = MONEY_D->query_currency_types();
@@ -395,7 +401,7 @@ void begin_conversation()
                       "%. "
                       "You can deposit your money in " +
                       MONEY_D->query_plural(deposit_currency) + ".\n");
-      set_menu_title(toplevel, "Main Menu of " + bank_name+"\n");
+      set_menu_title(toplevel, "Main Menu of " + bank_name + "\n");
       init_menu_application(toplevel);
    }
 }

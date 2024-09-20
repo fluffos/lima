@@ -7,12 +7,16 @@
 //
 
 //: COMMAND
-// Remove a post from a bulletin board
-// Remove equipment
-// Remove other things
-// See also: boards
+// Remove a post from a bulletin board, remove equipment, remove other things.
+//
+//  |  ``remove helmet``
+//  |  ``remove all``
+//
+// .. TAGS: RST
 
 inherit VERB_OB;
+
+#include <driver/type.h>
 
 mixed can_remove_wrd(string wrd)
 {
@@ -54,7 +58,7 @@ void do_remove_obs(object *obs)
    foreach (object ob in obs)
    {
       //        TBUG("Remove: "+ob);
-      if (typeof(ob) == "string")
+      if (typeof(ob) == T_STRING)
          continue;
       // Do not attempt to remove things not in inventory.
       if (environment(ob) != this_body())

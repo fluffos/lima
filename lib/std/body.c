@@ -39,6 +39,7 @@ inherit __DIR__ "body/start";
 inherit __DIR__ "body/time";
 inherit __DIR__ "body/naming";
 inherit __DIR__ "body/levels";
+inherit __DIR__ "body/custom"; // For custom expansions of BODY.
 
 #ifndef SAY_HISTORY_IN_ROOMS
 inherit __DIR__ "body/history";
@@ -230,7 +231,7 @@ void save_me()
    object shell_ob = link && link->query_shell_ob();
    string bodyid = lower_case(query_name());
 
-   //Never save guests
+   // Never save guests
    if (bodyid && strlen(bodyid) > 5 && bodyid[0..4] == "guest")
       return;
 
@@ -511,7 +512,7 @@ string the_short()
 }
 string in_room_desc()
 {
-   return base_in_room_desc() + query_idle_string();
+   return base_in_room_desc() + conditionString() + query_idle_string();
 }
 
 /* end of naming overrides */
@@ -534,7 +535,7 @@ void flee()
 }
 
 // Overriden to add coins weight
-varargs int query_capacity(string relation)
+varargs float query_capacity(string relation)
 {
    float cap = ::query_capacity(relation);
    // int coin_weight_kg = to_int(MONEY_D->coin_weight(query_money()));
